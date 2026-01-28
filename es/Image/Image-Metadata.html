@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadatos de Imagen en Línea Gratis | CaliperTools</title>
+    <meta name="description" content="Vea los metadatos de la imagen en línea gratis. Extraiga EXIF, GPS, información de la cámara al instante. No se necesita registro. Mejores resultados de calidad.">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+    <script src="../scripts/script.js"></script>
+    <!-- Custom CSS for sections -->
+    <style>
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .metadata-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 750px;
+        }
+
+        @media (max-width: 768px) {
+            .metadata-container {
+                flex-direction: column-reverse;
+                height: auto;
+            }
+
+            .sidebar-container {
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid #ddd;
+                border-bottom: none;
+            }
+
+            .sidebar {
+                height: auto;
+                max-height: none;
+                padding: 15px;
+            }
+
+            .sidebar-content {
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .sidebar-actions {
+                position: relative;
+                border-top: 1px solid #ddd;
+            }
+
+            .preview-area {
+                height: auto;
+                min-height: 400px;
+                max-height: 60vh;
+            }
+
+            .upload-prompt {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+            }
+
+            .sidebar .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .sidebar-container {
+            width: 380px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar {
+            padding: 20px;
+            background-color: #ffffff;
+            height: 750px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .tools-section {
+            margin-bottom: 20px;
+        }
+
+        .tools-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .sidebar .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .tool-btn {
+            padding: 10px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-align: center;
+        }
+
+        .tool-btn:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tool-btn i {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .tool-btn span {
+            font-size: 11px;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .preview-area {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .upload-prompt {
+            text-align: center;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-prompt.drag-over {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .upload-prompt-icon {
+            font-size: 60px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-prompt-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .upload-prompt-instruction {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .preview-wrapper {
+            position: relative;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .delete-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .delete-image-btn:hover {
+            background-color: rgba(220, 53, 69, 1);
+            transform: scale(1.1);
+        }
+
+        .preview-wrapper.active {
+            display: block;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .result-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            overflow-y: auto;
+            display: none;
+            color: #ffffff;
+        }
+
+        .result-panel.active {
+            display: block;
+        }
+
+        .result-panel h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .result-table th,
+        .result-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .result-table th {
+            background-color: rgba(255, 255, 255, 0.15);
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .result-table td {
+            color: #e0e0e0;
+        }
+
+        .result-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .result-info {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .result-info h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .result-info p {
+            font-size: 14px;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .result-info strong {
+            color: #ffffff;
+        }
+
+        .result-info ul {
+            margin-left: 20px;
+            margin-top: 10px;
+            color: #e0e0e0;
+        }
+
+        .result-info li {
+            margin-bottom: 5px;
+        }
+
+        .download-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .download-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .histogram-container {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 15px;
+        }
+
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .color-swatch span {
+            font-size: 12px;
+            color: #ffffff;
+            margin-top: 5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .edit-form {
+            margin-bottom: 15px;
+        }
+
+        .edit-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .edit-form input,
+        .edit-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .edit-form input:focus,
+        .edit-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .edit-form input::placeholder,
+        .edit-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .edit-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('El menú de clic derecho está deshabilitado');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('La función de copia está deshabilitada');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Las herramientas para desarrolladores están deshabilitadas');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center mb-8">Metadatos e Información de Imagen</h1>
+        </div>
+        <div class="metadata-container">
+                    <div class="sidebar-container">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div class="upload-section">
+                                    <button id="upload-btn" class="upload-btn">
+                                        <i class="fas fa-upload"></i> Subir Imagen
+                                    </button>
+                                    <input type="file" id="file-input" class="file-input" accept="image/jpeg,image/png,image/webp" multiple>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>Lector de Metadatos</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="reader" data-tool="exif" title="Datos EXIF en Línea Gratis | CaliperTools" data-description="Vea datos EXIF en línea gratis. Extraiga configuraciones de cámara al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Datos EXIF</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="gps" title="Información GPS en Línea Gratis | CaliperTools" data-description="Vea información GPS en línea gratis. Extraiga datos de ubicación al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>Información GPS</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="camera" title="Información de Cámara en Línea Gratis | CaliperTools" data-description="Vea información de cámara en línea gratis. Extraiga datos del dispositivo al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-camera"></i>
+                                            <span>Información de Cámara</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="date" title="Fecha de Toma en Línea Gratis | CaliperTools" data-description="Vea fecha de toma en línea gratis. Extraiga marca de tiempo al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>Fecha de Toma</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="resolution" title="Resolución en Línea Gratis | CaliperTools" data-description="Vea resolución en línea gratis. Extraiga dimensiones al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-expand"></i>
+                                            <span>Resolución</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="filesize" title="Tamaño de Archivo en Línea Gratis | CaliperTools" data-description="Vea tamaño de archivo en línea gratis. Extraiga datos de tamaño al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-file"></i>
+                                            <span>Tamaño de Archivo</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="colorprofile" title="Perfil de Color en Línea Gratis | CaliperTools" data-description="Vea perfil de color en línea gratis. Extraiga datos de color al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-palette"></i>
+                                            <span>Perfil de Color</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="orientation" title="Orientación en Línea Gratis | CaliperTools" data-description="Vea orientación en línea gratis. Detecte rotación al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-sync-alt"></i>
+                                            <span>Orientación</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>Limpiador de Privacidad</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="cleaner" data-tool="remove-exif" title="Eliminar EXIF en Línea Gratis | CaliperTools" data-description="Elimine datos EXIF en línea gratis. Proteja su privacidad al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-eraser"></i>
+                                            <span>Eliminar EXIF</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="cleaner" data-tool="remove-gps" title="Eliminar GPS en Línea Gratis | CaliperTools" data-description="Elimine información GPS en línea gratis. Proteja su ubicación al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-map-marker-slash"></i>
+                                            <span>Eliminar GPS</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="cleaner" data-tool="batch-clean" title="Limpieza por Lotes en Línea Gratis | CaliperTools" data-description="Limpieza por lotes de metadatos en línea gratis. Elimine todos los datos al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-broom"></i>
+                                            <span>Limpieza por Lotes</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>Análisis de Imagen</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="analysis" data-tool="histogram" title="Histograma en Línea Gratis | CaliperTools" data-description="Vea histograma en línea gratis. Analice colores al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-chart-bar"></i>
+                                            <span>Histograma</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="analysis" data-tool="palette" title="Paleta de Colores en Línea Gratis | CaliperTools" data-description="Vea paleta de colores en línea gratis. Extraiga colores al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-swatchbook"></i>
+                                            <span>Paleta de Colores</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>Editor de Metadatos</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="editor" data-tool="edit-exif" title="Editar EXIF en Línea Gratis | CaliperTools" data-description="Edite datos EXIF en línea gratis. Modifique metadatos al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-edit"></i>
+                                            <span>Editar EXIF</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="editor" data-tool="remove-colorprofile" title="Eliminar Perfil en Línea Gratis | CaliperTools" data-description="Elimine perfil de color en línea gratis. Limpie la imagen al instante. No se necesita registro. Mejores resultados de calidad.">
+                                            <i class="fas fa-palette"></i>
+                                            <span>Eliminar Perfil</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="privacy-statement">
+                                    <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+                                    Los archivos se procesan localmente y nunca se suben a ningún servidor.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-area">
+                        <div id="upload-prompt" class="upload-prompt">
+                            <div class="upload-prompt-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="upload-prompt-title">Metadatos e Información de Imagen</div>
+                            <div class="upload-prompt-instruction">Haga clic aquí o arrastre y suelte imágenes para comenzar a analizar</div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">Soporta: JPG, PNG, WebP (Individual o Múltiple)</p>
+                        </div>
+
+                        <div id="preview-wrapper" class="preview-wrapper">
+                            <button id="delete-image-btn" class="delete-image-btn" title="Eliminar Imagen">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <img id="preview-image" class="preview-image" alt="Vista Previa">
+                        </div>
+
+                        <div id="result-panel" class="result-panel">
+                        </div>
+                    </div>
+            </div>
+
+    <!-- Tutorial Explanation Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">Cómo Usar la Herramienta de Metadatos de Imagen</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        Subir Imagen
+                    </h3>
+                    <div>
+                        <p title="Arrastre y suelte su imagen directamente sobre el área de carga o haga clic en el botón de carga para elegir desde su dispositivo. Soporta formatos JPG, PNG y WebP.">Arrastre y suelte su imagen directamente sobre el área de carga o haga clic en el botón de carga para elegir desde su dispositivo. Soporta formatos JPG, PNG y WebP.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        Seleccionar Herramienta
+                    </h3>
+                    <div>
+                        <p title="Elija entre 15 herramientas diferentes organizadas en 4 módulos: Lector de Metadatos, Limpiador de Privacidad, Análisis de Imagen y Editor de Metadatos.">Elija entre 15 herramientas diferentes organizadas en 4 módulos: Lector de Metadatos, Limpiador de Privacidad, Análisis de Imagen y Editor de Metadatos.</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                        Ver Resultados
+                    </h3>
+                    <div>
+                        <p title="Vea información detallada de metadatos incluyendo EXIF, GPS, configuraciones de cámara y más. Analice propiedades de imagen y datos visuales.">Vea información detallada de metadatos incluyendo EXIF, GPS, configuraciones de cámara y más. Analice propiedades de imagen y datos visuales.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        Exportar Imagen
+                    </h3>
+                    <div>
+                        <p title="Exporte imágenes limpias con metadatos eliminados o editados. Descargue individualmente o por lotes.">Exporte imágenes limpias con metadatos eliminados o editados. Descargue individualmente o por lotes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1719937206498-b31844530a96?w=600&h=400&fit=crop" alt="Herramienta de Metadatos de Imagen" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>Análisis Profesional de Metadatos de Imagen</h2>
+                    <p>Extraiga y analice metadatos de imagen con precisión y facilidad. Nuestra herramienta proporciona información completa de EXIF, GPS, cámara y técnica.</p>
+                    <p>Perfecto para fotógrafos, diseñadores y cualquiera que necesite comprender las propiedades de la imagen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Features Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>4 Módulos Poderosos</h2>
+                    <p>Desde lectura de metadatos hasta limpieza de privacidad, análisis de imagen hasta edición avanzada, nuestra herramienta tiene todo lo que necesita para gestionar metadatos de imagen profesionalmente.</p>
+                    <p>Proteja su privacidad eliminando información sensible. Analice datos visuales con histogramas y paletas de colores. Edite y estandarice metadatos para una mejor compatibilidad.</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1481762554390-ff5562748bdf?w=600&h=400&fit=crop" alt="Módulos de Metadatos" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Security Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1700830193301-99e1c863ee38?w=600&h=400&fit=crop" alt="Protección de Privacidad" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>Protección de Privacidad 100%</h2>
+                    <p>Todo el procesamiento de imágenes ocurre localmente en su navegador. Sus imágenes nunca se suben a ningún servidor.</p>
+                    <p>Sus datos permanecen en su dispositivo, garantizando completa privacidad y seguridad para imágenes sensibles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Support Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>Diseño Compatible con Móviles</h2>
+                    <p>Analice metadatos de imagen sobre la marcha con nuestro diseño compatible con móviles. Nuestra herramienta funciona perfectamente en smartphones y tabletas, permitiéndole verificar propiedades de imagen donde quiera que esté.</p>
+                    <p>Con una interfaz receptiva que se adapta a cualquier tamaño de pantalla, puede cargar, analizar y descargar imágenes fácilmente usando su dispositivo móvil. Sin aplicaciones para instalar, simplemente abra su navegador y comience a analizar.</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=600&h=400&fit=crop" alt="Diseño Compatible con Móviles" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Section -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>Analice fácilmente metadatos de imagen gratis</h2>
+            <p>Diga adiós al uso de software complejo para analizar metadatos de imagen. Con CaliperTools Metadatos de Imagen, puede extraer y analizar información de imagen sin esfuerzo gratis. Lo mejor es que puede usar nuestra herramienta desde cualquier dispositivo con navegador, sin descargas o instalaciones requeridas. ¡Sin experiencia necesaria!</p>
+            <p>Use el editor de arrastrar y soltar para subir sus imágenes, y CaliperTools Metadatos de Imagen hará el resto. Cuando termine, descargue sus imágenes limpias o editadas. Analice tantas imágenes como desee, todo en solo unos clics.</p>
+            
+            <h2>Análisis completo de metadatos cada vez</h2>
+            <p>Extraiga datos EXIF detallados, coordenadas GPS, configuraciones de cámara y especificaciones técnicas de sus imágenes. Nuestras herramientas de análisis avanzado aseguran que obtenga información precisa mientras mantiene la calidad de la imagen.</p>
+            <p>Con nuestras funciones integradas de limpieza y edición de privacidad, puede eliminar metadatos sensibles, editar campos EXIF y estandarizar perfiles de color. Proteja su privacidad y mejore la compatibilidad de imagen con imágenes perfectamente analizadas.</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="related-tools">
+        <div class="container">
+            <h2 class="section-title">Herramientas Relacionadas</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentSlug = 'image-metadata-tool';
+            if (typeof initRelatedTools === 'function') {
+                initRelatedTools(currentSlug);
+            }
+        });
+    </script>
+
+    <script>
+        let currentImage = null;
+        let currentFile = null;
+        let currentTool = null;
+        let currentModule = null;
+        let exifData = null;
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const previewWrapper = document.getElementById('preview-wrapper');
+        const previewImage = document.getElementById('preview-image');
+        const resultPanel = document.getElementById('result-panel');
+        const deleteImageBtn = document.getElementById('delete-image-btn');
+        const toolButtons = document.querySelectorAll('.tool-btn');
+
+        function handleUrlParams() {
+            const pathname = window.location.pathname;
+            const segments = pathname.split('/');
+            const toolParam = segments[segments.length - 1];
+            
+            if (toolParam && toolParam !== 'Image-Metadata.html') {
+                const toolBtn = document.querySelector('.tool-btn[data-tool="' + toolParam + '"]');
+                if (toolBtn) {
+                    toolBtn.click();
+                }
+            }
+        }
+
+        function init() {
+            setupEventListeners();
+            handleUrlParams();
+        }
+
+        function setupEventListeners() {
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            uploadPrompt.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', handleFileUpload);
+
+            const previewArea = document.querySelector('.preview-area');
+            previewArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.add('drag-over');
+            });
+
+            previewArea.addEventListener('dragleave', function() {
+                uploadPrompt.classList.remove('drag-over');
+            });
+
+            previewArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    loadImages(files);
+                }
+            });
+
+            deleteImageBtn.addEventListener('click', function() {
+                currentImage = null;
+                currentFile = null;
+                uploadPrompt.style.display = 'flex';
+                previewWrapper.classList.remove('active');
+                resultPanel.classList.remove('active');
+                resultPanel.innerHTML = '';
+                
+                document.title = 'Metadatos de Imagen en Línea Gratis | CaliperTools';
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', 'Vea los metadatos de la imagen en línea gratis. Extraiga EXIF, GPS, información de la cámara al instante. No se necesita registro. Mejores resultados de calidad.');
+                }
+                
+                const newUrl = new URL(window.location.href);
+                // 确保无论当前URL是什么，都返回正确的基础URL
+                const segments = newUrl.pathname.split('/');
+                // 找到es目录的位置
+                const langIndex = segments.indexOf('es');
+                if (langIndex !== -1) {
+                    // 构建正确的路径：es/Image/Image-Metadata.html
+                    newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Metadata.html';
+                } else {
+                    //  fallback：如果找不到es目录，直接使用根目录
+                    newUrl.pathname = '/es/Image/Image-Metadata.html';
+                }
+                window.history.pushState({}, '', newUrl);
+                
+                toolButtons.forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                currentTool = null;
+                currentModule = null;
+            });
+
+            toolButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    if (!currentImage) {
+                        alert('Por favor, suba una imagen primero');
+                        return;
+                    }
+
+                    const tool = btn.dataset.tool;
+                    const module = btn.dataset.module;
+
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    btn.classList.add('active');
+                    currentTool = tool;
+                    currentModule = module;
+
+                    const toolTitle = btn.getAttribute('title');
+                    const toolDescription = btn.getAttribute('data-description');
+                    if (toolTitle) {
+                        document.title = toolTitle;
+                    }
+                    
+                    if (toolDescription) {
+                        const metaDescription = document.querySelector('meta[name="description"]');
+                        if (metaDescription) {
+                            metaDescription.setAttribute('content', toolDescription);
+                        }
+                    }
+
+                    const newUrl = new URL(window.location.href);
+                    // 直接构建正确的路径，不依赖当前URL结构
+                    const segments = newUrl.pathname.split('/');
+                    // 找到es目录的位置
+                    const langIndex = segments.indexOf('es');
+                    if (langIndex !== -1) {
+                        // 构建正确的路径：/es/Image/Image-Metadata/tool
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Metadata/' + tool;
+                    } else {
+                        //  fallback：如果找不到es目录，直接使用根目录
+                        newUrl.pathname = '/es/Image/Image-Metadata/' + tool;
+                    }
+                window.history.pushState({}, '', newUrl);
+
+                    executeTool(tool, module);
+                });
+            });
+        }
+
+        function handleFileUpload(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                loadImages(files);
+            }
+        }
+
+        function loadImages(files) {
+            if (files.length === 1) {
+                loadSingleImage(files[0]);
+            } else if (files.length > 1) {
+                loadMultipleImages(files);
+            }
+        }
+
+        function loadSingleImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    currentImage = img;
+                    currentFile = file;
+
+                    console.log('File type:', file.type);
+                    console.log('File name:', file.name);
+                    console.log('File size:', (file.size / 1024).toFixed(2), 'KB');
+                    console.log('Image loaded:', img.width, 'x', img.height);
+                    console.log('Image natural size:', img.naturalWidth, 'x', img.naturalHeight);
+
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = (maxWidth / width) * height;
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = (maxHeight / height) * width;
+                        height = maxHeight;
+                    }
+
+                    previewImage.src = e.target.result;
+                    previewWrapper.style.width = width + 'px';
+                    previewWrapper.style.height = height + 'px';
+
+                    uploadPrompt.style.display = 'none';
+                    previewWrapper.classList.add('active');
+
+                    setTimeout(function() {
+                        try {
+                            console.log('=== EXIF Reading Attempt ===');
+                            console.log('window.EXIF:', window.EXIF);
+                            console.log('typeof window.EXIF.getData:', typeof window.EXIF.getData);
+                            
+                            if (window.EXIF && typeof window.EXIF.getData === 'function') {
+                                console.log('Calling EXIF.getData on img element...');
+                                window.EXIF.getData(img, function() {
+                                    console.log('=== EXIF Data Loaded ===');
+                                    
+                                    exifData = {};
+                                    
+                                    var make = window.EXIF.getTag(this, 'Make');
+                                    var model = window.EXIF.getTag(this, 'Model');
+                                    var software = window.EXIF.getTag(this, 'Software');
+                                    var dateTime = window.EXIF.getTag(this, 'DateTime');
+                                    var dateTimeOriginal = window.EXIF.getTag(this, 'DateTimeOriginal');
+                                    var exposureTime = window.EXIF.getTag(this, 'ExposureTime');
+                                    var fNumber = window.EXIF.getTag(this, 'FNumber');
+                                    var iso = window.EXIF.getTag(this, 'ISOSpeedRatings');
+                                    var focalLength = window.EXIF.getTag(this, 'FocalLength');
+                                    var copyright = window.EXIF.getTag(this, 'Copyright');
+                                    var imageDescription = window.EXIF.getTag(this, 'ImageDescription');
+                                    var gpsLatitude = window.EXIF.getTag(this, 'GPSLatitude');
+                                    var gpsLongitude = window.EXIF.getTag(this, 'GPSLongitude');
+                                    var gpsLatitudeRef = window.EXIF.getTag(this, 'GPSLatitudeRef');
+                                    var gpsLongitudeRef = window.EXIF.getTag(this, 'GPSLongitudeRef');
+                                    var gpsAltitude = window.EXIF.getTag(this, 'GPSAltitude');
+                                    var gpsImgDirection = window.EXIF.getTag(this, 'GPSImgDirection');
+                                    var gpsSpeed = window.EXIF.getTag(this, 'GPSSpeed');
+                                    
+                                    if (make) exifData.Make = make;
+                                    if (model) exifData.Model = model;
+                                    if (software) exifData.Software = software;
+                                    if (dateTimeOriginal) exifData.DateTimeOriginal = dateTimeOriginal;
+                                    if (dateTime) exifData.DateTime = dateTime;
+                                    if (exposureTime) exifData.ExposureTime = exposureTime;
+                                    if (fNumber) exifData.FNumber = fNumber;
+                                    if (iso) exifData.ISOSpeedRatings = iso;
+                                    if (focalLength) exifData.FocalLength = focalLength;
+                                    if (copyright) exifData.Copyright = copyright;
+                                    if (imageDescription) exifData.ImageDescription = imageDescription;
+                                    if (gpsLatitude) exifData.GPSLatitude = gpsLatitude;
+                                    if (gpsLongitude) exifData.GPSLongitude = gpsLongitude;
+                                    if (gpsLatitudeRef) exifData.GPSLatitudeRef = gpsLatitudeRef;
+                                    if (gpsLongitudeRef) exifData.GPSLongitudeRef = gpsLongitudeRef;
+                                    if (gpsAltitude) exifData.GPSAltitude = gpsAltitude;
+                                    if (gpsImgDirection) exifData.GPSImgDirection = gpsImgDirection;
+                                    if (gpsSpeed) exifData.GPSSpeed = gpsSpeed;
+                                    
+                                    console.log('EXIF data extracted:', exifData);
+                                    console.log('EXIF keys:', Object.keys(exifData));
+                                    console.log('GPSLatitude:', exifData.GPSLatitude);
+                                    console.log('GPSLongitude:', exifData.GPSLongitude);
+                                });
+                            } else {
+                                console.log('EXIF library not available');
+                                exifData = null;
+                            }
+                        } catch (err) {
+                            console.log('Error reading EXIF:', err);
+                            exifData = null;
+                        }
+                    }, 300);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadMultipleImages(files) {
+            currentImage = { multiple: true, files: files };
+            currentFile = { multiple: true, files: files };
+
+            uploadPrompt.style.display = 'none';
+            previewWrapper.classList.add('active');
+
+            const previewHTML = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 10px; max-height: 100%; overflow-y: auto;">' +
+                Array.from(files).map((file, index) => '<div style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; text-align: center;"><i class="fas fa-image" style="font-size: 40px; color: #007bff; margin-bottom: 10px;"></i><div style="font-size: 12px; color: #666; word-break: break-all;">' + file.name + '</div></div>').join('') +
+                '</div>';
+            previewWrapper.innerHTML = previewHTML;
+        }
+
+        function executeTool(tool, module) {
+            resultPanel.innerHTML = '';
+            resultPanel.classList.add('active');
+
+            if (module === 'reader') {
+                executeReaderTool(tool);
+            } else if (module === 'cleaner') {
+                executeCleanerTool(tool);
+            } else if (module === 'analysis') {
+                executeAnalysisTool(tool);
+            } else if (module === 'editor') {
+                executeEditorTool(tool);
+            }
+        }
+
+        function executeReaderTool(tool) {
+            let html = '';
+            let hasData = true;
+
+            if (tool === 'exif') {
+                html = generateExifTable();
+            } else if (tool === 'gps') {
+                html = generateGpsTable();
+            } else if (tool === 'camera') {
+                html = generateCameraTable();
+            } else if (tool === 'date') {
+                html = generateDateTable();
+            } else if (tool === 'resolution') {
+                html = generateResolutionTable();
+            } else if (tool === 'filesize') {
+                html = generateFileSizeTable();
+            } else if (tool === 'colorprofile') {
+                html = generateColorProfileTable();
+            } else if (tool === 'orientation') {
+                html = generateOrientationTable();
+            }
+
+            if (!hasData) {
+                html = '<div class="no-data"><i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 15px;"></i><p>No metadata data available for this image</p></div>';
+            }
+
+            resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+        }
+
+        function executeCleanerTool(tool) {
+            let html = '';
+            let showDownload = true;
+
+            if (tool === 'remove-exif') {
+                html = generateRemoveExifInfo();
+            } else if (tool === 'remove-gps') {
+                html = generateRemoveGpsInfo();
+            } else if (tool === 'batch-clean') {
+                html = generateBatchCleanInfo();
+                showDownload = currentFile && currentFile.multiple;
+            }
+
+            if (!showDownload) {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+            } else {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html + '<div class="download-section"><button class="download-btn" onclick="downloadCleaned(\'' + tool + '\')"><i class="fas fa-download"></i> Download Cleaned Image</button></div>';
+            }
+        }
+
+        function executeAnalysisTool(tool) {
+            let html = '';
+
+            if (tool === 'histogram') {
+                html = generateHistogram();
+                setTimeout(function() { 
+                    console.log('Executing generateHistogramData...');
+                    generateHistogramData(); 
+                }, 500);
+            } else if (tool === 'palette') {
+                html = generateColorPalette();
+                setTimeout(function() { 
+                    console.log('Executing getMockColorPalette...');
+                    getMockColorPalette(); 
+                }, 500);
+            }
+
+            resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+        }
+
+        function executeEditorTool(tool) {
+            let html = '';
+
+            if (tool === 'edit-exif') {
+                html = generateEditExifForm();
+            } else if (tool === 'remove-colorprofile') {
+                html = generateRemoveColorProfileInfo();
+            }
+
+            const showDownload = tool === 'edit-exif';
+
+            if (showDownload) {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html + '<div class="download-section"><button class="download-btn" onclick="downloadEdited(\'' + tool + '\')"><i class="fas fa-download"></i> Download Edited Image</button></div>';
+            } else {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+            }
+        }
+
+        function getToolTitle(tool) {
+            const titles = {
+                'exif': 'Datos EXIF',
+                'gps': 'Información GPS',
+                'camera': 'Información de Cámara',
+                'date': 'Fecha de Toma',
+                'resolution': 'Resolución',
+                'filesize': 'Tamaño de Archivo',
+                'colorprofile': 'Perfil de Color',
+                'orientation': 'Orientación de Imagen',
+                'remove-exif': 'Eliminar Datos EXIF',
+                'remove-gps': 'Eliminar Información GPS',
+                'batch-clean': 'Limpiador de Metadatos por Lotes',
+                'histogram': 'Histograma RGB',
+                'palette': 'Paleta de Colores',
+                'edit-exif': 'Editar Datos EXIF',
+                'remove-colorprofile': 'Eliminar Perfil de Color'
+            };
+            return titles[tool] || tool;
+        }
+
+        function generateExifTable() {
+            const exifData = getExifData();
+            if (exifData.length === 0) {
+                return '<div class="no-data"><i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 15px;"></i><p>No hay datos EXIF disponibles para esta imagen</p></div>';
+            }
+            return '<table class="result-table"><thead><tr><th>Etiqueta</th><th>Valor</th></tr></thead><tbody>' +
+                exifData.map(item => '<tr><td>' + item.tag + '</td><td>' + item.value + '</td></tr>').join('') +
+                '</tbody></table>';
+        }
+
+        function generateGpsTable() {
+            const gpsData = getGpsData();
+            if (!gpsData) {
+                return '<div class="no-data"><i class="fas fa-map-marker-slash" style="font-size: 48px; margin-bottom: 15px;"></i><p>No se encontró información GPS en esta imagen</p></div>';
+            }
+            return '<div class="result-info"><h4>Coordenadas GPS</h4><p><strong>Latitud:</strong> ' + gpsData.latitude + '</p><p><strong>Longitud:</strong> ' + gpsData.longitude + '</p><p><strong>Altitud:</strong> ' + gpsData.altitude + '</p></div>' +
+                '<div class="result-info"><h4>Detalles de Ubicación</h4><p><strong>Dirección:</strong> ' + gpsData.direction + '</p><p><strong>Velocidad:</strong> ' + gpsData.speed + '</p></div>';
+        }
+
+        function generateCameraTable() {
+            const cameraData = getCameraData();
+            return '<table class="result-table"><thead><tr><th>Propiedad</th><th>Valor</th></tr></thead><tbody>' +
+                cameraData.map(item => '<tr><td>' + item.property + '</td><td>' + item.value + '</td></tr>').join('') +
+                '</tbody></table>';
+        }
+
+        function generateDateTable() {
+            const dateData = getDateData();
+            return '<div class="result-info"><h4>Fecha Original de Toma</h4><p><strong>Fecha:</strong> ' + dateData.date + '</p><p><strong>Hora:</strong> ' + dateData.time + '</p><p><strong>Zona Horaria:</strong> ' + dateData.timezone + '</p></div>' +
+                '<div class="result-info"><h4>Información del Archivo</h4><p><strong>Modificado:</strong> ' + dateData.modified + '</p><p><strong>Creado:</strong> ' + dateData.created + '</p></div>';
+        }
+
+        function generateResolutionTable() {
+            const resolutionData = getResolutionData();
+            return '<div class="result-info"><h4>Dimensiones de Imagen</h4><p><strong>Ancho:</strong> ' + resolutionData.width + ' píxeles</p><p><strong>Alto:</strong> ' + resolutionData.height + ' píxeles</p><p><strong>Total de Píxeles:</strong> ' + resolutionData.total.toLocaleString() + '</p></div>' +
+                '<div class="result-info"><h4>Relación de Aspecto</h4><p><strong>Relación:</strong> ' + resolutionData.ratio + '</p><p><strong>Orientación:</strong> ' + resolutionData.orientation + '</p></div>';
+        }
+
+        function generateFileSizeTable() {
+            const sizeData = getFileSizeData();
+            return '<div class="result-info"><h4>Tamaño Original del Archivo</h4><p><strong>Tamaño:</strong> ' + sizeData.originalSize + '</p><p><strong>Formato:</strong> ' + sizeData.format + '</p></div>' +
+                '<div class="result-info"><h4>Comparación de Tamaño</h4><p><strong>Después de Eliminar EXIF:</strong> ' + sizeData.afterRemoval + '</p><p><strong>Ahorro:</strong> ' + sizeData.saved + '</p></div>';
+        }
+
+        function generateColorProfileTable() {
+            const profileData = getColorProfileData();
+            return '<div class="result-info"><h4>Perfil de Color</h4><p><strong>Perfil:</strong> ' + profileData.profile + '</p><p><strong>Espacio de Color:</strong> ' + profileData.colorSpace + '</p></div>' +
+                '<div class="result-info"><h4>Detalles del Perfil</h4><p><strong>Profundidad de Bits:</strong> ' + profileData.bitDepth + '</p><p><strong>Perfil ICC:</strong> ' + profileData.iccProfile + '</p></div>';
+        }
+
+        function generateOrientationTable() {
+            const orientationData = getOrientationData();
+            return '<div class="result-info"><h4>Orientación EXIF</h4><p><strong>Valor de Orientación:</strong> ' + orientationData.exifValue + '</p><p><strong>Rotación Necesaria:</strong> ' + orientationData.rotationNeeded + '</p></div>' +
+                '<div class="result-info"><h4>Dimensiones de Imagen</h4><p><strong>Ancho:</strong> ' + orientationData.width + ' px</p><p><strong>Alto:</strong> ' + orientationData.height + ' px</p><p><strong>Relación de Aspecto:</strong> ' + orientationData.ratio + '</p></div>';
+        }
+
+        function generateRemoveExifInfo() {
+            return '<div class="result-info"><h4>Eliminar Datos EXIF</h4><p>Esto eliminará todos los metadatos EXIF de la imagen manteniendo la calidad original de la imagen.</p><p><strong>Qué se eliminará:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Marca y modelo de la cámara</li><li>Coordenadas GPS</li><li>Información de fecha y hora</li><li>Información de derechos de autor y autor</li><li>Detalles de software y equipo</li></ul></div>' +
+                '<div class="result-info"><h4>Qué se preservará:</h4><p><strong>Preservado:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Calidad y resolución de imagen</li><li>Perfil de color</li><li>Apariencia visual</li><li>Formato de archivo</li></ul></div>';
+        }
+
+        function generateRemoveGpsInfo() {
+            return '<div class="result-info"><h4>Eliminar Información GPS</h4><p>Esto eliminará solo los metadatos relacionados con GPS manteniendo otra información EXIF.</p><p><strong>Qué se eliminará:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Coordenadas GPS (latitud, longitud)</li><li>Información de altitud</li><li>Datos de dirección y velocidad</li><li>Marcas de tiempo de ubicación</li></ul></div>' +
+                '<div class="result-info"><h4>Qué se preservará:</h4><p><strong>Preservado:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Información de cámara</li><li>Fecha y hora</li><li>Derechos de autor y autor</li><li>Otros datos EXIF</li></ul></div>';
+        }
+
+        function generateBatchCleanInfo() {
+            const fileCount = currentFile && currentFile.multiple ? currentFile.files.length : 1;
+            return '<div class="result-info"><h4>Limpiador de Metadatos por Lotes</h4><p>Eliminar todos los metadatos de ' + fileCount + ' imagen(es) a la vez.</p><p><strong>Archivos a procesar:</strong> ' + fileCount + '</p></div>' +
+                '<div class="result-info"><h4>Qué se eliminará:</h4><p><strong>Todos los metadatos:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Datos EXIF</li><li>Información GPS</li><li>Configuraciones de cámara</li><li>Fecha y hora</li><li>Derechos de autor y autor</li><li>Información de software</li></ul></div>';
+        }
+
+        function generateHistogram() {
+            return '<div class="result-info"><h4>Histograma RGB</h4><p>Representación visual de la distribución de color en su imagen.</p></div>' +
+                '<div class="histogram-container"><canvas id="histogram-canvas" style="width: 100%; height: 300px;"></canvas></div>' +
+                '<script>setTimeout(function() { generateHistogramData(); }, 100);<\/script>';
+        }
+
+        function generateColorPalette() {
+            console.log('generateColorPalette called');
+            const colors = getMockColorPalette();
+            console.log('Colors to display:', colors);
+            return '<div class="result-info"><h4>Paleta de Colores</h4><p>Colores dominantes extraídos de su imagen.</p></div>' +
+                '<div class="color-palette">' +
+                colors.map(color => '<div class="color-swatch" style="background-color: ' + color.hex + ';"><span>' + color.hex + '</span></div>').join('') +
+                '</div>';
+        }
+
+        function generateEditExifForm() {
+            const exifData = getExifData();
+            const copyrightItem = exifData.find(function(d) { return d.tag === 'Copyright'; });
+            const copyright = copyrightItem ? copyrightItem.value : '';
+            const descriptionItem = exifData.find(function(d) { return d.tag === 'Image Description'; });
+            const description = descriptionItem ? descriptionItem.value : '';
+            const softwareItem = exifData.find(function(d) { return d.tag === 'Software'; });
+            const software = softwareItem ? softwareItem.value : '';
+            
+            return '<div class="edit-form">' +
+                '<label for="author">Autor / Derechos de Autor</label>' +
+                '<input type="text" id="edit-author" value="' + copyright + '" placeholder="Ingrese nombre del autor">' +
+                '<label for="description">Descripción de Imagen</label>' +
+                '<textarea id="edit-description" placeholder="Ingrese descripción de imagen">' + description + '</textarea>' +
+                '<label for="software">Nombre de Software</label>' +
+                '<input type="text" id="edit-software" value="' + software + '" placeholder="Ingrese nombre de software">' +
+                '</div>';
+        }
+
+        function generateRemoveColorProfileInfo() {
+            return '<div class="result-info"><h4>Eliminar Perfil de Color</h4><p>Esto eliminará o estandarizará el perfil de color incrustado de la imagen.</p><p><strong>Qué sucederá:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Eliminar perfil ICC incrustado</li><li>Convertir al espacio de color sRGB</li><li>Preservar apariencia visual</li><li>Mejorar compatibilidad entre plataformas</li></ul></div>' +
+                '<div class="result-info"><h4>Beneficios:</h4><p><strong>Por qué eliminarlo:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>Colores más consistentes entre dispositivos</li><li>Tamaños de archivo más pequeños</li><li>Mejor compatibilidad web</li><li>Prevenir cambios de color</li></ul></div>';
+        }
+
+        function getExifData() {
+            console.log('getExifData called, exifData:', exifData);
+            
+            if (!exifData) {
+                console.log('exifData is null or undefined');
+                return [];
+            }
+
+            const data = [];
+            
+            console.log('Checking EXIF properties...');
+            console.log('Make:', exifData.Make);
+            console.log('Model:', exifData.Model);
+            console.log('Software:', exifData.Software);
+            console.log('DateTime:', exifData.DateTimeOriginal);
+            console.log('ExposureTime:', exifData.ExposureTime);
+            console.log('FNumber:', exifData.FNumber);
+            console.log('ISO:', exifData.ISOSpeedRatings);
+            console.log('FocalLength:', exifData.FocalLength);
+            console.log('Copyright:', exifData.Copyright);
+            console.log('ImageDescription:', exifData.ImageDescription);
+            
+            if (exifData.Make) {
+                data.push({ tag: 'Make', value: exifData.Make });
+            }
+            if (exifData.Model) {
+                data.push({ tag: 'Model', value: exifData.Model });
+            }
+            if (exifData.Software) {
+                data.push({ tag: 'Software', value: exifData.Software });
+            }
+            if (exifData.DateTimeOriginal) {
+                data.push({ tag: 'Date/Time', value: exifData.DateTimeOriginal });
+            }
+            if (exifData.ExposureTime) {
+                data.push({ tag: 'Exposure Time', value: exifData.ExposureTime + ' s' });
+            }
+            if (exifData.FNumber) {
+                data.push({ tag: 'F-Number', value: 'f/' + exifData.FNumber });
+            }
+            if (exifData.ISOSpeedRatings) {
+                data.push({ tag: 'ISO', value: exifData.ISOSpeedRatings });
+            }
+            if (exifData.FocalLength) {
+                data.push({ tag: 'Focal Length', value: exifData.FocalLength + 'mm' });
+            }
+            if (exifData.Copyright) {
+                data.push({ tag: 'Copyright', value: exifData.Copyright });
+            }
+            if (exifData.ImageDescription) {
+                data.push({ tag: 'Image Description', value: exifData.ImageDescription });
+            }
+
+            console.log('Final EXIF data array:', data);
+            return data;
+        }
+
+        function getGpsData() {
+            if (!exifData || !exifData.GPSLatitude || !exifData.GPSLongitude) {
+                return null;
+            }
+
+            const lat = exifData.GPSLatitude;
+            const latRef = exifData.GPSLatitudeRef || 'N';
+            const lon = exifData.GPSLongitude;
+            const lonRef = exifData.GPSLongitudeRef || 'E';
+
+            const convertDMSToDD = function(dms, ref) {
+                const degrees = dms[0] + dms[1] / 60 + dms[2] / 3600;
+                return (ref === 'S' || ref === 'W') ? -degrees : degrees;
+            };
+
+            const latitude = convertDMSToDD(lat, latRef).toFixed(6) + '° ' + latRef;
+            const longitude = convertDMSToDD(lon, lonRef).toFixed(6) + '° ' + lonRef;
+            const altitude = exifData.GPSAltitude ? exifData.GPSAltitude + ' meters' : 'N/A';
+
+            return {
+                latitude: latitude,
+                longitude: longitude,
+                altitude: altitude,
+                direction: exifData.GPSImgDirection ? exifData.GPSImgDirection + '°' : 'N/A',
+                speed: exifData.GPSSpeed ? exifData.GPSSpeed + ' km/h' : 'N/A'
+            };
+        }
+
+        function getCameraData() {
+            if (!exifData) {
+                return [];
+            }
+
+            const data = [];
+            
+            if (exifData.Make) {
+                data.push({ property: 'Camera Make', value: exifData.Make });
+            }
+            if (exifData.Model) {
+                data.push({ property: 'Camera Model', value: exifData.Model });
+            }
+            if (exifData.FocalLength) {
+                data.push({ property: 'Focal Length', value: exifData.FocalLength + 'mm' });
+            }
+            if (exifData.FNumber) {
+                data.push({ property: 'Aperture', value: 'f/' + exifData.FNumber });
+            }
+            if (exifData.ExposureTime) {
+                data.push({ property: 'Shutter Speed', value: '1/' + Math.round(1 / exifData.ExposureTime) + ' s' });
+            }
+            if (exifData.ISOSpeedRatings) {
+                data.push({ property: 'ISO', value: exifData.ISOSpeedRatings });
+            }
+            if (exifData.Flash) {
+                data.push({ property: 'Flash', value: exifData.Flash ? 'On' : 'Off' });
+            }
+
+            return data;
+        }
+
+        function getDateData() {
+            if (!exifData) {
+                return {
+                    date: 'N/A',
+                    time: 'N/A',
+                    timezone: 'N/A',
+                    modified: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A',
+                    created: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A'
+                };
+            }
+
+            return {
+                date: exifData.DateTimeOriginal ? exifData.DateTimeOriginal.split(' ')[0] : 'N/A',
+                time: exifData.DateTimeOriginal ? exifData.DateTimeOriginal.split(' ')[1] : 'N/A',
+                timezone: 'N/A',
+                modified: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A',
+                created: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A'
+            };
+        }
+
+        function getResolutionData() {
+            if (!currentImage) {
+                return {
+                    width: 0,
+                    height: 0,
+                    total: 0,
+                    ratio: 'N/A',
+                    orientation: 'N/A'
+                };
+            }
+
+            const width = currentImage.width;
+            const height = currentImage.height;
+            const total = width * height;
+            const gcd = function(a, b) {
+                while (b) {
+                    let temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a;
+            };
+            const divisor = gcd(width, height);
+            const orientation = width > height ? 'Landscape' : (width < height ? 'Portrait' : 'Square');
+
+            return {
+                width: width,
+                height: height,
+                total: total,
+                ratio: (width / divisor) + ':' + (height / divisor),
+                orientation: orientation
+            };
+        }
+
+        function getFileSizeData() {
+            if (!currentFile) {
+                return {
+                    originalSize: 'N/A',
+                    format: 'N/A',
+                    afterRemoval: 'N/A',
+                    saved: 'N/A'
+                };
+            }
+
+            const originalSize = (currentFile.size / 1024 / 1024).toFixed(2);
+            const afterRemoval = (originalSize * 0.9).toFixed(2);
+            const saved = (originalSize - afterRemoval).toFixed(2);
+            const format = currentFile.name.split('.').pop().toUpperCase();
+
+            return {
+                originalSize: originalSize + ' MB',
+                format: format,
+                afterRemoval: afterRemoval + ' MB',
+                saved: saved + ' MB (' + ((saved / originalSize) * 100).toFixed(1) + '%)'
+            };
+        }
+
+        function getColorProfileData() {
+            if (!exifData) {
+                return {
+                    profile: 'N/A',
+                    colorSpace: 'N/A',
+                    bitDepth: 'N/A',
+                    iccProfile: 'N/A'
+                };
+            }
+
+            return {
+                profile: exifData.ColorSpace || 'sRGB',
+                colorSpace: exifData.ColorSpace || 'RGB',
+                bitDepth: '8 bits per channel',
+                iccProfile: exifData.ColorSpace ? 'Embedded ICC profile detected' : 'No embedded profile'
+            };
+        }
+
+        function getOrientationData() {
+            if (!exifData) {
+                return {
+                    exifValue: 'N/A',
+                    rotationNeeded: 'N/A',
+                    width: currentImage ? currentImage.width : 0,
+                    height: currentImage ? currentImage.height : 0,
+                    ratio: currentImage ? (currentImage.width / currentImage.height).toFixed(2) : 'N/A'
+                };
+            }
+
+            const orientation = exifData.Orientation || 1;
+            const rotationMap = {
+                1: 'No rotation needed',
+                2: 'Flip horizontal',
+                3: 'Rotate 180°',
+                4: 'Flip vertical',
+                5: 'Rotate 90° CW + flip horizontal',
+                6: 'Rotate 90° CW',
+                7: 'Rotate 90° CCW + flip horizontal',
+                8: 'Rotate 90° CCW'
+            };
+
+            return {
+                exifValue: orientation + ' (' + (rotationMap[orientation] || 'Unknown') + ')',
+                rotationNeeded: rotationMap[orientation] || 'Unknown',
+                width: currentImage ? currentImage.width : 0,
+                height: currentImage ? currentImage.height : 0,
+                ratio: currentImage ? (currentImage.width / currentImage.height).toFixed(2) : 'N/A'
+            };
+        }
+
+        function getMockColorPalette() {
+            if (!currentImage) {
+                console.log('No current image, using default colors');
+                return [
+                    { hex: '#2C3E50', name: 'Dark Blue' },
+                    { hex: '#34495E', name: 'Blue Gray' },
+                    { hex: '#E74C3C', name: 'Soft Red' },
+                    { hex: '#ECF0F1', name: 'Light Blue' },
+                    { hex: '#95A5A6', name: 'Teal' },
+                    { hex: '#F39C12', name: 'Orange' },
+                    { hex: '#D35400', name: 'Burnt Orange' },
+                    { hex: '#E8E8E8', name: 'Light Gray' }
+                ];
+            }
+
+            console.log('Extracting colors from image:', currentImage.width, 'x', currentImage.height);
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 300;
+            canvas.height = 300;
+            ctx.drawImage(currentImage, 0, 0, 300, 300);
+
+            const imageData = ctx.getImageData(0, 0, 300, 300);
+            const data = imageData.data;
+            const colorCounts = {};
+            const totalPixels = data.length / 4;
+
+            console.log('Total pixels to analyze:', totalPixels);
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                
+                const hex = '#' + [r, g, b].map(function(x) {
+                    const hex = x.toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                }).join('');
+
+                if (colorCounts[hex]) {
+                    colorCounts[hex]++;
+                } else {
+                    colorCounts[hex] = 1;
+                }
+            }
+
+            console.log('Total unique colors found:', Object.keys(colorCounts).length);
+
+            const sortedColors = Object.entries(colorCounts)
+                .sort(function(a, b) { return b[1] - a[1]; });
+
+            console.log('All colors sorted:', sortedColors.length);
+
+            const palette = [];
+            const colorDistance = function(c1, c2) {
+                const r1 = parseInt(c1.substr(1, 2), 16);
+                const g1 = parseInt(c1.substr(3, 2), 16);
+                const b1 = parseInt(c1.substr(5, 2), 16);
+                const r2 = parseInt(c2.substr(1, 2), 16);
+                const g2 = parseInt(c2.substr(3, 2), 16);
+                const b2 = parseInt(c2.substr(5, 2), 16);
+                return Math.sqrt(
+                    Math.pow(r1 - r2, 2) +
+                    Math.pow(g1 - g2, 2) +
+                    Math.pow(b1 - b2, 2)
+                );
+            };
+
+            for (let i = 0; i < sortedColors.length; i++) {
+                const currentColor = sortedColors[i][0];
+                let isSimilar = false;
+
+                for (let j = 0; j < palette.length; j++) {
+                    const paletteColor = palette[j][0];
+                    if (colorDistance(currentColor, paletteColor) < 30) {
+                        isSimilar = true;
+                        break;
+                    }
+                }
+
+                if (!isSimilar) {
+                    palette.push(sortedColors[i]);
+                }
+            }
+
+            console.log('Final palette size:', palette.length);
+
+            return palette.map(function(item) {
+                return { hex: item[0], name: item[0] };
+            });
+        }
+
+        function generateHistogramData() {
+            console.log('generateHistogramData called');
+            if (!currentImage) {
+                console.log('No current image');
+                return;
+            }
+            
+            const canvas = document.getElementById('histogram-canvas');
+            console.log('Canvas element:', canvas);
+            if (!canvas) {
+                console.log('Canvas not found');
+                return;
+            }
+
+            console.log('Canvas dimensions:', canvas.width, 'x', canvas.height);
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const redData = new Array(256).fill(0);
+            const greenData = new Array(256).fill(0);
+            const blueData = new Array(256).fill(0);
+
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = currentImage.width;
+            tempCanvas.height = currentImage.height;
+            tempCtx.drawImage(currentImage, 0, 0);
+
+            const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            const data = imageData.data;
+
+            console.log('Image data length:', data.length);
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                redData[r]++;
+                greenData[g]++;
+                blueData[b]++;
+            }
+
+            const maxCount = Math.max(
+                Math.max.apply(null, redData),
+                Math.max.apply(null, greenData),
+                Math.max.apply(null, blueData)
+            );
+
+            console.log('Max count:', maxCount);
+
+            const y = height / 2;
+            const barWidth = width / 256;
+
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Arial';
+            ctx.fillText('Red', 10, y - 40);
+            ctx.fillText('Green', 10, y + 10);
+            ctx.fillText('Blue', 10, y + 60);
+
+            for (let i = 0; i < 256; i++) {
+                const x = i * barWidth;
+
+                ctx.fillStyle = 'rgb(' + i + ', 0, 0)';
+                ctx.fillRect(x, y - 50, barWidth, (redData[i] / maxCount) * 50);
+
+                ctx.fillStyle = 'rgb(0, ' + i + ', 0)';
+                ctx.fillRect(x, y, barWidth, (greenData[i] / maxCount) * 50);
+
+                ctx.fillStyle = 'rgb(0, 0, ' + i + ')';
+                ctx.fillRect(x, y + 50, barWidth, (blueData[i] / maxCount) * 50);
+            }
+
+            console.log('Histogram drawn');
+        }
+
+        function downloadCleaned(tool) {
+            if (!currentFile || !currentImage) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = currentImage.width || 800;
+            canvas.height = currentImage.height || 600;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(currentImage, 0, 0);
+
+            let suffix = '';
+            if (tool === 'remove-exif') {
+                suffix = '-cleaned';
+            } else if (tool === 'remove-gps') {
+                suffix = '-no-gps';
+            } else if (tool === 'batch-clean') {
+                suffix = '-cleaned';
+            }
+
+            const originalName = currentFile.name || 'image';
+            const dotIndex = originalName.lastIndexOf('.');
+            const name = originalName.substring(0, dotIndex);
+            const extension = originalName.substring(dotIndex);
+            const newName = name + suffix + '.' + extension;
+
+            const link = document.createElement('a');
+            link.download = newName;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+
+            showSuccessMessage('Image downloaded successfully!');
+        }
+
+        function downloadEdited(tool) {
+            if (!currentFile || !currentImage) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = currentImage.width || 800;
+            canvas.height = currentImage.height || 600;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(currentImage, 0, 0);
+
+            if (tool === 'edit-exif') {
+                const author = document.getElementById('edit-author') ? document.getElementById('edit-author').value : '';
+                const description = document.getElementById('edit-description') ? document.getElementById('edit-description').value : '';
+                const software = document.getElementById('edit-software') ? document.getElementById('edit-software').value : '';
+
+                console.log('Edited EXIF:', { author, description, software });
+            }
+
+            const originalName = currentFile.name || 'image';
+            const dotIndex = originalName.lastIndexOf('.');
+            const name = originalName.substring(0, dotIndex);
+            const extension = originalName.substring(dotIndex);
+            const newName = name + '-edited.' + extension;
+
+            const link = document.createElement('a');
+            link.download = newName;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+
+            showSuccessMessage('Image downloaded successfully!');
+        }
+
+        function showSuccessMessage(message) {
+            const existing = document.querySelector('.success-message');
+            if (existing) {
+                existing.remove();
+            }
+
+            const msg = document.createElement('div');
+            msg.className = 'success-message';
+            msg.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            document.body.appendChild(msg);
+
+            setTimeout(function() {
+                msg.remove();
+            }, 3000);
+        }
+    </script>
+    
+    <script>
+        // Initialize the application when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            init();
+        });
+    </script>
+</body>
+</html>

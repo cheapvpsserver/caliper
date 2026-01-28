@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entfernung von doppeltem Text | CaliperTools</title>
+<meta name="description" content="Kostenloses Online-Tool zum Entfernen von doppeltem Text von CaliperTools. Entfernen Sie ganz einfach doppelte Zeilen, Wörter, Sätze und Absätze." />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Duplicate Text Removal Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.preview {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.export-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.export-buttons button:hover {
+    background: #0052a3;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.options strong {
+    margin-top: 8px;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 60%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>
+    // 1. Disable the right-click menu.
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Das Kontextmenü (Rechtsklick-Menü) wurde deaktiviert.');
+    });
+
+    // 2. Disable text selection
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Disable copy shortcut keys
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Die Kopierfunktion wurde deaktiviert.');
+        }
+    });
+
+    // 4. Preventing the opening of developer tools via F12.
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Die Entwicklertools wurden deaktiviert.');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>Entfernung von doppeltem Text</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Rückgängig</button>
+                    <button onclick="redo()">Wiederholen</button>
+                    <button onclick="clearText()">Löschen</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        Wie benutzt man das?
+                    </a>
+                </div>
+                <textarea id="input" oninput="processText()" placeholder="Fügen Sie Ihren Text hier ein..."></textarea>
+                
+                <div class="stats">
+                    <div class="stat" id="charCount">Zeichen: 0</div>
+                    <div class="stat" id="nonBlankChar">Ohne Leerzeichen: 0</div>
+                    <div class="stat" id="wordCount">Wörter: 0</div>
+                    <div class="stat" id="lineCount">Zeilen: 0</div>
+                    <div class="stat" id="paraCount">Absätze: 0</div>
+                    <div class="stat" id="pages">Seiten: 0</div>
+                    <div class="stat" id="readingTime">Lesen: 0 min</div>
+                    <div class="stat" id="speakingTime">Sprechen: 0 min</div>
+                </div>
+
+                <div class="options">
+                    <strong>Operationsmodus:</strong>
+                    <label><input type="radio" name="mode" value="all">Alle doppelten Zeilen entfernen</label>
+                    <label><input type="radio" name="mode" value="consecutive">Aufeinanderfolgende doppelte Zeilen entfernen</label>
+                    <label><input type="radio" name="mode" value="unique">Nur absolut einzigartige Textzeilen behalten</label>
+                    <label><input type="radio" name="mode" value="word">Doppelte Wörter entfernen</label>
+                    <label><input type="radio" name="mode" value="paragraph">Doppelte Absätze entfernen</label>
+                    <label><input type="radio" name="mode" value="sentence">Doppelte Sätze entfernen</label>
+
+                    <strong>Neue Zeilen, Tabulatoren und Leerzeichen:</strong>
+                    <label><input type="radio" name="newline" value="preserve">Alle neuen Zeilen erhalten</label>
+                    <label><input type="radio" name="newline" value="filter">Alle neuen Zeilen filtern</label>
+                    <label><input type="radio" name="newline" value="delete">Alle neuen Zeilen löschen</label>
+                    <label><input type="checkbox" id="trim">Textzeilen abschneiden</label>
+                    <label><input type="checkbox" id="caseSensitive">Groß-/Kleinschreibung beachten</label>
+
+                    <strong>Zeilen sortieren:</strong>
+                    <label><input type="checkbox" id="sortLines">Ausgabezeilen alphabetisch sortieren</label>
+
+                    <strong>Benutzerdefinierte Zeichenentfernung:</strong>
+                    <label>Zeichen entfernen:<input type="text" id="removeChars" placeholder=",.;!?"></label>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>Ausgabe</h2>
+                <div class="export-buttons" style="margin-bottom: 15px; display: flex; justify-content: flex-start;">
+                    <button onclick="copyText()">Kopieren</button>
+                    <button onclick="exportTXT()">TXT exportieren</button>
+                    <button onclick="exportWord()">Word exportieren</button>
+                    <button onclick="exportPDF()">PDF exportieren</button>
+                </div>
+                <div class="preview" id="preview"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Duplicate Text Removal -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>So verwenden Sie die Entfernung von doppeltem Text</h3>
+                <p>
+                    Befolgen Sie diese einfachen Schritte, um doppelte Inhalte aus Ihrem Text mit verschiedenen Optionen zur Anpassung zu entfernen.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Schritt 1: Geben Sie Ihren Text ein</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Schritt 2: Optionen konfigurieren</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Schritt 3: Ergebnisse erhalten</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Schritt-für-Schritt-Anleitung</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Schritt 1: Geben Sie Ihren Text ein</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Geben Sie Ihren Text auf eine der beiden folgenden Arten ein:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Text tippen oder einfügen:</strong> Tippen oder fügen Sie Ihren Text direkt in den Textbereich ein</li>
+                            </ul>
+                            <p style="text-align: left;">Das Tool verarbeitet Ihren Text in Echtzeit, während Sie tippen oder Änderungen an den Optionen vornehmen.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Schritt 2: Optionen konfigurieren</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Passen Sie Ihre doppelte Entfernung mit diesen Optionen an:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Operationsmodus:</strong> Wählen Sie, wie Duplikate entfernt werden sollen (Alle, Aufeinanderfolgend, Einzigartig, Wörter, Absätze, Sätze)</li>
+                                <li><strong>Neue Zeilen behandeln:</strong> Alle neuen Zeilen beibehalten, filtern oder löschen</li>
+                                <li><strong>Textverarbeitung:</strong> Textzeilen abschneiden oder die Groß-/Kleinschreibung beachten</li>
+                                <li><strong>Sortieren:</strong> Ausgabezeilen alphabetisch sortieren</li>
+                                <li><strong>Benutzerdefinierte Zeichenentfernung:</strong> Zeichen angeben, die aus Ihrem Text entfernt werden sollen</li>
+                            </ul>
+                            <p style="text-align: left;">Die verfügbaren Optionen ändern sich je nach dem von Ihnen gewählten Operationsmodus.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Schritt 3: Ergebnisse erhalten</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Ihr Text mit entfernten Duplikaten erscheint sofort im rechten Ausgabebereich. Sie können:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Kopieren Sie den verarbeiteten Text mit einem Klick mit der Schaltfläche "Kopieren"</li>
+                                <li>Exportieren Sie das Ergebnis als TXT-, Word- oder PDF-Dateien</li>
+                                <li>Verwenden Sie die Schaltflächen "Rückgängig/Wiederholen", um Änderungen rückgängig zu machen oder wiederherzustellen</li>
+                                <li>Löschen Sie allen Inhalt, um mit der Schaltfläche "Löschen" neu zu beginnen</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Tipps für beste Ergebnisse</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Verwenden Sie "Alle doppelten Zeilen entfernen" für eine umfassende Entfernung von Duplikaten</li>
+                                <li>Verwenden Sie "Aufeinanderfolgende doppelte Zeilen entfernen", um nur eine Kopie wiederholter aufeinanderfolgender Zeilen zu behalten</li>
+                                <li>Verwenden Sie "Nur absolut einzigartige Textzeilen behalten", um nur Zeilen zu behalten, die einmal vorkommen</li>
+                                <li>Verwenden Sie die Option "Groß-/Kleinschreibung beachten", wenn genaue Übereinstimmung der Groß-/Kleinschreibung wichtig ist</li>
+                                <li>Kombinieren Sie "Textzeilen abschneiden" mit der Entfernung von Duplikaten für sauberere Ergebnisse</li>
+                                <li>Verwenden Sie die Funktion zur benutzerdefinierten Zeichenentfernung, um bestimmte Satzzeichen oder Zeichen zu entfernen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Verwandte Werkzeuge</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("duplicate-text-removal");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const input=document.getElementById('input');
+const preview=document.getElementById('preview');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); processText(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); processText(); } }
+function clearText(){ saveState(); input.value=''; processText(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'In die Zwischenablage kopiert!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(preview.textContent)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Fehler beim Kopieren des Textes: ', err);
+        });
+}
+
+function updateStats(text){
+  document.getElementById('charCount').innerText='Zeichen: '+text.length;
+  document.getElementById('nonBlankChar').innerText='Ohne Leerzeichen: '+text.replace(/\s/g,'').length;
+  const words=text.match(/\S+/g); 
+  document.getElementById('wordCount').innerText='Wörter: '+(words?words.length:0);
+  // Fix line count display issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines=text.split(/\r?\n/); 
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='Zeilen: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); 
+  document.getElementById('paraCount').innerText='Absätze: '+paras.length;
+  const pages=Math.ceil((words?words.length:0)/500); 
+  document.getElementById('pages').innerText='Seiten: '+pages;
+  const reading=Math.ceil((words?words.length:0)/200); 
+  document.getElementById('readingTime').innerText='Lesen: '+reading+' min';
+  const speaking=Math.ceil((words?words.length:0)/130); 
+  document.getElementById('speakingTime').innerText='Sprechen: '+speaking+' min';
+}
+
+function processText(){
+  saveState();
+  let text=input.value;
+
+  const caseSensitive = document.getElementById('caseSensitive').checked;
+  const removeChars = document.getElementById('removeChars').value || '';
+  if(removeChars){
+    const pattern = new RegExp("["+removeChars+"]","g");
+    text = text.replace(pattern,'');
+  }
+
+  const newlineMode=document.querySelector('input[name="newline"]:checked')?.value;
+  if(newlineMode==='delete'){ text=text.replace(/\r?\n/g,''); }
+  else if(newlineMode==='filter'){ text=text.replace(/\r?\n/g,'\n'); }
+  if(document.getElementById('trim').checked){ text=text.split(/\r?\n/).map(l=>l.trim()).join('\n'); }
+
+  const mode=document.querySelector('input[name="mode"]:checked')?.value;
+  if(mode){
+    if(mode==='all' || mode==='consecutive' || mode==='unique'){
+      let lines=text.split(/\r?\n/);
+      if(!caseSensitive){ lines = lines.map(l=>l.toLowerCase()); }
+      if(mode==='all'){
+        let seen=new Set();
+        lines=lines.filter(l=>{ if(seen.has(l)) return false; seen.add(l); return true; });
+      } else if(mode==='consecutive'){
+        lines=lines.filter((l,i,a)=>i===0||l!==a[i-1]);
+      } else if(mode==='unique'){
+        let counts={}; lines.forEach(l=>counts[l]=(counts[l]||0)+1);
+        lines=lines.filter(l=>counts[l]===1);
+      }
+      text=lines.join('\n');
+    } else if(mode==='word'){ // remove duplicate words
+      text = text.split(/\s+/).filter((v,i,a)=>{ 
+        if(!caseSensitive)v=v.toLowerCase(); 
+        return a.indexOf(v)===i; 
+      }).join(' ');
+    } else if(mode==='paragraph'){
+      let paras=text.split(/\n\s*\n/);
+      let seen=new Set();
+      paras = paras.filter(p=>{ 
+        let t = caseSensitive?p:p.toLowerCase(); 
+        if(seen.has(t)) return false; 
+        seen.add(t); 
+        return true; 
+      });
+      text=paras.join('\n\n');
+    } else if(mode==='sentence'){
+      let sentences=text.match(/[^\.!\?]+[\.!\?]*/g)||[text];
+      let seen=new Set();
+      sentences = sentences.filter(s=>{
+        let t = caseSensitive?s:s.toLowerCase();
+        if(seen.has(t)) return false;
+        seen.add(t);
+        return true;
+      });
+      text=sentences.join(' ');
+    }
+  }
+
+  if(document.getElementById('sortLines').checked){
+    text=text.split(/\r?\n/).sort().join('\n');
+  }
+
+  preview.textContent=text;
+  updateStats(text);
+}
+
+function exportTXT(){
+  const blob=new Blob([preview.textContent],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='output.txt'; a.click();
+}
+function exportWord(){
+  const blob=new Blob([preview.textContent],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='output.docx'; a.click();
+}
+function exportPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const lines=preview.textContent.split('\n');
+  let y=10;
+  lines.forEach(line=>{
+    if(y>280){ doc.addPage(); y=10; }
+    doc.text(line,10,y); y+=7;
+  });
+  doc.save('output.pdf');
+}
+
+// Add event listeners to automatically call processText function when options change
+const allOptions = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+allOptions.forEach(option => {
+    option.addEventListener('change', processText);
+});
+
+processText();
+</script>
+</body>
+</html>

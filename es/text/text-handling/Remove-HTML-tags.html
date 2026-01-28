@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="UTF-8" />
+<title>Eliminar Etiquetas HTML | CaliperTools</title>
+<meta name="description" content="Herramienta gratuita en línea para eliminar etiquetas HTML y limpiar texto por CaliperTools. Elimine etiquetas HTML, decodifique entidades y limpie el texto con facilidad." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Remove HTML Tags Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+.output {
+    width: 100%;
+    height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+.options h3 {
+    margin: 20px 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+}
+
+.options label {
+    display: block;
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.options input[type="file"] {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export {
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.export button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.export button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('El menú de clic derecho está deshabilitado');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('La función de copia está deshabilitada');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Las herramientas para desarrolladores están deshabilitadas');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>Eliminar Etiquetas HTML</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Deshacer</button>
+                    <button onclick="redo()">Rehacer</button>
+                    <button onclick="clearText()">Limpiar</button>
+                    <!-- Custom file input with English text only -->
+                    <label style="position: relative; display: inline-block; margin-left: 10px;">
+                        <input type="file" id="fileInput" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;" />
+                        <span style="display: inline-block; padding: 8px 16px; border-radius: 6px; background: #10b981; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">Elegir Archivo</span>
+                    </label>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        ¿Cómo usarlo?
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="Pegue HTML o texto aquí..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">Caracteres: 0</div>
+                    <div class="stat" id="nonBlankChar">No vacío: 0</div>
+                    <div class="stat" id="wordCount">Palabras: 0</div>
+                    <div class="stat" id="lineCount">Líneas: 0</div>
+                    <div class="stat" id="paraCount">Párrafos: 0</div>
+                    <div class="stat" id="pages">Páginas: 0</div>
+                    <div class="stat" id="readingTime">Lectura: 0 min</div>
+                    <div class="stat" id="speakingTime">Hablando: 0 min</div>
+                </div>
+
+                <div class="options">
+                    <h3>Opciones de Etiquetas HTML</h3>
+                    <label><input type="checkbox" id="decode"> Decodificar Entidades HTML</label>
+                    <label>
+                        Conservar etiquetas (separadas por comas):
+                        <input type="text" id="preserve" placeholder="b,strong,a">
+                    </label>
+
+                    <h3>Limpieza de Texto</h3>
+                    <label><input type="checkbox" id="trim"> Eliminar Espacios Adicionales</label>
+                    <label><input type="checkbox" id="removeEmpty"> Eliminar Líneas Vacías</label>
+
+
+                </div>
+            </div>
+
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>Salida</h2>
+                <div class="export">
+                    <button onclick="copyOut()">Copiar</button>
+                    <button onclick="exportFile('txt')">Exportar TXT</button>
+                    <button onclick="exportFile('html')">Exportar HTML</button>
+                    <button onclick="exportFile('doc')">Exportar Word</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Sección Tutorial - Cómo Usar Eliminar Etiquetas HTML -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Cómo Usar Eliminar Etiquetas HTML</h3>
+                <p>
+                    Siga estos simples pasos para eliminar etiquetas HTML y limpiar su texto eficientemente con varias opciones de procesamiento.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Paso 1: Ingrese Su Contenido</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Paso 2: Configurar Opciones de Limpieza</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Paso 3: Obtenga Sus Resultados</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Tutorial Paso a Paso</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Paso 1: Ingrese Su Contenido</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Ingrese su contenido HTML de una de estas dos maneras:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Pegar Texto HTML:</strong> Pegue directamente su contenido HTML en el área de texto</li>
+                                <li><strong>Subir Archivo:</strong> Haga clic en el botón "Elegir Archivo" para subir un archivo HTML desde su dispositivo</li>
+                            </ul>
+                            <p style="text-align: left;">La herramienta procesa su contenido en tiempo real mientras escribe o realiza cambios en las opciones.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Paso 2: Configurar Opciones de Limpieza</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Personalice su limpieza HTML con estas opciones:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Decodificar Entidades HTML:</strong> Convierta entidades HTML como &amp;lt; a sus caracteres reales como &lt;</li>
+                                <li><strong>Conservar Etiquetas:</strong> Especifique qué etiquetas HTML mantener (separadas por comas, p. ej., "b,strong,a")</li>
+                                <li><strong>Eliminar Espacios Adicionales:</strong> Elimine espacios en blanco al principio y al final de cada línea</li>
+                                <li><strong>Eliminar Líneas Vacías:</strong> Elimine líneas en blanco de la salida final</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Paso 3: Obtenga Sus Resultados</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Su texto limpio aparecerá instantáneamente en el área de salida derecha. Puede:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Copie el texto limpio con un solo clic usando el botón "Copiar"</li>
+                                <li>Exportar a varios formatos: TXT, HTML o Word</li>
+                                <li>Deshacer/Rehacer cambios usando los botones de la barra de herramientas</li>
+                                <li>Limpiar todo el contenido para comenzar de nuevo con el botón "Limpiar"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Consejos para Obtener los Mejores Resultados</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Use <strong>Decodificar Entidades HTML</strong> cuando trabaje con contenido HTML codificado</li>
+                                <li>Especifique <strong>Conservar Etiquetas</strong> para mantener formato importante como negrita o enlaces</li>
+                                <li>Combine <strong>Eliminar Espacios Adicionales</strong> con <strong>Eliminar Líneas Vacías</strong> para resultados más limpios</li>
+                                <li>Suba archivos para procesamiento rápido de documentos HTML completos</li>
+                                <li>Exporte al formato Word para facilitar la edición en Microsoft Word</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Herramientas Relacionadas</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("remove-html-tags");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input', () => {
+  pushHistory();
+  sourceText = input.value;
+  process();
+});
+
+document.querySelectorAll('.options input').forEach(i=>{
+  i.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value = history.pop();
+  sourceText = input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value = future.pop();
+  sourceText = input.value;
+  process(false);
+}
+
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(updateInput=true){
+  let text = sourceText;
+
+  if(document.getElementById('decode').checked){
+    const d=document.createElement('textarea');
+    d.innerHTML=text;
+    text=d.value;
+  }
+
+  const keep = document.getElementById('preserve').value
+    .split(',')
+    .map(t=>t.trim())
+    .filter(Boolean);
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      const re=new RegExp(`<${tag}\\b[^>]*>`,`gi`);
+      const re2=new RegExp(`</${tag}>`,`gi`);
+      text=text.replace(re,`§§${tag}§§`).replace(re2,`§§/${tag}§§`);
+    });
+  }
+
+  text = text.replace(/<[^>]*>/g,'');
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      text=text
+        .replaceAll(`§§${tag}§§`,`<${tag}>`)
+        .replaceAll(`§§/${tag}§§`,`</${tag}>`);
+    });
+  }
+
+  if(document.getElementById('trim').checked){
+    text = text
+      .split(/\r?\n/)
+      .map(l=>l.trim())
+      .join('\n');
+  }
+
+  if(document.getElementById('removeEmpty').checked){
+    text = text
+      .split(/\r?\n/)
+      .filter(l=>l.trim()!=='')
+      .join('\n');
+  }
+
+  output.textContent = text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const nonBlank=t.replace(/\s/g,'').length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  const paras=t.split(/\n\s*\n/).filter(p=>p.trim()).length;
+  // Remove Math.max(1, ...), let page count calculate naturally
+  const pages=Math.ceil(words/500);
+  // Remove Math.max(1, ...), let time calculate naturally
+  const read=Math.ceil(words/200);
+  const speak=Math.ceil(words/130);
+
+  // Update each statistic
+  document.getElementById('charCount').textContent = `Caracteres: ${chars}`;
+  document.getElementById('nonBlankChar').textContent = `No vacío: ${nonBlank}`;
+  document.getElementById('wordCount').textContent = `Palabras: ${words}`;
+  document.getElementById('lineCount').textContent = `Líneas: ${lines}`;
+  document.getElementById('paraCount').textContent = `Párrafos: ${paras}`;
+  document.getElementById('pages').textContent = `Páginas: ${pages}`;
+  document.getElementById('readingTime').textContent = `Lectura: ${read} min`;
+  document.getElementById('speakingTime').textContent = `Hablando: ${speak} min`;
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = '¡Copiado al portapapeles!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyOut(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Show copy success notification
+      const toast = document.getElementById('copyToast');
+      toast.style.opacity = '1';
+      // Hide notification after 2 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+function exportFile(type){
+  let blob,filename='output';
+  if(type==='txt'){
+    blob=new Blob([output.textContent],{type:'text/plain'});
+    filename+='.txt';
+  }
+  if(type==='html'){
+    blob=new Blob([output.innerHTML],{type:'text/html'});
+    filename+='.html';
+  }
+  if(type==='doc'){
+    blob=new Blob([output.textContent],{type:'application/msword'});
+    filename+='.doc';
+  }
+  if(type==='pdf'){
+    // For PDF, we use a simpler method: export as HTML and prompt user to print as PDF
+    const pdfContent = `
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${filename}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+          }
+          .content {
+            max-width: 800px;
+            margin: 0 auto;
+          }
+        </style>
+      <script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Il menu contestuale è disabilitato');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('La funzione di copia è disabilitata');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Gli strumenti per sviluppatori sono disabilitati');
+        }
+    });
+</script>
+</head>
+      <body>
+        <div class="content">
+          ${output.innerHTML}
+        </div>
+      </body>
+      </html>
+    `;
+    // Use text/html type to ensure file opens correctly
+    blob=new Blob([pdfContent],{type:'text/html'});
+    filename+='.html';
+    // Prompt user to print as PDF
+    setTimeout(() => {
+      alert('Archivo descargado exitosamente. Puede abrir este archivo HTML e imprimirlo como PDF desde su navegador.');
+    }, 500);
+  }
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+
+document.getElementById('fileInput').addEventListener('change',e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    input.value=ev.target.result;
+    sourceText=input.value;
+    process();
+  };
+  r.readAsText(f);
+});
+</script>
+
+</body>
+</html>

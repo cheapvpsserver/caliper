@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="UTF-8">
+<title>Convertidor de Mayúsculas y Minúsculas | CaliperTools</title>
+<meta name="description" content="Herramienta en línea gratuita para convertir y formatear texto entre diferentes formatos de mayúsculas y minúsculas, incluyendo frase capitalizada, formato de título, MAYÚsculas, minúsculas y más." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Textbox styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+/* Output area styles */
+.output {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+/* Statistics styles */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Option area styles */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.options h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+    grid-column: 1 / -1;
+}
+
+.options > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+    font-size: 14px;
+    margin: 4px 0;
+}
+
+/* Toolbar styles */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('El menú de clic derecho está deshabilitado');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('La función de copia está deshabilitada');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Las herramientas para desarrolladores están deshabilitadas');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>Convertidor de Mayúsculas y Minúsculas</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Deshacer</button>
+                    <button onclick="redo()">Rehacer</button>
+                    <button onclick="clearText()">Limpiar</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        ¿Cómo usarlo?
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="Ingrese o pegue texto aquí..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">Caracteres: 0</div>
+                    <div class="stat" id="wordCount">Palabras: 0</div>
+                    <div class="stat" id="lineCount">Líneas: 0</div>
+                </div>
+
+                <div class="options">
+                    <div>
+                        <h3>Formato de Mayúsculas/Minúsculas</h3>
+                        <label><input type="radio" name="mode" value="sentence"> Frase Capitalizada</label>
+                        <label><input type="radio" name="mode" value="capitalized"> Cada Palabra Capitalizada</label>
+                        <label><input type="radio" name="mode" value="title"> Formato de Título</label>
+                        <label><input type="radio" name="mode" value="lower"> minúsculas</label>
+                        <label><input type="radio" name="mode" value="upper"> MAYÚSCULAS</label>
+                        <label><input type="radio" name="mode" value="snake"> formato_snake</label>
+                        <label><input type="radio" name="mode" value="dot"> punto.punto</label>
+                        <label><input type="radio" name="mode" value="slug"> Convertir en URL</label>
+                        <label><input type="radio" name="mode" value="random"> Formato Aleatorio</label>
+                    </div>
+
+                    <div>
+                        <h3>Manipulación de Texto</h3>
+                        <label><input type="radio" name="mode" value="reverse"> Invertir Texto</label>
+                        <label><input type="radio" name="mode" value="extraSpaces"> Eliminar Espacios Extra</label>
+                        <label><input type="radio" name="mode" value="allSpaces"> Eliminar Todos los Espacios</label>
+                        <label><input type="radio" name="mode" value="lineBreaks"> Eliminar Saltos de Línea</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h2>Salida</h2>
+                <div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-bottom: 15px;">
+                    <button onclick="copyOutput()" style="padding: 8px 16px; border: none; border-radius: 6px; background: #0066cc; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">Copiar</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Case Converter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Cómo Usar el Convertidor de Mayúsculas y Minúsculas</h3>
+                <p>
+                    Siga estos sencillos pasos para convertir su texto entre varios formatos de manera eficiente.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Paso 1: Ingrese Su Texto</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Paso 2: Elegir Formato de Mayúsculas/Minúsculas</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Paso 3: Obtenga Sus Resultados</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Tutorial Paso a Paso</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Paso 1: Ingrese Su Texto</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Ingrese o pegue su texto en el área de texto izquierda. La herramienta mostrará automáticamente estadísticas sobre su texto, incluyendo el conteo de caracteres, palabras y líneas.</p>
+                            <p style="text-align: left;">Puede usar los botones Deshacer y Rehacer para revertir o restaurar cambios según sea necesario.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Paso 2: Elegir Formato de Mayúsculas/Minúsculas</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Seleccione entre una amplia gama de opciones de formato de mayúsculas/minúsculas:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Frase Capitalizada:</strong> Capitaliza la primera letra de las oraciones</li>
+                                <li><strong>Cada Palabra Capitalizada:</strong> Capitaliza la primera letra de cada palabra</li>
+                                <li><strong>Formato de Título:</strong> Capitaliza la primera letra de las palabras importantes</li>
+                                <li><strong>minúsculas:</strong> Convierte todo el texto a minúsculas</li>
+                                <li><strong>MAYÚSCULAS:</strong> Convierte todo el texto a mayúsculas</li>
+                                <li><strong>formato_snake:</strong> Convierte a minúsculas con guiones bajos entre palabras</li>
+                                <li><strong>punto.punto:</strong> Convierte a minúsculas con puntos entre palabras</li>
+                                <li><strong>Convertir en URL:</strong> Convierte texto para su uso en URLs</li>
+                            </ul>
+                            <p style="text-align: left;">Opciones adicionales incluyen Formato Aleatorio, Invertir texto y varias herramientas de gestión de espacios.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Paso 3: Obtenga Sus Resultados</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Su texto convertido aparecerá instantáneamente en el área de salida derecha. Puede:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Copiar el texto convertido con un solo clic usando el botón "Copiar"</li>
+                                <li>Borrar todo el texto para comenzar de nuevo con el botón "Limpiar"</li>
+                                <li>Probar diferentes formatos para encontrar el que mejor se adapte a sus necesidades</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Consejos para Obtener los Mejores Resultados</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Use Frase Capitalizada para texto y párrafos regulares</li>
+                                <li>Use Formato de Título para titulares y títulos</li>
+                                <li>Use formato_snake o punto.punto para variables de código y nombres de archivos</li>
+                                <li>Use Convertir en URL para crear URLs amigables para SEO</li>
+                                <li>Experimente con diferentes formatos para encontrar el que funcione mejor para su caso específico</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Herramientas Relacionadas</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input',()=>{
+  pushHistory();
+  sourceText=input.value;
+  process();
+});
+
+document.querySelectorAll('input[name="mode"]').forEach(r=>{
+  r.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value=history.pop();
+  sourceText=input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value=future.pop();
+  sourceText=input.value;
+  process(false);
+}
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(){
+  let text=sourceText;
+  const mode=document.querySelector('input[name="mode"]:checked')?.value;
+
+  switch(mode){
+    case 'sentence':
+      text=text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase());
+      break;
+    case 'capitalized':
+    case 'title':
+      text=text.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+      break;
+    case 'lower':
+      text=text.toLowerCase();
+      break;
+    case 'upper':
+      text=text.toUpperCase();
+      break;
+    case 'snake':
+      text=text.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+      break;
+    case 'dot':
+      text=text.toLowerCase().replace(/[^a-z0-9]+/g,'.').replace(/^\.+|\.+$/g,'');
+      break;
+    case 'slug':
+      text=text.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-z0-9]+/g,'-')
+        .replace(/^-+|-+$/g,'');
+      break;
+    case 'random':
+      text=[...text].map(c=>Math.random()>0.5?c.toUpperCase():c.toLowerCase()).join('');
+      break;
+    case 'reverse':
+      text=[...text].reverse().join('');
+      break;
+    case 'extraSpaces':
+      text=text.replace(/\s+/g,' ').trim();
+      break;
+    case 'allSpaces':
+      text=text.replace(/\s+/g,'');
+      break;
+    case 'lineBreaks':
+      text=text.replace(/\r?\n+/g,' ');
+      break;
+  }
+
+  output.textContent=text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  
+  // Update various statistics
+  document.getElementById('charCount').textContent = `Caracteres: ${chars}`;
+  document.getElementById('wordCount').textContent = `Palabras: ${words}`;
+  document.getElementById('lineCount').textContent = `Líneas: ${lines}`;
+}
+
+function copyOutput(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'Copiado al portapapeles!';
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("text-case-converter");
+</script>
+
+<!-- Dynamically load header and footer -->
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textformatierer | CaliperTools</title>
+<meta name="description" content="Kostenwerk Online-Textformatierer von CaliperTools. Formatieren Sie Text in verschiedenen Fällen, verwalten Sie Leerzeichen und bearbeiten Sie Text mühelos." />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* 左右面板样式 */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Text Formatter Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Right panel styles */
+.right-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.category {
+    grid-column: span 2;
+    margin-top: 10px;
+    padding: 6px 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding-left: 6px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.option input {
+    margin-right: 6px;
+}
+
+/* Find & Replace Modal */
+#findReplaceModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0f8ff; /* Light blue background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    z-index: 1000;
+    border: 1px solid #0066cc;
+}
+
+#findReplaceModal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #0066cc;
+    font-size: 1.2rem;
+}
+
+#findReplaceModal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#findReplaceModal button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#findReplaceModal button:not(.close) {
+    background: #0066cc;
+    color: white;
+}
+
+#findReplaceModal button:not(.close):hover {
+    background: #0052a3;
+}
+
+#findReplaceModal .close {
+    background: #f44336;
+    color: white;
+    margin-bottom: 0;
+}
+
+#findReplaceModal .close:hover {
+    background: #e53935;
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .right-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .category {
+        grid-column: span 1;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>
+    // 1. Disable the right-click menu.
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Das Kontextmenü (Rechtsklick-Menü) wurde deaktiviert.');
+    });
+
+    // 2. Disable text selection
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Disable copy shortcut keys
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Die Kopierfunktion wurde deaktiviert.');
+        }
+    });
+
+    // 4. Preventing the opening of developer tools via F12.
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Die Entwicklertools wurden deaktiviert.');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Linke Seite: Eingabe und grundlegende Statistiken -->
+            <div class="left-panel">
+                <h1>Textformatierer</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Rückgängig</button>
+                    <button onclick="redo()">Wiederholen</button>
+                    <button onclick="openFindReplaceModal()">Suchen & Ersetzen</button>
+                    <button onclick="clearText()">Löschen</button>
+                    <button onclick="copyText()">Kopieren</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        Wie verwende ich dies?
+                    </a>
+                </div>
+                <textarea id="input" oninput="updateStats()" placeholder="Fügen Sie Ihren Text hier ein..."></textarea>
+                <div class="stats">
+                    <div class="stat" id="charCount">Zeichen: 0</div>
+                    <div class="stat" id="nonBlankChar">Ohne Leerzeichen: 0</div>
+                    <div class="stat" id="wordCount">Wörter: 0</div>
+                    <div class="stat" id="lineCount">Zeilen: 0</div>
+                    <div class="stat" id="paraCount">Absätze: 0</div>
+                    <div class="stat" id="pages">Seiten: 0</div>
+                    <div class="stat" id="readingTime">Lesen: 0 Min</div>
+                    <div class="stat" id="speakingTime">Sprechen: 0 Min</div>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <!-- Große/Kleine Schreibung -->
+                <div class="category">Groß-/Kleinschreibung
+                    <button onclick="toggleCategory('case')">Alle</button>
+                </div>
+                <div class="option"><input type="checkbox" class="case" id="upper"><label for="upper">GROSSBUCHSTABEN</label></div>
+                <div class="option"><input type="checkbox" class="case" id="lower"><label for="lower">kleinbuchstaben</label></div>
+                <div class="option"><input type="checkbox" class="case" id="title"><label for="title">Titel Schreibung</label></div>
+                <div class="option"><input type="checkbox" class="case" id="sentence"><label for="sentence">Satzschreibung</label></div>
+                <div class="option"><input type="checkbox" class="case" id="camel"><label for="camel">camelCase</label></div>
+
+                <!-- Leerzeichen- und Zeilenverwaltung -->
+                <div class="category">Leerzeichen- und Zeilenverwaltung
+                    <button onclick="toggleCategory('space')">Alle</button>
+                </div>
+                <div class="option"><input type="checkbox" class="space" id="trim"><label for="trim">Trimmen (Entfernen von führenden und nachgestellten Leerzeichen)</label></div>
+                <div class="option"><input type="checkbox" class="space" id="leading"><label for="leading">Führende Leerzeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="trailing"><label for="trailing">Nachfolgende Leerzeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiSpace"><label for="multiSpace">Mehrere Leerzeichen zu einem einzelnen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="allSpaces"><label for="allSpaces">Alle Leerzeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="spaceToTab"><label for="spaceToTab">4 Leerzeichen durch 1 Tab ersetzen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="tabToSpace"><label for="tabToSpace">1 Tab durch 4 Leerzeichen ersetzen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeBlankLines"><label for="removeBlankLines">Leere/leere Zeilen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiBlank"><label for="multiBlank">Mehrere leere Zeilen zu einer einzelnen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="lineBreakSpace"><label for="lineBreakSpace">Zeilenumbruch durch Leerzeichen ersetzen</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeLineBreak"><label for="removeLineBreak">Alle Zeilenumbrüche entfernen</label></div>
+
+                <!-- Textbearbeitung -->
+                <div class="category">Textbearbeitung
+                    <button onclick="toggleCategory('text')">Alle</button>
+                </div>
+                <div class="option"><input type="checkbox" class="text" id="reverse"><label for="reverse">Text umkehren</label></div>
+                <div class="option"><input type="checkbox" class="text" id="sortLines"><label for="sortLines">Zeilen A-Z sortieren</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removePunct"><label for="removePunct">Interpunktionszeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="text" id="stripEmoji"><label for="stripEmoji">Alle Emojis entfernen</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removeAccents"><label for="removeAccents">Buchstabenakzente entfernen (Diakritika)</label></div>
+                <div class="option"><input type="checkbox" class="text" id="normalize"><label for="normalize">Unicode-Buchstaben/-Zeichen normalisieren</label></div>
+
+                <!-- Zeichenfilterung -->
+                <div class="category">Zeichenfilterung
+                    <button onclick="toggleCategory('char')">Alle</button>
+                </div>
+                <div class="option"><input type="checkbox" class="char" id="removeReplacement"><label for="removeReplacement">Ersatzzeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonASCII"><label for="removeNonASCII">Nicht-ASCII-Zeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonAlpha"><label for="removeNonAlpha">Nicht-alphanumerische Zeichen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="char" id="stripEmails"><label for="stripEmails">Alle E-Mails entfernen</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeURLs"><label for="removeURLs">Alle Web-URLs entfernen</label></div>
+                <div class="option"><input type="checkbox" class="char" id="convertURL"><label for="convertURL">URLs in Links umwandeln</label></div>
+
+                <!-- HTML- und Codeverarbeitung -->
+                <div class="category">HTML- und Codeverarbeitung
+                    <button onclick="toggleCategory('html')">Alle</button>
+                </div>
+                <div class="option"><input type="checkbox" class="html" id="removeBB"><label for="removeBB">BBCode-Tags entfernen</label></div>
+                <div class="option"><input type="checkbox" class="html" id="unescapeHTML"><label for="unescapeHTML">HTML-Tags entschlüsseln</label></div>
+                <div class="option"><input type="checkbox" class="html" id="stripHTML"><label for="stripHTML">Alle HTML-Tags entfernen</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeIDs"><label for="removeIDs">Alle IDs entfernen</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeClasses"><label for="removeClasses">Alle Klassen entfernen</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeStyles"><label for="removeStyles">Inline-Stile entfernen</label></div>
+
+                <!-- Kodierung und Dekodierung -->
+                <div class="category">Kodierung und Dekodierung
+                    <button onclick="toggleCategory('encode')">Alle</button>
+                </div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeHTML"><label for="decodeHTML">HTML-Zeichenentitäten decodieren</label></div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeURL"><label for="decodeURL">URL-kodierte Zeichen decodieren</label></div>
+            </div>
+        </div>
+
+        <!-- Tutorialabschnitt - So verwenden Sie den Textformatierer -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>So verwenden Sie den Textformatierer</h3>
+                <p>
+                    Befolgen Sie diese einfachen Schritte, um Ihren Text effizient mit verschiedenen Formatierungsoptionen zu formatieren.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Schritt 1: Text eingeben</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Schritt 2: Formatierungsoptionen wählen</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Schritt 3: Ergebnisse erhalten</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Schritt-für-Schritt-Anleitung</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Schritt 1: Text eingeben</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Fügen Sie Ihren Text in den linken Textbereich ein oder geben Sie ihn dort ein. Das Tool zeigt automatisch umfassende Statistiken zu Ihrem Text an, einschließlich Zeichenanzahl, Wortanzahl und Lesezeit.</p>
+                            <p style="text-align: left;">Sie können die Schaltflächen "Rückgängig" und "Wiederholen" verwenden, um Änderungen bei Bedarf rückgängig zu machen oder wiederherzustellen.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Schritt 2: Formatierungsoptionen wählen</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Wählen Sie aus einer Vielzahl von Formatierungsoptionen im rechten Bereich:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Groß-/Kleinschreibung:</strong> Text in GROSSBUCHSTABEN, kleinbuchstaben, Titel Schreibung, Satzschreibung, camelCase und mehr konvertieren</li>
+                                <li><strong>Leerzeichenverwaltung:</strong> Leerzeichen, Tabulatoren und Zeilenumbrüche hinzufügen, entfernen oder anpassen</li>
+                                <li><strong>Textbearbeitung:</strong> Text umkehren, Zeilen sortieren, Interpunktion entfernen und mehr</li>
+                                <li><strong>Zeichenfilterung:</strong> Unerwünschte Zeichen, Sonderzeichen oder Duplikate entfernen</li>
+                                <li><strong>HTML & Code:</strong> HTML-Tags formatieren, Sonderzeichen maskieren und mehr</li>
+                                <li><strong>Kodierung & Dekodierung:</strong> HTML-Entitäten und URL-kodierte Zeichen dekodieren</li>
+                            </ul>
+                            <p style="text-align: left;">Klicken Sie auf die Schaltflächen "Alle" in jeder Kategorie, um alle Optionen in dieser Kategorie gleichzeitig anzuwenden.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Schritt 3: Ergebnisse erhalten</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Ihr formatierter Text wird sofort im linken Textbereich angezeigt. Sie können:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Den formatierten Text mit einem Klick mit der Schaltfläche "Kopieren" kopieren</li>
+                                <li>Den gesamten Text löschen, um mit der Schaltfläche "Löschen" neu zu beginnen</li>
+                                <li>Die Funktion "Suchen & Ersetzen" verwenden, um gezielte Änderungen vorzunehmen</li>
+                                <li>Die aktualisierten Textstatistiken überprüfen</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Tipps für beste Ergebnisse</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Beginnen Sie mit einem klaren Verständnis der gewünschten Formatierung</li>
+                                <li>Wenden Sie jeweils eine Formatierungsoption an, um deren Auswirkung zu sehen</li>
+                                <li>Verwenden Sie die Schaltfläche "Rückgängig", wenn Ihnen das Ergebnis einer Formatierungsaktion nicht gefällt</li>
+                                <li>Kombinieren Sie mehrere Formatierungsoptionen für komplexere Textumwandlungen</li>
+                                <li>Überprüfen Sie die Textstatistiken, um sicherzustellen, dass Ihre Formatierung Ihren Anforderungen entspricht</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verwandte Werkzeuge -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Verwandte Werkzeuge</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Verwandte Werkzeuge werden dynamisch durch JS generiert -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-formatter");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+    <!-- Suchen & Ersetzen Modal -->
+    <div id="findReplaceModal">
+        <h3>Suchen & Ersetzen</h3>
+        <input type="text" id="findText" placeholder="Text suchen">
+        <input type="text" id="replaceText" placeholder="Ersetzen mit">
+        <button onclick="replaceNext()">Nächstes ersetzen</button>
+        <button onclick="replaceAll()">Alle ersetzen</button>
+        <button class="close" onclick="closeFindReplaceModal()">Schließen</button>
+    </div>
+
+    <script>
+const input=document.getElementById('input');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); updateStats(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); updateStats(); } }
+function clearText(){ saveState(); input.value=''; updateStats(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'Copied to clipboard!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(input.value)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+function countWords(text) {
+    if (!text.trim()) return 0;
+    
+    // For languages with spaces, use traditional counting
+    const spaceWords = text.trim().split(/\s+/).filter(Boolean);
+    if (spaceWords.length > 1) {
+        return spaceWords.length;
+    }
+    
+    // For languages without spaces (like Chinese, Japanese, Korean)
+    // Count each character as a word, except for whitespace and punctuation
+    let wordCount = 0;
+    for (let char of text) {
+        if (!char.match(/\s|[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’]/g)) {
+            wordCount++;
+        }
+    }
+    return wordCount;
+}
+function setText(value){ input.value=value; updateStats(); saveState(); }
+
+function updateStats(){
+  const text=input.value;
+  const wordCount = countWords(text);
+  document.getElementById('charCount').innerText='Zeichen: '+text.length;
+  document.getElementById('nonBlankChar').innerText='Ohne Leerzeichen: '+text.replace(/\s/g,'').length;
+  document.getElementById('wordCount').innerText='Wörter: '+wordCount;
+  // Fix line count issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines = text.split(/\r?\n/);
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='Zeilen: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); document.getElementById('paraCount').innerText='Absätze: '+paras.length;
+  const pages=Math.ceil(wordCount/500); document.getElementById('pages').innerText='Seiten: '+pages;
+  const reading=Math.ceil(wordCount/200); document.getElementById('readingTime').innerText='Lesen: '+reading+' Min';
+  const speaking=Math.ceil(wordCount/130); document.getElementById('speakingTime').innerText='Sprechen: '+speaking+' Min';
+}
+
+// --- Live Apply ---
+const options=document.querySelectorAll('.option input');
+options.forEach(opt=>{
+  opt.addEventListener('change',()=>{ saveState(); applyOption(opt); });
+});
+
+function applyOption(opt){
+  let text=input.value;
+  const id=opt.id;
+  if(opt.checked){
+    switch(id){
+      case 'upper': text=text.toUpperCase(); break;
+      case 'lower': text=text.toLowerCase(); break;
+      case 'title': text=text.replace(/\b\p{L}/gu,c=>c.toUpperCase()); break;
+      case 'sentence': text=text.replace(/(^\s*\p{L}|[.!?。！？]\s*\p{L})/gu,c=>c.toUpperCase()); break;
+      case 'camel': text=[...text].map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join(''); break;
+      case 'trim': text=text.trim(); break;
+      case 'leading': text=text.replace(/^\s+/gm,''); break;
+      case 'trailing': text=text.replace(/\s+$/gm,''); break;
+      case 'multiSpace': text=text.replace(/\s+/g,' '); break;
+      case 'allSpaces': text=text.replace(/\s+/g,''); break;
+      case 'spaceToTab': text=text.replace(/ {4}/g,'\t'); break;
+      case 'tabToSpace': text=text.replace(/\t/g,'    '); break;
+      case 'removeBlankLines': text=text.replace(/^\s*$/gm,''); break;
+      case 'multiBlank': text=text.replace(/(\r?\n){2,}/g,'\n'); break;
+      case 'lineBreakSpace': text=text.replace(/\r?\n/g,' '); break;
+      case 'removeLineBreak': text=text.replace(/\r?\n/g,''); break;
+      case 'reverse': text=text.split('').reverse().join(''); break;
+      case 'sortLines': text=text.split('\n').sort().join('\n'); break;
+      case 'removePunct': text=text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’『』「」〔〕〝〞〟～…—━〈〉＜＞「」｛｝［］｜｜\／：；，。！？‘’""()）（．．．・・・]/g,''); break;
+      case 'stripEmoji': text=text.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g,''); break;
+      case 'removeAccents': text=text.normalize("NFD").replace(/[\u0300-\u036f]/g,""); break;
+      case 'normalize': text=text.normalize(); break;
+      case 'removeReplacement': text=text.replace(/�/g,''); break;
+      case 'removeNonASCII': text=text.replace(/[^\x00-\x7F]/g,''); break;
+      case 'removeNonAlpha': text=text.replace(/[^\p{L}\p{N}\s]/gu,''); break;
+      case 'stripEmails': text=text.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,''); break;
+      case 'removeURLs': text=text.replace(/\b(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*\b/g,''); break;
+      case 'convertURL': text=text.replace(/(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*/g,url=>`<a href="${url}" target="_blank">${url}</a>`); break;
+      case 'removeBB': text=text.replace(/\[.*?\]/g,''); break;
+      case 'unescapeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'stripHTML': text=text.replace(/<[^>]+>/g,''); break;
+      case 'removeIDs': text=text.replace(/\s?id=".*?"/g,''); break;
+      case 'removeClasses': text=text.replace(/\s?class=".*?"/g,''); break;
+      case 'removeStyles': text=text.replace(/\s?style=".*?"/g,''); break;
+      case 'decodeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'decodeURL': try{text=decodeURIComponent(text);}catch(e){} break;
+    }
+    setText(text);
+  } else { undo(); }
+}
+
+// --- Category Toggle ---
+function toggleCategory(cat){
+  const elems=document.querySelectorAll('.'+cat);
+  const allChecked=[...elems].every(e=>e.checked);
+  elems.forEach(e=>{ e.checked=!allChecked; e.dispatchEvent(new Event('change')); });
+}
+
+// --- Find & Replace ---
+let lastFindIndex=0;
+function openFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='block'; lastFindIndex=0;}
+function closeFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='none';}
+function replaceNext(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const text=input.value;
+  const idx=text.indexOf(find,lastFindIndex);
+  if(idx!==-1){
+    input.value=text.slice(0,idx)+replace+text.slice(idx+find.length);
+    lastFindIndex=idx+replace.length;
+    updateStats();
+  } else { lastFindIndex=0; alert('No more matches'); }
+}
+function replaceAll(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const regex=new RegExp(find,'g');
+  input.value=input.value.replace(regex,replace);
+  updateStats();
+}
+
+updateStats();
+</script>
+</body>
+</html>

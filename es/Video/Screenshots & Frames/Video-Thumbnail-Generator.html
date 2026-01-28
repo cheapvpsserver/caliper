@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+<meta charset="UTF-8" />
+<title>Generador de miniaturas de video</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Herramienta gratuita en línea para generar miniaturas personalizadas a partir de archivos de video">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<!-- Add simple favicon.ico as default -->
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body background is consistent with website */
+body {
+    background-color: #f5f5f5;
+    color: #111827;
+    font-family: system-ui;
+    margin: 0;
+    padding: 0;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Tool specific styles */
+.tool-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tool-container h1 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #111827;
+  text-align: center;
+}
+
+/* Simplified responsive styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Main app layout */
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+@media (min-width: 769px) {
+  .app {
+    flex-direction: row;
+  }
+}
+
+/* Left panel */
+.app > div:first-child {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .app > div:first-child {
+    width: 100%;
+  }
+}
+
+/* Right content area */
+.app > div:last-child {
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+}
+
+.panel {
+  background:#fff;
+  border-radius:8px;
+  padding:15px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.panel h3 {
+  margin-top:0;
+  font-size:16px;
+}
+
+.panel label {
+  display:block;
+  font-size:13px;
+  margin-top:12px;
+}
+
+.panel input {
+  width:100%;
+  padding:6px;
+  margin-top:4px;
+}
+
+.format {
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+}
+
+.format button {
+  flex:1;
+  padding:6px;
+  border:1px solid #ccc;
+  background:#fff;
+  cursor:pointer;
+}
+
+.format button.active {
+  border-color:#3b82f6;
+  background:#e8f0ff;
+}
+
+/* Drop area */
+.drop {
+  border:2px dashed #cfd6e4;
+  border-radius:10px;
+  padding:20px;
+  text-align:center;
+  background:#fff;
+  width: 100%;
+  margin: 0;
+}
+
+/* Player area */
+#player {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Video container */
+#player > div {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Video element */
+video {
+  width: 100% !important;
+  max-width: 720px !important;
+  height: auto !important;
+  max-height: 500px !important;
+  display: block !important;
+  border-radius: 8px;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  object-fit: contain;
+}
+
+/* Controls area */
+.controls {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:20px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 5px;
+}
+
+.controls span {
+  flex: 0 0 100%;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+@media (min-width: 576px) {
+  .controls span {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+  }
+}
+
+.controls input[type=range] {
+  flex: 1;
+  min-width: 100px;
+  width: 100%;
+  margin: 0;
+}
+
+.controls button {
+  padding:8px 14px;
+  background:#3b82f6;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .controls button {
+    padding: 6px 12px;
+    font-size: 14px;
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+/* Timeline */
+.timeline {
+  margin-top:10px;
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10px;
+}
+
+.timeline img {
+  height:60px;
+  cursor:pointer;
+  border-radius:4px;
+  border:2px solid transparent;
+  object-fit:cover;
+  min-width: 80px;
+  width: auto;
+}
+
+@media (min-width: 480px) {
+  .timeline img {
+    min-width: 100px;
+  }
+}
+
+@media (min-width: 769px) {
+  .timeline img {
+    height:70px;
+    min-width: 120px;
+  }
+}
+
+.timeline img.active {
+  border-color:#3b82f6;
+}
+
+/* Generated Thumbnails Grid */
+.generated-thumbnails-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+  width: 100%;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 480px) {
+  .generated-thumbnails-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  .generated-thumbnails-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+}
+
+.hidden{display:none;}
+
+/* CTA Section Styles - Tutorial */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: white;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tutorial Step Styles */
+.tutorial-step {
+    text-align: left;
+}
+
+.tutorial-step h5 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+    text-align: center !important;
+}
+
+.tutorial-step p {
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    color: white !important;
+}
+
+.tutorial-step ul {
+    text-align: left !important;
+    margin-left: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+}
+
+.tutorial-step li {
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Il menu contestuale è disabilitato');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('La funzione di copia è disabilitata');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Gli strumenti per sviluppatori sono disabilitati');
+        }
+    });
+</script>
+</head>
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content -->
+<main class="main">
+  <div class="tool-container">
+    <h1 class="tool-title">Generador de miniaturas de video</h1>
+    
+    <p style="text-align: center;">
+    ¡Cree impresionantes miniaturas personalizadas desde sus videos en segundos! Extraiga fácilmente fotogramas, personalice dimensiones y formato, y genere vistas previas de la línea de tiempo para encontrar el momento perfecto.
+    </p>
+
+    <div class="app">
+
+    <!-- Options -->
+    <div class="panel">
+      <h3>Opciones</h3>
+
+      <label>Ancho de miniatura (px)</label>
+      <input id="w" type="number" value="1280">
+
+      <label>Altura de miniatura (px)</label>
+      <input id="h" type="number" value="720">
+
+      <label>Formato</label>
+      <div class="format">
+        <button class="active" data-f="image/png">PNG</button>
+        <button data-f="image/jpeg">JPG</button>
+      </div>
+
+      <label>Miniaturas de línea de tiempo</label>
+      <input id="count" type="number" value="15">
+    </div>
+
+    <!-- Main -->
+    <div>
+
+    <div class="drop" id="drop">
+      <p><strong>Arrastre y suelte su archivo de video aquí</strong><br>o haga clic para explorar</p>
+      <input type="file" id="file" accept="video/*" hidden>
+    </div>
+
+    <div id="player" class="hidden">
+      <div style="position: relative; width: 100%;">
+          <video id="video" controls></video>
+          <!-- Delete Video Button -->
+          <button id="deleteVideoBtn" onclick="deleteVideo()" style="position: absolute; top: 20px; right: 20px; background: rgba(239, 68, 68, 0.8); color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 16px; cursor: pointer; z-index: 10;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+      <div class="controls">
+        <span>Fotograma:</span>
+        <input id="slider" type="range" min="0" max="100" value="0">
+        <input id="time" type="text" value="0.0" style="width:70px">
+        <span id="duration"></span>
+        <button id="gen">Generar miniatura</button>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+    </div>
+    
+    <!-- Generated Thumbnails Display Area -->
+    <div id="generatedThumbnails" class="hidden" style="margin-top: 20px; width: 100%;">
+      <h3 style="text-align: center; max-width: 720px; margin: 0 auto 15px;">Miniaturas generadas</h3>
+      <div class="generated-thumbnails-grid" id="generatedThumbnailsGrid"></div>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <!-- Tutorial Section -->
+  <section class="cta-section" id="tutorial">
+    <div class="cta-content">
+      <h3>Cómo usar el generador de miniaturas de video</h3>
+      <p>
+        Siga estos sencillos pasos para crear miniaturas personalizadas a partir de sus videos.
+      </p>
+      
+      <div class="features-row">
+        <div class="feature-item">
+          <span class="icon">📁</span>
+          <span>Paso 1: Subir video</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">🎯</span>
+          <span>Paso 2: Seleccionar fotograma</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📸</span>
+          <span>Paso 3: Generar miniatura</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">💾</span>
+          <span>Paso 4: Descargar miniaturas</span>
+        </div>
+      </div>
+      
+      <div class="cta-features">
+        <h4>Tutorial paso a paso</h4>
+        <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="tutorial-step">
+            <h5>Paso 1: Subir video</h5>
+            <p>Haga clic en el área de carga o arrastre y suelte su archivo de video para comenzar a crear miniaturas personalizadas. La herramienta admite todos los formatos de video principales. Puede ajustar configuraciones como dimensiones de miniatura, formato de salida y vistas previas de la línea de tiempo según sea necesario.</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>Paso 2: Seleccionar fotograma</h5>
+            <p>Use el control deslizante de fotogramas para navegar por su video o haga clic en cualquiera de las miniaturas de línea de tiempo generadas para saltar a un momento específico.</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>Paso 3: Generar miniatura</h5>
+            <p>Haga clic en el botón "Generar miniatura" para crear una miniatura desde el fotograma actual del video. La miniatura generada aparecerá en la galería a continuación.</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>Paso 4: Descargar miniaturas</h5>
+            <p>Desde la galería de miniaturas generadas, puede descargar miniaturas individuales o eliminarlas si es necesario. Las miniaturas se guardan en el formato especificado con las dimensiones elegidas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Related Tools Section -->
+  <section class="section related-tools">
+    <div class="container">
+      <h2 class="section-title">Herramientas relacionadas</h2>
+      <div class="tools-grid" id="relatedTools">
+        <!-- Related tools will be dynamically generated by JS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+<script>
+const file=document.getElementById('file');
+const drop=document.getElementById('drop');
+const video=document.getElementById('video');
+const player=document.getElementById('player');
+const slider=document.getElementById('slider');
+const timeInput=document.getElementById('time');
+const durationEl=document.getElementById('duration');
+const timeline=document.getElementById('timeline');
+const w=document.getElementById('w');
+const h=document.getElementById('h');
+const count=document.getElementById('count');
+
+let format='image/png';
+
+document.querySelectorAll('.format button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.format button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    format=b.dataset.f;
+  };
+});
+
+drop.onclick=()=>file.click();
+drop.ondragover=e=>{e.preventDefault();};
+drop.ondrop=e=>{
+  e.preventDefault();
+  load(e.dataTransfer.files[0]);
+};
+file.onchange=e=>load(e.target.files[0]);
+
+function load(f){
+  video.src=URL.createObjectURL(f);
+  drop.classList.add('hidden');
+  player.classList.remove('hidden');
+  video.onloadedmetadata=()=>{
+    durationEl.textContent=`0:00 / ${formatTime(video.duration)}`;
+    // Set thumbnail dimensions to video's actual dimensions
+    w.value = video.videoWidth;
+    h.value = video.videoHeight;
+    generateTimeline();
+  };
+}
+
+slider.oninput=()=>{
+  const t=(slider.value/100)*video.duration;
+  video.currentTime=t;
+  timeInput.value=t.toFixed(1);
+};
+
+video.ontimeupdate=()=>{
+  slider.value=(video.currentTime/video.duration)*100;
+  durationEl.textContent=`${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+};
+
+function capture(t){
+  return new Promise(res=>{
+    video.currentTime=t;
+    video.onseeked=()=>{
+      const c=document.createElement('canvas');
+      c.width=w.value;
+      c.height=h.value;
+      c.getContext('2d').drawImage(video,0,0,c.width,c.height);
+      res(c.toDataURL(format));
+    };
+  });
+}
+
+async function generateTimeline(){
+  timeline.innerHTML='';
+  const n=parseInt(count.value);
+  for(let i=0;i<n;i++){
+    const t=(i/(n-1))*video.duration;
+    const img=document.createElement('img');
+    img.src=await capture(t);
+    img.onclick=()=>{
+      video.currentTime=t;
+      document.querySelectorAll('.timeline img').forEach(x=>x.classList.remove('active'));
+      img.classList.add('active');
+    };
+    timeline.appendChild(img);
+  }
+}
+
+// Add event listener for count input change to update timeline
+count.addEventListener('input', function() {
+  if (video.duration) {
+    generateTimeline();
+  }
+});
+
+document.getElementById('gen').onclick=async()=>{
+  const url=await capture(video.currentTime);
+  displayGeneratedThumbnail(url);
+};
+
+// Display generated thumbnail with delete and download buttons
+function displayGeneratedThumbnail(url) {
+  // Show the generated thumbnails section
+  document.getElementById('generatedThumbnails').classList.remove('hidden');
+  
+  // Create thumbnail container
+  const thumbnailContainer = document.createElement('div');
+  thumbnailContainer.style.cssText = `
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    overflow: hidden;
+  `;
+  
+  // Create thumbnail image
+  const thumbnailImg = document.createElement('img');
+  thumbnailImg.src = url;
+  thumbnailImg.style.cssText = `
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+  `;
+  
+  // Create icons container
+  const iconsContainer = document.createElement('div');
+  iconsContainer.style.cssText = `
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  `;
+  
+  // Create delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+  deleteBtn.style.cssText = `
+    background: rgba(239, 68, 68, 0.8);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 10;
+  `;
+  deleteBtn.title = 'Eliminar esta miniatura';
+  deleteBtn.onclick = () => {
+    thumbnailContainer.remove();
+    // Hide the section if no thumbnails left
+    if (document.querySelectorAll('.generated-thumbnails-grid > div').length === 0) {
+      document.getElementById('generatedThumbnails').classList.add('hidden');
+    }
+  };
+  
+  // Create download button
+  const downloadBtn = document.createElement('button');
+  downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+  downloadBtn.style.cssText = `
+    background: rgba(59, 130, 246, 0.8);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 10;
+  `;
+  downloadBtn.title = 'Descargar esta miniatura';
+  downloadBtn.onclick = () => {
+    const a = document.createElement('a');
+    a.href = url;
+    // Determine file extension based on selected format
+    const extension = format === 'image/png' ? 'png' : 'jpg';
+    a.download = `thumbnail_${Date.now()}.${extension}`;
+    a.click();
+  };
+  
+  // Add hover effect to show icons
+  thumbnailContainer.addEventListener('mouseenter', () => {
+    iconsContainer.style.opacity = '1';
+  });
+  
+  thumbnailContainer.addEventListener('mouseleave', () => {
+    iconsContainer.style.opacity = '0';
+  });
+  
+  // Assemble elements
+  iconsContainer.appendChild(deleteBtn);
+  iconsContainer.appendChild(downloadBtn);
+  thumbnailContainer.appendChild(thumbnailImg);
+  thumbnailContainer.appendChild(iconsContainer);
+  
+  // Add to grid
+  document.getElementById('generatedThumbnailsGrid').appendChild(thumbnailContainer);
+}
+
+async function generateTimeline(){
+  timeline.innerHTML='';
+  const n=parseInt(count.value);
+  if (isNaN(n) || n <= 0) return;
+  
+  for(let i=0;i<n;i++){
+    const t=(i/(n-1))*video.duration;
+    const img=document.createElement('img');
+    
+    // Use CSS class for styling instead of inline styles
+    img.className = 'timeline-thumbnail';
+    
+    // Set a placeholder while loading
+    img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="70" background="#f0f0f0"></svg>';
+    
+    // Generate the actual thumbnail with higher quality
+    img.src=await capture(t);
+    
+    img.onclick=()=>{
+      video.currentTime=t;
+      document.querySelectorAll('.timeline img').forEach(x=>x.classList.remove('active'));
+      img.classList.add('active');
+    };
+    timeline.appendChild(img);
+  }
+}
+
+function formatTime(s){
+  const m=Math.floor(s/60);
+  const sec=Math.floor(s%60);
+  return `${m}:${String(sec).padStart(2,'0')}`;
+}
+
+// Delete video function to return to upload module
+function deleteVideo() {
+  // Stop video playback
+  video.pause();
+  video.src = '';
+  
+  // Hide player and show upload area
+  player.classList.add('hidden');
+  drop.classList.remove('hidden');
+  
+  // Clear timeline
+  timeline.innerHTML = '';
+  
+  // Hide generated thumbnails if any
+  const generatedThumbnails = document.getElementById('generatedThumbnails');
+  generatedThumbnails.classList.add('hidden');
+  generatedThumbnails.querySelector('#generatedThumbnailsGrid').innerHTML = '';
+  
+  // Reset file input
+  file.value = '';
+  
+  // Reset duration display
+  durationEl.textContent = '';
+  
+  // Reset thumbnail dimensions to default values
+  w.value = 1280;
+  h.value = 720;
+}
+</script>
+
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("video-thumbnail-generator");
+</script>
+
+</body>
+</html>

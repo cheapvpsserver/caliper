@@ -1,0 +1,2179 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kostenlose Online Bild-Farben & Pixel-Effekte Tools | CaliperTools</title>
+    <meta name="description" content="Wenden Sie Bild-Farbeffekte online kostenlos an. Pixelate, Mosaik, Farben invertieren sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../scripts/script.js"></script>
+    <!-- Custom CSS for sections -->
+    <style>
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+            font-size: 0.875rem;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .tool-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 750px;
+        }
+
+        .sidebar {
+            width: 380px;
+            padding: 20px;
+            background-color: #ffffff;
+            height: 750px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 150px;
+        }
+
+        .sidebar-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            z-index: 10;
+        }
+
+        .canvas-area {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .upload-prompt {
+            text-align: center;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-prompt.drag-over {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .upload-prompt-icon {
+            font-size: 60px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-prompt-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .upload-prompt-instruction {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .canvas-wrapper.active {
+            display: block;
+        }
+
+        .delete-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .delete-image-btn:hover {
+            background-color: rgba(220, 53, 69, 1);
+            transform: scale(1.1);
+        }
+
+        .canvas {
+            display: block;
+        }
+
+        #baseCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #overlayCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: crosshair;
+        }
+
+        .tools-section {
+            margin-bottom: 8px;
+        }
+
+        .tools-section h2 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #0F172A;
+        }
+
+        .sidebar .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .sidebar .tools-grid .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .tool-btn {
+            padding: 10px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tool-btn:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tool-btn i {
+            font-size: 18px;
+        }
+
+        .settings-section {
+            margin-bottom: 20px;
+        }
+
+        .settings-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .size-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+
+        .size-display {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .actions-section {
+            margin-top: auto;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .undo-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .redo-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .reset-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .download-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #format-select {
+            background-color: #28a745 !important;
+            color: white;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .palette-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .palette-color {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .palette-color:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .palette-color span {
+            font-size: 12px;
+            color: #333;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 6px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 5px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .slider-container label {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            width: 200px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            font-size: 14px;
+            color: #666;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .color-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+        }
+
+        .color-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+
+        .color-details {
+            flex: 1;
+        }
+
+        .color-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0F172A;
+            margin-bottom: 5px;
+        }
+
+        .color-rgb {
+            font-family: monospace;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .tool-settings-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9fafb;
+            border-radius: 4px;
+        }
+
+        .dynamic-settings {
+            display: none;
+        }
+
+        .dynamic-settings.active {
+            display: block;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .tool-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                order: 2;
+                border-right: none;
+                border-top: 1px solid #ddd;
+            }
+
+            .canvas-area {
+                height: 400px;
+                order: 1;
+            }
+
+            .upload-prompt {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+            }
+
+            .sidebar-actions {
+                position: relative;
+            }
+
+            .sidebar-content {
+                padding-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .canvas-area {
+                height: 300px;
+            }
+
+            .sidebar .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+<script>
+    // 1. Disable the right-click menu.
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Das Kontextmenü (Rechtsklick-Menü) wurde deaktiviert.');
+    });
+
+    // 2. Disable text selection
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Disable copy shortcut keys
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Die Kopierfunktion wurde deaktiviert.');
+        }
+    });
+
+    // 4. Preventing the opening of developer tools via F12.
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Die Entwicklertools wurden deaktiviert.');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center mb-8">Bild-Pixel & Farb-Tools</h1>
+        </div>
+        <div class="tool-container">
+                    <div class="sidebar">
+                        <div class="sidebar-content">
+                            <div class="tools-section">
+                                <h2>Farb-Tools</h2>
+                                <div class="tools-grid">
+                                    <button class="tool-btn" data-tool="color-picker" data-title="Kostenlose Farbauswahl Online | CaliperTools" data-description="Wählen Sie Farben aus Bildern online kostenlos. Extrahieren Sie Hex-Codes sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-eye-dropper"></i>
+                                        <span>Farbauswahl</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="eye-dropper" data-title="Kostenlose Farb Pipette Online | CaliperTools" data-description="Vorschau von Farben online kostenlos. Hovern Sie zum Anzeigen der Werte sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-crosshairs"></i>
+                                        <span>Farb Pipette</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="extract-palette" data-title="Kostenlose Paletten-Extraktion Online | CaliperTools" data-description="Extrahieren Sie Paletten online kostenlos. Holen Sie sich dominante Farben sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-palette"></i>
+                                        <span>Palette extrahieren</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="replace-color" data-title="Kostenlose Farb-Ersetzung Online | CaliperTools" data-description="Ersetzen Sie Farben online kostenlos. Ändern Sie den Farbbereich sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-exchange-alt"></i>
+                                        <span>Farbe ersetzen</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="tools-section">
+                                <h2>Pixel-Effekte</h2>
+                                <div class="tools-grid">
+                                    <button class="tool-btn" data-tool="pixelate" data-title="Kostenlose Pixelierung Online | CaliperTools" data-description="Pixelieren Sie Bilder online kostenlos. Wenden Sie Pixel-Effekt sofort an. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-th"></i>
+                                        <span>Pixelate</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="mosaic" data-title="Kostenlose Mosaik Online | CaliperTools" data-description="Wenden Sie Mosaik online kostenlos an. Erstellen Sie Kachel-Effekt sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-border-all"></i>
+                                        <span>Mosaik</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="reduce-color-depth" data-title="Kostenlose Farbtiefe Reduzieren Online | CaliperTools" data-description="Reduzieren Sie Farbtiefe online kostenlos. Senken Sie Farbbits sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span>Farbtiefe</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="posterize" data-title="Kostenlose Posterisierung Online | CaliperTools" data-description="Posterisieren Sie Bilder online kostenlos. Farbtrennung sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-chart-bar"></i>
+                                        <span>Posterize</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="tools-section">
+                                <h2>Farb-Anpassungen</h2>
+                                <div class="tools-grid">
+                                    <button class="tool-btn" data-tool="invert" data-title="Kostenlose Farben Invertieren Online | CaliperTools" data-description="Invertieren Sie Farben online kostenlos. Negativ-Effekt sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-adjust"></i>
+                                        <span>Invertieren</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="grayscale" data-title="Kostenlose Graustufen Online | CaliperTools" data-description="Konvertieren Sie in Graustufen online kostenlos. Schwarzweiß-Effekt sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-circle-half-stroke"></i>
+                                        <span>Graustufen</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="sepia" data-title="Kostenlose Sepia Online | CaliperTools" data-description="Wenden Sie Sepia online kostenlos an. Braunton-Effekt sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-image"></i>
+                                        <span>Sepia</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="brightness" data-title="Kostenlose Helligkeit Online | CaliperTools" data-description="Passen Sie Helligkeit online kostenlos an. Aufhellen Verdunkeln sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-sun"></i>
+                                        <span>Helligkeit</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="contrast" data-title="Kostenlose Kontrast Online | CaliperTools" data-description="Passen Sie Kontrast online kostenlos an. Verstärken Reduzieren sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-circle-half-stroke"></i>
+                                        <span>Kontrast</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="hue" data-title="Kostenlose Farbton Online | CaliperTools" data-description="Passen Sie Farbton online kostenlos an. Ändern Sie Farbton sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-rainbow"></i>
+                                        <span>Farbton</span>
+                                    </button>
+                                    <button class="tool-btn" data-tool="saturation" data-title="Kostenlose Sättigung Online | CaliperTools" data-description="Passen Sie Sättigung online kostenlos an. Farben boosten sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.">
+                                        <i class="fas fa-droplet"></i>
+                                        <span>Sättigung</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <h2>Tool-Einstellungen</h2>
+                                <div id="tool-description" class="tool-settings-description">
+                                    Wählen Sie ein Tool, um seine Beschreibung und Einstellungen zu sehen.
+                                </div>
+                                <div id="dynamic-settings" class="dynamic-settings">
+                                </div>
+                            </div>
+
+                            <div class="privacy-statement">
+                                <i class="fas fa-shield-alt"></i>
+                                <strong>Privatsphäre:</strong> Alle Bildverarbeitung erfolgt lokal in Ihrem Browser. Keine Bilder werden auf einen Server hochgeladen.
+                            </div>
+                        </div>
+
+                        <div class="sidebar-actions">
+                            <div class="action-row">
+                                <button id="undo-btn" class="action-btn undo-btn" disabled>
+                                    <i class="fas fa-undo"></i> Rückgängig
+                                </button>
+                                <button id="redo-btn" class="action-btn redo-btn" disabled>
+                                    <i class="fas fa-redo"></i> Wiederholen
+                                </button>
+                                <button id="reset-btn" class="action-btn reset-btn" disabled>
+                                    <i class="fas fa-sync"></i> Zurücksetzen
+                                </button>
+                            </div>
+                            <div class="action-row">
+                                <button id="clear-btn" class="action-btn clear-btn">
+                                    <i class="fas fa-trash"></i> Alles löschen
+                                </button>
+                                <select id="format-select" class="action-btn download-btn" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M6%208.5L1%203.5h10L6%208.5z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 8px center; background-size: 10px;">
+                                    <option value="image/png" selected>PNG</option>
+                                    <option value="image/jpeg">JPG</option>
+                                    <option value="image/webp">WebP</option>
+                                </select>
+                                <button id="download-btn" class="action-btn download-btn" disabled>
+                                    <i class="fas fa-download"></i> Exportieren
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="canvas-area">
+                        <div id="upload-prompt" class="upload-prompt">
+                            <div class="upload-prompt-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="upload-prompt-title">Bild-Pixel & Farb-Tools</div>
+                            <div class="upload-prompt-instruction">Klicken Sie hier oder ziehen Sie ein Bild zum Starten der Verarbeitung</div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">Unterstützt: JPG, PNG, WebP</p>
+                        </div>
+
+                        <div id="canvas-wrapper" class="canvas-wrapper">
+                            <button id="delete-image-btn" class="delete-image-btn" title="Bild löschen">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <canvas id="baseCanvas"></canvas>
+                            <canvas id="overlayCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Tutorial Explanation Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">Wie man Bild-Pixel & Farb-Tools verwendet</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        Bild hochladen
+                    </h3>
+                    <p title="Ziehen Sie Ihr Bild direkt in den Upload-Bereich oder klicken Sie, um aus Ihrem Gerät auszuwählen. Unterstützt JPG, PNG und WebP-Formate.">Ziehen Sie Ihr Bild direkt in den Upload-Bereich oder klicken Sie, um aus Ihrem Gerät auszuwählen. Unterstützt JPG, PNG und WebP-Formate.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-magic"></i>
+                        </span>
+                        Tool auswählen
+                    </h3>
+                    <p title="Wählen Sie aus 15 verschiedenen Tools, die in 3 Modulen organisiert sind: Farb-Tools, Pixel-Effekte und Farb-Anpassungen.">Wählen Sie aus 15 verschiedenen Tools, die in 3 Modulen organisiert sind: Farb-Tools, Pixel-Effekte und Farb-Anpassungen.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </span>
+                        Einstellungen anpassen
+                    </h3>
+                    <p title="Verfeinern Sie Ihre Effekte mit einstellbaren Parametern wie Pixelgröße, Farbtiefe, Helligkeit, Kontrast und mehr.">Verfeinern Sie Ihre Effekte mit einstellbaren Parametern wie Pixelgröße, Farbtiefe, Helligkeit, Kontrast und mehr.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        Bild exportieren
+                    </h3>
+                    <p title="Laden Sie Ihr bearbeitetes Bild im PNG-, JPG- oder WebP-Format herunter. Exportieren Sie so viele Versionen wie Sie benötigen.">Laden Sie Ihr bearbeitetes Bild im PNG-, JPG- oder WebP-Format herunter. Exportieren Sie so viele Versionen wie Sie benötigen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1677534712635-981a84b3fef8?w=600&h=400&fit=crop" alt="Bild-Pixel & Farb-Tools" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>Professionelle Bild-Effekte</h2>
+                    <p>Wenden Sie atemberaubende Pixel- und Farbeffekte auf Ihre Bilder mit Präzision und Leichtigkeit an. Unser Tool bietet umfassende Pixelierung, Farbanpassungen und visuelle Effekte.</p>
+                    <p>Perfekt für Designer, Künstler und alle, die einzigartige visuelle Effekte erstellen möchten.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Features Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>3 Leistungsstarke Tool-Kategorien</h2>
+                    <p>Von der Farbauswahl und Paletten-Extraktion bis hin zu Pixelierung und Mosaik-Effekten – unser Tool bietet alles, was Sie benötigen, um professionell atemberaubende visuelle Effekte zu erstellen.</p>
+                    <p>Passen Sie Helligkeit, Kontrast, Farbton und Sättigung an. Wenden Sie Invertieren, Graustufen und Sepia-Effekte an. Erstellen Sie einzigartige Pixelkunst und Mosaikmuster.</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1722197913485-10f1e58ed11c?w=600&h=400&fit=crop" alt="Pixel & Farb-Tools" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Security Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1664438942574-e56510dc5ce5?w=600&h=400&fit=crop" alt="Privatsphäre-Schutz" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>100% Privatsphäre-Schutz</h2>
+                    <p>Alle Bildverarbeitung erfolgt lokal in Ihrem Browser. Ihre Bilder werden niemals auf einen Server hochgeladen.</p>
+                    <p>Ihre Daten bleiben auf Ihrem Gerät, was eine vollständige Privatsphäre und Sicherheit für sensible Bilder gewährleistet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Support Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>Mobile-freundliches Design</h2>
+                    <p>Wenden Sie Bild-Effekte unterwegs mit unserem mobile-freundlichen Design an. Unser Tool funktioniert nahtlos auf Smartphones und Tablets, sodass Sie Bilder überall verarbeiten können.</p>
+                    <p>Mit einer responsiven Benutzeroberfläche, die sich an jede Bildschirmgröße anpasst, können Sie Bilder einfach hochladen, bearbeiten und herunterladen, indem Sie Ihr Mobilgerät verwenden. Keine Apps zu installieren, einfach Ihren Browser öffnen und mit dem Erstellen beginnen.</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1465403843003-b277b46a1120?w=600&h=400&fit=crop" alt="Mobile-freundliches Design" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Section -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>Wenden Sie Pixel- und Farbeffekte einfach und kostenlos an</h2>
+            <p>Sag goodbye zu komplexer Software zum Anwenden von Bild-Effekten. Mit CaliperTools Bild-Pixel & Farben können Sie mühelos Pixelierung, Farbanpassungen und visuelle Effekte kostenlos anwenden. Das Beste daran ist, dass Sie unser Tool von jedem Gerät mit einem Browser aus nutzen können, keine Downloads oder Installationen erforderlich. Keine Erfahrung nötig!</p>
+            <p>Verwenden Sie den Drag-and-Drop-Editor, um Ihre Bilder hochzuladen, und CaliperTools Bild-Pixel & Farben übernimmt den Rest. Wenn Sie fertig sind, laden Sie Ihre verarbeiteten Bilder herunter. Wenden Sie so viele Effekte an, wie Sie möchten, alles in nur wenigen Klicks.</p>
+            
+            <h2>Professionelle Effekte jedes Mal</h2>
+            <p>Wenden Sie Pixelate, Mosaik und Farbtiefe-Reduktion-Effekte an. Passen Sie Helligkeit, Kontrast, Farbton und Sättigung an. Extrahieren Sie Farbpaletten und wählen Sie Farben aus Ihren Bildern. Unsere fortschrittlichen Tools stellen sicher, dass Sie professionelle Ergebnisse erhalten, während Sie die Bildqualität beibehalten.</p>
+            <p>Mit Echtzeitvorschau und einstellbaren Parametern können Sie jeden Effekt bis zur Perfektion verfeinern. Erstellen Sie einzigartige Pixelkunst, atemberaubende Farbeffekte und professionell aussehende Bilder mit Leichtigkeit.</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="related-tools">
+        <div class="container">
+            <h2 class="section-title">Verwandte Tools</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentSlug = 'image-pixel-color-tools';
+            if (typeof initRelatedTools === 'function') {
+                initRelatedTools(currentSlug);
+            }
+        });
+    </script>
+
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        let baseCanvas, overlayCanvas, baseCtx, overlayCtx;
+        let originalImage = null;
+        let originalImageData = null;
+        let undoStack = [];
+        let redoStack = [];
+        let currentTool = null;
+        let isProcessing = false;
+        let animationFrameId = null;
+        let currentSettings = {};
+        let isDrawingRect = false;
+        let rectStartX, rectStartY;
+        let rectEndX, rectEndY;
+
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const canvasWrapper = document.getElementById('canvas-wrapper');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const formatSelect = document.getElementById('format-select');
+        const toolButtons = document.querySelectorAll('.tool-btn');
+        const toolDescription = document.getElementById('tool-description');
+        const dynamicSettings = document.getElementById('dynamic-settings');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        function handleUrlParams() {
+            const pathname = window.location.pathname;
+            const segments = pathname.split('/');
+            const toolParam = segments[segments.length - 1];
+            
+            if (toolParam && toolParam !== 'Image-Pixel-Color.html') {
+                const toolBtn = document.querySelector(`.tool-btn[data-tool="${toolParam}"]`);
+                if (toolBtn) {
+                    setTimeout(() => toolBtn.click(), 100);
+                }
+            }
+        }
+
+        function init() {
+            baseCanvas = document.getElementById('baseCanvas');
+            overlayCanvas = document.getElementById('overlayCanvas');
+            baseCtx = baseCanvas.getContext('2d', { willReadFrequently: true });
+            overlayCtx = overlayCanvas.getContext('2d', { willReadFrequently: true });
+            setupEventListeners();
+            handleUrlParams();
+        }
+
+        function setupEventListeners() {
+            uploadPrompt.addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/jpeg,image/png,image/webp';
+                input.addEventListener('change', handleFileUpload);
+                input.click();
+            });
+
+            const canvasArea = document.querySelector('.canvas-area');
+            canvasArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.add('drag-over');
+            });
+
+            canvasArea.addEventListener('dragleave', function() {
+                uploadPrompt.classList.remove('drag-over');
+            });
+
+            canvasArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    loadImage(files[0]);
+                }
+            });
+
+            document.getElementById('delete-image-btn').addEventListener('click', function() {
+                originalImage = null;
+                originalImageData = null;
+                undoStack = [];
+                redoStack = [];
+                updateUndoRedoButtons();
+                uploadPrompt.style.display = 'flex';
+                canvasWrapper.classList.remove('active');
+                downloadBtn.disabled = true;
+                resetBtn.disabled = true;
+                baseCtx.clearRect(0, 0, baseCanvas.width, baseCanvas.height);
+                overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                
+                const newUrl = new URL(window.location.href);
+                // 确保无论当前URL是什么，都返回正确的基础URL
+                const segments = newUrl.pathname.split('/');
+                // 找到de目录的位置
+                const langIndex = segments.indexOf('de');
+                if (langIndex !== -1) {
+                    // 构建正确的路径：/de/Image/Image-Pixel-Color.html
+                    newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Pixel-Color.html';
+                } else {
+                    //  fallback：如果找不到de目录，直接使用根目录
+                    newUrl.pathname = '/de/Image/Image-Pixel-Color.html';
+                }
+                window.history.pushState({}, '', newUrl);
+                
+                document.title = 'Kostenlose Online Bild-Farben Tools | CaliperTools';
+                
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', 'Wenden Sie Bild-Farbeffekte online kostenlos an. Pixelate, Mosaik, Farben invertieren sofort. Keine Registrierung benötigt. Beste Qualitätsergebnisse.');
+                }
+                
+                toolButtons.forEach(b => b.classList.remove('active'));
+                currentTool = null;
+                toolDescription.textContent = 'Wählen Sie ein Tool, um seine Beschreibung und Einstellungen zu sehen.';
+                dynamicSettings.innerHTML = '';
+                dynamicSettings.classList.remove('active');
+            });
+
+            overlayCanvas.addEventListener('click', handleCanvasClick);
+            overlayCanvas.addEventListener('mousemove', handleCanvasMouseMove);
+            overlayCanvas.addEventListener('mousedown', handleCanvasMouseDown);
+            overlayCanvas.addEventListener('mouseup', handleCanvasMouseUp);
+
+            undoBtn.addEventListener('click', undo);
+            redoBtn.addEventListener('click', redo);
+            resetBtn.addEventListener('click', resetImage);
+            clearBtn.addEventListener('click', clearAll);
+            downloadBtn.addEventListener('click', downloadImage);
+
+            toolButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectTool(this);
+                });
+            });
+        }
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        }
+
+        function loadImage(file) {
+            showLoading();
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = (maxWidth / width) * height;
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = (maxHeight / height) * width;
+                        height = maxHeight;
+                    }
+
+                    baseCanvas.width = width;
+                    baseCanvas.height = height;
+                    overlayCanvas.width = width;
+                    overlayCanvas.height = height;
+
+                    baseCtx.drawImage(img, 0, 0, width, height);
+                    originalImageData = baseCtx.getImageData(0, 0, width, height);
+                    
+                    canvasWrapper.style.width = width + 'px';
+                    canvasWrapper.style.height = height + 'px';
+
+                    uploadPrompt.style.display = 'none';
+                    canvasWrapper.classList.add('active');
+                    downloadBtn.disabled = false;
+                    resetBtn.disabled = false;
+                    
+                    undoStack = [];
+                    redoStack = [];
+                    updateUndoRedoButtons();
+                    
+                    const mimeType = file.type;
+                    if (mimeType === 'image/jpeg') {
+                        formatSelect.value = 'image/jpeg';
+                    } else if (mimeType === 'image/webp') {
+                        formatSelect.value = 'image/webp';
+                    } else {
+                        formatSelect.value = 'image/png';
+                    }
+                    
+                    hideLoading();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showLoading() {
+            loadingOverlay.classList.add('show');
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove('show');
+        }
+
+        function selectTool(btn) {
+            toolButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            currentTool = btn.dataset.tool;
+            toolDescription.textContent = btn.dataset.description;
+            
+            const toolTitle = btn.dataset.title;
+            const toolDesc = btn.dataset.description;
+            
+            if (toolTitle) {
+                document.title = toolTitle;
+            }
+            
+            if (toolDesc) {
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', toolDesc);
+                }
+            }
+            
+            const newUrl = new URL(window.location.href);
+            // 直接构建正确的路径，不依赖当前URL结构
+            const segments = newUrl.pathname.split('/');
+            // 找到de目录的位置
+            const langIndex = segments.indexOf('de');
+            if (langIndex !== -1) {
+                // 构建正确的路径：/de/Image/Image-Pixel-Color/tool
+                newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Pixel-Color/' + currentTool;
+            } else {
+                //  fallback：如果找不到de目录，直接使用根目录
+                newUrl.pathname = '/de/Image/Image-Pixel-Color/' + currentTool;
+            }
+            window.history.pushState({}, '', newUrl);
+            
+            updateDynamicSettings(currentTool);
+        }
+
+        function updateDynamicSettings(tool) {
+            dynamicSettings.innerHTML = '';
+            dynamicSettings.classList.remove('active');
+
+            if (!originalImage) return;
+
+            switch(tool) {
+                case 'pixelate':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Pixel Size:</label>
+                            <input type="range" id="pixel-size" min="2" max="50" value="10">
+                            <span class="slider-value" id="pixel-size-value">10</span>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Mode:</span>
+                            <select id="pixelate-mode" style="flex: 1; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="full">Full Image</option>
+                                <option value="selection">Draw Selection</option>
+                            </select>
+                        </div>
+                        <button id="apply-pixelate" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Pixelate</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('pixel-size', 'pixel-size-value');
+                    document.getElementById('apply-pixelate').addEventListener('click', applyPixelate);
+                    break;
+
+                case 'mosaic':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Block Size:</label>
+                            <input type="range" id="mosaic-size" min="2" max="50" value="10">
+                            <span class="slider-value" id="mosaic-size-value">10</span>
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Mode:</span>
+                            <select id="mosaic-mode" style="flex: 1; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="full">Full Image</option>
+                                <option value="selection">Draw Selection</option>
+                            </select>
+                        </div>
+                        <button id="apply-mosaic" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Mosaic</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('mosaic-size', 'mosaic-size-value');
+                    document.getElementById('apply-mosaic').addEventListener('click', applyMosaic);
+                    break;
+
+                case 'reduce-color-depth':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Color Depth:</label>
+                            <input type="range" id="color-depth" min="1" max="8" value="4">
+                            <span class="slider-value" id="color-depth-value">4</span>
+                        </div>
+                        <button id="apply-reduce-depth" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Reduce Depth</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('color-depth', 'color-depth-value');
+                    document.getElementById('apply-reduce-depth').addEventListener('click', applyReduceColorDepth);
+                    break;
+
+                case 'posterize':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Levels:</label>
+                            <input type="range" id="posterize-levels" min="2" max="16" value="4">
+                            <span class="slider-value" id="posterize-levels-value">4</span>
+                        </div>
+                        <button id="apply-posterize" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Posterize</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('posterize-levels', 'posterize-levels-value');
+                    document.getElementById('apply-posterize').addEventListener('click', applyPosterize);
+                    break;
+
+                case 'brightness':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Brightness:</label>
+                            <input type="range" id="brightness-value" min="-100" max="100" value="0">
+                            <span class="slider-value" id="brightness-display">0</span>
+                        </div>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('brightness-value', 'brightness-display', true);
+                    break;
+
+                case 'contrast':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Contrast:</label>
+                            <input type="range" id="contrast-value" min="-100" max="100" value="0">
+                            <span class="slider-value" id="contrast-display">0</span>
+                        </div>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('contrast-value', 'contrast-display', true);
+                    break;
+
+                case 'hue':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Hue Shift:</label>
+                            <input type="range" id="hue-value" min="-180" max="180" value="0">
+                            <span class="slider-value" id="hue-display">0</span>
+                        </div>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('hue-value', 'hue-display', true);
+                    break;
+
+                case 'saturation':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Saturation:</label>
+                            <input type="range" id="saturation-value" min="-100" max="100" value="0">
+                            <span class="slider-value" id="saturation-display">0</span>
+                        </div>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('saturation-value', 'saturation-display', true);
+                    break;
+
+                case 'replace-color':
+                    dynamicSettings.innerHTML = `
+                        <div class="setting-row">
+                            <span class="setting-label">Target:</span>
+                            <input type="color" id="target-color" value="#ff0000">
+                        </div>
+                        <div class="setting-row">
+                            <span class="setting-label">Replace:</span>
+                            <input type="color" id="replace-color" value="#00ff00">
+                        </div>
+                        <div class="slider-container">
+                            <label>Tolerance:</label>
+                            <input type="range" id="color-tolerance" min="0" max="100" value="30">
+                            <span class="slider-value" id="tolerance-value">30</span>
+                        </div>
+                        <button id="apply-replace-color" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Replace Color</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('color-tolerance', 'tolerance-value');
+                    document.getElementById('apply-replace-color').addEventListener('click', applyReplaceColor);
+                    break;
+
+                case 'extract-palette':
+                    dynamicSettings.innerHTML = `
+                        <div class="slider-container">
+                            <label>Colors:</label>
+                            <input type="range" id="palette-count" min="5" max="20" value="10">
+                            <span class="slider-value" id="palette-count-value">10</span>
+                        </div>
+                        <button id="extract-palette-btn" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Extract Palette</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    setupSlider('palette-count', 'palette-count-value');
+                    document.getElementById('extract-palette-btn').addEventListener('click', extractPalette);
+                    break;
+
+                case 'color-picker':
+                    dynamicSettings.innerHTML = `
+                        <div class="color-info">
+                            <div class="color-preview" id="picked-color-preview" style="background-color: #ffffff;"></div>
+                            <div class="color-details">
+                                <div class="color-value" id="picked-color-value">#FFFFFF</div>
+                                <div class="color-rgb" id="picked-color-rgb">rgb(255, 255, 255)</div>
+                            </div>
+                        </div>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    break;
+
+                case 'eye-dropper':
+                    dynamicSettings.innerHTML = `
+                        <div class="color-info">
+                            <div class="color-preview" id="dropper-color-preview" style="background-color: #ffffff;"></div>
+                            <div class="color-details">
+                                <div class="color-value" id="dropper-color-value">#FFFFFF</div>
+                                <div class="color-rgb" id="dropper-color-rgb">rgb(255, 255, 255)</div>
+                            </div>
+                        </div>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    break;
+
+                case 'invert':
+                    dynamicSettings.innerHTML = `
+                        <button id="apply-invert" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Invert</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    document.getElementById('apply-invert').addEventListener('click', applyInvert);
+                    break;
+
+                case 'grayscale':
+                    dynamicSettings.innerHTML = `
+                        <button id="apply-grayscale" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Grayscale</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    document.getElementById('apply-grayscale').addEventListener('click', applyGrayscale);
+                    break;
+
+                case 'sepia':
+                    dynamicSettings.innerHTML = `
+                        <button id="apply-sepia" class="action-btn" style="background-color: #007bff; color: white; width: 100%;">Apply Sepia</button>
+                    `;
+                    dynamicSettings.classList.add('active');
+                    document.getElementById('apply-sepia').addEventListener('click', applySepia);
+                    break;
+            }
+        }
+
+        function setupSlider(sliderId, displayId, realtime = false) {
+            const slider = document.getElementById(sliderId);
+            const display = document.getElementById(displayId);
+            
+            if (slider && display) {
+                slider.addEventListener('input', function() {
+                    display.textContent = this.value;
+                    if (realtime && originalImage) {
+                        applyRealtimeAdjustment();
+                    }
+                });
+            }
+        }
+
+        function handleCanvasClick(e) {
+            if (!originalImage || !currentTool) return;
+
+            const rect = overlayCanvas.getBoundingClientRect();
+            const x = Math.floor(e.clientX - rect.left);
+            const y = Math.floor(e.clientY - rect.top);
+
+            if (currentTool === 'color-picker') {
+                pickColor(x, y);
+            } else if (currentTool === 'replace-color') {
+                const pixel = baseCtx.getImageData(x, y, 1, 1).data;
+                const r = pixel[0];
+                const g = pixel[1];
+                const b = pixel[2];
+                const hex = rgbToHex(r, g, b);
+
+                const targetColorInput = document.getElementById('target-color');
+                if (targetColorInput) {
+                    targetColorInput.value = hex;
+                }
+            }
+        }
+
+        function handleCanvasMouseMove(e) {
+            if (!originalImage || !currentTool) return;
+
+            if (currentTool === 'eye-dropper') {
+                const rect = overlayCanvas.getBoundingClientRect();
+                const x = Math.floor(e.clientX - rect.left);
+                const y = Math.floor(e.clientY - rect.top);
+                previewColor(x, y);
+            } else if ((currentTool === 'pixelate' && document.getElementById('pixelate-mode').value === 'selection') ||
+                       (currentTool === 'mosaic' && document.getElementById('mosaic-mode').value === 'selection')) {
+                if (isDrawingRect) {
+                    const rect = overlayCanvas.getBoundingClientRect();
+                    rectEndX = Math.floor(e.clientX - rect.left);
+                    rectEndY = Math.floor(e.clientY - rect.top);
+                    
+                    overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                    overlayCtx.strokeStyle = '#007bff';
+                    overlayCtx.lineWidth = 2;
+                    overlayCtx.setLineDash([5, 5]);
+                    overlayCtx.strokeRect(rectStartX, rectStartY, rectEndX - rectStartX, rectEndY - rectStartY);
+                }
+            }
+        }
+
+        function handleCanvasMouseDown(e) {
+            if (!originalImage || !currentTool) return;
+
+            if ((currentTool === 'pixelate' && document.getElementById('pixelate-mode').value === 'selection') ||
+                (currentTool === 'mosaic' && document.getElementById('mosaic-mode').value === 'selection')) {
+                const rect = overlayCanvas.getBoundingClientRect();
+                rectStartX = Math.floor(e.clientX - rect.left);
+                rectStartY = Math.floor(e.clientY - rect.top);
+                rectEndX = rectStartX;
+                rectEndY = rectStartY;
+                isDrawingRect = true;
+            }
+        }
+
+        function handleCanvasMouseUp(e) {
+            if (!originalImage || !currentTool) return;
+
+            if (isDrawingRect) {
+                isDrawingRect = false;
+                const x = Math.min(rectStartX, rectEndX);
+                const y = Math.min(rectStartY, rectEndY);
+                const width = Math.abs(rectEndX - rectStartX);
+                const height = Math.abs(rectEndY - rectStartY);
+
+                if (width > 0 && height > 0) {
+                    if (currentTool === 'pixelate') {
+                        applyPixelateToSelection(x, y, width, height);
+                    } else if (currentTool === 'mosaic') {
+                        applyMosaicToSelection(x, y, width, height);
+                    }
+                }
+            }
+        }
+
+        function pickColor(x, y) {
+            const pixel = baseCtx.getImageData(x, y, 1, 1).data;
+            const r = pixel[0];
+            const g = pixel[1];
+            const b = pixel[2];
+            const hex = rgbToHex(r, g, b);
+
+            document.getElementById('picked-color-preview').style.backgroundColor = hex;
+            document.getElementById('picked-color-value').textContent = hex;
+            document.getElementById('picked-color-rgb').textContent = `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function previewColor(x, y) {
+            const pixel = baseCtx.getImageData(x, y, 1, 1).data;
+            const r = pixel[0];
+            const g = pixel[1];
+            const b = pixel[2];
+            const hex = rgbToHex(r, g, b);
+
+            document.getElementById('dropper-color-preview').style.backgroundColor = hex;
+            document.getElementById('dropper-color-value').textContent = hex;
+            document.getElementById('dropper-color-rgb').textContent = `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('').toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function saveState() {
+            undoStack.push(baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height));
+            redoStack = [];
+            updateUndoRedoButtons();
+        }
+
+        function undo() {
+            if (undoStack.length > 0) {
+                redoStack.push(baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height));
+                baseCtx.putImageData(undoStack.pop(), 0, 0);
+                updateUndoRedoButtons();
+            }
+        }
+
+        function redo() {
+            if (redoStack.length > 0) {
+                undoStack.push(baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height));
+                baseCtx.putImageData(redoStack.pop(), 0, 0);
+                updateUndoRedoButtons();
+            }
+        }
+
+        function resetImage() {
+            if (!originalImageData) return;
+            saveState();
+            baseCtx.putImageData(originalImageData, 0, 0);
+        }
+
+        function clearAll() {
+            if (confirm('Clear all changes and reset to original image?')) {
+                resetImage();
+                undoStack = [];
+                redoStack = [];
+                updateUndoRedoButtons();
+            }
+        }
+
+        function updateUndoRedoButtons() {
+            undoBtn.disabled = undoStack.length === 0;
+            redoBtn.disabled = redoStack.length === 0;
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+
+            const format = formatSelect.value;
+            const link = document.createElement('a');
+            
+            let extension = 'png';
+            if (format === 'image/jpeg') {
+                extension = 'jpg';
+            } else if (format === 'image/webp') {
+                extension = 'webp';
+            }
+            
+            link.download = `pixel-processed-image.${extension}`;
+            link.href = baseCanvas.toDataURL(format, format === 'image/jpeg' ? 0.9 : undefined);
+            link.click();
+        }
+
+        function applyRealtimeAdjustment() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+
+            animationFrameId = requestAnimationFrame(() => {
+                baseCtx.putImageData(originalImageData, 0, 0);
+
+                switch(currentTool) {
+                    case 'brightness':
+                        applyBrightness(parseInt(document.getElementById('brightness-value').value));
+                        break;
+                    case 'contrast':
+                        applyContrast(parseInt(document.getElementById('contrast-value').value));
+                        break;
+                    case 'hue':
+                        applyHue(parseInt(document.getElementById('hue-value').value));
+                        break;
+                    case 'saturation':
+                        applySaturation(parseInt(document.getElementById('saturation-value').value));
+                        break;
+                }
+            });
+        }
+
+        function applyPixelate() {
+            const mode = document.getElementById('pixelate-mode').value;
+            if (mode === 'full') {
+                saveState();
+                const size = parseInt(document.getElementById('pixel-size').value);
+                const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+                const data = imageData.data;
+                const width = baseCanvas.width;
+                const height = baseCanvas.height;
+
+                for (let y = 0; y < height; y += size) {
+                    for (let x = 0; x < width; x += size) {
+                        let r = 0, g = 0, b = 0, count = 0;
+
+                        for (let dy = 0; dy < size && y + dy < height; dy++) {
+                            for (let dx = 0; dx < size && x + dx < width; dx++) {
+                                const i = ((y + dy) * width + (x + dx)) * 4;
+                                r += data[i];
+                                g += data[i + 1];
+                                b += data[i + 2];
+                                count++;
+                            }
+                        }
+
+                        r = Math.floor(r / count);
+                        g = Math.floor(g / count);
+                        b = Math.floor(b / count);
+
+                        for (let dy = 0; dy < size && y + dy < height; dy++) {
+                            for (let dx = 0; dx < size && x + dx < width; dx++) {
+                                const i = ((y + dy) * width + (x + dx)) * 4;
+                                data[i] = r;
+                                data[i + 1] = g;
+                                data[i + 2] = b;
+                            }
+                        }
+                    }
+                }
+
+                baseCtx.putImageData(imageData, 0, 0);
+            }
+        }
+
+        function applyPixelateToSelection(startX, startY, width, height) {
+            saveState();
+            const size = parseInt(document.getElementById('pixel-size').value);
+            const imageData = baseCtx.getImageData(startX, startY, width, height);
+            const data = imageData.data;
+
+            for (let y = 0; y < height; y += size) {
+                for (let x = 0; x < width; x += size) {
+                    let r = 0, g = 0, b = 0, count = 0;
+
+                    for (let dy = 0; dy < size && y + dy < height; dy++) {
+                        for (let dx = 0; dx < size && x + dx < width; dx++) {
+                            const i = ((y + dy) * width + (x + dx)) * 4;
+                            r += data[i];
+                            g += data[i + 1];
+                            b += data[i + 2];
+                            count++;
+                        }
+                    }
+
+                    r = Math.floor(r / count);
+                    g = Math.floor(g / count);
+                    b = Math.floor(b / count);
+
+                    for (let dy = 0; dy < size && y + dy < height; dy++) {
+                        for (let dx = 0; dx < size && x + dx < width; dx++) {
+                            const i = ((y + dy) * width + (x + dx)) * 4;
+                            data[i] = r;
+                            data[i + 1] = g;
+                            data[i + 2] = b;
+                        }
+                    }
+                }
+            }
+
+            baseCtx.putImageData(imageData, startX, startY);
+            overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+        }
+
+        function applyMosaicToSelection(startX, startY, width, height) {
+            saveState();
+            const size = parseInt(document.getElementById('mosaic-size').value);
+            const imageData = baseCtx.getImageData(startX, startY, width, height);
+            const data = imageData.data;
+
+            for (let y = 0; y < height; y += size) {
+                for (let x = 0; x < width; x += size) {
+                    const i = (y * width + x) * 4;
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+
+                    for (let dy = 0; dy < size && y + dy < height; dy++) {
+                        for (let dx = 0; dx < size && x + dx < width; dx++) {
+                            const j = ((y + dy) * width + (x + dx)) * 4;
+                            data[j] = r;
+                            data[j + 1] = g;
+                            data[j + 2] = b;
+                        }
+                    }
+                }
+            }
+
+            baseCtx.putImageData(imageData, startX, startY);
+            overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+        }
+
+        function applyMosaic() {
+            const mode = document.getElementById('mosaic-mode').value;
+            if (mode === 'full') {
+                saveState();
+                const size = parseInt(document.getElementById('mosaic-size').value);
+                const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+                const data = imageData.data;
+                const width = baseCanvas.width;
+                const height = baseCanvas.height;
+
+                for (let y = 0; y < height; y += size) {
+                    for (let x = 0; x < width; x += size) {
+                        const i = (y * width + x) * 4;
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+
+                        for (let dy = 0; dy < size && y + dy < height; dy++) {
+                            for (let dx = 0; dx < size && x + dx < width; dx++) {
+                                const j = ((y + dy) * width + (x + dx)) * 4;
+                                data[j] = r;
+                                data[j + 1] = g;
+                                data[j + 2] = b;
+                            }
+                        }
+                    }
+                }
+
+                baseCtx.putImageData(imageData, 0, 0);
+            }
+        }
+
+        function applyReduceColorDepth() {
+            saveState();
+            const depth = parseInt(document.getElementById('color-depth').value);
+            const factor = Math.pow(2, 8 - depth);
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.round(data[i] / factor) * factor;
+                data[i + 1] = Math.round(data[i + 1] / factor) * factor;
+                data[i + 2] = Math.round(data[i + 2] / factor) * factor;
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyPosterize() {
+            saveState();
+            const levels = parseInt(document.getElementById('posterize-levels').value);
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+            const step = 255 / (levels - 1);
+
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.round(Math.round(data[i] / step) * step);
+                data[i + 1] = Math.round(Math.round(data[i + 1] / step) * step);
+                data[i + 2] = Math.round(Math.round(data[i + 2] / step) * step);
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyInvert() {
+            saveState();
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = 255 - data[i];
+                data[i + 1] = 255 - data[i + 1];
+                data[i + 2] = 255 - data[i + 2];
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyGrayscale() {
+            saveState();
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+                data[i] = gray;
+                data[i + 1] = gray;
+                data[i + 2] = gray;
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applySepia() {
+            saveState();
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                data[i] = Math.min(255, r * 0.393 + g * 0.769 + b * 0.189);
+                data[i + 1] = Math.min(255, r * 0.349 + g * 0.686 + b * 0.168);
+                data[i + 2] = Math.min(255, r * 0.272 + g * 0.534 + b * 0.131);
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyBrightness(value) {
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.max(0, Math.min(255, data[i] + value));
+                data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + value));
+                data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + value));
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyContrast(value) {
+            const factor = (259 * (value + 255)) / (255 * (259 - value));
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = Math.max(0, Math.min(255, factor * (data[i] - 128) + 128));
+                data[i + 1] = Math.max(0, Math.min(255, factor * (data[i + 1] - 128) + 128));
+                data[i + 2] = Math.max(0, Math.min(255, factor * (data[i + 2] - 128) + 128));
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyHue(value) {
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
+                hsl.h = (hsl.h + value / 360) % 1;
+                if (hsl.h < 0) hsl.h += 1;
+                const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+                data[i] = rgb.r;
+                data[i + 1] = rgb.g;
+                data[i + 2] = rgb.b;
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applySaturation(value) {
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
+                hsl.s = Math.max(0, Math.min(1, hsl.s + value / 100));
+                const rgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+                data[i] = rgb.r;
+                data[i + 1] = rgb.g;
+                data[i + 2] = rgb.b;
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function applyReplaceColor() {
+            saveState();
+            const targetColor = document.getElementById('target-color').value;
+            const replaceColor = document.getElementById('replace-color').value;
+            const tolerance = parseInt(document.getElementById('color-tolerance').value);
+
+            const targetRgb = hexToRgb(targetColor);
+            const replaceRgb = hexToRgb(replaceColor);
+
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                const distance = Math.sqrt(
+                    Math.pow(r - targetRgb.r, 2) +
+                    Math.pow(g - targetRgb.g, 2) +
+                    Math.pow(b - targetRgb.b, 2)
+                );
+
+                if (distance <= tolerance) {
+                    data[i] = replaceRgb.r;
+                    data[i + 1] = replaceRgb.g;
+                    data[i + 2] = replaceRgb.b;
+                }
+            }
+
+            baseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function extractPalette() {
+            const count = parseInt(document.getElementById('palette-count').value);
+            const imageData = baseCtx.getImageData(0, 0, baseCanvas.width, baseCanvas.height);
+            const data = imageData.data;
+            const colorCounts = {};
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = Math.round(data[i] / 32) * 32;
+                const g = Math.round(data[i + 1] / 32) * 32;
+                const b = Math.round(data[i + 2] / 32) * 32;
+                const hex = rgbToHex(r, g, b);
+
+                if (colorCounts[hex]) {
+                    colorCounts[hex]++;
+                } else {
+                    colorCounts[hex] = 1;
+                }
+            }
+
+            const sortedColors = Object.entries(colorCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, count);
+
+            let paletteHTML = '<div class="palette-container">';
+            sortedColors.forEach(([color, count]) => {
+                paletteHTML += `
+                    <div class="palette-color" style="background-color: ${color};">
+                        <span>${color}</span>
+                    </div>
+                `;
+            });
+            paletteHTML += '</div>';
+
+            dynamicSettings.innerHTML = paletteHTML;
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+                switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                }
+            }
+
+            return { h, s, l };
+        }
+
+        function hslToRgb(h, s, l) {
+            let r, g, b;
+
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        init();
+    </script>
+</body>
+</html>
