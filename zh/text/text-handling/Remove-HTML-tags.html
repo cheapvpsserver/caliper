@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>移除HTML标签 | CaliperTools</title>
+<meta name="description" content="CaliperTools提供的免费在线HTML标签移除和文本清理工具。轻松移除HTML标签、解码实体并清理文本。" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Remove HTML Tags Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+.output {
+    width: 100%;
+    height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+.options h3 {
+    margin: 20px 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+}
+
+.options label {
+    display: block;
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.options input[type="file"] {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export {
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.export button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.export button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>
+    // 1. 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右键菜单已禁用');
+    });
+
+    // 2. 禁用文本选择
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. 禁用复制快捷键
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('复制功能已禁用');
+        }
+    });
+
+    // 4. 防止通过F12打开开发者工具
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('开发者工具已禁用');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>移除HTML标签</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">撤销</button>
+                    <button onclick="redo()">重做</button>
+                    <button onclick="clearText()">清除</button>
+                    <!-- Custom file input with English text only -->
+                    <label style="position: relative; display: inline-block; margin-left: 10px;">
+                        <input type="file" id="fileInput" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;" />
+                        <span style="display: inline-block; padding: 8px 16px; border-radius: 6px; background: #10b981; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">选择文件</span>
+                    </label>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        如何使用？
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="在此粘贴HTML或文本..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">字符数: 0</div>
+                    <div class="stat" id="nonBlankChar">非空字符: 0</div>
+                    <div class="stat" id="wordCount">词数: 0</div>
+                    <div class="stat" id="lineCount">行数: 0</div>
+                    <div class="stat" id="paraCount">段落数: 0</div>
+                    <div class="stat" id="pages">页数: 0</div>
+                    <div class="stat" id="readingTime">阅读: 0 分钟</div>
+                    <div class="stat" id="speakingTime">说话: 0 分钟</div>
+                </div>
+
+                <div class="options">
+                    <h3>HTML标签选项</h3>
+                    <label><input type="checkbox" id="decode"> 解码HTML实体</label>
+                    <label>
+                        保留标签(逗号分隔):
+                        <input type="text" id="preserve" placeholder="b,strong,a">
+                    </label>
+
+                    <h3>文本清理</h3>
+                    <label><input type="checkbox" id="trim"> 去除多余空格</label>
+                    <label><input type="checkbox" id="removeEmpty"> 移除空行</label>
+
+
+                </div>
+            </div>
+
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>输出</h2>
+                <div class="export">
+                    <button onclick="copyOut()">复制</button>
+                    <button onclick="exportFile('txt')">导出TXT</button>
+                    <button onclick="exportFile('html')">导出HTML</button>
+                    <button onclick="exportFile('doc')">导出Word</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Remove HTML Tags -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>如何使用移除HTML标签</h3>
+                <p>
+                    按照这些简单步骤，使用各种处理选项高效地移除HTML标签并清理您的文本。
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>步骤 1: 输入您的内容</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>步骤 2: 配置清理选项</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>步骤 3: 获取您的结果</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>逐步教程</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 1: 输入您的内容</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">通过以下两种方式之一输入您的HTML内容：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>粘贴HTML文本:</strong> 直接将您的HTML内容粘贴到文本区域</li>
+                                <li><strong>上传文件:</strong> 点击"选择文件"按钮从您的设备上传HTML文件</li>
+                            </ul>
+                            <p style="text-align: left;">该工具会在您输入或更改选项时实时处理您的内容。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 2: 配置清理选项</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">使用这些选项自定义您的HTML清理：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>解码HTML实体:</strong> 将&lt;等HTML实体转换为其实际字符&lt;</li>
+                                <li><strong>保留标签:</strong> 指定要保留的HTML标签（逗号分隔，例如"b,strong,a"）</li>
+                                <li><strong>去除多余空格:</strong> 删除每行开头和结尾的空白字符</li>
+                                <li><strong>移除空行:</strong> 从最终输出中删除空白行</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 3: 获取您的结果</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">您的清理后文本将立即出现在右侧输出区域。您可以：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>使用"复制"按钮一键复制清理后的文本</li>
+                                <li>导出为各种格式：TXT、HTML或Word</li>
+                                <li>使用工具栏按钮撤销/重做更改</li>
+                                <li>使用"清除"按钮清除所有内容以重新开始</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">获得最佳结果的提示</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>处理编码的HTML内容时使用<strong>解码HTML实体</strong></li>
+                                <li>指定<strong>保留标签</strong>以保留重要的格式，如粗体或链接</li>
+                                <li>结合使用<strong>去除多余空格</strong>和<strong>移除空行</strong>以获得更干净的结果</li>
+                                <li>上传文件以快速处理整个HTML文档</li>
+                                <li>导出为Word格式以便在Microsoft Word中轻松编辑</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">相关工具</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("remove-html-tags");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input', () => {
+  pushHistory();
+  sourceText = input.value;
+  process();
+});
+
+document.querySelectorAll('.options input').forEach(i=>{
+  i.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value = history.pop();
+  sourceText = input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value = future.pop();
+  sourceText = input.value;
+  process(false);
+}
+
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(updateInput=true){
+  let text = sourceText;
+
+  if(document.getElementById('decode').checked){
+    const d=document.createElement('textarea');
+    d.innerHTML=text;
+    text=d.value;
+  }
+
+  const keep = document.getElementById('preserve').value
+    .split(',')
+    .map(t=>t.trim())
+    .filter(Boolean);
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      const re=new RegExp(`<${tag}\\b[^>]*>`,`gi`);
+      const re2=new RegExp(`</${tag}>`,`gi`);
+      text=text.replace(re,`§§${tag}§§`).replace(re2,`§§/${tag}§§`);
+    });
+  }
+
+  text = text.replace(/<[^>]*>/g,'');
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      text=text
+        .replaceAll(`§§${tag}§§`,`<${tag}>`)
+        .replaceAll(`§§/${tag}§§`,`</${tag}>`);
+    });
+  }
+
+  if(document.getElementById('trim').checked){
+    text = text
+      .split(/\r?\n/)
+      .map(l=>l.trim())
+      .join('\n');
+  }
+
+  if(document.getElementById('removeEmpty').checked){
+    text = text
+      .split(/\r?\n/)
+      .filter(l=>l.trim()!=='')
+      .join('\n');
+  }
+
+  output.textContent = text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const nonBlank=t.replace(/\s/g,'').length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  const paras=t.split(/\n\s*\n/).filter(p=>p.trim()).length;
+  // Remove Math.max(1, ...), let page count calculate naturally
+  const pages=Math.ceil(words/500);
+  // Remove Math.max(1, ...), let time calculate naturally
+  const read=Math.ceil(words/200);
+  const speak=Math.ceil(words/130);
+
+  // Update each statistic
+  document.getElementById('charCount').textContent = `字符数: ${chars}`;
+  document.getElementById('nonBlankChar').textContent = `非空字符: ${nonBlank}`;
+  document.getElementById('wordCount').textContent = `词数: ${words}`;
+  document.getElementById('lineCount').textContent = `行数: ${lines}`;
+  document.getElementById('paraCount').textContent = `段落数: ${paras}`;
+  document.getElementById('pages').textContent = `页数: ${pages}`;
+  document.getElementById('readingTime').textContent = `阅读: ${read} 分钟`;
+  document.getElementById('speakingTime').textContent = `说话: ${speak} 分钟`;
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = '已复制到剪贴板！';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyOut(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Show copy success notification
+      const toast = document.getElementById('copyToast');
+      toast.style.opacity = '1';
+      // Hide notification after 2 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('复制文本失败: ', err);
+    });
+}
+
+function exportFile(type){
+  let blob,filename='output';
+  if(type==='txt'){
+    blob=new Blob([output.textContent],{type:'text/plain'});
+    filename+='.txt';
+  }
+  if(type==='html'){
+    blob=new Blob([output.innerHTML],{type:'text/html'});
+    filename+='.html';
+  }
+  if(type==='doc'){
+    blob=new Blob([output.textContent],{type:'application/msword'});
+    filename+='.doc';
+  }
+  if(type==='pdf'){
+    // For PDF, we use a simpler method: export as HTML and prompt user to print as PDF
+    const pdfContent = `
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${filename}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+          }
+          .content {
+            max-width: 800px;
+            margin: 0 auto;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="content">
+          ${output.innerHTML}
+        </div>
+      </body>
+      </html>
+    `;
+    // Use text/html type to ensure file opens correctly
+    blob=new Blob([pdfContent],{type:'text/html'});
+    filename+='.html';
+    // Prompt user to print as PDF
+    setTimeout(() => {
+      alert('文件下载成功。您可以打开此HTML文件并在浏览器中打印为PDF。');
+    }, 500);
+  }
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+
+document.getElementById('fileInput').addEventListener('change',e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    input.value=ev.target.result;
+    sourceText=input.value;
+    process();
+  };
+  r.readAsText(f);
+});
+</script>
+
+</body>
+</html>

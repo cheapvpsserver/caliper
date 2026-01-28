@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>视频文件大小计算器 | CaliperTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="免费在线视频文件大小计算器，根据时长、分辨率、帧率和比特率估算视频文件大小。快速、安全且易于使用。">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<!-- Add simple favicon.ico as default -->
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body background is consistent with website */
+body {
+    background-color: #f5f5f5; /* Gray background, consistent with other pages of the website */
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Tool specific styles */
+.tool-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+}
+
+.tool-container h1 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #111827;
+  text-align: center;
+}
+
+.tool-container label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.tool-container input, 
+.tool-container select {
+  padding: 12px;
+
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #111827;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tool-container input:focus, 
+.tool-container select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tool-container .button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tool-container button {
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.tool-container button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.tool-container button:active {
+  transform: translateY(0);
+}
+
+.tool-container .output {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+.tool-container .duration-inputs {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tool-container .duration-inputs input {
+  width: 33%;
+}
+
+.tool-container .unit-select {
+  margin-top: 8px;
+}
+
+#targetSizeInput {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px){
+  .tool-container {
+    padding: 16px;
+  }
+  
+  .tool-container h1 {
+    font-size: 24px;
+  }
+  
+  .tool-container .duration-inputs {
+    flex-direction: column;
+  }
+  
+  .tool-container .duration-inputs input {
+    width: 100%;
+  }
+  
+  .tool-container .button-row {
+    flex-direction: column;
+  }
+  
+  .tool-container button {
+    width: 100%;
+  }
+}
+
+/* CTA Section Styles - Copied from Video-Metadata-Viewer.html */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 确保CTA功能列表的背景和文字颜色正确 */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tutorial Step Styles - 从Video-Metadata-Viewer.html复制 */
+.tutorial-step {
+    text-align: left;
+}
+
+.tutorial-step h5 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+    text-align: center !important;
+}
+
+.tutorial-step p {
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    color: white !important;
+}
+
+.tutorial-step ul {
+    text-align: left !important;
+    margin-left: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+}
+
+.tutorial-step li {
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+</style>
+<script>
+    // 1. 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右键菜单已禁用');
+    });
+
+    // 2. 禁用文本选择
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. 禁用复制快捷键
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('复制功能已禁用');
+        }
+    });
+
+    // 4. 防止通过F12打开开发者工具
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('开发者工具已禁用');
+        }
+    });
+</script>
+</head>
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content -->
+<main class="main">
+  <div class="tool-container">
+    <h1 class="tool-title" style="display: flex; align-items: center; justify-content: space-between;">视频文件大小计算器 <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">如何使用？</a></h1>
+
+    <label>时长</label>
+    <div class="duration-inputs">
+      <input type="number" id="hours" placeholder="小时" min="0">
+      <input type="number" id="minutes" placeholder="分钟" min="0" max="59">
+      <input type="number" id="seconds" placeholder="秒" min="0" max="59">
+    </div>
+
+    <label>分辨率</label>
+    <select id="resolutionSelect">
+      <option value="640x360">360p - 640x360 (16:9)</option>
+      <option value="640x480">480p - 640x480 (4:3)</option>
+      <option value="1280x720">720p - 1280x720 (16:9)</option>
+      <option value="1920x1080" selected>1080p - 1920x1080 (16:9)</option>
+      <option value="3840x2160">4K - 3840x2160 (16:9)</option>
+      <option value="7680x4320">8K - 7680x4320 (16:9)</option>
+      <option value="1080x1920">1080x1920 (垂直)</option>
+      <option value="720x1280">720x1280 (垂直)</option>
+    </select>
+
+    <label>帧率 (FPS)</label>
+    <select id="fpsSelect">
+      <option>24</option>
+      <option>30</option>
+      <option>60</option>
+      <option>120</option>
+    </select>
+
+    <label>视频编码</label>
+    <select id="codecSelect">
+      <option>H.264</option>
+      <option>H.265</option>
+      <option>AV1</option>
+      <option>ProRes</option>
+      <option>DNxHD/DNxHR</option>
+    </select>
+
+    <label>视频比特率</label>
+    <div style="position: relative; width: 100%; display: flex; margin-bottom: 16px;">
+      <input type="number" id="vBitrate" placeholder="输入视频比特率" style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-right: none; border-radius: 4px 0 0 4px; font-size: 16px; box-sizing: border-box; height: 46px;">
+      <select id="vBitrateUnit" class="unit-select" style="width: 90px; background: white; border: 1px solid #d1d5db; border-left: none; border-radius: 0 4px 4px 0; box-shadow: none; outline: none; padding: 12px 20px 12px 12px; margin: 0; font-size: 16px; box-sizing: border-box; height: 46px;">
+        <option value="kbps">kbps</option>
+        <option value="Mbps">Mbps</option>
+      </select>
+    </div>
+
+    <label>音频比特率 (可选)</label>
+    <div style="position: relative; width: 100%; display: flex; margin-bottom: 16px;">
+      <input type="number" id="aBitrate" placeholder="输入音频比特率" style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-right: none; border-radius: 4px 0 0 4px; font-size: 16px; box-sizing: border-box; height: 46px;">
+      <select id="aBitrateUnit" class="unit-select" style="width: 90px; background: white; border: 1px solid #d1d5db; border-left: none; border-radius: 0 4px 4px 0; box-shadow: none; outline: none; padding: 12px 20px 12px 12px; margin: 0; font-size: 16px; box-sizing: border-box; height: 46px;">
+        <option value="kbps">kbps</option>
+        <option value="Mbps">Mbps</option>
+      </select>
+    </div>
+
+    <div class="button-row">
+      <button onclick="calculateFileSize()">计算文件大小</button>
+      <button onclick="calculateTargetBitrate()">计算目标大小所需比特率</button>
+    </div>
+
+    <input type="text" id="targetSizeInput" placeholder="目标大小 MB">
+    <div class="output" id="fileSizeOutput"></div>
+    <div class="output" id="bitrateOutput"></div>
+  </div>
+
+  <!-- Tutorial Section -->
+  <section class="cta-section" id="tutorial">
+    <div class="cta-content">
+      <h3>如何使用视频文件大小计算器</h3>
+      <p>
+        按照这些简单步骤根据时长、分辨率、帧率和比特率计算视频文件大小。
+      </p>
+      
+      <div class="features-row">
+        <div class="feature-item">
+          <span class="icon">⏱️</span>
+          <span>步骤 1: 设置时长</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📏</span>
+          <span>步骤 2: 选择分辨率</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">⚡</span>
+          <span>步骤 3: 选择设置</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">🔢</span>
+          <span>步骤 4: 获取结果</span>
+        </div>
+      </div>
+      
+      <div class="cta-features">
+        <h4>逐步教程</h4>
+        <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="tutorial-step">
+            <h5>步骤 1: 设置视频时长</h5>
+            <p>使用小时、分钟和秒字段输入视频的时长。</p>
+            <ul>
+              <li>对于不适用的字段请输入0（例如，如果您的视频只有30秒，请将小时和分钟设为0）</li>
+              <li>分钟和秒必须在0到59之间</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>步骤 2: 选择分辨率</h5>
+            <p>从下拉菜单中选择视频的分辨率。我们支持各种分辨率，包括：</p>
+            <ul>
+              <li>标准分辨率：360p、480p、720p、1080p、4K、8K</li>
+              <li>社交媒体用垂直分辨率：720x1280、1080x1920</li>
+              <li>16:9和4:3宽高比</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>步骤 3: 选择帧率和编码</h5>
+            <p>为您的视频选择合适的设置：</p>
+            <ul>
+              <li><strong>帧率 (FPS)：</strong> 常见选项包括24、30、60和120 FPS</li>
+              <li><strong>视频编码：</strong> 从H.264、H.265、AV1、ProRes或DNxHD/DNxHR中选择</li>
+              <li><strong>视频比特率：</strong> 输入视频的比特率（kbps或Mbps）</li>
+              <li><strong>音频比特率 (可选)：</strong> 如果适用，请输入音频比特率</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>步骤 4: 计算文件大小或目标比特率</h5>
+            <p>使用以下两个计算选项之一：</p>
+            <ul>
+              <li><strong>计算文件大小：</strong> 点击此按钮根据您的设置估算视频文件大小</li>
+              <li><strong>计算目标大小所需比特率：</strong> 输入以MB为单位的目标文件大小并点击此按钮查找所需的比特率</li>
+            </ul>
+            <p>结果将显示在按钮下方的输出区域中。</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>获得最佳结果的提示</h5>
+            <ul>
+              <li>使用更高的比特率可以获得更好的视频质量，但会产生更大的文件大小</li>
+              <li>H.265和AV1编码在相同质量级别下比H.264提供更好的压缩效果</li>
+              <li>60 FPS视频的文件大小将大于相同时长和分辨率的30 FPS视频</li>
+              <li>选择设置时请考虑目标平台的要求（例如，社交媒体平台通常有文件大小限制）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Tools Section -->
+  <section class="section related-tools">
+    <div class="container">
+      <h2 class="section-title">相关工具</h2>
+      <div class="tools-grid" id="relatedTools">
+        <!-- Related tools will be dynamically generated by JS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+<script>
+function getDurationSeconds() {
+  const h = Number(document.getElementById('hours').value) || 0;
+  const m = Number(document.getElementById('minutes').value) || 0;
+  const s = Number(document.getElementById('seconds').value) || 0;
+  return h*3600 + m*60 + s;
+}
+
+function convertToKbps(value, unit) {
+  if(unit === "Mbps") return value*1000;
+  return value;
+}
+
+function calculateFileSize() {
+  const durationSec = getDurationSeconds();
+  if(durationSec === 0) {
+    document.getElementById('fileSizeOutput').innerHTML = "Please enter a valid duration.";
+    return;
+  }
+  let vBitrate = Number(document.getElementById('vBitrate').value) || 0;
+  let aBitrate = Number(document.getElementById('aBitrate').value) || 0;
+  vBitrate = convertToKbps(vBitrate, document.getElementById('vBitrateUnit').value);
+  aBitrate = convertToKbps(aBitrate, document.getElementById('aBitrateUnit').value);
+  const totalBps = (vBitrate + aBitrate) * 1000;
+  const sizeBytes = totalBps/8 * durationSec;
+  const sizeMB = sizeBytes/1024/1024;
+  const sizeGB = sizeMB/1024;
+  document.getElementById('fileSizeOutput').innerHTML = 
+    `Estimated File Size: ${sizeMB.toFixed(2)} MB (${sizeGB.toFixed(2)} GB)`;
+}
+
+function calculateTargetBitrate() {
+  const durationSec = getDurationSeconds();
+  const targetMB = Number(document.getElementById('targetSizeInput').value);
+  if(!targetMB || durationSec === 0) {
+    document.getElementById('bitrateOutput').innerHTML = "Please enter valid duration and target size.";
+    return;
+  }
+  const totalBps = targetMB*1024*1024*8 / durationSec;
+  const vBitrateKbps = totalBps/1000;
+  document.getElementById('bitrateOutput').innerHTML = 
+    `Required Total Bitrate: ${vBitrateKbps.toFixed(2)} kbps (video + audio)`;
+}
+</script>
+
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("video-file-size-calculator");
+</script>
+
+</body>
+</html>

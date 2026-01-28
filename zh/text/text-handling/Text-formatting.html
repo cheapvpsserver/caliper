@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文本格式化工具 | CaliperTools</title>
+<meta name="description" content="CaliperTools 提供的免费在线文本格式化工具。轻松地将文本格式化为各种大小写、管理空格和操作文本。" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* 左右面板样式 */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Text Formatter Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Right panel styles */
+.right-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.category {
+    grid-column: span 2;
+    margin-top: 10px;
+    padding: 6px 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding-left: 6px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.option input {
+    margin-right: 6px;
+}
+
+/* Find & Replace Modal */
+#findReplaceModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0f8ff; /* Light blue background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    z-index: 1000;
+    border: 1px solid #0066cc;
+}
+
+#findReplaceModal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #0066cc;
+    font-size: 1.2rem;
+}
+
+#findReplaceModal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#findReplaceModal button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#findReplaceModal button:not(.close) {
+    background: #0066cc;
+    color: white;
+}
+
+#findReplaceModal button:not(.close):hover {
+    background: #0052a3;
+}
+
+#findReplaceModal .close {
+    background: #f44336;
+    color: white;
+    margin-bottom: 0;
+}
+
+#findReplaceModal .close:hover {
+    background: #e53935;
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .right-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .category {
+        grid-column: span 1;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>
+    // 1. 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右键菜单已禁用');
+    });
+
+    // 2. 禁用文本选择
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. 禁用复制快捷键
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('复制功能已禁用');
+        }
+    });
+
+    // 4. 防止通过F12打开开发者工具
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('开发者工具已禁用');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>文本格式化工具</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">撤销</button>
+                    <button onclick="redo()">重做</button>
+                    <button onclick="openFindReplaceModal()">查找与替换</button>
+                    <button onclick="clearText()">清空</button>
+                    <button onclick="copyText()">复制</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        如何使用？
+                    </a>
+                </div>
+                <textarea id="input" oninput="updateStats()" placeholder="在此粘贴您的文本..."></textarea>
+                <div class="stats">
+                    <div class="stat" id="charCount">字符数: 0</div>
+                    <div class="stat" id="nonBlankChar">非空白字符: 0</div>
+                    <div class="stat" id="wordCount">词数: 0</div>
+                    <div class="stat" id="lineCount">行数: 0</div>
+                    <div class="stat" id="paraCount">段落数: 0</div>
+                    <div class="stat" id="pages">页数: 0</div>
+                    <div class="stat" id="readingTime">阅读: 0 分钟</div>
+                    <div class="stat" id="speakingTime">朗读: 0 分钟</div>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <!-- Case Formatting -->
+                <div class="category">大小写格式化
+                    <button onclick="toggleCategory('case')">全部</button>
+                </div>
+                <div class="option"><input type="checkbox" class="case" id="upper"><label for="upper">大写字母</label></div>
+                <div class="option"><input type="checkbox" class="case" id="lower"><label for="lower">小写字母</label></div>
+                <div class="option"><input type="checkbox" class="case" id="title"><label for="title">标题大小写</label></div>
+                <div class="option"><input type="checkbox" class="case" id="sentence"><label for="sentence">句子大小写</label></div>
+                <div class="option"><input type="checkbox" class="case" id="camel"><label for="camel">驼峰命名法</label></div>
+
+                <!-- Space & Line Management -->
+                <div class="category">空格与换行管理
+                    <button onclick="toggleCategory('space')">全部</button>
+                </div>
+                <div class="option"><input type="checkbox" class="space" id="trim"><label for="trim">修剪（移除前导和尾随空格）</label></div>
+                <div class="option"><input type="checkbox" class="space" id="leading"><label for="leading">移除前导空格</label></div>
+                <div class="option"><input type="checkbox" class="space" id="trailing"><label for="trailing">移除尾随空格</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiSpace"><label for="multiSpace">多个空格合并为一个</label></div>
+                <div class="option"><input type="checkbox" class="space" id="allSpaces"><label for="allSpaces">移除所有空格</label></div>
+                <div class="option"><input type="checkbox" class="space" id="spaceToTab"><label for="spaceToTab">用1个制表符替换4个空格</label></div>
+                <div class="option"><input type="checkbox" class="space" id="tabToSpace"><label for="tabToSpace">用4个空格替换1个制表符</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeBlankLines"><label for="removeBlankLines">移除空白/空行</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiBlank"><label for="multiBlank">多个空行合并为一个</label></div>
+                <div class="option"><input type="checkbox" class="space" id="lineBreakSpace"><label for="lineBreakSpace">用空格替换换行符</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeLineBreak"><label for="removeLineBreak">移除所有换行符</label></div>
+
+                <!-- Text Manipulation -->
+                <div class="category">文本操作
+                    <button onclick="toggleCategory('text')">全部</button>
+                </div>
+                <div class="option"><input type="checkbox" class="text" id="reverse"><label for="reverse">反转文本</label></div>
+                <div class="option"><input type="checkbox" class="text" id="sortLines"><label for="sortLines">按字母顺序排列行</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removePunct"><label for="removePunct">移除标点符号</label></div>
+                <div class="option"><input type="checkbox" class="text" id="stripEmoji"><label for="stripEmoji">移除所有表情符号</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removeAccents"><label for="removeAccents">移除字母重音符号（变音符号）</label></div>
+                <div class="option"><input type="checkbox" class="text" id="normalize"><label for="normalize">标准化Unicode字母/字符</label></div>
+
+                <!-- Character Filtering -->
+                <div class="category">字符过滤
+                    <button onclick="toggleCategory('char')">全部</button>
+                </div>
+                <div class="option"><input type="checkbox" class="char" id="removeReplacement"><label for="removeReplacement">移除替换字符</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonASCII"><label for="removeNonASCII">移除非ASCII字符</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonAlpha"><label for="removeNonAlpha">移除非字母数字字符</label></div>
+                <div class="option"><input type="checkbox" class="char" id="stripEmails"><label for="stripEmails">移除所有电子邮件</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeURLs"><label for="removeURLs">移除所有网页URL</label></div>
+                <div class="option"><input type="checkbox" class="char" id="convertURL"><label for="convertURL">将URL转换为链接</label></div>
+
+                <!-- HTML & Code Processing -->
+                <div class="category">HTML与代码处理
+                    <button onclick="toggleCategory('html')">全部</button>
+                </div>
+                <div class="option"><input type="checkbox" class="html" id="removeBB"><label for="removeBB">移除BBCode标签</label></div>
+                <div class="option"><input type="checkbox" class="html" id="unescapeHTML"><label for="unescapeHTML">取消转义HTML标签</label></div>
+                <div class="option"><input type="checkbox" class="html" id="stripHTML"><label for="stripHTML">移除所有HTML标签</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeIDs"><label for="removeIDs">移除所有ID</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeClasses"><label for="removeClasses">移除所有类</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeStyles"><label for="removeStyles">移除内联样式</label></div>
+
+                <!-- Encoding & Decoding -->
+                <div class="category">编码与解码
+                    <button onclick="toggleCategory('encode')">全部</button>
+                </div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeHTML"><label for="decodeHTML">解码HTML字符实体</label></div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeURL"><label for="decodeURL">解码URL编码字符</label></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Formatter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>如何使用文本格式化工具</h3>
+                <p>
+                    按照这些简单步骤，使用各种格式化选项高效地格式化您的文本。
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>步骤 1: 输入您的文本</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>步骤 2: 选择格式化选项</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>步骤 3: 获取结果</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>逐步教程</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 1: 输入您的文本</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">将您的文本粘贴或键入左侧文本区域。该工具将自动显示关于您的文本的详细统计信息，包括字符数、词数和阅读时间。</p>
+                            <p style="text-align: left;">您可以根据需要使用撤销和重做按钮来撤消或恢复更改。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 2: 选择格式化选项</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">从右侧面板的广泛格式化选项中进行选择：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>大小写格式化：</strong> 将文本转换为大写、小写、标题大小写、句子大小写、驼峰命名法等</li>
+                                <li><strong>空格管理：</strong> 添加、移除或调整空格、制表符和换行符</li>
+                                <li><strong>文本操作：</strong> 反转文本、排序行、移除标点符号等</li>
+                                <li><strong>字符过滤：</strong> 移除不需要的字符、特殊字符或重复项</li>
+                                <li><strong>HTML与代码：</strong> 格式化HTML标签、转义特殊字符等</li>
+                                <li><strong>编码与解码：</strong> 解码HTML实体和URL编码字符</li>
+                            </ul>
+                            <p style="text-align: left;">点击每个类别中的"全部"按钮，可一次性应用该类别中的所有选项。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 3: 获取结果</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">您的格式化文本将立即出现在左侧文本区域。您可以：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>使用"复制"按钮一键复制格式化后的文本</li>
+                                <li>使用"清空"按钮清除所有文本重新开始</li>
+                                <li>使用查找和替换功能进行有针对性的更改</li>
+                                <li>查看更新后的文本统计信息</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">获得最佳效果的提示</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>首先明确了解您需要的格式</li>
+                                <li>一次应用一个格式化选项以查看其效果</li>
+                                <li>如果不喜欢格式化操作的结果，请使用撤销按钮</li>
+                                <li>组合多个格式化选项以进行更复杂的文本转换</li>
+                                <li>检查文本统计信息以确保您的格式化满足要求</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">相关工具</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-formatter");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+    <!-- Find & Replace Modal -->
+    <div id="findReplaceModal">
+        <h3>查找与替换</h3>
+        <input type="text" id="findText" placeholder="查找文本">
+        <input type="text" id="replaceText" placeholder="替换为">
+        <button onclick="replaceNext()">替换下一个</button>
+        <button onclick="replaceAll()">全部替换</button>
+        <button class="close" onclick="closeFindReplaceModal()">关闭</button>
+    </div>
+
+    <script>
+const input=document.getElementById('input');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); updateStats(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); updateStats(); } }
+function clearText(){ saveState(); input.value=''; updateStats(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = '已复制到剪贴板！';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(input.value)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+function countWords(text) {
+    if (!text.trim()) return 0;
+    
+    // For languages with spaces, use traditional counting
+    const spaceWords = text.trim().split(/\s+/).filter(Boolean);
+    if (spaceWords.length > 1) {
+        return spaceWords.length;
+    }
+    
+    // For languages without spaces (like Chinese, Japanese, Korean)
+    // Count each character as a word, except for whitespace and punctuation
+    let wordCount = 0;
+    for (let char of text) {
+        if (!char.match(/\s|[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’]/g)) {
+            wordCount++;
+        }
+    }
+    return wordCount;
+}
+
+function setText(value){ input.value=value; updateStats(); saveState(); }
+
+function updateStats(){
+  const text=input.value;
+  document.getElementById('charCount').innerText='字符数: '+text.length;
+  document.getElementById('nonBlankChar').innerText='非空白字符: '+text.replace(/\s/g,'').length;
+  const wordCount = countWords(text); document.getElementById('wordCount').innerText='词数: '+wordCount;
+  // Fix line count issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines = text.split(/\r?\n/);
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='行数: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); document.getElementById('paraCount').innerText='段落数: '+paras.length;
+  const pages=Math.ceil(wordCount/500); document.getElementById('pages').innerText='页数: '+pages;
+  const reading=Math.ceil(wordCount/200); document.getElementById('readingTime').innerText='阅读: '+reading+' 分钟';
+  const speaking=Math.ceil(wordCount/130); document.getElementById('speakingTime').innerText='朗读: '+speaking+' 分钟';
+}
+
+// --- Live Apply ---
+const options=document.querySelectorAll('.option input');
+options.forEach(opt=>{
+  opt.addEventListener('change',()=>{ saveState(); applyOption(opt); });
+});
+
+function applyOption(opt){
+  let text=input.value;
+  const id=opt.id;
+  if(opt.checked){
+    switch(id){
+      case 'upper': text=text.toUpperCase(); break;
+      case 'lower': text=text.toLowerCase(); break;
+      case 'title': text=text.replace(/\b\p{L}/gu,c=>c.toUpperCase()); break;
+      case 'sentence': text=text.replace(/(^\s*\p{L}|[.!?。！？]\s*\p{L})/gu,c=>c.toUpperCase()); break;
+      case 'camel': text=[...text].map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join(''); break;
+      case 'trim': text=text.trim(); break;
+      case 'leading': text=text.replace(/^\s+/gm,''); break;
+      case 'trailing': text=text.replace(/\s+$/gm,''); break;
+      case 'multiSpace': text=text.replace(/\s+/g,' '); break;
+      case 'allSpaces': text=text.replace(/\s+/g,''); break;
+      case 'spaceToTab': text=text.replace(/ {4}/g,'\t'); break;
+      case 'tabToSpace': text=text.replace(/\t/g,'    '); break;
+      case 'removeBlankLines': text=text.replace(/^\s*$/gm,''); break;
+      case 'multiBlank': text=text.replace(/(\r?\n){2,}/g,'\n'); break;
+      case 'lineBreakSpace': text=text.replace(/\r?\n/g,' '); break;
+      case 'removeLineBreak': text=text.replace(/\r?\n/g,''); break;
+      case 'reverse': text=text.split('').reverse().join(''); break;
+      case 'sortLines': text=text.split('\n').sort().join('\n'); break;
+      case 'removePunct': text=text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’『』「」〔〕〝〞〟～…—━〈〉＜＞「」｛｝［］｜｜\\／：；，。！？‘’""()）（．．．・・・]/g,''); break;
+      case 'stripEmoji': text=text.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g,''); break;
+      case 'removeAccents': text=text.normalize("NFD").replace(/[\u0300-\u036f]/g,""); break;
+      case 'normalize': text=text.normalize(); break;
+      case 'removeReplacement': text=text.replace(/�/g,''); break;
+      case 'removeNonASCII': text=text.replace(/[^\x00-\x7F]/g,''); break;
+      case 'removeNonAlpha': text=text.replace(/[^\p{L}\p{N}\s]/gu,''); break;
+      case 'stripEmails': text=text.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,''); break;
+      case 'removeURLs': text=text.replace(/\b(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*\b/g,''); break;
+      case 'convertURL': text=text.replace(/(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*/g,url=>`<a href="${url}" target="_blank">${url}</a>`); break;
+      case 'removeBB': text=text.replace(/\[.*?\]/g,''); break;
+      case 'unescapeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'stripHTML': text=text.replace(/<[^>]+>/g,''); break;
+      case 'removeIDs': text=text.replace(/\s?id=".*?"/g,''); break;
+      case 'removeClasses': text=text.replace(/\s?class=".*?"/g,''); break;
+      case 'removeStyles': text=text.replace(/\s?style=".*?"/g,''); break;
+      case 'decodeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'decodeURL': try{text=decodeURIComponent(text);}catch(e){} break;
+    }
+    setText(text);
+  } else { undo(); }
+}
+
+// --- Category Toggle ---
+function toggleCategory(cat){
+  const elems=document.querySelectorAll('.'+cat);
+  const allChecked=[...elems].every(e=>e.checked);
+  elems.forEach(e=>{ e.checked=!allChecked; e.dispatchEvent(new Event('change')); });
+}
+
+// --- Find & Replace ---
+let lastFindIndex=0;
+function openFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='block'; lastFindIndex=0;}
+function closeFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='none';}
+function replaceNext(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const text=input.value;
+  const idx=text.indexOf(find,lastFindIndex);
+  if(idx!==-1){
+    input.value=text.slice(0,idx)+replace+text.slice(idx+find.length);
+    lastFindIndex=idx+replace.length;
+    updateStats();
+  } else { lastFindIndex=0; alert('No more matches'); }
+}
+function replaceAll(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const regex=new RegExp(find,'g');
+  input.value=input.value.replace(regex,replace);
+  updateStats();
+}
+
+updateStats();
+</script>
+</body>
+</html>

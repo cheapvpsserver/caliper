@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CaliperTools 提供的免费在线词语和文本分割工具 - 按长度、词语、行数或标点符号分割文本，并提供多种文本操作选项。" />
+<title>词语文本分割器 | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure html and body both fill the screen */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        background-color: #f5f5f5; /* Gray background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full-width container to ensure it's within the viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container to ensure it's within the viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Textarea Styles */
+    textarea {
+        width: 100%;
+        min-height: 320px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Output area style */
+    pre {
+        width: 100%;
+        height: 345px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        overflow: auto;
+        white-space: pre-wrap;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        background: #f9fafb;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Option Area Styles */
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .options h4 {
+        margin: 0 0 0.75rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #111827;
+    }
+    
+    .options label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Inline Option Styles */
+    .inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+    }
+    
+    .inline label {
+        margin-bottom: 0;
+    }
+    
+    /* Statistics Information Styles */
+    .stats {
+        margin-top: 1rem;
+        font-size: 12px;
+        color: #555;
+    }
+    
+    /* Action Button Styles */
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Title Styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Responsive Adjustment */
+    @media (max-width: 1024px) {
+        .cta-section {
+            padding: 1.5rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.75rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .cta-section {
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        .features-row {
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cta-section {
+            padding: 1rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+</style>
+<script>
+    // 1. 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右键菜单已禁用');
+    });
+
+    // 2. 禁用文本选择
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. 禁用复制快捷键
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('复制功能已禁用');
+        }
+    });
+
+    // 4. 防止通过F12打开开发者工具
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('开发者工具已禁用');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>词语文本分割器</h1>
+                
+                <div class="actions" style="display: flex; align-items: center; gap: 10px;">
+                    <button id="undoBtn">撤销</button>
+                    <button id="redoBtn">重做</button>
+                    <button id="clearBtn">全部清除</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        如何使用？
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="在此粘贴或输入文本..."></textarea>
+
+                <div class="stats" id="inputStats"></div>
+
+                <div class="options">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                        <h4 style="grid-column: 1 / -1;">分割模式</h4>
+                        <label><input type="radio" name="mode" value="length" checked> 按长度</label>
+                        <label><input type="radio" name="mode" value="words"> 按词语</label>
+                        <label><input type="radio" name="mode" value="lines"> 按行数</label>
+                        <label><input type="radio" name="mode" value="punctuation"> 按标点符号</label>
+                    </div>
+
+                    <div>
+                        <h4>参数</h4>
+                        <label>长度 / 数量:
+                            <input type="number" id="count" value="5" min="1" style="width:80px; margin-left: 0.5rem;">
+                        </label>
+                    </div>
+
+                    <div>
+                        <h4>附加选项</h4>
+                        <div class="inline">
+                            <label><input type="checkbox" class="punc" value="."> .</label>
+                            <label><input type="checkbox" class="punc" value=","> ,</label>
+                            <label><input type="checkbox" class="punc" value=";"> ;</label>
+                            <label><input type="checkbox" class="punc" value=":"> :</label>
+                            <label><input type="checkbox" class="punc" value="!"> !</label>
+                            <label><input type="checkbox" class="punc" value="?"> ?</label>
+                            <label><input type="checkbox" class="punc" value="-"> -</label>
+                            <label><input type="checkbox" class="punc" value="_"> _</label>
+                            <label><input type="checkbox" class="punc" value="("> (</label>
+                            <label><input type="checkbox" class="punc" value=")"> )</label>
+                            <label><input type="checkbox" class="punc" value="["> [</label>
+                            <label><input type="checkbox" class="punc" value="]"> ]</label>
+                            <label><input type="checkbox" class="punc" value="{"> {</label>
+                            <label><input type="checkbox" class="punc" value="}"> }</label>
+                            <label><input type="checkbox" class="punc" value="\""> \"</label>
+                            <label><input type="checkbox" class="punc" value="'"> '</label>
+                            <label><input type="checkbox" class="punc" value="`"> `</label>
+                            <label><input type="checkbox" class="punc" value="~"> ~</label>
+                            <label><input type="checkbox" class="punc" value="@"> @</label>
+                            <label><input type="checkbox" class="punc" value="#"> #</label>
+                            <label><input type="checkbox" class="punc" value="$"> $</label>
+                            <label><input type="checkbox" class="punc" value="%"> %</label>
+                            <label><input type="checkbox" class="punc" value="^"> ^</label>
+                            <label><input type="checkbox" class="punc" value="&"> &</label>
+                            <label><input type="checkbox" class="punc" value="*"> *</label>
+                            <label><input type="checkbox" class="punc" value="+"> +</label>
+                            <label><input type="checkbox" class="punc" value="="> =</label>
+                            <label><input type="checkbox" class="punc" value="|"> |</label>
+                            <label><input type="checkbox" class="punc" value="\"> \</label>
+                            <label><input type="checkbox" class="punc" value="/"> /</label>
+                            <label><input type="checkbox" class="punc" value="<"> <</label>
+                            <label><input type="checkbox" class="punc" value=">"> ></label>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <label for="customPunc" style="display: block; margin-bottom: 0.5rem;">自定义符号（逗号分隔）:</label>
+                            <input type="text" id="customPunc" placeholder="例如: $,%,^,&,*" style="width: 100%; padding: 8px; border: 1px solid #e5e7eb; border-radius: 0.375rem;">
+                        </div>
+                        <label><input type="checkbox" id="keepPunc"> 在输出中保留标点符号</label>
+                        <label><input type="checkbox" id="trim"> 修剪空格</label>
+                        <label><input type="checkbox" id="removeEmpty"> 移除空行</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>输出</h4>
+                <div class="actions" style="justify-content: flex-end;">
+                    <button onclick="copyOutput()">复制输出</button>
+                </div>
+                <pre id="output"></pre>
+                <div class="stats" id="outputStats"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Word Text Splitter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>如何使用词语文本分割器</h3>
+                <p>
+                    按照这些简单步骤，使用各种方法高效地分割您的文本。
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>步骤 1: 输入您的文本</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>步骤 2: 选择分割模式</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>步骤 3: 获取结果</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>逐步教程</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 1: 输入您的文本</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">将您的文本粘贴或输入到左侧文本区域。该工具将自动显示有关您输入文本的统计信息。</p>
+                            <p style="text-align: left;">您也可以使用撤销和重做按钮来撤消或恢复更改。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 2: 配置您的分割选项</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">选择您想要分割文本的方式：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>按长度：</strong> 将文本分割为指定字符长度的块</li>
+                                <li><strong>按词语：</strong> 将文本分割为指定词语数量的块</li>
+                                <li><strong>按行数：</strong> 将文本分割为指定行数的块</li>
+                                <li><strong>按标点符号：</strong> 在标点符号处分割文本</li>
+                            </ul>
+                            <p style="text-align: left;">调整长度/数量参数以设置每个块应包含多少个字符、词语或行数。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">步骤 3: 生成并使用您的结果</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">您的分割文本将立即出现在右侧输出区域。您可以：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>使用"复制输出"按钮一键复制分割后的文本</li>
+                                <li>使用"全部清除"按钮清除所有文本重新开始</li>
+                                <li>查看输出统计信息以了解生成的块数</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">获得最佳结果的提示</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>对于长文档，从较大的块大小开始，然后根据需要进行调整</li>
+                                <li>使用"按标点符号"模式进行自然的句子分割</li>
+                                <li>与其他文本工具结合使用，以进行更复杂的文本处理</li>
+                                <li>使用撤销/重做功能来试验不同设置</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">相关工具</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const countInput = document.getElementById('count');
+const inputStats = document.getElementById('inputStats');
+const outputStats = document.getElementById('outputStats');
+
+let history = [];
+let historyIndex = -1;
+
+function saveHistory(text) {
+  if (history[historyIndex] === text) return;
+  history = history.slice(0, historyIndex + 1);
+  history.push(text);
+  historyIndex++;
+}
+
+function updateStats(text, el) {
+  const chars = [...text].length;
+  const lines = text === '' ? 0 : text.split(/\r?\n/).length;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  el.textContent = `字符数: ${chars} | 词语数: ${words} | 行数: ${lines}`;
+}
+
+function splitText() {
+  let text = input.value;
+  saveHistory(text);
+
+  let mode = document.querySelector('input[name="mode"]:checked').value;
+  let count = parseInt(countInput.value, 10) || 1;
+  let result = [];
+
+  // Step 1: Split text according to selected mode
+  if (mode === 'length') {
+    let chars = [...text];
+    for (let i = 0; i < chars.length; i += count) {
+      result.push(chars.slice(i, i + count).join(''));
+    }
+  } else if (mode === 'words') {
+    let words = text.split(/\s+/);
+    for (let i = 0; i < words.length; i += count) {
+      result.push(words.slice(i, i + count).join(' '));
+    }
+  } else if (mode === 'lines') {
+    let lines = text.split(/\r?\n/);
+    for (let i = 0; i < lines.length; i += count) {
+      result.push(lines.slice(i, i + count).join('\n'));
+    }
+  } else if (mode === 'punctuation') {
+    // If punctuation mode is selected, use original text directly
+    result = [text];
+  } else {
+    // Default case, use original text directly
+    result = [text];
+  }
+
+  // Step 2: Apply punctuation splitting (if any is selected)
+  // Get selected punctuation marks
+  let puncs = [...document.querySelectorAll('.punc:checked')]
+    .map(p => p.value);
+  
+  // Add custom symbols
+  const customPuncInput = document.getElementById('customPunc');
+  if (customPuncInput && customPuncInput.value.trim()) {
+    // Split custom symbols, remove spaces
+    const customPuncs = customPuncInput.value.split(',').map(p => p.trim()).filter(p => p);
+    puncs = [...puncs, ...customPuncs];
+  }
+  
+  const keepPunc = document.getElementById('keepPunc').checked;
+  
+  if (puncs.length > 0) {
+    // Escape regex special characters
+    const escapedPuncs = puncs.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    
+    if (keepPunc) {
+      // Case where punctuation marks are kept
+      // Use regex to match symbols and preceding text
+      const regex = new RegExp(`([^${escapedPuncs.join('')}]*?)([${escapedPuncs.join('')}])`, 'g');
+      let punctuationResult = [];
+      
+      // Apply punctuation splitting to each result from step 1
+      result.forEach(item => {
+        let match;
+        let lastIndex = 0;
+        
+        while ((match = regex.exec(item)) !== null) {
+          // Add matched text and symbol
+          punctuationResult.push(match[1] + match[2]);
+          lastIndex = regex.lastIndex;
+        }
+        
+        // Add remaining text
+        if (lastIndex < item.length) {
+          punctuationResult.push(item.slice(lastIndex));
+        }
+      });
+      
+      result = punctuationResult;
+    } else {
+      // Case where punctuation marks are not kept
+      // Create regex to match any symbol
+      const regex = new RegExp(`[${escapedPuncs.join('')}]`, 'g');
+      let punctuationResult = [];
+      
+      // Apply punctuation splitting to each result from step 1
+      result.forEach(item => {
+        // Split text using symbols
+        const parts = item.split(regex);
+        // Filter out empty strings
+        const filteredParts = parts.filter(part => part.trim() !== '');
+        punctuationResult = punctuationResult.concat(filteredParts);
+      });
+      
+      result = punctuationResult;
+    }
+  }
+
+  // Step 3: Apply additional options
+  let out = result.join('\n');
+
+  if (document.getElementById('trim').checked) {
+    out = out.split('\n').map(l => l.trim()).join('\n');
+  }
+  if (document.getElementById('removeEmpty').checked) {
+    out = out.split('\n').filter(l => l.trim() !== '').join('\n');
+  }
+
+  output.textContent = out;
+  updateStats(text, inputStats);
+  updateStats(out, outputStats);
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+        // Create temporary tip element
+        const tip = document.createElement('div');
+        tip.textContent = '已复制到剪贴板！';
+        tip.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(tip);
+        
+        // Show tip
+        setTimeout(() => {
+            tip.style.opacity = '1';
+        }, 10);
+        
+        // Remove tip after 2 seconds
+        setTimeout(() => {
+            tip.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(tip);
+            }, 300);
+        }, 2000);
+    })
+    .catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+
+input.addEventListener('input', splitText);
+document.querySelectorAll('input').forEach(i => i.addEventListener('change', splitText));
+
+document.getElementById('clearBtn').onclick = () => {
+  input.value = '';
+  output.textContent = '';
+  inputStats.textContent = '';
+  outputStats.textContent = '';
+};
+
+document.getElementById('undoBtn').onclick = () => {
+  if (historyIndex > 0) {
+    historyIndex--;
+    input.value = history[historyIndex];
+    splitText();
+  }
+};
+
+document.getElementById('redoBtn').onclick = () => {
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    input.value = history[historyIndex];
+    splitText();
+  }
+};
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+  splitText();
+});
+</script>
+
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+    
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("word-text-splitter");
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频MIME类型检测器 | CaliperTools</title>
+<meta name="description" content="免费在线视频MIME类型检测器，用于识别视频格式、持续时间和分辨率">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<!-- Add a simple favicon.ico as default -->
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Import FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body background is consistent with website */
+body {
+    background-color: #f5f5f5; /* Gray background, consistent with other pages of the website */
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Tool specific styles */
+.tool-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+}
+
+.tool-container h1 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #111827;
+  text-align: center;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-area {
+  border: 2px dashed #d1d5db;
+  padding: 60px 40px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.upload-area:hover {
+  border-color: #3b82f6;
+  background-color: #f9fafb;
+}
+
+.upload-area.dragover {
+  border-color: #3b82f6;
+  background-color: #f0f9ff;
+}
+
+.upload-area i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #3b82f6;
+}
+
+.upload-area span {
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background: #3b82f6;
+  color: #fff;
+  margin-top: 10px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+#result {
+  margin-top: 20px;
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  display: none;
+}
+
+#result h3 {
+  color: #111827;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+pre {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+/* CTA Section Styles - Copied from Video-Metadata-Viewer.html */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: white;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tutorial Step Styles - Copied from Video-Metadata-Viewer.html */
+.tutorial-step {
+    text-align: left;
+}
+
+.tutorial-step h5 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+    text-align: center !important;
+}
+
+.tutorial-step p {
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    color: white !important;
+}
+
+.tutorial-step ul {
+    text-align: left !important;
+    margin-left: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+}
+
+.tutorial-step li {
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+
+/* Copy success toast */
+.toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #10b981;
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+}
+</style>
+<script>
+    // 1. 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右键菜单已禁用');
+    });
+
+    // 2. 禁用文本选择
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. 禁用复制快捷键
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('复制功能已禁用');
+        }
+    });
+
+    // 4. 防止通过F12打开开发者工具
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('开发者工具已禁用');
+        }
+    });
+</script>
+</head>
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content -->
+<main class="main">
+  <div class="tool-container">
+    <h1 class="tool-title" style="display: flex; align-items: center; justify-content: space-between;">视频MIME类型检测器 <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">如何使用？</a></h1>
+    
+    <label class="upload-area" id="uploadArea">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <span>点击或拖放视频到此处</span>
+      <input type="file" id="fileInput" accept="video/*">
+    </label>
+    <div id="result">
+      <h3>检测结果</h3>
+      <pre id="mimeResult"></pre>
+      <button id="copyBtn">复制结果</button>
+    </div>
+  </div>
+
+  <!-- Tutorial Section -->
+  <section class="cta-section" id="tutorial">
+    <div class="cta-content">
+      <h3>如何使用视频MIME类型检测器</h3>
+      <p>
+        按照这些简单步骤检测视频MIME类型、持续时间和分辨率。
+      </p>
+      
+      <div class="features-row">
+        <div class="feature-item">
+          <span class="icon">📁</span>
+          <span>步骤 1: 上传视频</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">🔍</span>
+          <span>步骤 2: 分析视频</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📋</span>
+          <span>步骤 3: 获取结果</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📋</span>
+          <span>步骤 4: 复制数据</span>
+        </div>
+      </div>
+      
+      <div class="cta-features">
+        <h4>逐步教程</h4>
+        <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="tutorial-step">
+            <h5>步骤 1: 上传视频</h5>
+            <p>将视频文件拖放到上传区域或点击从设备选择文件。该工具支持所有主要视频格式。</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>步骤 2: 分析视频</h5>
+            <p>该工具将自动分析您的视频文件以检测其MIME类型、持续时间和分辨率。</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>步骤 3: 获取结果</h5>
+            <p>查看详细的检测结果，包括文件名、大小、MIME类型、持续时间和分辨率。</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>步骤 4: 复制数据</h5>
+            <p>使用"复制结果"按钮轻松将所有检测数据复制到剪贴板，以便分享或记录。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Tools Section -->
+  <section class="section related-tools">
+    <div class="container">
+      <h2 class="section-title">相关工具</h2>
+      <div class="tools-grid" id="relatedTools">
+        <!-- Related tools will be dynamically generated by JS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+<script>
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const resultDiv = document.getElementById('result');
+const mimeResult = document.getElementById('mimeResult');
+const copyBtn = document.getElementById('copyBtn');
+
+// File drag and drop styles
+uploadArea.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadArea.classList.add('dragover');
+});
+uploadArea.addEventListener('dragleave', e => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+});
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadArea.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if(file) handleFile(file);
+});
+
+// Click to select file
+fileInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(file) handleFile(file);
+});
+
+// Copy result
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(mimeResult.textContent)
+    .then(() => {
+      showCopySuccess();
+    })
+    .catch(err => {
+      console.error('Failed to copy result:', err);
+    });
+});
+
+// Show copy success notification
+function showCopySuccess() {
+  // Create notification element
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = '结果已复制到剪贴板！';
+  document.body.appendChild(toast);
+  
+  // Remove notification after 3 seconds
+  setTimeout(() => {
+    toast.style.animation = 'fadeOut 0.3s ease-out';
+    setTimeout(() => {
+      document.body.removeChild(toast);
+    }, 300);
+  }, 3000);
+}
+
+// Handle file
+function handleFile(file){
+  document.getElementById('result').style.display = 'block';
+  const mime = detectMime(file);
+  let info = `文件名: ${file.name}\n文件大小: ${formatBytes(file.size)}\nMIME类型: ${mime}`;
+  
+  // Get video duration and resolution
+  const video = document.createElement('video');
+  video.preload = 'metadata';
+  video.style.display = 'none'; // Hide video element
+  
+  // Add video element to DOM, ensure metadata loads correctly
+  document.body.appendChild(video);
+  
+  video.src = URL.createObjectURL(file);
+  video.onloadedmetadata = function(){
+    info += `\n持续时间: ${video.duration.toFixed(2)} s\n分辨率: ${video.videoWidth}x${video.videoHeight}`;
+    mimeResult.textContent = info;
+    URL.revokeObjectURL(video.src);
+    
+    // Remove video element from DOM
+    document.body.removeChild(video);
+  }
+  
+  // Add error handling
+  video.onerror = function() {
+    info += '\n持续时间: 无法确定\n分辨率: 无法确定';
+    mimeResult.textContent = info;
+    URL.revokeObjectURL(video.src);
+    
+    // Remove video element from DOM
+    document.body.removeChild(video);
+  }
+}
+
+// Detect MIME type
+function detectMime(file){
+  let mime = file.type;
+  if(!mime || mime === 'application/octet-stream'){
+    const ext = file.name.split('.').pop().toLowerCase();
+    if(ext === 'mp4') mime = 'video/mp4';
+    else if(ext === 'mov') mime = 'video/quicktime';
+    else if(ext === 'webm') mime = 'video/webm';
+    else if(ext === 'avi') mime = 'video/avi';
+    else if(ext === 'mkv') mime = 'video/mkv';
+    else mime = 'unknown';
+  }
+  return mime;
+}
+
+// File size formatting
+function formatBytes(bytes){
+  if(bytes < 1024) return bytes + ' B';
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(2) + ' KB';
+  if(bytes < 1024*1024*1024) return (bytes/(1024*1024)).toFixed(2) + ' MB';
+  return (bytes/(1024*1024*1024)).toFixed(2) + ' GB';
+}
+</script>
+
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("video-mime-type-detector");
+</script>
+
+</body>
+</html>

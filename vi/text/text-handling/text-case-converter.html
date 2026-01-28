@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="vi-VN">
+<head>
+<meta charset="UTF-8">
+<title>Chuyển đổi kiểu chữ | CaliperTools</title>
+<meta name="description" content="Công cụ chuyển đổi và định dạng kiểu chữ trực tuyến miễn phí từ CaliperTools - Chuyển đổi văn bản giữa nhiều kiểu chữ bao gồm câu đầu viết hoa, tiêu đề, chữ hoa, chữ thường, và nhiều hơn nữa." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Textbox styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+/* Output area styles */
+.output {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+/* Statistics styles */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Option area styles */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.options h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+    grid-column: 1 / -1;
+}
+
+.options > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+    font-size: 14px;
+    margin: 4px 0;
+}
+
+/* Toolbar styles */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Menu chuột phải đã bị vô hiệu hóa');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Chức năng sao chép đã bị vô hiệu hóa');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Công cụ dành cho nhà phát triển đã bị vô hiệu hóa');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>Chuyển đổi kiểu chữ</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Hoàn tác</button>
+                    <button onclick="redo()">Làm lại</button>
+                    <button onclick="clearText()">Xóa</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        Cách sử dụng?
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="Nhập hoặc dán văn bản ở đây..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">Ký tự: 0</div>
+                    <div class="stat" id="wordCount">Từ: 0</div>
+                    <div class="stat" id="lineCount">Dòng: 0</div>
+                </div>
+
+                <div class="options">
+                    <div>
+                        <h3>Định dạng kiểu chữ</h3>
+                        <label><input type="radio" name="mode" value="sentence"> Câu đầu viết hoa</label>
+                        <label><input type="radio" name="mode" value="capitalized"> Viết hoa đầu từ</label>
+                        <label><input type="radio" name="mode" value="title"> Kiểu tiêu đề</label>
+                        <label><input type="radio" name="mode" value="lower"> chữ thường</label>
+                        <label><input type="radio" name="mode" value="upper"> CHỮ HOA</label>
+                        <label><input type="radio" name="mode" value="snake"> snake_case</label>
+                        <label><input type="radio" name="mode" value="dot"> dot.case</label>
+                        <label><input type="radio" name="mode" value="slug"> Đổi thành slug</label>
+                        <label><input type="radio" name="mode" value="random"> Kiểu ngẫu nhiên</label>
+                    </div>
+
+                    <div>
+                        <h3>Thao tác văn bản</h3>
+                        <label><input type="radio" name="mode" value="reverse"> Đảo ngược văn bản</label>
+                        <label><input type="radio" name="mode" value="extraSpaces"> Loại bỏ khoảng trắng thừa</label>
+                        <label><input type="radio" name="mode" value="allSpaces"> Loại bỏ tất cả khoảng trắng</label>
+                        <label><input type="radio" name="mode" value="lineBreaks"> Loại bỏ ngắt dòng</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h2>Kết quả</h2>
+                <div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-bottom: 15px;">
+                    <button onclick="copyOutput()" style="padding: 8px 16px; border: none; border-radius: 6px; background: #0066cc; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">Sao chép</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Case Converter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Cách sử dụng công cụ chuyển đổi kiểu chữ</h3>
+                <p>
+                    Thực hiện các bước đơn giản sau để chuyển đổi văn bản của bạn giữa nhiều kiểu chữ hiệu quả.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Bước 1: Nhập văn bản của bạn</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Bước 2: Chọn định dạng kiểu chữ</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Bước 3: Lấy kết quả</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Hướng dẫn từng bước</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Bước 1: Nhập văn bản của bạn</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Nhập hoặc dán văn bản của bạn vào vùng văn bản bên trái. Công cụ sẽ tự động hiển thị số liệu thống kê về văn bản của bạn, bao gồm số ký tự, số từ và số dòng.</p>
+                            <p style="text-align: left;">Bạn có thể sử dụng các nút Hoàn tác và Làm lại để khôi phục hoặc khôi phục các thay đổi theo nhu cầu.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Bước 2: Chọn định dạng kiểu chữ</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Chọn từ nhiều tùy chọn định dạng kiểu chữ:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Câu đầu viết hoa:</strong> Viết hoa chữ cái đầu của câu</li>
+                                <li><strong>Viết hoa đầu từ:</strong> Viết hoa chữ cái đầu của mỗi từ</li>
+                                <li><strong>Kiểu tiêu đề:</strong> Viết hoa chữ cái đầu của các từ chính</li>
+                                <li><strong>chữ thường:</strong> Chuyển tất cả văn bản thành chữ thường</li>
+                                <li><strong>CHỮ HOA:</strong> Chuyển tất cả văn bản thành chữ hoa</li>
+                                <li><strong>snake_case:</strong> Chuyển thành chữ thường với dấu gạch dưới giữa các từ</li>
+                                <li><strong>dot.case:</strong> Chuyển thành chữ thường với dấu chấm giữa các từ</li>
+                                <li><strong>Đổi thành slug:</strong> Chuyển văn bản để sử dụng trong URL</li>
+                            </ul>
+                            <p style="text-align: left;">Các tùy chọn khác bao gồm Kiểu ngẫu nhiên, Đảo ngược văn bản và nhiều công cụ quản lý khoảng trắng khác nhau.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Bước 3: Lấy kết quả</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Văn bản đã chuyển đổi của bạn sẽ xuất hiện trong vùng kết quả bên phải ngay lập tức. Bạn có thể:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Sao chép văn bản đã chuyển đổi bằng một cú nhấp bằng nút "Sao chép"</li>
+                                <li>Xóa tất cả văn bản để bắt đầu lại với nút "Xóa"</li>
+                                <li>Thử các định dạng kiểu chữ khác nhau để tìm ra định dạng phù hợp nhất với nhu cầu của bạn</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Mẹo để đạt kết quả tốt nhất</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Sử dụng Câu đầu viết hoa cho văn bản thông thường và đoạn văn</li>
+                                <li>Sử dụng Kiểu tiêu đề cho tiêu đề và tiêu đề</li>
+                                <li>Sử dụng snake_case hoặc dot.case cho biến mã và tên tệp</li>
+                                <li>Sử dụng Đổi thành slug để tạo URL thân thiện với SEO</li>
+                                <li>Thử nghiệm các định dạng khác nhau để tìm ra định dạng hoạt động tốt nhất cho trường hợp sử dụng cụ thể của bạn</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Công cụ liên quan</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input',()=>{
+  pushHistory();
+  sourceText=input.value;
+  process();
+});
+
+document.querySelectorAll('input[name="mode"]').forEach(r=>{
+  r.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value=history.pop();
+  sourceText=input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value=future.pop();
+  sourceText=input.value;
+  process(false);
+}
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(){
+  let text=sourceText;
+  const mode=document.querySelector('input[name="mode"]:checked')?.value;
+
+  switch(mode){
+    case 'sentence':
+      text=text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase());
+      break;
+    case 'capitalized':
+    case 'title':
+      text=text.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+      break;
+    case 'lower':
+      text=text.toLowerCase();
+      break;
+    case 'upper':
+      text=text.toUpperCase();
+      break;
+    case 'snake':
+      text=text.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+      break;
+    case 'dot':
+      text=text.toLowerCase().replace(/[^a-z0-9]+/g,'.').replace(/^\.+|\.+$/g,'');
+      break;
+    case 'slug':
+      text=text.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-z0-9]+/g,'-')
+        .replace(/^-+|-+$/g,'');
+      break;
+    case 'random':
+      text=[...text].map(c=>Math.random()>0.5?c.toUpperCase():c.toLowerCase()).join('');
+      break;
+    case 'reverse':
+      text=[...text].reverse().join('');
+      break;
+    case 'extraSpaces':
+      text=text.replace(/\s+/g,' ').trim();
+      break;
+    case 'allSpaces':
+      text=text.replace(/\s+/g,'');
+      break;
+    case 'lineBreaks':
+      text=text.replace(/\r?\n+/g,' ');
+      break;
+  }
+
+  output.textContent=text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  
+  // Update various statistics
+  document.getElementById('charCount').textContent = `Characters: ${chars}`;
+  document.getElementById('wordCount').textContent = `Words: ${words}`;
+  document.getElementById('lineCount').textContent = `Lines: ${lines}`;
+}
+
+function copyOutput(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'Đã sao chép vào clipboard!'
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("text-case-converter");
+</script>
+
+<!-- Dynamically load header and footer -->
+</body>
+</html>

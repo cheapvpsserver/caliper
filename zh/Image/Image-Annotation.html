@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图像标注工具 | CaliperTools</title>
+    <meta name="description" content="使用13种专业工具在线标注图像。添加文本、箭头、形状、模糊等。无需上传。">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../scripts/script.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .annotation-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 750px;
+        }
+
+        @media (max-width: 768px) {
+            .annotation-container {
+                flex-direction: column-reverse;
+                height: auto;
+            }
+
+            .sidebar-container {
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid #ddd;
+                border-bottom: none;
+            }
+
+            .sidebar {
+                height: auto;
+                max-height: none;
+                padding: 15px;
+            }
+
+            .sidebar-content {
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .sidebar-actions {
+                position: relative;
+                border-top: 1px solid #ddd;
+            }
+
+            .canvas-area {
+                height: auto;
+                min-height: 400px;
+                max-height: 60vh;
+            }
+
+            .upload-prompt {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+            }
+
+            .sidebar .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .sidebar-container {
+            width: 380px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar {
+            padding: 20px;
+            background-color: #ffffff;
+            height: 750px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 150px;
+        }
+
+        .sidebar-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            z-index: 10;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .tools-section {
+            margin-bottom: 20px;
+        }
+
+        .tools-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .sidebar .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .tool-btn {
+            padding: 10px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tool-btn:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tool-btn i {
+            font-size: 18px;
+        }
+
+        .settings-section {
+            margin-bottom: 20px;
+        }
+
+        .settings-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .size-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+
+        .size-display {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .actions-section {
+            margin-top: auto;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .undo-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .redo-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+            font-size: 0.875rem;
+        }
+
+        /* Feature Section Styles */
+        .py-20 {
+            padding: 5rem 0;
+        }
+
+        .bg-white {
+            background: white;
+        }
+
+        .bg-gray-50 {
+            background: #f9fafb;
+        }
+
+        .container.mx-auto {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .grid-cols-1.md\:grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-1.md\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .max-w-\[1400px\] {
+            max-width: 1400px;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .text-gray-900 {
+            color: #111827;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .text-gray-600 {
+            color: #6b7280;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .rounded-xl {
+            border-radius: 0.75rem;
+        }
+
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .canvas-area {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .upload-prompt {
+            text-align: center;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-prompt.drag-over {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .upload-prompt-icon {
+            font-size: 60px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-prompt-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .upload-prompt-instruction {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .delete-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .delete-image-btn:hover {
+            background-color: rgba(220, 53, 69, 1);
+            transform: scale(1.1);
+        }
+
+        .canvas-wrapper.active {
+            display: block;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #baseCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #overlayCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: crosshair;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .text-input-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .text-input-modal.show {
+            display: block;
+        }
+
+        .text-input-modal h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .text-input-modal input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .text-input-modal .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .text-input-modal .modal-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .text-input-modal .cancel-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .text-input-modal .confirm-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+    </style>
+    <script>
+    // 1. 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右键菜单已禁用');
+    });
+
+    // 2. 禁用文本选择
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. 禁用复制快捷键
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('复制功能已禁用');
+        }
+    });
+
+    // 4. 防止通过F12打开开发者工具
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('开发者工具已禁用');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center mb-8">图像标注工具</h1>
+        </div>
+        <div class="annotation-container">
+                    <div class="sidebar-container">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div class="upload-section">
+                                    <button id="upload-btn" class="upload-btn">
+                                        <i class="fas fa-upload"></i> 上传图像
+                                    </button>
+                                    <input type="file" id="file-input" class="file-input" accept="image/jpeg,image/png,image/webp">
+                                    <input type="file" id="watermark-input" class="file-input" accept="image/jpeg,image/png,image/webp">
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>标注工具</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-tool="text" data-title="在线向图像添加文本" data-description="在线向图像添加文本标注。自定义字体、颜色和大小。适用于标签、标题和注释。导出为PNG。" title="在线向图像添加文本">
+                                            <i class="fas fa-font"></i>
+                                            <span>文本</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="arrow" data-title="在线向图像添加箭头" data-description="在线绘制箭头以突出显示区域。用可自定义的箭头指出重要细节。非常适合教程和演示。导出为PNG。" title="在线向图像添加箭头">
+                                            <i class="fas fa-arrow-right"></i>
+                                            <span>箭头</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="rect" data-title="在线向图像添加矩形" data-description="在线绘制矩形以突出显示区域。用可自定义边框标记区域。非常适合截图和文档。导出为PNG。" title="在线向图像添加矩形">
+                                            <i class="fas fa-square"></i>
+                                            <span>矩形</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="circle" data-title="在线向图像添加圆形" data-description="在线绘制圆形以突出显示区域。用可自定义边框标记区域。非常适合截图和文档。导出为PNG。" title="在线向图像添加圆形">
+                                            <i class="fas fa-circle"></i>
+                                            <span>圆形</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="highlight" data-title="在线高亮图像区域" data-description="在线用黄色高亮区域。用可自定义的高亮标记重要区域。非常适合教程和演示。导出为PNG。" title="在线高亮图像区域">
+                                            <i class="fas fa-highlighter"></i>
+                                            <span>高亮</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="blur" data-title="在线模糊图像区域" data-description="在线模糊敏感信息。通过模糊区域保护隐私。非常适合文档和截图。导出为PNG。" title="在线模糊图像区域">
+                                            <i class="fas fa-tint"></i>
+                                            <span>模糊</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="pixelate" data-title="在线像素化图像区域" data-description="在线像素化敏感信息。通过像素化区域保护隐私。非常适合文档和截图。导出为PNG。" title="像素化区域">
+                                            <i class="fas fa-th"></i>
+                                            <span>像素化</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="line" data-title="在线在图像上画线" data-description="在线绘制直线。用可自定义线条标记边界和连接。非常适合图表和教程。导出为PNG。" title="在线在图像上画线">
+                                            <i class="fas fa-minus"></i>
+                                            <span>直线</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="watermark" data-title="在线向图像添加水印" data-description="在线向图像添加水印。用自定义水印保护和品牌化您的图像。非常适合版权保护。导出为PNG。" title="在线向图像添加水印">
+                                            <i class="fas fa-image"></i>
+                                            <span>水印</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="redact" data-title="在线遮盖图像区域" data-description="在线遮盖敏感信息。通过黑色覆盖区域保护隐私。非常适合文档和截图。导出为PNG。" title="在线遮盖图像区域">
+                                            <i class="fas fa-eye-slash"></i>
+                                            <span>遮盖</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="dashed" data-title="在线在图像上画虚线" data-description="在线绘制虚线。用可自定义虚线标记边界。非常适合图表和教程。导出为PNG。" title="在线在图像上画虚线">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                            <span>虚线</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="magnifier" data-title="在线放大图像区域" data-description="在线放大图像区域。用可自定义放大镜缩放细节。非常适合检查细小细节。导出为PNG。" title="在线放大图像区域">
+                                            <i class="fas fa-search-plus"></i>
+                                            <span>放大镜</span>
+                                        </button>
+                                        <button class="tool-btn" data-tool="mask" data-title="在线向图像添加遮罩" data-description="在线覆盖区域遮罩。用可自定义遮罩创建透明效果。非常适合创意项目和设计。导出为PNG。" title="在线向图像添加遮罩">
+                                            <i class="fas fa-mask"></i>
+                                            <span>遮罩</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section">
+                                    <h2>工具设置</h2>
+                                    <div class="setting-row">
+                                        <span class="setting-label">颜色：</span>
+                                        <input type="color" id="color-picker" class="color-picker" value="#ff0000">
+                                    </div>
+                                    <div class="setting-row">
+                                        <span class="setting-label">尺寸：</span>
+                                        <input type="range" id="size-slider" class="size-slider" min="1" max="50" value="3">
+                                        <span id="size-display" class="size-display">3像素</span>
+                                    </div>
+                                </div>
+
+                                <div class="privacy-statement">
+                                    <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+                                    文件在本地处理，处理完成后自动删除。
+                                </div>
+                            </div>
+
+                            <div class="sidebar-actions">
+                                <div class="action-row">
+                                    <button id="undo-btn" class="action-btn undo-btn" disabled>
+                                        <i class="fas fa-undo"></i> 撤销
+                                    </button>
+                                    <button id="redo-btn" class="action-btn redo-btn" disabled>
+                                        <i class="fas fa-redo"></i> 重做
+                                    </button>
+                                </div>
+                                <div class="action-row">
+                                    <button id="clear-btn" class="action-btn clear-btn">
+                                        <i class="fas fa-trash"></i> 全部清除
+                                    </button>
+                                    <button id="download-btn" class="action-btn download-btn" disabled>
+                                        <i class="fas fa-download"></i> 导出
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="canvas-area">
+                        <div id="upload-prompt" class="upload-prompt">
+                            <div class="upload-prompt-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="upload-prompt-title">图像标注工具</div>
+                            <div class="upload-prompt-instruction">点击此处或拖拽图像开始标注</div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">支持：JPG、PNG、WebP</p>
+                        </div>
+
+                        <div id="canvas-wrapper" class="canvas-wrapper">
+                            <button id="delete-image-btn" class="delete-image-btn" title="删除图像">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <canvas id="baseCanvas"></canvas>
+                            <canvas id="overlayCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Tutorial Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">如何使用图像标注工具</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        上传图像
+                    </h3>
+                    <p title="直接将图像拖放到上传区域，或点击上传按钮从设备中选择。支持JPG、PNG和WebP格式。">将图像直接拖放到上传区域，或点击上传按钮从设备中选择。支持JPG、PNG和WebP格式。</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                        选择工具
+                    </h3>
+                    <p title="从13种标注工具中选择，包括文本、箭头、矩形、圆形、高亮、模糊、像素化、直线、水印、遮盖、虚线、放大镜和遮罩。">从13种标注工具中选择，包括文本、箭头、矩形、圆形、高亮、模糊、像素化、直线、水印、遮盖、虚线、放大镜和遮罩。</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                        标注图像
+                    </h3>
+                    <p title="点击并拖动图像以添加标注。使用设置面板自定义颜色和尺寸。使用撤销/重做来管理您的标注。">点击并拖动图像以添加标注。使用设置面板自定义颜色和尺寸。使用撤销/重做来管理您的标注。</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        导出图像
+                    </h3>
+                    <p title="点击导出按钮将您的标注图像下载为PNG。所有标注都与原始图像合并。">点击导出按钮将您的标注图像下载为PNG。所有标注都与原始图像合并。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能介绍区 -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1605389173375-536da8b69691?w=600&h=400&fit=crop" alt="Image Annotation Tool" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">专业图像标注</h2>
+                    <p class="text-gray-600 text-lg mb-6">精确而轻松地标注图像。我们的工具提供13种专业标注工具，帮助您标记、突出显示和增强您的图像。</p>
+                    <p class="text-gray-600 text-lg">非常适合截图、演示文稿、教程以及任何需要清晰视觉标注的图像。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工具特点区 -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="content-text order-2 md:order-1">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">强大的标注工具</h2>
+                    <p class="text-gray-600 text-lg mb-6">从简单的文本和箭头到高级的模糊和像素化效果，我们的工具有着专业标注图像所需的一切。</p>
+                    <p class="text-gray-600 text-lg">使用遮盖、模糊或像素化保护敏感信息。添加水印进行品牌推广。使用放大镜放大细节。</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://plus.unsplash.com/premium_photo-1696694227400-a28a190be90b?w=600&h=400&fit=crop" alt="Annotation Tools" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 隐私安全区 -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=600&h=400&fit=crop" alt="Privacy Protection" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">100% 隐私保护</h2>
+                    <p class="text-gray-600 text-lg mb-6">所有图像处理都在您的浏览器中本地进行。您的图像永远不会上传到任何服务器。</p>
+                    <p class="text-gray-600 text-lg">您的数据保留在您的设备上，确保敏感图像的完全隐私和安全。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 移动端支持区 -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="content-text order-2 md:order-1">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">移动友好的设计</h2>
+                    <p class="text-gray-600 text-lg mb-6">通过我们的移动友好设计随时随地标注图像。我们的工具在智能手机和平板电脑上无缝运行，让您可以在任何地方标注图像。</p>
+                    <p class="text-gray-600 text-lg">通过适应任何屏幕尺寸的响应式界面，您可以轻松地使用移动设备上传、标注和下载图像。无需安装应用程序，只需打开浏览器即可开始标注。</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=600&h=400&fit=crop" alt="Mobile-Friendly Design" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部文本区 -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">免费轻松标注图像</h2>
+            <p class="text-gray-600 text-lg mb-6">告别使用复杂软件标注图像。使用CaliperTools图像标注工具，您可以毫不费力地免费为您的图像添加专业标注。最好的是，您可以从任何带有浏览器的设备使用我们的工具，无需下载或安装。无需经验！</p>
+            <p class="text-gray-600 text-lg mb-10">使用拖放编辑器上传您的图像，CaliperTools图像标注将处理其余部分。完成后，将您的标注图像下载为PNG。您可以根据需要标注任意数量的图片，只需几次点击即可完成。</p>
+            
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">每次都是高质量的标注</h2>
+            <p class="text-gray-600 text-lg mb-6">在添加专业标注的同时保留您的图像质量。我们的高级工具确保您的图像保持清晰和细节，无论您添加的是文本、形状还是效果。</p>
+            <p class="text-gray-600 text-lg">通过我们内置的自定义选项，您可以调整颜色、尺寸，并从13种不同的标注工具中选择，让您的图像脱颖而出。提升您的照片并通过完美标注的图像改善沟通。</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="section related-tools py-16 bg-white">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <h2 class="section-title text-3xl font-bold text-gray-900 mb-12 text-center">相关工具</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- 相关工具将由JS动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- 相关工具脚本 -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentSlug = 'image-annotation-tool';
+            if (typeof initRelatedTools === 'function') {
+                initRelatedTools(currentSlug);
+            }
+        });
+    </script>
+
+    <div id="text-input-modal" class="text-input-modal">
+        <h3 id="modal-title">输入文本</h3>
+        <input type="text" id="text-input" placeholder="输入您的文本...">
+        <div class="modal-buttons">
+            <button id="cancel-text" class="modal-btn cancel-btn">取消</button>
+            <button id="confirm-text" class="modal-btn confirm-btn">确定</button>
+        </div>
+    </div>
+
+    <script>
+        let baseCanvas, overlayCanvas, baseCtx, overlayCtx;
+        let originalImage = null;
+        let annotations = [];
+        let undoStack = [];
+        let redoStack = [];
+        let currentTool = null;
+        let isDrawing = false;
+        let startX, startY;
+        let currentColor = '#ff0000';
+        let currentSize = 3;
+        let currentPoints = [];
+        let watermarkImage = null;
+        let isDraggingWatermark = false;
+        let isResizingWatermark = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+        let currentWatermarkIndex = -1;
+        let selectedWatermarkIndex = -1;
+        let selectedTextIndex = -1;
+        let isDraggingText = false;
+        let isResizingText = false;
+        let resizeHandle = null;
+        const HANDLE_SIZE = 10;
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const watermarkInput = document.getElementById('watermark-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const canvasWrapper = document.getElementById('canvas-wrapper');
+        const colorPicker = document.getElementById('color-picker');
+        const sizeSlider = document.getElementById('size-slider');
+        const sizeDisplay = document.getElementById('size-display');
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const deleteImageBtn = document.getElementById('delete-image-btn');
+        const toolButtons = document.querySelectorAll('.tool-btn');
+        const textInputModal = document.getElementById('text-input-modal');
+        const textInput = document.getElementById('text-input');
+        const confirmTextBtn = document.getElementById('confirm-text');
+        const cancelTextBtn = document.getElementById('cancel-text');
+
+        function handleUrlParams() {
+            const pathname = window.location.pathname;
+            const segments = pathname.split('/');
+            const toolParam = segments[segments.length - 1];
+            
+            if (toolParam && toolParam !== 'Image-Annotation.html') {
+                const toolBtn = document.querySelector(`.tool-btn[data-tool="${toolParam}"]`);
+                if (toolBtn) {
+                    toolBtn.click();
+                }
+            }
+        }
+
+        function init() {
+            baseCanvas = document.getElementById('baseCanvas');
+            overlayCanvas = document.getElementById('overlayCanvas');
+            baseCtx = baseCanvas.getContext('2d');
+            overlayCtx = overlayCanvas.getContext('2d');
+
+            setupEventListeners();
+            handleUrlParams();
+        }
+
+        function setupEventListeners() {
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            uploadPrompt.addEventListener('click', function() {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', handleFileUpload);
+            watermarkInput.addEventListener('change', handleWatermarkUpload);
+
+            const canvasArea = document.querySelector('.canvas-area');
+            canvasArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.add('drag-over');
+            });
+
+            canvasArea.addEventListener('dragleave', function() {
+                uploadPrompt.classList.remove('drag-over');
+            });
+
+            canvasArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    loadImage(files[0]);
+                }
+            });
+
+            deleteImageBtn.addEventListener('click', function() {
+                originalImage = null;
+                annotations = [];
+                undoStack = [];
+                redoStack = [];
+                updateUndoRedoButtons();
+                uploadPrompt.style.display = 'flex';
+                canvasWrapper.classList.remove('active');
+                downloadBtn.disabled = true;
+                baseCtx.clearRect(0, 0, baseCanvas.width, baseCanvas.height);
+                overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                
+                document.title = 'CaliperTools';
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', '使用13种专业工具在线标注图像。添加文本、箭头、形状、模糊等。无需上传。');
+                }
+                
+                const newUrl = new URL(window.location.href);
+                // 确保无论当前URL是什么，都返回正确的基础URL
+                const segments = newUrl.pathname.split('/');
+                // 找到zh目录的位置
+                const langIndex = segments.indexOf('zh');
+                if (langIndex !== -1) {
+                    // 构建正确的路径：/zh/Image/Image-Annotation.html
+                    newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Annotation.html';
+                } else {
+                    //  fallback：如果找不到zh目录，直接使用根目录
+                    newUrl.pathname = '/zh/Image/Image-Annotation.html';
+                }
+                window.history.pushState({}, '', newUrl);
+                
+                toolButtons.forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                currentTool = null;
+            });
+
+            toolButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const tool = btn.dataset.tool;
+                    
+                    if (tool === 'watermark') {
+                        watermarkInput.click();
+                        return;
+                    }
+                    
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    btn.classList.add('active');
+                    currentTool = tool;
+                    
+                    const toolTitle = btn.dataset.title;
+                    const toolDescription = btn.dataset.description;
+                    
+                    if (toolTitle) {
+                        document.title = toolTitle + ' | CaliperTools';
+                    }
+                    
+                    const newUrl = new URL(window.location.href);
+                    // 直接构建正确的路径，不依赖当前URL结构
+                    const segments = newUrl.pathname.split('/');
+                    // 找到zh目录的位置
+                    const langIndex = segments.indexOf('zh');
+                    if (langIndex !== -1) {
+                        // 构建正确的路径：/zh/Image/Image-Annotation/tool
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Annotation/' + tool;
+                    } else {
+                        //  fallback：如果找不到zh目录，直接使用根目录
+                        newUrl.pathname = '/zh/Image/Image-Annotation/' + tool;
+                    }
+                    window.history.pushState({}, '', newUrl);
+                    
+                    const metaDescription = document.querySelector('meta[name="description"]');
+                    if (metaDescription && toolDescription) {
+                        metaDescription.setAttribute('content', toolDescription);
+                    }
+                });
+            });
+
+            colorPicker.addEventListener('input', function(e) {
+                currentColor = e.target.value;
+            });
+
+            sizeSlider.addEventListener('input', function(e) {
+                currentSize = parseInt(e.target.value);
+                sizeDisplay.textContent = currentSize + 'px';
+            });
+
+            overlayCanvas.addEventListener('mousedown', handleMouseDown);
+            overlayCanvas.addEventListener('mousemove', handleMouseMove);
+            overlayCanvas.addEventListener('mouseup', handleMouseUp);
+            overlayCanvas.addEventListener('mouseleave', handleMouseUp);
+            overlayCanvas.addEventListener('dblclick', handleDoubleClick);
+
+            undoBtn.addEventListener('click', undo);
+            redoBtn.addEventListener('click', redo);
+            clearBtn.addEventListener('click', clearAll);
+            downloadBtn.addEventListener('click', downloadImage);
+
+            confirmTextBtn.addEventListener('click', function() {
+                const text = textInput.value;
+                if (text.trim()) {
+                    const editingIndex = textInput.dataset.editingIndex;
+                    if (editingIndex !== undefined && editingIndex !== '') {
+                        saveState();
+                        annotations[parseInt(editingIndex)].text = text;
+                        redrawAnnotations();
+                        updateUndoRedoButtons();
+                        delete textInput.dataset.editingIndex;
+                    } else {
+                        addTextAnnotation(text, startX, startY);
+                    }
+                }
+                textInputModal.classList.remove('show');
+                textInput.value = '';
+            });
+
+            cancelTextBtn.addEventListener('click', function() {
+                textInputModal.classList.remove('show');
+                textInput.value = '';
+                delete textInput.dataset.editingIndex;
+            });
+        }
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        }
+
+        function handleWatermarkUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        watermarkImage = img;
+                        const maxWidth = overlayCanvas.width * 0.3;
+                        const maxHeight = overlayCanvas.height * 0.3;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxWidth) {
+                            height = (maxWidth / width) * height;
+                            width = maxWidth;
+                        }
+                        if (height > maxHeight) {
+                            width = (maxHeight / height) * width;
+                            height = maxHeight;
+                        }
+
+                        img.width = width;
+                        img.height = height;
+
+                        const centerX = overlayCanvas.width / 2 - width / 2;
+                        const centerY = overlayCanvas.height / 2 - height / 2;
+
+                        annotations.push({
+                            type: 'watermark',
+                            x: centerX,
+                            y: centerY,
+                            width: width,
+                            height: height,
+                            image: img
+                        });
+
+                        saveState();
+                        redrawAnnotations();
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = (maxWidth / width) * height;
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = (maxHeight / height) * width;
+                        height = maxHeight;
+                    }
+
+                    baseCanvas.width = width;
+                    baseCanvas.height = height;
+                    overlayCanvas.width = width;
+                    overlayCanvas.height = height;
+
+                    baseCtx.drawImage(img, 0, 0, width, height);
+                    
+                    canvasWrapper.style.width = width + 'px';
+                    canvasWrapper.style.height = height + 'px';
+
+                    uploadPrompt.style.display = 'none';
+                    canvasWrapper.classList.add('active');
+                    downloadBtn.disabled = false;
+                    
+                    annotations = [];
+                    undoStack = [];
+                    redoStack = [];
+                    updateUndoRedoButtons();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleMouseDown(e) {
+            if (!originalImage) return;
+
+            const rect = overlayCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            for (let i = annotations.length - 1; i >= 0; i--) {
+                const annotation = annotations[i];
+                if (annotation.type === 'watermark') {
+                    const handleX = annotation.x + annotation.width - HANDLE_SIZE;
+                    const handleY = annotation.y + annotation.height - HANDLE_SIZE;
+                    
+                    if (mouseX >= handleX && mouseX <= handleX + HANDLE_SIZE * 2 &&
+                        mouseY >= handleY && mouseY <= handleY + HANDLE_SIZE * 2) {
+                        isResizingWatermark = true;
+                        currentWatermarkIndex = i;
+                        resizeHandle = 'se';
+                        return;
+                    }
+                    
+                    if (mouseX >= annotation.x && mouseX <= annotation.x + annotation.width &&
+                        mouseY >= annotation.y && mouseY <= annotation.y + annotation.height) {
+                        isDraggingWatermark = true;
+                        dragOffsetX = mouseX - annotation.x;
+                        dragOffsetY = mouseY - annotation.y;
+                        currentWatermarkIndex = i;
+                        selectedWatermarkIndex = i;
+                        selectedTextIndex = -1;
+                        redrawAnnotations();
+                        return;
+                    }
+                } else if (annotation.type === 'text') {
+                    overlayCtx.font = annotation.size + 'px Arial';
+                    const textWidth = overlayCtx.measureText(annotation.text).width;
+                    const textHeight = annotation.size;
+                    
+                    const handleX = annotation.x + textWidth - HANDLE_SIZE;
+                    const handleY = annotation.y - textHeight - HANDLE_SIZE;
+                    
+                    if (mouseX >= handleX && mouseX <= handleX + HANDLE_SIZE * 2 &&
+                        mouseY >= handleY && mouseY <= handleY + HANDLE_SIZE * 2) {
+                        isResizingText = true;
+                        currentWatermarkIndex = i;
+                        resizeHandle = 'se';
+                        return;
+                    }
+                    
+                    if (mouseX >= annotation.x && mouseX <= annotation.x + textWidth &&
+                        mouseY >= annotation.y - textHeight && mouseY <= annotation.y) {
+                        isDraggingText = true;
+                        dragOffsetX = mouseX - annotation.x;
+                        dragOffsetY = mouseY - annotation.y;
+                        currentWatermarkIndex = i;
+                        selectedTextIndex = i;
+                        selectedWatermarkIndex = -1;
+                        redrawAnnotations();
+                        return;
+                    }
+                }
+            }
+
+            selectedWatermarkIndex = -1;
+            selectedTextIndex = -1;
+            redrawAnnotations();
+
+            if (!currentTool) return;
+
+            if (currentTool === 'text') {
+                isDrawing = false;
+                startX = mouseX;
+                startY = mouseY;
+                textInputModal.classList.add('show');
+                textInput.focus();
+            } else if (currentTool === 'draw') {
+                isDrawing = true;
+                startX = mouseX;
+                startY = mouseY;
+                currentPoints = [{ x: startX, y: startY }];
+            } else {
+                startX = mouseX;
+                startY = mouseY;
+                isDrawing = true;
+            }
+        }
+
+        function handleMouseMove(e) {
+            const rect = overlayCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            if (isResizingWatermark) {
+                const watermark = annotations[currentWatermarkIndex];
+                if (watermark && watermark.type === 'watermark') {
+                    const newWidth = mouseX - watermark.x;
+                    const newHeight = mouseY - watermark.y;
+                    
+                    if (newWidth > 20 && newHeight > 20) {
+                        watermark.width = newWidth;
+                        watermark.height = newHeight;
+                        redrawAnnotations();
+                    }
+                }
+                return;
+            }
+
+            if (isResizingText) {
+                const text = annotations[currentWatermarkIndex];
+                if (text && text.type === 'text') {
+                    const newSize = Math.max(12, text.y - mouseY);
+                    text.size = newSize;
+                    redrawAnnotations();
+                }
+                return;
+            }
+
+            if (isDraggingWatermark) {
+                const watermark = annotations[currentWatermarkIndex];
+                if (watermark && watermark.type === 'watermark') {
+                    watermark.x = mouseX - dragOffsetX;
+                    watermark.y = mouseY - dragOffsetY;
+                    redrawAnnotations();
+                }
+                return;
+            }
+
+            if (isDraggingText) {
+                const text = annotations[currentWatermarkIndex];
+                if (text && text.type === 'text') {
+                    text.x = mouseX - dragOffsetX;
+                    text.y = mouseY - dragOffsetY;
+                    redrawAnnotations();
+                }
+                return;
+            }
+
+            if (!isDrawing || !currentTool) return;
+
+            const currentX = mouseX;
+            const currentY = mouseY;
+
+            redrawAnnotations();
+
+            overlayCtx.strokeStyle = currentColor;
+            overlayCtx.lineWidth = currentSize;
+            overlayCtx.fillStyle = currentColor;
+
+            if (currentTool === 'arrow') {
+                drawArrow(overlayCtx, startX, startY, currentX, currentY);
+            } else if (currentTool === 'rect') {
+                overlayCtx.strokeRect(startX, startY, currentX - startX, currentY - startY);
+            } else if (currentTool === 'circle') {
+                const radius = Math.sqrt(Math.pow(currentX - startX, 2) + Math.pow(currentY - startY, 2));
+                overlayCtx.beginPath();
+                overlayCtx.arc(startX, startY, radius, 0, Math.PI * 2);
+                overlayCtx.stroke();
+            } else if (currentTool === 'highlight') {
+                overlayCtx.fillStyle = 'rgba(255,255,0,0.3)';
+                overlayCtx.fillRect(startX, startY, currentX - startX, currentY - startY);
+            } else if (currentTool === 'blur') {
+                drawBlurPreview(startX, startY, currentX - startX, currentY - startY);
+            } else if (currentTool === 'pixelate') {
+                drawPixelatePreview(startX, startY, currentX - startX, currentY - startY);
+            } else if (currentTool === 'redact') {
+                overlayCtx.fillStyle = '#000000';
+                overlayCtx.fillRect(startX, startY, currentX - startX, currentY - startY);
+            } else if (currentTool === 'line') {
+                overlayCtx.beginPath();
+                overlayCtx.moveTo(startX, startY);
+                overlayCtx.lineTo(currentX, currentY);
+                overlayCtx.stroke();
+            } else if (currentTool === 'dashed') {
+                overlayCtx.setLineDash([10, 5]);
+                overlayCtx.beginPath();
+                overlayCtx.moveTo(startX, startY);
+                overlayCtx.lineTo(currentX, currentY);
+                overlayCtx.stroke();
+                overlayCtx.setLineDash([]);
+            } else if (currentTool === 'draw') {
+                currentPoints.push({ x: currentX, y: currentY });
+                overlayCtx.beginPath();
+                overlayCtx.moveTo(currentPoints[0].x, currentPoints[0].y);
+                for (let i = 1; i < currentPoints.length; i++) {
+                    overlayCtx.lineTo(currentPoints[i].x, currentPoints[i].y);
+                }
+                overlayCtx.stroke();
+            }
+        }
+
+        function handleMouseUp(e) {
+            const rect = overlayCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            if (isResizingWatermark) {
+                isResizingWatermark = false;
+                resizeHandle = null;
+                saveState();
+                return;
+            }
+
+            if (isResizingText) {
+                isResizingText = false;
+                resizeHandle = null;
+                saveState();
+                return;
+            }
+
+            if (isDraggingWatermark) {
+                isDraggingWatermark = false;
+                saveState();
+                return;
+            }
+
+            if (isDraggingText) {
+                isDraggingText = false;
+                saveState();
+                return;
+            }
+
+            if (!isDrawing || !currentTool) return;
+
+            const endX = mouseX;
+            const endY = mouseY;
+
+            saveState();
+
+            if (currentTool === 'arrow') {
+                annotations.push({
+                    type: 'arrow',
+                    x: startX,
+                    y: startY,
+                    endX: endX,
+                    endY: endY,
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'rect') {
+                annotations.push({
+                    type: 'rect',
+                    x: startX,
+                    y: startY,
+                    width: endX - startX,
+                    height: endY - startY,
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'circle') {
+                const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                annotations.push({
+                    type: 'circle',
+                    x: startX,
+                    y: startY,
+                    radius: radius,
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'highlight') {
+                annotations.push({
+                    type: 'highlight',
+                    x: startX,
+                    y: startY,
+                    width: endX - startX,
+                    height: endY - startY,
+                    color: currentColor
+                });
+            } else if (currentTool === 'blur') {
+                annotations.push({
+                    type: 'blur',
+                    x: startX,
+                    y: startY,
+                    width: endX - startX,
+                    height: endY - startY,
+                    color: currentColor
+                });
+            } else if (currentTool === 'pixelate') {
+                annotations.push({
+                    type: 'pixelate',
+                    x: startX,
+                    y: startY,
+                    width: endX - startX,
+                    height: endY - startY,
+                    color: currentColor
+                });
+            } else if (currentTool === 'redact') {
+                annotations.push({
+                    type: 'redact',
+                    x: startX,
+                    y: startY,
+                    width: endX - startX,
+                    height: endY - startY,
+                    color: currentColor
+                });
+            } else if (currentTool === 'line') {
+                annotations.push({
+                    type: 'line',
+                    x: startX,
+                    y: startY,
+                    endX: endX,
+                    endY: endY,
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'dashed') {
+                annotations.push({
+                    type: 'dashed',
+                    x: startX,
+                    y: startY,
+                    endX: endX,
+                    endY: endY,
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'draw') {
+                annotations.push({
+                    type: 'draw',
+                    points: [...currentPoints],
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'label') {
+                annotations.push({
+                    type: 'label',
+                    x: startX,
+                    y: startY,
+                    text: 'Label',
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'magnifier') {
+                const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                annotations.push({
+                    type: 'magnifier',
+                    x: startX,
+                    y: startY,
+                    radius: radius,
+                    color: currentColor,
+                    size: currentSize
+                });
+            } else if (currentTool === 'mask') {
+                annotations.push({
+                    type: 'mask',
+                    x: startX,
+                    y: startY,
+                    width: endX - startX,
+                    height: endY - startY,
+                    color: currentColor
+                });
+            }
+
+            isDrawing = false;
+            redrawAnnotations();
+            updateUndoRedoButtons();
+        }
+
+        function addTextAnnotation(text, x, y) {
+            saveState();
+            annotations.push({
+                type: 'text',
+                x: x,
+                y: y,
+                text: text,
+                color: currentColor,
+                size: currentSize * 5
+            });
+            redrawAnnotations();
+            updateUndoRedoButtons();
+        }
+
+        function handleDoubleClick(e) {
+            if (!originalImage) return;
+
+            const rect = overlayCanvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            for (let i = annotations.length - 1; i >= 0; i--) {
+                const annotation = annotations[i];
+                if (annotation.type === 'text') {
+                    overlayCtx.font = annotation.size + 'px Arial';
+                    const textWidth = overlayCtx.measureText(annotation.text).width;
+                    const textHeight = annotation.size;
+                    
+                    if (mouseX >= annotation.x && mouseX <= annotation.x + textWidth &&
+                        mouseY >= annotation.y - textHeight && mouseY <= annotation.y) {
+                        textInput.value = annotation.text;
+                        textInputModal.classList.add('show');
+                        textInput.focus();
+                        textInput.dataset.editingIndex = i;
+                        return;
+                    }
+                }
+            }
+        }
+
+        function drawArrow(ctx, fromX, fromY, toX, toY) {
+            const headLength = Math.min(Math.max(20, (ctx.lineWidth || 3) * 6), 80);
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(toX - headLength * Math.cos(angle - Math.PI / 4), toY - headLength * Math.sin(angle - Math.PI / 4));
+            ctx.lineTo(toX, toY);
+            ctx.lineTo(toX - headLength * Math.cos(angle + Math.PI / 4), toY - headLength * Math.sin(angle + Math.PI / 4));
+            ctx.stroke();
+        }
+
+        function drawBlurPreview(x, y, width, height) {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = Math.abs(width);
+            tempCanvas.height = Math.abs(height);
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCtx.drawImage(baseCanvas, x, y, width, height, 0, 0, Math.abs(width), Math.abs(height));
+
+            const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            const data = imageData.data;
+            const blurRadius = 5;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const px = (i / 4) % tempCanvas.width;
+                const py = Math.floor((i / 4) / tempCanvas.width);
+
+                let r = 0, g = 0, b = 0, count = 0;
+
+                for (let dy = -blurRadius; dy <= blurRadius; dy++) {
+                    for (let dx = -blurRadius; dx <= blurRadius; dx++) {
+                        const nx = px + dx;
+                        const ny = py + dy;
+
+                        if (nx >= 0 && nx < tempCanvas.width && ny >= 0 && ny < tempCanvas.height) {
+                            const idx = (ny * tempCanvas.width + nx) * 4;
+                            r += data[idx];
+                            g += data[idx + 1];
+                            b += data[idx + 2];
+                            count++;
+                        }
+                    }
+                }
+
+                data[i] = r / count;
+                data[i + 1] = g / count;
+                data[i + 2] = b / count;
+            }
+
+            tempCtx.putImageData(imageData, 0, 0);
+            overlayCtx.drawImage(tempCanvas, x, y);
+        }
+
+        function drawPixelatePreview(x, y, width, height) {
+            const pixelSize = currentSize * 2;
+            const tempCanvas = document.createElement('canvas');
+            const w = Math.abs(width);
+            const h = Math.abs(height);
+            
+            tempCanvas.width = Math.ceil(w / pixelSize);
+            tempCanvas.height = Math.ceil(h / pixelSize);
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCtx.drawImage(baseCanvas, x, y, w, h, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            overlayCtx.imageSmoothingEnabled = false;
+            overlayCtx.drawImage(tempCanvas, x, y, w, h);
+            overlayCtx.imageSmoothingEnabled = true;
+        }
+
+        function applyBlur(x, y, width, height) {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = Math.abs(width);
+            tempCanvas.height = Math.abs(height);
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCtx.drawImage(baseCanvas, x, y, width, height, 0, 0, Math.abs(width), Math.abs(height));
+
+            const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            const data = imageData.data;
+            const blurRadius = 5;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const px = (i / 4) % tempCanvas.width;
+                const py = Math.floor((i / 4) / tempCanvas.width);
+
+                let r = 0, g = 0, b = 0, count = 0;
+
+                for (let dy = -blurRadius; dy <= blurRadius; dy++) {
+                    for (let dx = -blurRadius; dx <= blurRadius; dx++) {
+                        const nx = px + dx;
+                        const ny = py + dy;
+
+                        if (nx >= 0 && nx < tempCanvas.width && ny >= 0 && ny < tempCanvas.height) {
+                            const idx = (ny * tempCanvas.width + nx) * 4;
+                            r += data[idx];
+                            g += data[idx + 1];
+                            b += data[idx + 2];
+                            count++;
+                        }
+                    }
+                }
+
+                data[i] = r / count;
+                data[i + 1] = g / count;
+                data[i + 2] = b / count;
+            }
+
+            tempCtx.putImageData(imageData, 0, 0);
+            baseCtx.drawImage(tempCanvas, x, y);
+        }
+
+        function applyPixelate(x, y, width, height) {
+            const pixelSize = currentSize * 2;
+            const tempCanvas = document.createElement('canvas');
+            const w = Math.abs(width);
+            const h = Math.abs(height);
+            
+            tempCanvas.width = Math.ceil(w / pixelSize);
+            tempCanvas.height = Math.ceil(h / pixelSize);
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCtx.drawImage(baseCanvas, x, y, w, h, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            baseCtx.imageSmoothingEnabled = false;
+            baseCtx.drawImage(tempCanvas, x, y, w, h);
+            baseCtx.imageSmoothingEnabled = true;
+        }
+
+        function redrawAnnotations() {
+            overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+
+            annotations.forEach(function(annotation) {
+                overlayCtx.strokeStyle = annotation.color;
+                overlayCtx.fillStyle = annotation.color;
+                overlayCtx.lineWidth = annotation.size || 3;
+
+                if (annotation.type === 'arrow') {
+                    drawArrow(overlayCtx, annotation.x, annotation.y, annotation.endX, annotation.endY);
+                } else if (annotation.type === 'rect') {
+                    overlayCtx.strokeRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                } else if (annotation.type === 'circle') {
+                    overlayCtx.beginPath();
+                    overlayCtx.arc(annotation.x, annotation.y, annotation.radius, 0, Math.PI * 2);
+                    overlayCtx.stroke();
+                } else if (annotation.type === 'highlight') {
+                    overlayCtx.fillStyle = 'rgba(255,255,0,0.3)';
+                    overlayCtx.fillRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                } else if (annotation.type === 'blur') {
+                    drawBlurPreview(annotation.x, annotation.y, annotation.width, annotation.height);
+                } else if (annotation.type === 'pixelate') {
+                    drawPixelatePreview(annotation.x, annotation.y, annotation.width, annotation.height);
+                } else if (annotation.type === 'redact') {
+                    overlayCtx.fillStyle = '#000000';
+                    overlayCtx.fillRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                } else if (annotation.type === 'line') {
+                    overlayCtx.beginPath();
+                    overlayCtx.moveTo(annotation.x, annotation.y);
+                    overlayCtx.lineTo(annotation.endX, annotation.endY);
+                    overlayCtx.stroke();
+                } else if (annotation.type === 'dashed') {
+                    overlayCtx.setLineDash([10, 5]);
+                    overlayCtx.beginPath();
+                    overlayCtx.moveTo(annotation.x, annotation.y);
+                    overlayCtx.lineTo(annotation.endX, annotation.endY);
+                    overlayCtx.stroke();
+                    overlayCtx.setLineDash([]);
+                } else if (annotation.type === 'draw') {
+                    overlayCtx.beginPath();
+                    overlayCtx.moveTo(annotation.points[0].x, annotation.points[0].y);
+                    for (let i = 1; i < annotation.points.length; i++) {
+                        overlayCtx.lineTo(annotation.points[i].x, annotation.points[i].y);
+                    }
+                    overlayCtx.stroke();
+                } else if (annotation.type === 'text') {
+                    overlayCtx.font = annotation.size + 'px Arial';
+                    overlayCtx.fillText(annotation.text, annotation.x, annotation.y);
+                    
+                    if (annotations.indexOf(annotation) === selectedTextIndex) {
+                        const textWidth = overlayCtx.measureText(annotation.text).width;
+                        const textHeight = annotation.size;
+                        
+                        overlayCtx.strokeStyle = '#2196F3';
+                        overlayCtx.lineWidth = 2;
+                        overlayCtx.setLineDash([5, 5]);
+                        overlayCtx.strokeRect(annotation.x - 5, annotation.y - textHeight - 5, textWidth + 10, textHeight + 10);
+                        overlayCtx.setLineDash([]);
+                        
+                        const handleX = annotation.x + textWidth - HANDLE_SIZE;
+                        const handleY = annotation.y - textHeight - HANDLE_SIZE;
+                        overlayCtx.fillStyle = '#2196F3';
+                        overlayCtx.fillRect(handleX, handleY, HANDLE_SIZE * 2, HANDLE_SIZE * 2);
+                    }
+                } else if (annotation.type === 'label') {
+                    const padding = 10;
+                    const textWidth = overlayCtx.measureText(annotation.text).width;
+                    overlayCtx.fillRect(annotation.x, annotation.y, textWidth + padding * 2, annotation.size * 2);
+                    overlayCtx.fillStyle = 'white';
+                    overlayCtx.font = annotation.size + 'px Arial';
+                    overlayCtx.fillText(annotation.text, annotation.x + padding, annotation.y + annotation.size * 1.5);
+                } else if (annotation.type === 'magnifier') {
+                    overlayCtx.save();
+                    overlayCtx.beginPath();
+                    overlayCtx.arc(annotation.x, annotation.y, annotation.radius, 0, Math.PI * 2);
+                    overlayCtx.clip();
+                    
+                    const scale = 2;
+                    const sx = annotation.x - annotation.radius / scale;
+                    const sy = annotation.y - annotation.radius / 2;
+                    const sw = (annotation.radius * 2) / 2;
+                    const sh = (annotation.radius * 2) / 2;
+                    
+                    overlayCtx.drawImage(baseCanvas, sx, sy, sw, sh, 
+                                       annotation.x - annotation.radius, annotation.y - annotation.radius, 
+                                       annotation.radius * 2, annotation.radius * 2);
+                    
+                    overlayCtx.restore();
+                    overlayCtx.beginPath();
+                    overlayCtx.arc(annotation.x, annotation.y, annotation.radius, 0, Math.PI * 2);
+                    overlayCtx.stroke();
+                } else if (annotation.type === 'mask') {
+                    overlayCtx.fillStyle = 'rgba(0,0,0,0.7)';
+                    overlayCtx.fillRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+                    overlayCtx.globalCompositeOperation = 'destination-out';
+                    overlayCtx.fillRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                    overlayCtx.globalCompositeOperation = 'source-over';
+                } else if (annotation.type === 'watermark') {
+                    overlayCtx.drawImage(annotation.image, annotation.x, annotation.y, annotation.width, annotation.height);
+                    
+                    if (annotations.indexOf(annotation) === selectedWatermarkIndex) {
+                        overlayCtx.strokeStyle = '#2196F3';
+                        overlayCtx.lineWidth = 2;
+                        overlayCtx.setLineDash([5, 5]);
+                        overlayCtx.strokeRect(annotation.x, annotation.y, annotation.width, annotation.height);
+                        overlayCtx.setLineDash([]);
+                        
+                        const handleX = annotation.x + annotation.width - HANDLE_SIZE;
+                        const handleY = annotation.y + annotation.height - HANDLE_SIZE;
+                        overlayCtx.fillStyle = '#2196F3';
+                        overlayCtx.fillRect(handleX, handleY, HANDLE_SIZE * 2, HANDLE_SIZE * 2);
+                    }
+                }
+            });
+        }
+
+        function saveState() {
+            undoStack.push(JSON.parse(JSON.stringify(annotations)));
+            redoStack = [];
+            updateUndoRedoButtons();
+        }
+
+        function undo() {
+            if (undoStack.length > 0) {
+                redoStack.push(JSON.parse(JSON.stringify(annotations)));
+                annotations = undoStack.pop();
+                redrawAnnotations();
+                updateUndoRedoButtons();
+            }
+        }
+
+        function redo() {
+            if (redoStack.length > 0) {
+                undoStack.push(JSON.parse(JSON.stringify(annotations)));
+                annotations = redoStack.pop();
+                redrawAnnotations();
+                updateUndoRedoButtons();
+            }
+        }
+
+        function updateUndoRedoButtons() {
+            undoBtn.disabled = undoStack.length === 0;
+            redoBtn.disabled = redoStack.length === 0;
+        }
+
+        function clearAll() {
+            if (annotations.length > 0) {
+                if (confirm('Clear all annotations?')) {
+                    saveState();
+                    annotations = [];
+                    numberIndex = 1;
+                    redrawAnnotations();
+                    updateUndoRedoButtons();
+                }
+            }
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+
+            const resultCanvas = document.createElement('canvas');
+            resultCanvas.width = baseCanvas.width;
+            resultCanvas.height = baseCanvas.height;
+            const resultCtx = resultCanvas.getContext('2d');
+
+            resultCtx.drawImage(baseCanvas, 0, 0);
+            resultCtx.drawImage(overlayCanvas, 0, 0);
+
+            const link = document.createElement('a');
+            link.download = 'annotated-image.png';
+            link.href = resultCanvas.toDataURL('image/png');
+            link.click();
+        }
+
+        init();
+    </script>
+</body>
+</html>

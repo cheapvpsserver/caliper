@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="vi-VN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Công cụ phân tích văn bản trực tuyến miễn phí từ CaliperTools - Phân tích số từ, độ dễ đọc, từ khóa và cấu trúc viết của văn bản của bạn. Nhận thông tin trực quan và lời khuyên để viết tốt hơn." />
+<title>Công cụ kiểm tra phân tích văn bản trực tuyến miễn phí | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+    
+<style>
+    /* Text analysis tool custom styles */
+    /* Fix mobile horizontal scrolling issue */
+    
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5; /* Gray background */
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full-width container ensures content is within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+        
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+    }
+    
+    /* Table container ensures scrolling only happens internally */
+    .table-wrapper {
+        overflow-x: auto;
+        margin-top: 1rem;
+        border-radius: 0.375rem;
+        border: 0px solid #e5e7eb;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        min-width: auto;
+        word-wrap: break-word;
+        margin-bottom: 1rem;
+    }
+    
+    /* Ensure table doesn't cause external scrolling */
+    .table-wrapper table {
+        min-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Control area styles */
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem auto;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        box-sizing: border-box;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+        
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        #wordCloud {
+            height: 250px;
+        }
+    }
+    
+    @media (max-width: 640px) {
+        /* Mobile ensure content has appropriate spacing */
+        main {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        .tool-container {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1rem;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .stat {
+            padding: 0.75rem;
+            font-size: 0.75rem;
+        }
+        
+        textarea {
+            height: 150px;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        #wordCloud {
+            height: 200px;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+        }
+        
+        h2 {
+            font-size: 1.125rem;
+        }
+        
+        table {
+            font-size: 0.75rem;
+        }
+        
+        th, td {
+            padding: 0.5rem;
+        }
+        
+        .controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        button, select, input[type=checkbox] {
+            padding: 0.5rem;
+        }
+    }
+    
+    textarea {
+        width: 100%;
+        height: 200px;
+        padding: 1rem;
+        font-size: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        resize: vertical;
+    }
+    
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .stat {
+        background: #f9fafb;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+    
+    h2 {
+        margin-top: 2rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111827;
+    }
+    
+    /* Module container styles */
+    .section {
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 0;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+    
+    /* Module content area styles */
+    .module-content {
+        background: #f9fafb;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        overflow: visible;
+        word-wrap: break-word;
+        white-space: normal;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Ensure word cloud is properly constrained */
+    #wordCloud {
+        width: 100% !important;
+        max-width: calc(100% - 2rem) !important;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+    
+    /* Keyword list styles */
+    .keyword-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        overflow: auto;
+        max-height: 150px;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+    }
+    
+    .keyword-list span {
+        background: #e5e7eb;
+        padding: 0.375rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+    
+    #wordCloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        overflow: auto;
+        align-content: flex-start;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        flex-shrink: 1;
+        align-self: stretch;
+    }
+    
+    #wordCloud span {
+        white-space: nowrap;
+        flex-shrink: 1;
+        max-width: 100%;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        font-size: 0.875rem;
+    }
+    
+    th, td {
+        border: 1px solid #e5e7eb;
+        padding: 0.75rem;
+        text-align: left;
+    }
+    
+    th {
+        background: #f3f4f6;
+        font-weight: 600;
+    }
+    
+    .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+    }
+    
+    button, select, input[type=checkbox] {
+        padding: 0.375rem 0.75rem;
+        cursor: pointer;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+    }
+    
+    button {
+        background: #0066cc;
+        color: white;
+        border: none;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Pagination controls styles */
+    .pagination {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem auto;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        box-sizing: border-box;
+    }
+    
+    /* Ensure main container elements don't exceed viewport width */
+    main, .tool-container {
+        max-width: 100% !important;
+    }
+    
+    /* Ensure canvas element doesn't cause horizontal scrolling */
+    canvas {
+        width: 100% !important;
+        max-width: calc(100% - 2rem) !important;
+        height: auto !important;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    
+    /* Fix background length issue */
+    .section {
+        overflow: visible !important;
+    }
+    
+    /* Ensure right panel background is long enough */
+    .right-panel {
+        overflow: visible !important;
+    }
+    
+    ul {
+        margin-top: 0.5rem;
+        padding-left: 1.25rem;
+        overflow: visible;
+        word-wrap: break-word;
+        margin-bottom: 0.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.25rem;
+        word-wrap: break-word;
+        overflow: visible;
+        padding: 0.125rem 0;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+    }
+    
+    .feature-list-item i {
+        color: #34d399;
+        font-size: 1.125rem;
+    }
+    
+    /* Header Styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #111827;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+    }
+    
+    /* Ensure CTA section titles are white */
+    .cta-section h4 {
+        color: white;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .cta-section .feature-list-item {
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Menu chuột phải đã bị vô hiệu hóa');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Chức năng sao chép đã bị vô hiệu hóa');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Công cụ dành cho nhà phát triển đã bị vô hiệu hóa');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1 style="display: flex; align-items: center; justify-content: space-between;">Công cụ phân tích văn bản trực tuyến miễn phí <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">Cách sử dụng?</a></h1>
+
+<textarea id="textInput" placeholder="Dán văn bản của bạn ở đây..."></textarea>
+
+<div class="stats">
+  <div class="stat">Số từ không lọc<br><strong id="unfilteredCount">0</strong></div>
+  <div class="stat">Ký tự<br><strong id="charCount">0</strong></div>
+  <div class="stat">Ký tự (không có khoảng trắng)<br><strong id="charNoSpace">0</strong></div>
+  <div class="stat">Số câu<br><strong id="sentenceCount">0</strong></div>
+  <div class="stat">Tổng số âm tiết<br><strong id="syllableCount">0</strong></div>
+  <div class="stat">Thời gian đọc<br><strong id="readingTime">0 phút</strong></div>
+</div>
+
+<div class="section">
+  <h2>Độ dễ đọc</h2>
+  <p id="readability" class="module-content"></p>
+</div>
+
+<div class="section">
+  <h2>Cấu trúc viết</h2>
+  <ul id="structure" class="module-content"></ul>
+</div>
+
+<div class="section">
+  <h2>Phân tích nội dung</h2>
+  <ul id="contentStats" class="module-content"></ul>
+</div>
+
+<div class="section">
+  <h2>Lời khuyên về viết</h2>
+  <ul id="suggestions" class="module-content"></ul>
+</div>
+
+<div class="section">
+  <h2>Phân tích từ khóa (đã lọc)</h2>
+  <label><input type="checkbox" id="stopWordsSwitch" checked> Lọc stopword (the, and, of)</label>
+  <p><strong>Số từ đã lọc:</strong> <span id="filteredWords">0</span></p>
+  <div class="keyword-list" id="keywords"></div>
+</div>
+
+<div class="section">
+  <h2>Đám mây từ khóa</h2>
+  <div id="wordCloud" style="height: 300px; background: #f9fafb; border-radius: 0.375rem; margin-top: 1rem; padding: 1rem;"></div>
+</div>
+
+            </div>
+            <!-- Right panel: Advanced analysis -->
+            <div class="right-panel">
+
+                <div class="section">
+                  <h2>Số từ không lọc</h2>
+                  <div class="controls">
+                    <label>Hiển thị: 
+                      <select id="displayMode">
+                        <option value="20" selected>Top 20</option>
+                        <option value="50">Top 50</option>
+                        <option value="100">Top 100</option>
+                        <option value="all">Tất cả</option>
+                      </select>
+                    </label>
+                    <button id="exportCSV">Xuất CSV</button>
+                  </div>
+                  <div class="table-wrapper">
+                    <table>
+                      <thead>
+                        <tr><th>Thứ tự</th><th>Từ</th><th>Số lần xuất hiện</th><th>Phần trăm</th></tr>
+                      </thead>
+                      <tbody id="wordTable"></tbody>
+                    </table>
+                  </div>
+                  <div class="pagination" id="pagination">
+                    <button onclick="prevPage()">Trước</button>
+                    <span id="pageInfo"></span>
+                    <button onclick="nextPage()">Tiếp theo</button>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <h2>Phân bố độ dài từ</h2>
+                  <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Free Online Text Analysis Checker -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Cách sử dụng Công cụ kiểm tra phân tích văn bản trực tuyến miễn phí</h3>
+                <p>
+                    Thực hiện các bước đơn giản này để phân tích văn bản của bạn và nhận thông tin chi tiết về số từ, độ dễ đọc, từ khóa và nhiều hơn nữa.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Bước 1: Nhập văn bản của bạn</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚡</span>
+                        <span>Bước 2: Xem phân tích ngay lập tức</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📊</span>
+                        <span>Bước 3: Nhận các chỉ số chi tiết</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Hướng dẫn từng bước</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Bước 1: Nhập văn bản của bạn</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Nhập văn bản của bạn vào khu vực văn bản ở bảng bên trái:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Viết hoặc dán:</strong> Viết trực tiếp văn bản của bạn vào khu vực văn bản hoặc dán từ nơi khác</li>
+                                <li><strong>Xử lý ngay lập tức:</strong> Công cụ sẽ phân tích văn bản của bạn theo thời gian thực khi bạn viết</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Bước 2: Xem phân tích ngay lập tức</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Văn bản của bạn sẽ được phân tích ngay lập tức, hiển thị đầy đủ các chỉ số:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Chỉ số cơ bản:</strong> Số từ không lọc, ký tự, câu, tổng số âm tiết và thời gian đọc</li>
+                                <li><strong>Điểm độ dễ đọc:</strong> Điểm độ dễ đọc Flesch kèm với đánh giá mức độ khó khăn</li>
+                                <li><strong>Cấu trúc viết:</strong> Phân tích số câu, đoạn và độ dài trung bình của câu</li>
+                                <li><strong>Phân tích nội dung:</strong> Đếm số lượng số, ký hiệu, biểu tượng cảm xúc và URL</li>
+                                <li><strong>Lời khuyên về viết:</strong> Gợi ý để cải thiện viết của bạn</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Bước 3: Nhận các chỉ số chi tiết</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Đi sâu vào phân tích văn bản của bạn với các tính năng nâng cao:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Phân tích từ khóa:</strong> Xem các từ khóa cao cấp cùng với số lần xuất hiện (bật/tắt lọc stopword)</li>
+                                <li><strong>Đám mây từ khóa:</strong> Hiển thị mật độ từ khóa bằng một word cloud tương tác</li>
+                                <li><strong>Phân bố độ dài từ:</strong> Xem phân bố độ dài từ trong biểu đồ trực quan</li>
+                                <li><strong>Số từ không lọc:</strong> Nhận dữ liệu chi tiết về mật độ từ với tùy chọn phân trang và xuất</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">Tùy chỉnh phân tích của bạn theo ý muốn:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Sử dụng dropdown "Hiển thị" để điều chỉnh số lượng từ hiển thị trong bảng</li>
+                                <li>Nhấp vào "Xuất CSV" để tải xuống dữ liệu mật độ từ chi tiết</li>
+                                <li>Bật/tắt ô kiểm "Lọc stopword" để bao gồm hoặc loại bỏ các từ thông dụng như "the" và "and"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Mẹo để đạt kết quả tốt nhất</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Để phân tích chính xác, vui lòng cung cấp ít nhất một vài câu</li>
+                                <li>Bật/tắt lọc stopword để xem phân tích từ khóa với hoặc mà không có các từ thông dụng</li>
+                                <li>Sử dụng tính năng xuất CSV để lưu dữ liệu mật độ từ chi tiết cho phân tích thêm</li>
+                                <li>Di chuột vào các từ trong word cloud để xem số lần xuất hiện của chúng</li>
+                                <li>Điều chỉnh hiển thị bảng để hiển thị nhiều từ hơn cho phân tích toàn diện</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Công cụ liên quan</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("free-online-text-analysis-checker");
+    </script>
+
+
+    <script>
+        // Wait for header and footer to load before initializing text analysis tool
+        document.addEventListener('DOMContentLoaded', function() {
+            // Danh sách stop words tiếng Việt
+            const stopWordsDefault = ["và","của","có","cho","là","với","được","từ","để","ở","khi","đã","chỉ","còn","một","những","đang","lại","nào","hơn","các","không","thì","đó","cũng","các","đi","sẽ","như","trong","nhưng","vẫn","bởi","mà","đến","ở","là","và","của","có","cho","từ","để","ở","khi","đã","chỉ","còn","một","những","đang","lại","nào","hơn","các","không","thì","đó","cũng","các","đi","sẽ","như","trong","nhưng","vẫn","bởi","mà","đến"];
+            let stopWords = new Set(stopWordsDefault);
+            let allWords = [];
+            let currentPage = 1;
+            const pageSize = 50;
+            let displayLimit = 50;
+            
+            const textInput = document.getElementById('textInput');
+            const displayMode = document.getElementById('displayMode');
+            const stopWordsSwitch = document.getElementById('stopWordsSwitch');
+            const wordTable = document.getElementById('wordTable');
+            const pageInfo = document.getElementById('pageInfo');
+            let chart;
+            
+            // Tokenizer tiếng Việt
+            function vietnameseTokenizer(text) {
+                // Tokenizer đơn giản cho tiếng Việt, khớp với ký tự tiếng Việt, từ tiếng Anh và số
+                return text.match(/[a-zA-Z0-9àáâãèéêìíòóôõùúăđĩũơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]+/g) || [];
+            }
+            
+            function analyze(){
+
+  const text = textInput.value.trim();
+  // Sử dụng tokenizer tiếng Việt thay vì regex đơn giản
+  const wordsArr = vietnameseTokenizer(text);
+
+  // Quick stats
+  document.getElementById('unfilteredCount').textContent = wordsArr.length;
+  document.getElementById('charCount').textContent = text.length;
+  document.getElementById('charNoSpace').textContent = text.replace(/\s+/g,'').length;
+  
+  // Calculate sentences and syllables - sử dụng dấu câu tiếng Việt
+  const sentences = text.split(/[.!?。]+/).filter(s=>s.trim());
+  // Đếm số ký tự thay vì âm tiết cho tiếng Việt
+  const syllables = text.replace(/\s+/g, '').length;
+  
+  // Update new stats
+  document.getElementById('sentenceCount').textContent = sentences.length;
+  document.getElementById('syllableCount').textContent = syllables;
+  // Thời gian đọc tiếng Việt: 250 ký tự/phút
+  document.getElementById('readingTime').textContent = Math.ceil(text.length/250)+' phút';
+
+  const paragraphs = text.split(/\n+/).filter(p=>p.trim());
+
+  // Readability - sử dụng phương pháp đơn giản cho tiếng Việt
+  const avgSentenceLength = sentences.length > 0 ? text.length / sentences.length : 0;
+  let level;
+  if (avgSentenceLength < 100) {
+    level = 'Dễ đọc';
+  } else if (avgSentenceLength < 200) {
+    level = 'Độ khó trung bình';
+  } else {
+    level = 'Khó đọc';
+  }
+  document.getElementById('readability').textContent = `Độ dài câu trung bình: ${avgSentenceLength.toFixed(1)} ký tự – ${level}`;
+
+  // Keyword Analysis (Filtered)
+  const freqFiltered = {};
+  let filteredCount = 0;
+  wordsArr.map(w=>w.toLowerCase()).forEach(w=>{
+    if(!stopWords.has(w)){
+      freqFiltered[w]=(freqFiltered[w]||0)+1;
+      filteredCount++;
+    }
+  });
+  document.getElementById('filteredWords').textContent = filteredCount;
+  const topKeywords = Object.entries(freqFiltered).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  document.getElementById('keywords').innerHTML = topKeywords.map(k=>`<span>${k[0]} (${k[1]})</span>`).join('');
+
+  // Generate word cloud
+  generateWordCloud(topKeywords);
+
+  // Writing structure
+  document.getElementById('structure').innerHTML = `
+    <li>Câu: ${sentences.length}</li>
+    <li>Đoạn: ${paragraphs.length}</li>
+    <li>Độ dài câu trung bình: ${avgSentenceLength.toFixed(1)} ký tự</li>
+  `;
+
+  // Content breakdown - Đảm bảo không đếm các ký tự tiếng Việt là ký hiệu
+  document.getElementById('contentStats').innerHTML = `
+    <li>Số: ${(text.match(/\d/g)||[]).length}</li>
+    <li>Ký hiệu: ${(text.match(/[^\w\s\p{L}]/gu)||[]).length}</li>
+    <li>Biểu tượng cảm xúc: ${(text.match(/[\u{1F300}-\u{1FAFF}]/gu)||[]).length}</li>
+    <li>URL: ${(text.match(/https?:\/\/\S+/g)||[]).length}</li>
+  `;
+
+  // Writing Suggestions - Việt hóa lời khuyên
+  let suggestion='';
+  if(sentences.length>300 && avgSentenceLength>200) suggestion+='<li>Các câu có thể quá dài</li>';
+  if(text.length<50) suggestion+='<li>Văn bản rất ngắn</li>';
+  if(!suggestion) suggestion='<li>Viết khá cân bằng</li>';
+  document.getElementById('suggestions').innerHTML=suggestion;
+
+  // Unfiltered Word Count
+  const freqAll = {};
+  wordsArr.map(w=>w.toLowerCase()).forEach(w=>freqAll[w]=(freqAll[w]||0)+1);
+  allWords = Object.entries(freqAll).sort((a,b)=>b[1]-a[1]).map(([word,count])=>({word,count}));
+  currentPage=1;
+  renderTable();
+
+  // Word Length Distribution - Using traditional JavaScript to implement simple text statistics
+  const lengths = {};
+  wordsArr.forEach(w=>lengths[w.length]=(lengths[w.length]||0)+1);
+  const sortedLengths = Object.entries(lengths).sort((a,b)=>a[0]-b[0]);
+  
+  // Calculate maximum word frequency, used for normalizing bar chart width
+  const counts = sortedLengths.map(([_, count]) => count);
+  const maxCount = counts.length > 0 ? Math.max(...counts) : 0;
+  
+  // Generate simple text statistics display, replacing Chart.js chart
+  const chartContainer = document.getElementById('chart');
+  
+  if (wordsArr.length === 0) {
+    // Display prompt message when no text is entered - Việt hóa
+    chartContainer.innerHTML = `
+      <p style="color: #6b7280; font-style: italic; text-align: center; padding: 1rem 0;">Không có văn bản để phân tích. Vui lòng nhập một số văn bản ở trên.</p>
+    `;
+  } else {
+    // Display statistical chart when text is entered
+    chartContainer.innerHTML = `
+      <div style="margin: 0; min-height: 250px; position: relative; display: flex; flex-direction: column; align-items: stretch;">
+        <!-- Chart container - Remove Y-axis, keep only X-axis -->
+        <div style="position: relative; flex: 1; margin-left: 20px; margin-right: 20px;">
+        <!-- Horizontal scroll container -->
+        <div style="overflow-x: auto; overflow-y: hidden;">
+          <!-- Bar chart content - Ensure background can contain all content -->
+          <div style="display: flex; align-items: flex-end; gap: 0.75rem; margin-top: 2rem; height: 200px; min-width: max-content; padding-bottom: 1rem;">
+            ${sortedLengths.map(([length, count]) => `
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem; flex: 0 0 auto; width: 35px; position: relative;">
+                <!-- Word count - placed above the bar -->
+                <div style="font-size: 0.75rem; font-weight: 600; color: #3498db; margin-bottom: 0.5rem;">${count}</div>
+                <!-- Bar chart -->
+                <div style="background: #3498db; height: ${Math.min((count / maxCount) * 150, 150)}px; width: 25px; border-radius: 0.25rem 0.25rem 0 0; transition: height 0.3s ease;"></div>
+                <!-- Word length - placed below the bar -->
+                <div style="font-size: 0.875rem; color: #6b7280; font-weight: 600; margin-top: 0.5rem;">${length}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Keep only X-axis line -->
+        <div style="position: absolute; left: 0; bottom: 0.5rem; right: 0; height: 1px; background: #e5e7eb;"></div>
+      </div>
+      
+      <!-- Axis labels - Keep only X-axis labels -->
+      <div style="display: flex; justify-content: center; margin-top: 0.5rem; font-size: 0.75rem; color: #9ca3af; padding: 0 1rem;">
+        <div>Trục X: Độ dài từ (kí tự)</div>
+      </div>
+      </div>
+    `;
+  }
+}
+
+            function countSyllables(word){
+                word=word.toLowerCase();
+                if(word.length<=3) return 1;
+                word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
+                word=word.replace(/^y/,'');
+                return word.match(/[aeiouy]{1,2}/g)?.length||1;
+            }
+
+            // Table Rendering
+            function renderTable(){
+                let data = displayMode.value==='all'?allWords:allWords.slice(0,parseInt(displayMode.value));
+                const total = data.reduce((s,w)=>s+w.count,0);
+                const start=(currentPage-1)*pageSize;
+                const pageData = data.slice(start,start+pageSize);
+                wordTable.innerHTML = pageData.map((w,i)=>`<tr>
+    <td>${start+i+1}</td>
+    <td>${w.word}</td>
+    <td>${w.count}</td>
+    <td>${((w.count/total)*100).toFixed(4)}%</td>
+  </tr>`).join('');
+                const totalPages = Math.ceil(data.length/pageSize)||1;
+                pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+                document.getElementById('pagination').style.display = totalPages>1?'flex':'none';
+            }
+
+            // Ensure pagination functions are available in global scope
+            window.prevPage = function(){if(currentPage>1){currentPage--;renderTable();}};
+            window.nextPage = function(){const dataLength = displayMode.value==='all'?allWords.length:Math.min(allWords.length,parseInt(displayMode.value));if(currentPage<Math.ceil(dataLength/pageSize)){currentPage++;renderTable();}};
+            
+            // Generate word cloud
+            function generateWordCloud(keywords) {
+  const wordCloud = document.getElementById('wordCloud');
+  if (!keywords || keywords.length === 0) {
+    wordCloud.innerHTML = '<p class="text-center text-gray-500">Không có từ khóa nào có sẵn</p>';
+    return;
+  }
+
+  // Clear existing content
+  wordCloud.innerHTML = '';
+  
+  // Generate word cloud using top 20 keywords
+  const topKeywords = keywords.slice(0, 20);
+  const maxCount = topKeywords[0][1];
+  
+  topKeywords.forEach(([word, count], index) => {
+    // Calculate font size based on frequency
+    const fontSize = Math.max(12, Math.min(36, 12 + (count / maxCount) * 24));
+    
+    // Generate random colors (multiple hues, no longer limited to blue)
+    const hue = Math.floor(Math.random() * 360); // Random color
+    const saturation = 60 + Math.random() * 30;
+    const lightness = 40 + Math.random() * 20;
+    const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    
+    // Random rotation angle (-15 to 15 degrees)
+    const rotation = (Math.random() * 30 - 15) + 'deg';
+    
+    // Create word element
+    const wordElement = document.createElement('span');
+    wordElement.textContent = word;
+    wordElement.style.fontSize = `${fontSize}px`;
+    wordElement.style.fontWeight = '600';
+    wordElement.style.color = color;
+    wordElement.style.display = 'inline-block';
+    wordElement.style.margin = '8px';
+    wordElement.style.padding = '4px 8px';
+    wordElement.style.borderRadius = '4px';
+    wordElement.style.background = `rgba(255, 255, 255, 0.9)`;
+    wordElement.style.transition = 'transform 0.2s, box-shadow 0.2s';
+    wordElement.style.cursor = 'pointer';
+    wordElement.style.transform = `rotate(${rotation})`;
+    wordElement.style.transformOrigin = 'center';
+    
+    // Add hover effect
+    wordElement.addEventListener('mouseenter', () => {
+      wordElement.style.transform = 'scale(1.1)';
+      wordElement.style.boxShadow = '0 4px 6px rgba(0, 102, 204, 0.1)';
+    });
+    
+    wordElement.addEventListener('mouseleave', () => {
+      wordElement.style.transform = 'scale(1)';
+      wordElement.style.boxShadow = 'none';
+    });
+    
+    // Add tooltip (show word frequency)
+    wordElement.title = `Count: ${count}`;
+    
+    wordCloud.appendChild(wordElement);
+  });
+}
+
+
+            function exportCSV(){
+                const rows=[['Order','Word','Occurrences','Percentage']];
+                const data = displayMode.value==='all'?allWords:allWords.slice(0,parseInt(displayMode.value));
+                const total = data.reduce((s,w)=>s+w.count,0);
+                data.forEach((w,i)=>rows.push([i+1,w.word,w.count,((w.count/total)*100).toFixed(4)+'%']));
+                const csvContent = "data:text/csv;charset=utf-8," + rows.map(e=>e.join(",")).join("\n");
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href",encodedUri);
+                link.setAttribute("download","unfiltered_word_count.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Ensure all functions are defined before adding event listeners
+            textInput.addEventListener('input', analyze);
+            displayMode.addEventListener('change',()=>{currentPage=1;renderTable();});
+            stopWordsSwitch.addEventListener('change',()=>{stopWords=stopWordsSwitch.checked?new Set(stopWordsDefault):new Set();analyze();});
+            document.getElementById('exportCSV').addEventListener('click', exportCSV);
+            
+            // Call analyze function on page load to show initial state
+            analyze();
+        }); // end of DOMContentLoaded
+    </script>
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+</body>
+</html>
