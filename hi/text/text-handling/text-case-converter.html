@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+<meta charset="UTF-8">
+<title>टेक्स्ट केस कन्वर्टर | CaliperTools</title>
+<meta name="description" content="विभिन्न केसों के बीच टेक्स्ट को कनवर्ट करने के लिए मुफ्त ऑनलाइन टेक्स्ट केस कन्वर्टर और फॉर्मेटर टूल, जिसमें सेंटेंस केस, टाइटल केस, अपरकेस, लोअरकेस और बहुत कुछ शामिल है।" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Textbox styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+/* Output area styles */
+.output {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+/* Statistics styles */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Option area styles */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.options h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+    grid-column: 1 / -1;
+}
+
+.options > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+    font-size: 14px;
+    margin: 4px 0;
+}
+
+/* Toolbar styles */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('राइट-क्लिक मेनू डिसेबल है।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('कॉपी फ़ंक्शन डिसेबल है।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('डेवलपर टूल अक्षम हैं');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>टेक्स्ट केस कन्वर्टर</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">पूर्ववत करें</button>
+                    <button onclick="redo()">फिर से करें</button>
+                    <button onclick="clearText()">साफ करें</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        इसे कैसे उपयोग करें?
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="यहां टेक्स्ट दर्ज करें या पेस्ट करें..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">वर्ण: 0</div>
+                    <div class="stat" id="wordCount">शब्द: 0</div>
+                    <div class="stat" id="lineCount">पंक्तियाँ: 0</div>
+                </div>
+
+                <div class="options">
+                    <div>
+                        <h3>केस फॉर्मेटिंग</h3>
+                        <label><input type="radio" name="mode" value="sentence"> वाक्य शुरुआत बड़ा</label>
+                        <label><input type="radio" name="mode" value="capitalized"> प्रत्येक शब्द बड़ा</label>
+                        <label><input type="radio" name="mode" value="title"> शीर्षक फॉर्मेट</label>
+                        <label><input type="radio" name="mode" value="lower"> छोटे अक्षर</label>
+                        <label><input type="radio" name="mode" value="upper"> बड़े अक्षर</label>
+                        <label><input type="radio" name="mode" value="snake"> snake_case</label>
+                        <label><input type="radio" name="mode" value="dot"> dot.case</label>
+                        <label><input type="radio" name="mode" value="slug"> टेक्स्ट को स्लग बनाएं</label>
+                        <label><input type="radio" name="mode" value="random"> यादृच्छिक केस</label>
+                    </div>
+
+                    <div>
+                        <h3>टेक्स्ट मैनिपुलेशन</h3>
+                        <label><input type="radio" name="mode" value="reverse"> टेक्स्ट उलटें</label>
+                        <label><input type="radio" name="mode" value="extraSpaces"> अतिरिक्त स्पेस हटाएं</label>
+                        <label><input type="radio" name="mode" value="allSpaces"> सभी स्पेस हटाएं</label>
+                        <label><input type="radio" name="mode" value="lineBreaks"> लाइन ब्रेक हटाएं</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h2>आउटपुट</h2>
+                <div style="display: flex; justify-content: flex-end; margin-top: 30px; margin-bottom: 15px;">
+                    <button onclick="copyOutput()" style="padding: 8px 16px; border: none; border-radius: 6px; background: #0066cc; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">कॉपी करें</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Case Converter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>टेक्स्ट केस कन्वर्टर का उपयोग कैसे करें</h3>
+                <p>
+                    विभिन्न केसों के बीच अपने टेक्स्ट को कुशलता से कन्वर्ट करने के लिए इन सरल चरणों का पालन करें।
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>चरण 1: अपना टेक्स्ट डालें</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>चरण 2: केस फॉर्मेट चुनें</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>चरण 3: अपने परिणाम प्राप्त करें</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>चरण-दर-चरण ट्यूटोरियल</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 1: अपना टेक्स्ट डालें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">बाएं टेक्स्ट क्षेत्र में अपना टेक्स्ट दर्ज करें या पेस्ट करें। टूल आपके टेक्स्ट के बारे में स्वचालित रूप से सांख्यिकी प्रदर्शित करेगा, जिसमें वर्ण संख्या, शब्द संख्या और पंक्ति संख्या शामिल है।</p>
+                            <p style="text-align: left;">आप आवश्यकतानुसार परिवर्तनों को पूर्ववत करने या बहाल करने के लिए पूर्ववत और फिर से करें बटन का उपयोग कर सकते हैं।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 2: केस फॉर्मेट चुनें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">केस फॉर्मेटिंग विकल्पों की एक विस्तृत श्रृंखला में से चुनें:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>वाक्य शुरुआत बड़ा:</strong> वाक्यों के पहले अक्षर को बड़ा करता है</li>
+                                <li><strong>प्रत्येक शब्द बड़ा:</strong> प्रत्येक शब्द के पहले अक्षर को बड़ा करता है</li>
+                                <li><strong>शीर्षक फॉर्मेट:</strong> महत्वपूर्ण शब्दों के पहले अक्षर को बड़ा करता है</li>
+                                <li><strong>छोटे अक्षर:</strong> पूरे टेक्स्ट को छोटे अक्षरों में परिवर्तित करता है</li>
+                                <li><strong>बड़े अक्षर:</strong> पूरे टेक्स्ट को बड़े अक्षरों में परिवर्तित करता है</li>
+                                <li><strong>snake_case:</strong> शब्दों के बीच अंडरस्कोर के साथ छोटे अक्षरों में परिवर्तित करता है</li>
+                                <li><strong>dot.case:</strong> शब्दों के बीच डॉट के साथ छोटे अक्षरों में परिवर्तित करता है</li>
+                                <li><strong>टेक्स्ट को स्लग बनाएं:</strong> यूआरएल में उपयोग के लिए टेक्स्ट को परिवर्तित करता है</li>
+                            </ul>
+                            <p style="text-align: left;">अतिरिक्त विकल्पों में यादृच्छिक केस, टेक्स्ट उलटना और विभिन्न स्पेस प्रबंधन उपकरण शामिल हैं।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 3: अपने परिणाम प्राप्त करें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">आपका परिवर्तित टेक्स्ट तुरंत दाएं आउटपुट क्षेत्र में दिखाई देगा। आप कर सकते हैं:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"कॉपी करें" बटन का उपयोग करके एक क्लिक से परिवर्तित टेक्स्ट को कॉपी करें</li>
+                                <li>"साफ करें" बटन से सभी टेक्स्ट को साफ करके फिर से शुरू करें</li>
+                                <li>अपनी आवश्यकताओं के लिए सबसे अच्छा फिट पा लेने के लिए विभिन्न केस फॉर्मेट आज़माएं</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">बेहतर परिणामों के लिए टिप्स</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>नियमित टेक्स्ट और पैराग्राफ के लिए वाक्य शुरुआत बड़ा का उपयोग करें</li>
+                                <li>सिरकश और शीर्षक के लिए शीर्षक फॉर्मेट का उपयोग करें</li>
+                                <li>कोड चर और फ़ाइल नामों के लिए snake_case या dot.case का उपयोग करें</li>
+                                <li>SEO-मित्रपूर्ण यूआरएल बनाने के लिए स्लग बनाने का उपयोग करें</li>
+                                <li>अपने विशिष्ट उपयोग के मामले के लिए सबसे अच्छा काम करने वाला फॉर्मेट पाने के लिए विभिन्न फॉर्मेटों का प्रयोग करें</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">संबंधित उपकरण</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input',()=>{
+  pushHistory();
+  sourceText=input.value;
+  process();
+});
+
+document.querySelectorAll('input[name="mode"]').forEach(r=>{
+  r.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value=history.pop();
+  sourceText=input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value=future.pop();
+  sourceText=input.value;
+  process(false);
+}
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(){
+  let text=sourceText;
+  const mode=document.querySelector('input[name="mode"]:checked')?.value;
+
+  switch(mode){
+    case 'sentence':
+      text=text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g,c=>c.toUpperCase());
+      break;
+    case 'capitalized':
+    case 'title':
+      text=text.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+      break;
+    case 'lower':
+      text=text.toLowerCase();
+      break;
+    case 'upper':
+      text=text.toUpperCase();
+      break;
+    case 'snake':
+      text=text.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+      break;
+    case 'dot':
+      text=text.toLowerCase().replace(/[^a-z0-9]+/g,'.').replace(/^\.+|\.+$/g,'');
+      break;
+    case 'slug':
+      text=text.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+        .replace(/[^a-z0-9]+/g,'-')
+        .replace(/^-+|-+$/g,'');
+      break;
+    case 'random':
+      text=[...text].map(c=>Math.random()>0.5?c.toUpperCase():c.toLowerCase()).join('');
+      break;
+    case 'reverse':
+      text=[...text].reverse().join('');
+      break;
+    case 'extraSpaces':
+      text=text.replace(/\s+/g,' ').trim();
+      break;
+    case 'allSpaces':
+      text=text.replace(/\s+/g,'');
+      break;
+    case 'lineBreaks':
+      text=text.replace(/\r?\n+/g,' ');
+      break;
+  }
+
+  output.textContent=text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  
+  // Update various statistics
+  document.getElementById('charCount').textContent = `वर्ण: ${chars}`;
+  document.getElementById('wordCount').textContent = `शब्द: ${words}`;
+  document.getElementById('lineCount').textContent = `पंक्तियाँ: ${lines}`;
+}
+
+function copyOutput(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'क्लिपबोर्ड में कॉपी किया गया!';
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("text-case-converter");
+</script>
+
+<!-- Dynamically load header and footer -->
+</body>
+</html>

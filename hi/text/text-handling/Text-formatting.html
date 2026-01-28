@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>टेक्स्ट फॉर्मेटर | CaliperTools</title>
+<meta name="description" content="CaliperTools द्वारा मुफ्त ऑनलाइन टेक्स्ट फॉर्मेटर टूल। विभिन्न मामलों में टेक्स्ट का फॉर्मेट करें, स्पेस का प्रबंधन करें, और आसानी से टेक्स्ट में हेरफेर करें।" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* 左右面板样式 */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Text Formatter Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Right panel styles */
+.right-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.category {
+    grid-column: span 2;
+    margin-top: 10px;
+    padding: 6px 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding-left: 6px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.option input {
+    margin-right: 6px;
+}
+
+/* Find & Replace Modal */
+#findReplaceModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0f8ff; /* Light blue background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    z-index: 1000;
+    border: 1px solid #0066cc;
+}
+
+#findReplaceModal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #0066cc;
+    font-size: 1.2rem;
+}
+
+#findReplaceModal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#findReplaceModal button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#findReplaceModal button:not(.close) {
+    background: #0066cc;
+    color: white;
+}
+
+#findReplaceModal button:not(.close):hover {
+    background: #0052a3;
+}
+
+#findReplaceModal .close {
+    background: #f44336;
+    color: white;
+    margin-bottom: 0;
+}
+
+#findReplaceModal .close:hover {
+    background: #e53935;
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .right-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .category {
+        grid-column: span 1;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('राइट-क्लिक मेनू डिसेबल है।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('कॉपी फ़ंक्शन डिसेबल है।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('डेवलपर टूल अक्षम हैं');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>टेक्स्ट फॉर्मेटर</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">पूर्ववत करें</button>
+                    <button onclick="redo()">फिर से करें</button>
+                    <button onclick="openFindReplaceModal()">खोजें और बदलें</button>
+                    <button onclick="clearText()">साफ करें</button>
+                    <button onclick="copyText()">कॉपी करें</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        कैसे उपयोग करें?
+                    </a>
+                </div>
+                <textarea id="input" oninput="updateStats()" placeholder="यहां अपना टेक्स्ट चिपकाएं..."></textarea>
+                <div class="stats">
+                    <div class="stat" id="charCount">वर्ण: 0</div>
+                    <div class="stat" id="nonBlankChar">नॉन-ब्लैंक: 0</div>
+                    <div class="stat" id="wordCount">शब्द: 0</div>
+                    <div class="stat" id="lineCount">पंक्तियाँ: 0</div>
+                    <div class="stat" id="paraCount">अनुच्छेद: 0</div>
+                    <div class="stat" id="pages">पृष्ठ: 0</div>
+                    <div class="stat" id="readingTime">पढ़ना: 0 मिनट</div>
+                    <div class="stat" id="speakingTime">बोलना: 0 मिनट</div>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <!-- Case Formatting -->
+                <div class="category">केस फॉर्मेटिंग
+                    <button onclick="toggleCategory('case')">सभी</button>
+                </div>
+                <div class="option"><input type="checkbox" class="case" id="upper"><label for="upper">UPPERCASE (पूर्ण अक्षर)</label></div>
+                <div class="option"><input type="checkbox" class="case" id="lower"><label for="lower">lowercase (लोअरकेस)</label></div>
+                <div class="option"><input type="checkbox" class="case" id="title"><label for="title">Title Case (शीर्षक केस)</label></div>
+                <div class="option"><input type="checkbox" class="case" id="sentence"><label for="sentence">Sentence case (वाक्य केस)</label></div>
+                <div class="option"><input type="checkbox" class="case" id="camel"><label for="camel">camelCase (कैमल केस)</label></div>
+
+                <!-- Space & Line Management -->
+                <div class="category">स्पेस और लाइन प्रबंधन
+                    <button onclick="toggleCategory('space')">सभी</button>
+                </div>
+                <div class="option"><input type="checkbox" class="space" id="trim"><label for="trim">ट्रिम (प्रारंभिक और अंतिम स्पेस हटाएं)</label></div>
+                <div class="option"><input type="checkbox" class="space" id="leading"><label for="leading">प्रारंभिक स्पेस हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="space" id="trailing"><label for="trailing">अंतिम स्पेस हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiSpace"><label for="multiSpace">कई स्पेस को एक में बदलें</label></div>
+                <div class="option"><input type="checkbox" class="space" id="allSpaces"><label for="allSpaces">सभी स्पेस हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="space" id="spaceToTab"><label for="spaceToTab">4 स्पेस को 1 टैब से बदलें</label></div>
+                <div class="option"><input type="checkbox" class="space" id="tabToSpace"><label for="tabToSpace">1 टैब को 4 स्पेस से बदलें</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeBlankLines"><label for="removeBlankLines">खाली/रिक्त पंक्तियाँ हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiBlank"><label for="multiBlank">कई खाली पंक्तियाँ को एक में बदलें</label></div>
+                <div class="option"><input type="checkbox" class="space" id="lineBreakSpace"><label for="lineBreakSpace">लाइन ब्रेक को स्पेस से बदलें</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeLineBreak"><label for="removeLineBreak">सभी लाइन ब्रेक हटाएं</label></div>
+
+                <!-- Text Manipulation -->
+                <div class="category">टेक्स्ट हेरफेर
+                    <button onclick="toggleCategory('text')">सभी</button>
+                </div>
+                <div class="option"><input type="checkbox" class="text" id="reverse"><label for="reverse">टेक्स्ट उल्टा करें</label></div>
+                <div class="option"><input type="checkbox" class="text" id="sortLines"><label for="sortLines">पंक्तियों को A-Z क्रम में सॉर्ट करें</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removePunct"><label for="removePunct">विराम चिह्न हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="text" id="stripEmoji"><label for="stripEmoji">सभी इमोजी हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removeAccents"><label for="removeAccents">अक्षर अक्सेंट (डायाक्रिटिक्स) हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="text" id="normalize"><label for="normalize">यूनिकोड अक्षर/वर्ण सामान्य करें</label></div>
+
+                <!-- Character Filtering -->
+                <div class="category">वर्ण फिल्टरिंग
+                    <button onclick="toggleCategory('char')">सभी</button>
+                </div>
+                <div class="option"><input type="checkbox" class="char" id="removeReplacement"><label for="removeReplacement">प्रतिस्थापन वर्ण हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonASCII"><label for="removeNonASCII">गैर-ASCII वर्ण हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonAlpha"><label for="removeNonAlpha">गैर-अक्षरांकीय वर्ण हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="char" id="stripEmails"><label for="stripEmails">सभी ईमेल हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeURLs"><label for="removeURLs">सभी वेब URL हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="char" id="convertURL"><label for="convertURL">URL को लिंक में बदलें</label></div>
+
+                <!-- HTML & Code Processing -->
+                <div class="category">HTML और कोड प्रसंस्करण
+                    <button onclick="toggleCategory('html')">सभी</button>
+                </div>
+                <div class="option"><input type="checkbox" class="html" id="removeBB"><label for="removeBB">BBCode टैग हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="html" id="unescapeHTML"><label for="unescapeHTML">HTML टैग को अनएस्केप करें</label></div>
+                <div class="option"><input type="checkbox" class="html" id="stripHTML"><label for="stripHTML">सभी HTML टैग हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeIDs"><label for="removeIDs">सभी ID हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeClasses"><label for="removeClasses">सभी क्लासेस हटाएं</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeStyles"><label for="removeStyles">इनलाइन स्टाइल्स हटाएं</label></div>
+
+                <!-- Encoding & Decoding -->
+                <div class="category">एन्कोडिंग और डिकोडिंग
+                    <button onclick="toggleCategory('encode')">सभी</button>
+                </div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeHTML"><label for="decodeHTML">HTML वर्ण संस्थाओं को डिकोड करें</label></div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeURL"><label for="decodeURL">URL-एन्कोडेड वर्णों को डिकोड करें</label></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Formatter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>टेक्स्ट फॉर्मेटर का उपयोग कैसे करें</h3>
+                <p>
+                    विभिन्न फॉर्मेटिंग विकल्पों का उपयोग करके अपने टेक्स्ट को कुशलतापूर्वक फॉर्मेट करने के लिए इन सरल चरणों का पालन करें।
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>चरण 1: अपना टेक्स्ट दर्ज करें</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>चरण 2: फॉर्मेटिंग विकल्प चुनें</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>चरण 3: अपने परिणाम प्राप्त करें</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>चरण-दर-चरण ट्यूटोरियल</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 1: अपना टेक्स्ट दर्ज करें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">अपना टेक्स्ट बाएं तरफ के टेक्स्ट क्षेत्र में चिपकाएं या टाइप करें। टूल आपके टेक्स्ट के बारे में व्यापक आंकड़े स्वचालित रूप से प्रदर्शित करेगा, जिसमें वर्ण संख्या, शब्द संख्या और पढ़ने का समय शामिल है।</p>
+                            <p style="text-align: left;">आप आवश्यकतानुसार परिवर्तनों को पूर्ववत करने या पुनर्स्थापित करने के लिए पूर्ववत और फिर से करें बटन का उपयोग कर सकते हैं।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 2: फॉर्मेटिंग विकल्प चुनें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">दाईं ओर के पैनल में विभिन्न फॉर्मेटिंग विकल्पों में से चुनें:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>केस फॉर्मेटिंग:</strong> टेक्स्ट को UPPERCASE, lowercase, Title Case, Sentence case, camelCase आदि में परिवर्तित करें</li>
+                                <li><strong>स्पेस प्रबंधन:</strong> स्पेस, टैब और लाइन ब्रेक जोड़ें, हटाएं या समायोजित करें</li>
+                                <li><strong>टेक्स्ट हेरफेर:</strong> टेक्स्ट को उल्टा करें, पंक्तियों को सॉर्ट करें, विराम चिह्न हटाएं आदि</li>
+                                <li><strong>वर्ण फिल्टरिंग:</strong> अवांछित वर्ण, विशेष वर्ण या डुप्लिकेट हटाएं</li>
+                                <li><strong>HTML और कोड:</strong> HTML टैग फॉर्मेट करें, विशेष वर्णों को एस्केप करें आदि</li>
+                                <li><strong>एन्कोडिंग और डिकोडिंग:</strong> HTML संस्थाओं और URL-एन्कोडेड वर्णों को डिकोड करें</li>
+                            </ul>
+                            <p style="text-align: left;">उसी श्रेणी में सभी विकल्पों को एक साथ लागू करने के लिए प्रत्येक श्रेणी में "सभी" बटन क्लिक करें।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 3: अपने परिणाम प्राप्त करें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">आपका फॉर्मेट किया गया टेक्स्ट तुरंत बाएं तरफ के टेक्स्ट क्षेत्र में दिखाई देगा। आप कर सकते हैं:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"कॉपी" बटन का उपयोग करके एक क्लिक में फॉर्मेट किया गया टेक्स्ट कॉपी करें</li>
+                                <li>नया शुरू करने के लिए "साफ करें" बटन के साथ सभी टेक्स्ट को साफ करें</li>
+                                <li>निश्चित परिवर्तन करने के लिए खोजें और बदलें सुविधा का उपयोग करें</li>
+                                <li>अद्यतन किए गए टेक्स्ट आंकड़ों की समीक्षा करें</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">बेहतरीन परिणामों के लिए टिप्स</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>आपको जो फॉर्मेटिंग चाहिए उसकी स्पष्ट समझ के साथ शुरू करें</li>
+                                <li>प्रभाव देखने के लिए एक समय में एक फॉर्मेटिंग विकल्प लागू करें</li>
+                                <li>यदि आपको किसी फॉर्मेटिंग क्रिया का परिणाम पसंद नहीं है तो पूर्ववत बटन का उपयोग करें</li>
+                                <li>अधिक जटिल टेक्स्ट परिवर्तनों के लिए कई फॉर्मेटिंग विकल्पों को संयोजित करें</li>
+                                <li>सुनिश्चित करने के लिए कि आपका फॉर्मेटिंग आपकी आवश्यकताओं को पूरा करता है, टेक्स्ट आंकड़ों की जांच करें</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">संबंधित टूल्स</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-formatter");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+    <!-- Find & Replace Modal -->
+    <div id="findReplaceModal">
+        <h3>खोजें और बदलें</h3>
+        <input type="text" id="findText" placeholder="पाठ खोजें">
+        <input type="text" id="replaceText" placeholder="इसके साथ बदलें">
+        <button onclick="replaceNext()">अगला बदलें</button>
+        <button onclick="replaceAll()">सभी बदलें</button>
+        <button class="close" onclick="closeFindReplaceModal()">बंद करें</button>
+    </div>
+
+    <script>
+const input=document.getElementById('input');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); updateStats(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); updateStats(); } }
+function clearText(){ saveState(); input.value=''; updateStats(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'क्लिपबोर्ड में कॉपी किया गया!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(input.value)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+function countWords(text) {
+    if (!text.trim()) return 0;
+    
+    // For languages with spaces, use traditional counting
+    const spaceWords = text.trim().split(/\s+/).filter(Boolean);
+    if (spaceWords.length > 1) {
+        return spaceWords.length;
+    }
+    
+    // For languages without spaces (like Chinese, Japanese, Korean)
+    // Count each character as a word, except for whitespace and punctuation
+    let wordCount = 0;
+    for (let char of text) {
+        if (!char.match(/\s|[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’]/g)) {
+            wordCount++;
+        }
+    }
+    return wordCount;
+}
+function setText(value){ input.value=value; updateStats(); saveState(); }
+
+function updateStats(){
+  const text=input.value;
+  const wordCount = countWords(text);
+  document.getElementById('charCount').innerText='वर्ण: '+text.length;
+  document.getElementById('nonBlankChar').innerText='नॉन-ब्लैंक: '+text.replace(/\s/g,'').length;
+  document.getElementById('wordCount').innerText='शब्द: '+wordCount;
+  // Fix line count issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines = text.split(/\r?\n/);
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='पंक्तियाँ: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); document.getElementById('paraCount').innerText='अनुच्छेद: '+paras.length;
+  const pages=Math.ceil(wordCount/500); document.getElementById('pages').innerText='पृष्ठ: '+pages;
+  const reading=Math.ceil(wordCount/200); document.getElementById('readingTime').innerText='पढ़ना: '+reading+' मिनट';
+  const speaking=Math.ceil(wordCount/130); document.getElementById('speakingTime').innerText='बोलना: '+speaking+' मिनट';
+}
+
+// --- Live Apply ---
+const options=document.querySelectorAll('.option input');
+options.forEach(opt=>{
+  opt.addEventListener('change',()=>{ saveState(); applyOption(opt); });
+});
+
+function applyOption(opt){
+  let text=input.value;
+  const id=opt.id;
+  if(opt.checked){
+    switch(id){
+      case 'upper': text=text.toUpperCase(); break;
+      case 'lower': text=text.toLowerCase(); break;
+      case 'title': text=text.replace(/\b\p{L}/gu,c=>c.toUpperCase()); break;
+      case 'sentence': text=text.replace(/(^\s*\p{L}|[.!?。！？]\s*\p{L})/gu,c=>c.toUpperCase()); break;
+      case 'camel': text=[...text].map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join(''); break;
+      case 'trim': text=text.trim(); break;
+      case 'leading': text=text.replace(/^\s+/gm,''); break;
+      case 'trailing': text=text.replace(/\s+$/gm,''); break;
+      case 'multiSpace': text=text.replace(/\s+/g,' '); break;
+      case 'allSpaces': text=text.replace(/\s+/g,''); break;
+      case 'spaceToTab': text=text.replace(/ {4}/g,'\t'); break;
+      case 'tabToSpace': text=text.replace(/\t/g,'    '); break;
+      case 'removeBlankLines': text=text.replace(/^\s*$/gm,''); break;
+      case 'multiBlank': text=text.replace(/(\r?\n){2,}/g,'\n'); break;
+      case 'lineBreakSpace': text=text.replace(/\r?\n/g,' '); break;
+      case 'removeLineBreak': text=text.replace(/\r?\n/g,''); break;
+      case 'reverse': text=text.split('').reverse().join(''); break;
+      case 'sortLines': text=text.split('\n').sort().join('\n'); break;
+      case 'removePunct': text=text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’『』「」〔〕〝〞〟～…—━〈〉＜＞「」｛｝［］｜｜\／：；，。！？‘’""()）（．．．・・・]/g,''); break;
+      case 'stripEmoji': text=text.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g,''); break;
+      case 'removeAccents': text=text.normalize("NFD").replace(/[\u0300-\u036f]/g,""); break;
+      case 'normalize': text=text.normalize(); break;
+      case 'removeReplacement': text=text.replace(/�/g,''); break;
+      case 'removeNonASCII': text=text.replace(/[^\x00-\x7F]/g,''); break;
+      case 'removeNonAlpha': text=text.replace(/[^\p{L}\p{N}\s]/gu,''); break;
+      case 'stripEmails': text=text.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,''); break;
+      case 'removeURLs': text=text.replace(/\b(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*\b/g,''); break;
+      case 'convertURL': text=text.replace(/(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*/g,url=>`<a href="${url}" target="_blank">${url}</a>`); break;
+      case 'removeBB': text=text.replace(/\[.*?\]/g,''); break;
+      case 'unescapeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'stripHTML': text=text.replace(/<[^>]+>/g,''); break;
+      case 'removeIDs': text=text.replace(/\s?id=".*?"/g,''); break;
+      case 'removeClasses': text=text.replace(/\s?class=".*?"/g,''); break;
+      case 'removeStyles': text=text.replace(/\s?style=".*?"/g,''); break;
+      case 'decodeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'decodeURL': try{text=decodeURIComponent(text);}catch(e){} break;
+    }
+    setText(text);
+  } else { undo(); }
+}
+
+// --- Category Toggle ---
+function toggleCategory(cat){
+  const elems=document.querySelectorAll('.'+cat);
+  const allChecked=[...elems].every(e=>e.checked);
+  elems.forEach(e=>{ e.checked=!allChecked; e.dispatchEvent(new Event('change')); });
+}
+
+// --- Find & Replace ---
+let lastFindIndex=0;
+function openFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='block'; lastFindIndex=0;}
+function closeFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='none';}
+function replaceNext(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const text=input.value;
+  const idx=text.indexOf(find,lastFindIndex);
+  if(idx!==-1){ input.value=text.slice(0,idx)+replace+text.slice(idx+find.length); lastFindIndex=idx+replace.length; updateStats(); } else { lastFindIndex=0; alert('अधिक मिलान नहीं'); }
+}
+function replaceAll(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const regex=new RegExp(find,'g');
+  input.value=input.value.replace(regex,replace);
+  updateStats();
+}
+
+updateStats();
+</script>
+</body>
+</html>

@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मुफ्त ऑनलाइन इमेज फिल्टर्स | CaliperTools</title>
+    <meta name="description" content="मुफ्त ऑनलाइन इमेज फिल्टर्स लगाएं। 20 पेशेवर प्रभाव। कोई अपलोड की आवश्यकता नहीं। तत्काल पूर्वावलोकन। सर्वोत्तम गुणवत्ता के परिणाम।">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS for sections -->
+    <style>
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+            font-size: 0.875rem;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            max-width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .sidebar {
+            width: 320px;
+            height: 850px;
+            background: #f9f9f9;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            height: 850px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .filter-tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            background: white;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem 0.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .filter-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+
+        .filter-item.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-header label {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .filter-toggle {
+            width: 36px;
+            height: 20px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .filter-toggle.active {
+            background: #667eea;
+        }
+
+        .filter-toggle::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-toggle.active::after {
+            left: 18px;
+        }
+
+        .slider-container {
+            margin-top: 0.75rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .export-section {
+            padding: 1rem;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+            margin-top: auto;
+        }
+
+        .export-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: #333;
+        }
+
+        .format-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .format-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .format-btn:hover {
+            border-color: #667eea;
+        }
+
+        .format-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .upload-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            min-height: 200px;
+        }
+
+        .upload-area:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .upload-area.dragover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .upload-content p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-content .hint {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .preview-container {
+            display: none;
+            flex: 1;
+            padding: 1rem;
+            gap: 1rem;
+            overflow: hidden;
+            max-height: 100%;
+            position: relative;
+        }
+
+        .preview-container.active {
+            display: flex;
+        }
+
+        .preview-box {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        .preview-box h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .canvas-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 6px;
+            overflow: hidden;
+            min-height: 150px;
+            max-height: 100%;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        #hiddenCanvas {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 850px;
+            }
+
+            .preview-container {
+                flex-direction: column;
+            }
+
+            .main-content {
+            height: 850px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cursor-help {
+            cursor: help;
+        }
+
+
+    </style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('राइट-क्लिक मेनू डिसेबल है।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('कॉपी फ़ंक्शन डिसेबल है।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('डेवलपर टूल अक्षम हैं');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center">इमेज फिल्टर्स और प्रभाव टूल</h1>
+        </div>
+
+        <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>इमेज फिल्टर्स</h2>
+                <p>अपनी इमेजों पर पेशेवर फिल्टर लगाएं</p>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="tab active" data-tab="basic">बेसिक</button>
+                <button class="tab" data-tab="style">शैली</button>
+                <button class="tab" data-tab="creative">क्रिएटिव</button>
+            </div>
+
+            <div class="tab-content active" id="basic">
+                <div class="filter-item" data-filter="blackwhite">
+                    <div class="filter-header">
+                        <label>काला और सफेद</label>
+                        <button class="filter-toggle" onclick="toggleFilter('blackwhite')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="blackwhiteValue">0%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="0" oninput="updateFilter('blackwhite', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="brightness">
+                    <div class="filter-header">
+                        <label>चमक</label>
+                        <button class="filter-toggle" onclick="toggleFilter('brightness')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="brightnessValue">20%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="20" oninput="updateFilter('brightness', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="contrast">
+                    <div class="filter-header">
+                        <label>कॉन्ट्रास्ट</label>
+                        <button class="filter-toggle" onclick="toggleFilter('contrast')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="contrastValue">10%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="10" oninput="updateFilter('contrast', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="sharpen">
+                    <div class="filter-header">
+                        <label>तेज करना</label>
+                        <button class="filter-toggle" onclick="toggleFilter('sharpen')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="sharpenValue">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" oninput="updateFilter('sharpen', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="blur">
+                    <div class="filter-header">
+                        <label>धुंधला</label>
+                        <button class="filter-toggle" onclick="toggleFilter('blur')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="blurValue">5%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="5" oninput="updateFilter('blur', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="warm">
+                    <div class="filter-header">
+                        <label>गर्म</label>
+                        <button class="filter-toggle" onclick="toggleFilter('warm')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="warmValue">15%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="15" oninput="updateFilter('warm', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="cool">
+                    <div class="filter-header">
+                        <label>कूल</label>
+                        <button class="filter-toggle" onclick="toggleFilter('cool')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="coolValue">15%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="15" oninput="updateFilter('cool', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="style">
+                <div class="filter-item" data-filter="vintage">
+                    <div class="filter-header">
+                        <label>विंटेज</label>
+                        <button class="filter-toggle" onclick="toggleFilter('vintage')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="vintageValue">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" oninput="updateFilter('vintage', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="film">
+                    <div class="filter-header">
+                        <label>फिल्म</label>
+                        <button class="filter-toggle" onclick="toggleFilter('film')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="filmValue">35%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="35" oninput="updateFilter('film', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="sepia">
+                    <div class="filter-header">
+                        <label>सेपिया</label>
+                        <button class="filter-toggle" onclick="toggleFilter('sepia')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="sepiaValue">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" oninput="updateFilter('sepia', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="saturation">
+                    <div class="filter-header">
+                        <label>सैचुरेशन बढ़ाना</label>
+                        <button class="filter-toggle" onclick="toggleFilter('saturation')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="saturationValue">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" oninput="updateFilter('saturation', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="desaturation">
+                    <div class="filter-header">
+                        <label>डीसैचुरेशन / मैट</label>
+                        <button class="filter-toggle" onclick="toggleFilter('desaturation')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="desaturationValue">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" oninput="updateFilter('desaturation', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="splittoning">
+                    <div class="filter-header">
+                        <label>स्प्लिट टोनिंग</label>
+                        <button class="filter-toggle" onclick="toggleFilter('splittoning')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="splittoningValue">25%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="25" oninput="updateFilter('splittoning', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="cinemalut">
+                    <div class="filter-header">
+                        <label>सिनेमा LUT शैली</label>
+                        <button class="filter-toggle" onclick="toggleFilter('cinemalut')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="cinemalutValue">45%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="45" oninput="updateFilter('cinemalut', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="creative">
+                <div class="filter-item" data-filter="vignette">
+                    <div class="filter-header">
+                        <label>विगनेट</label>
+                        <button class="filter-toggle" onclick="toggleFilter('vignette')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="vignetteValue">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" oninput="updateFilter('vignette', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="grain">
+                    <div class="filter-header">
+                        <label>दाना</label>
+                        <button class="filter-toggle" onclick="toggleFilter('grain')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="grainValue">20%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="20" oninput="updateFilter('grain', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="hdrlook">
+                    <div class="filter-header">
+                        <label>HDR लुक</label>
+                        <button class="filter-toggle" onclick="toggleFilter('hdrlook')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="hdrlookValue">35%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="35" oninput="updateFilter('hdrlook', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="invertcolors">
+                    <div class="filter-header">
+                        <label>रंग उल्टा करें</label>
+                        <button class="filter-toggle" onclick="toggleFilter('invertcolors')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="invertcolorsValue">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" oninput="updateFilter('invertcolors', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="cartoon">
+                    <div class="filter-header">
+                        <label>कार्टून</label>
+                        <button class="filter-toggle" onclick="toggleFilter('cartoon')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="cartoonValue">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" oninput="updateFilter('cartoon', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="gradientoverlay">
+                    <div class="filter-header">
+                        <label>ग्रेडिएंट ओवरले</label>
+                        <button class="filter-toggle" onclick="toggleFilter('gradientoverlay')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>तीव्रता</span>
+                            <span id="gradientoverlayValue">25%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="25" oninput="updateFilter('gradientoverlay', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <h3>निर्यात प्रारूप</h3>
+                <div class="format-selector">
+                    <button class="format-btn active" data-format="png">PNG</button>
+                    <button class="format-btn" data-format="jpg">JPG</button>
+                    <button class="format-btn" data-format="webp">WebP</button>
+                </div>
+                <button class="export-btn" id="exportBtn" onclick="downloadImage()" disabled>
+                    इमेज निर्यात करें
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <div class="upload-icon">📷</div>
+                    <p>इमेजें यहां ड्रैग और ड्रॉप करें या ब्राउज़ करने के लिए क्लिक करें</p>
+                    <p class="hint">समर्थित: JPG, PNG, WebP</p>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple style="display: none;">
+                </div>
+            </div>
+
+            <div class="preview-container" id="previewContainer">
+                <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                    <button id="deleteImageBtn" style="background: rgba(255, 255, 255, 0.8); border: 1px solid #ddd; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #dc3545; transition: all 0.3s ease;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="preview-box">
+                    <h3>मूल इमेज</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="originalCanvas"></canvas>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <h3>फिल्टर वाली इमेज</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="previewCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">इमेज फिल्टर्स और प्रभाव टूल का उपयोग कैसे करें</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        इमेज अपलोड करें
+                    </h3>
+                    <p title="अपनी इमेज को सीधे अपलोड क्षेत्र पर ड्रैग और ड्रॉप करें या अपलोड बटन पर क्लिक करके अपने डिवाइस से चुनें। हमारा टूल JPG, PNG और WebP सहित विभिन्न प्रारूपों का समर्थन करता है।">अपनी इमेज को सीधे अपलोड क्षेत्र पर ड्रैग और ड्रॉप करें या अपलोड बटन पर क्लिक करके अपने डिवाइस से चुनें। हमारा टूल JPG, PNG और WebP सहित विभिन्न प्रारूपों का समर्थन करता है।</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </span>
+                        फिल्टर चुनें
+                    </h3>
+                    <p title="3 श्रेणियों में से 20 पेशेवर फिल्टर्स का चयन करें: बेसिक, स्टाइल और क्रिएटिव। प्रभाव को फाइन-ट्यून करने के लिए तीव्रता स्लाइडर को समायोजित करें।">3 श्रेणियों में से 20 पेशेवर फिल्टर्स का चयन करें: बेसिक, स्टाइल और क्रिएटिव। प्रभाव को फाइन-ट्यून करने के लिए तीव्रता स्लाइडर को समायोजित करें।</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-magic"></i>
+                        </span>
+                        परिणामों का पूर्वावलोकन करें
+                    </h3>
+                    <p title="मूल और फिल्टर वाली इमेजों की तुलना करते हुए रीयल-टाइम पूर्वावलोकन देखें। जब तक आप परिणाम से संतुष्ट न हों, तब तक समायोजन करें।">मूल और फिल्टर वाली इमेजों की तुलना करते हुए रीयल-टाइम पूर्वावलोकन देखें। जब तक आप परिणाम से संतुष्ट न हों, तब तक समायोजन करें।</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        इमेज निर्यात करें
+                    </h3>
+                    <p title="अपना पसंदीदा आउटपुट प्रारूप (PNG, JPG, या WebP) चुनें और अपनी फिल्टर वाली इमेज डाउनलोड करने के लिए 'इमेज निर्यात करें' पर क्लिक करें।">अपना पसंदीदा आउटपुट प्रारूप (PNG, JPG, या WebP) चुनें और अपनी फिल्टर वाली इमेज डाउनलोड करने के लिए 'इमेज निर्यात करें' पर क्लिक करें।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1670349272570-a03edb4e653d?w=600&h=400&fit=crop" alt="Image Filters">
+                </div>
+                <div class="content-text">
+                    <h2>पेशेवर इमेज फिल्टर्स</h2>
+                    <p>अपनी इमेजों पर तुरंत 20 पेशेवर फिल्टर्स लगाएं। हमारा टूल हर बार सटीक और सुसंगत परिणामों के लिए मानक पिक्सेल-स्तर के एल्गोरिदम का उपयोग करता है।</p>
+                    <p>चमक और कॉन्ट्रास्ट जैसे बेसिक समायोजनों से लेकर विगनेट और दाना जैसे रचनात्मक प्रभावों तक, अपनी फोटो को आसानी से बदलें। अधिकतम गोपनीयता के लिए सभी प्रोसेसिंग आपके ब्राउज़र में स्थानीय रूप से होती है।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Preview Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>रीयल-टाइम पूर्वावलोकन</h2>
+                    <p>हमारे साइड-बाय-साइड पूर्वावलोकन के साथ अपने परिवर्तनों को तुरंत देखें। फिल्टर तीव्रता को समायोजित करते हुए मूल और फिल्टर वाली इमेजों की रीयल-टाइम तुलना करें।</p>
+                    <p>0% से 100% तक के सटीक तीव्रता स्लाइडर के साथ प्रत्येक फिल्टर को फाइन-ट्यून करें। बिना किसी अनुमान के बिल्कुल वही लुक प्राप्त करें जो आप चाहते हैं।</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1523251239923-9969d2b4f95f?w=600&h=400&fit=crop" alt="Real-Time Preview">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multiple Filters Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1584007952771-96d1f3866a6b?w=600&h=400&fit=crop" alt="Multiple Filters">
+                </div>
+                <div class="content-text">
+                    <h2>एकाधिक फिल्टर्स को मिलाएं</h2>
+                    <p>अनूठे प्रभाव बनाने के लिए कई फिल्टर्स को लेयर करें। आश्चर्यजनक परिणामों के लिए बेसिक समायोजनों को रचनात्मक फिल्टर्स के साथ मिलाएं।</p>
+                    <p>एक क्लिक से किसी भी फिल्टर को सक्षम या अक्षम करें। अपना सही लुक प्राप्त करने के लिए प्रत्येक फिल्टर के लिए तीव्रता को स्वतंत्र रूप से समायोजित करें।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Protection Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>100% गोपनीयता सुरक्षा</h2>
+                    <p>सभी इमेज प्रोसेसिंग आपके ब्राउज़र में स्थानीय रूप से होती है। आपकी फोटो कभी भी आपके डिवाइस से निकलती नहीं हैं या किसी सर्वर पर अपलोड नहीं होती हैं।</p>
+                    <p>संपादित करते समय पूर्ण गोपनीयता और सुरक्षा का आनंद लें। कोई डेटा संग्रह नहीं, कोई पंजीकरण आवश्यक नहीं, केवल शुद्ध क्लाइंट-साइड प्रोसेसिंग।</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://plus.unsplash.com/premium_photo-1700830452546-96547de21071?w=600&h=400&fit=crop" alt="Privacy Protection">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Section -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>अपनी इमेजों को मुफ्त में बदलें</h2>
+            <p>महंगे फोटो संपादन सॉफ्टवेयर को अलविदा कहें। CaliperTools इमेज फिल्टर्स और प्रभाव के साथ, आप अपनी इमेजों पर पेशेवर फिल्टर्स मुफ्त में लगा सकते हैं। सबसे अच्छी बात यह है कि आप हमारे टूल का उपयोग ब्राउज़र वाले किसी भी डिवाइस से कर सकते हैं, कोई डाउनलोड या इंस्टॉलेशन की आवश्यकता नहीं है। कोई अनुभव आवश्यक नहीं!</p>
+            <p class="mb-10">हमारे सहज इंटरफेस का उपयोग करके अपनी इमेज अपलोड करें, 20 पेशेवर फिल्टर्स में से चुनें, तीव्रता स्तरों को समायोजित करें और रीयल-टाइम परिणाम देखें। जब आप प्रभाव से संतुष्ट हों, तो अपने पसंदीदा प्रारूप में निर्यात करें। जितने चाहें उतने फिल्टर्स लगाएं, सब कुछ बस कुछ क्लिक में।</p>
+            
+            <h2>हर बार पिक्सेल-परफेक्ट परिणाम</h2>
+            <p>हमारे फिल्टर मानक पिक्सेल-स्तर के एल्गोरिदम का उपयोग करते हैं जो सटीक और सुसंगत परिणाम सुनिश्चित करते हैं। चाहे आप चमक समायोजित कर रहे हों, विंटेज प्रभाव लगा रहे हों या रचनात्मक ओवरले जोड़ रहे हों, आप हर बार पेशेवर-गुणवत्ता का आउटपुट प्राप्त करेंगे।</p>
+            <p>सभी इमेज प्रोसेसिंग आपके ब्राउज़र में स्थानीय रूप से होती है, इसलिए आपकी फोटो कभी भी आपके डिवाइस से निकलती नहीं हैं। PNG, JPG और WebP प्रारूपों के समर्थन के साथ, आप उस प्रारूप में निर्यात कर सकते हैं जो आपकी आवश्यकताओं के सबसे अच्छे अनुरूप हो।</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="related-tools">
+        <div class="container">
+            <h2 class="section-title">Related Tools</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Main script -->
+    <script src="../scripts/script.js"></script>
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        initRelatedTools('image-filters-effects-tool');
+    </script>
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <canvas id="hiddenCanvas"></canvas>
+    <script>
+        let originalImage = null;
+        let originalImageData = null;
+        let exportFormat = 'png';
+        let filtersState = {
+            blackwhite: { enabled: false, intensity: 0 },
+            brightness: { enabled: false, intensity: 20 },
+            contrast: { enabled: false, intensity: 10 },
+            sharpen: { enabled: false, intensity: 30 },
+            blur: { enabled: false, intensity: 5 },
+            warm: { enabled: false, intensity: 15 },
+            cool: { enabled: false, intensity: 15 },
+            vintage: { enabled: false, intensity: 40 },
+            film: { enabled: false, intensity: 35 },
+            sepia: { enabled: false, intensity: 50 },
+            saturation: { enabled: false, intensity: 30 },
+            desaturation: { enabled: false, intensity: 40 },
+            splittoning: { enabled: false, intensity: 25 },
+            cinemalut: { enabled: false, intensity: 45 },
+            vignette: { enabled: false, intensity: 30 },
+            grain: { enabled: false, intensity: 20 },
+            hdrlook: { enabled: false, intensity: 35 },
+            invertcolors: { enabled: false, intensity: 50 },
+            cartoon: { enabled: false, intensity: 40 },
+            gradientoverlay: { enabled: false, intensity: 25 }
+        };
+
+        let updateTimeout = null;
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const hiddenCanvas = document.getElementById('hiddenCanvas');
+        const originalCtx = originalCanvas.getContext('2d');
+        const previewCtx = previewCanvas.getContext('2d');
+        const hiddenCtx = hiddenCanvas.getContext('2d');
+        const exportBtn = document.getElementById('exportBtn');
+        const deleteImageBtn = document.getElementById('deleteImageBtn');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                exportFormat = btn.dataset.format;
+                updateUrlForFormat();
+            });
+        });
+
+        deleteImageBtn.addEventListener('click', () => {
+            // Reset image variables
+            originalImage = null;
+            originalImageData = null;
+            
+            // Show upload area and hide preview container
+            uploadArea.style.display = 'flex';
+            previewContainer.classList.remove('active');
+            
+            // Disable export button
+            exportBtn.disabled = true;
+            
+            // Clear canvases
+            originalCtx.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+            previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+            hiddenCtx.clearRect(0, 0, hiddenCanvas.width, hiddenCanvas.height);
+            
+            // Reset URL to original .html format
+            const newUrl = new URL(window.location.href);
+            const pathParts = newUrl.pathname.split('/');
+            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
+            if (toolIndex !== -1) {
+                const basePath = pathParts.slice(0, toolIndex).join('/');
+                newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool.html`;
+            }
+            newUrl.search = '';
+            window.history.pushState({}, '', newUrl);
+            updatePageConfig(null);
+            
+            // Reset file input
+            fileInput.value = '';
+        });
+
+        function updateUrlForFormat() {
+            const newUrl = new URL(window.location.href);
+            
+            // Remove any existing path segments after Image-Filters-Effects-Tool
+            const pathParts = newUrl.pathname.split('/');
+            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
+            if (toolIndex !== -1) {
+                const basePath = pathParts.slice(0, toolIndex + 1).join('/');
+                newUrl.pathname = basePath;
+            } else {
+                const toolHtmlIndex = pathParts.indexOf('Image-Filters-Effects-Tool.html');
+                if (toolHtmlIndex !== -1) {
+                    const basePath = pathParts.slice(0, toolHtmlIndex).join('/');
+                    newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool`;
+                }
+            }
+            
+            if (exportFormat === 'png') {
+                newUrl.pathname += '/image-effects-png';
+                history.replaceState(null, '', newUrl);
+                updatePageConfig('image-effects-png');
+            } else if (exportFormat === 'jpg') {
+                newUrl.pathname += '/image-effects-jpg';
+                history.replaceState(null, '', newUrl);
+                updatePageConfig('image-effects-jpg');
+            } else if (exportFormat === 'webp') {
+                newUrl.pathname += '/image-effects-webp';
+                history.replaceState(null, '', newUrl);
+                updatePageConfig('image-effects-webp');
+            }
+        }
+
+        function updateUrlForFilter(filterName, enabled) {
+            const newUrl = new URL(window.location.href);
+            
+            // Remove any existing path segments after Image-Filters-Effects-Tool
+            const pathParts = newUrl.pathname.split('/');
+            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
+            if (toolIndex !== -1) {
+                const basePath = pathParts.slice(0, toolIndex + 1).join('/');
+                newUrl.pathname = basePath;
+            } else {
+                const toolHtmlIndex = pathParts.indexOf('Image-Filters-Effects-Tool.html');
+                if (toolHtmlIndex !== -1) {
+                    const basePath = pathParts.slice(0, toolHtmlIndex).join('/');
+                    newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool`;
+                }
+            }
+            
+            if (enabled) {
+                const slug = `${filterName}-image`;
+                newUrl.pathname += `/${slug}`;
+                history.replaceState(null, '', newUrl);
+                updatePageConfig(slug);
+            } else {
+                // Check if current URL has a filter slug
+                const currentSlug = newUrl.pathname.split('/').pop();
+                const isFormatSlug = currentSlug === 'image-effects-png' || currentSlug === 'image-effects-jpg' || currentSlug === 'image-effects-webp';
+                if (!isFormatSlug) {
+                    // Keep the base tool path without any slug
+                    history.replaceState(null, '', newUrl);
+                    updatePageConfig(null);
+                }
+            }
+        }
+
+        function updatePageConfig(slug) {
+            const pageConfig = PAGE_MAP[slug] || {
+                title: "मुफ्त ऑनलाइन इमेज फिल्टर्स और प्रभाव | CaliperTools",
+                description: "मुफ्त ऑनलाइन इमेज फिल्टर्स लगाएं। 20 पेशेवर प्रभाव। कोई अपलोड की आवश्यकता नहीं। तत्काल पूर्वावलोकन। सर्वोत्तम गुणवत्ता के परिणाम।"
+            };
+            
+            document.title = pageConfig.title;
+            
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement("meta");
+                metaDesc.name = "description";
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.content = pageConfig.description;
+        }
+
+        function handleFiles(files) {
+            if (files.length === 0) return;
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    originalImage = img;
+                    
+                    const maxWidth = 800;
+                    const scale = Math.min(1, maxWidth / img.width);
+                    const width = Math.round(img.width * scale);
+                    const height = Math.round(img.height * scale);
+                    
+                    originalCanvas.width = width;
+                    originalCanvas.height = height;
+                    previewCanvas.width = width;
+                    previewCanvas.height = height;
+                    hiddenCanvas.width = width;
+                    hiddenCanvas.height = height;
+                    
+                    originalCtx.drawImage(img, 0, 0, width, height);
+                    hiddenCtx.drawImage(img, 0, 0, width, height);
+                    originalImageData = hiddenCtx.getImageData(0, 0, width, height);
+                    
+                    uploadArea.style.display = 'none';
+                    previewContainer.classList.add('active');
+                    
+                    applyFilters();
+                    exportBtn.disabled = false;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function toggleFilter(filterName) {
+            filtersState[filterName].enabled = !filtersState[filterName].enabled;
+            const filterItem = document.querySelector(`[data-filter="${filterName}"]`);
+            const toggleBtn = filterItem.querySelector('.filter-toggle');
+            
+            if (filtersState[filterName].enabled) {
+                filterItem.classList.add('active');
+                toggleBtn.classList.add('active');
+            } else {
+                filterItem.classList.remove('active');
+                toggleBtn.classList.remove('active');
+            }
+            
+            updateUrlForFilter(filterName, filtersState[filterName].enabled);
+            scheduleFilterUpdate();
+        }
+
+        function updateFilter(filterName, value) {
+            filtersState[filterName].intensity = parseInt(value);
+            document.getElementById(`${filterName}Value`).textContent = `${value}%`;
+            
+            if (parseInt(value) > 0 && !filtersState[filterName].enabled) {
+                filtersState[filterName].enabled = true;
+                const filterItem = document.querySelector(`[data-filter="${filterName}"]`);
+                const toggleBtn = filterItem.querySelector('.filter-toggle');
+                filterItem.classList.add('active');
+                toggleBtn.classList.add('active');
+                updateUrlForFilter(filterName, true);
+            } else if (parseInt(value) === 0 && filtersState[filterName].enabled) {
+                filtersState[filterName].enabled = false;
+                const filterItem = document.querySelector(`[data-filter="${filterName}"]`);
+                const toggleBtn = filterItem.querySelector('.filter-toggle');
+                filterItem.classList.remove('active');
+                toggleBtn.classList.remove('active');
+                updateUrlForFilter(filterName, false);
+            }
+            
+            scheduleFilterUpdate();
+        }
+
+        function scheduleFilterUpdate() {
+            if (updateTimeout) {
+                clearTimeout(updateTimeout);
+            }
+            updateTimeout = setTimeout(() => {
+                applyFilters();
+            }, 10);
+        }
+
+        function applyFilters() {
+            if (!originalImageData) return;
+            
+            const width = previewCanvas.width;
+            const height = previewCanvas.height;
+            
+            hiddenCtx.putImageData(originalImageData, 0, 0);
+            
+            let imageData = hiddenCtx.getImageData(0, 0, width, height);
+            let data = imageData.data;
+            
+            const blackwhite = filtersState.blackwhite.enabled ? filtersState.blackwhite.intensity / 100 : 0;
+            const brightness = filtersState.brightness.enabled ? filtersState.brightness.intensity / 100 : 0;
+            const contrast = filtersState.contrast.enabled ? filtersState.contrast.intensity / 100 : 0;
+            const sharpen = filtersState.sharpen.enabled ? filtersState.sharpen.intensity / 100 : 0;
+            const blur = filtersState.blur.enabled ? filtersState.blur.intensity / 100 : 0;
+            const warm = filtersState.warm.enabled ? filtersState.warm.intensity / 100 : 0;
+            const cool = filtersState.cool.enabled ? filtersState.cool.intensity / 100 : 0;
+            const vintage = filtersState.vintage.enabled ? filtersState.vintage.intensity / 100 : 0;
+            const film = filtersState.film.enabled ? filtersState.film.intensity / 100 : 0;
+            const sepia = filtersState.sepia.enabled ? filtersState.sepia.intensity / 100 : 0;
+            const saturation = filtersState.saturation.enabled ? filtersState.saturation.intensity / 100 : 0;
+            const desaturation = filtersState.desaturation.enabled ? filtersState.desaturation.intensity / 100 : 0;
+            const splittoning = filtersState.splittoning.enabled ? filtersState.splittoning.intensity / 100 : 0;
+            const cinemalut = filtersState.cinemalut.enabled ? filtersState.cinemalut.intensity / 100 : 0;
+            const vignette = filtersState.vignette.enabled ? filtersState.vignette.intensity / 100 : 0;
+            const grain = filtersState.grain.enabled ? filtersState.grain.intensity / 100 : 0;
+            const hdrlook = filtersState.hdrlook.enabled ? filtersState.hdrlook.intensity / 100 : 0;
+            const invertcolors = filtersState.invertcolors.enabled ? filtersState.invertcolors.intensity / 100 : 0;
+            const cartoon = filtersState.cartoon.enabled ? filtersState.cartoon.intensity / 100 : 0;
+            const gradientoverlay = filtersState.gradientoverlay.enabled ? filtersState.gradientoverlay.intensity / 100 : 0;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                
+                let nr = r, ng = g, nb = b;
+                
+                if (blackwhite > 0) {
+                    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                    nr = gray;
+                    ng = gray;
+                    nb = gray;
+                }
+                
+                if (brightness > 0) {
+                    const value = brightness * 200 - 100;
+                    nr = nr + value;
+                    ng = ng + value;
+                    nb = nb + value;
+                }
+                
+                if (contrast > 0) {
+                    const value = contrast * 200 - 100;
+                    const factor = (259 * (value + 255)) / (255 * (259 - value));
+                    nr = factor * (nr - 128) + 128;
+                    ng = factor * (ng - 128) + 128;
+                    nb = factor * (nb - 128) + 128;
+                }
+                
+                if (saturation > 0) {
+                    const gray = (nr + ng + nb) / 3;
+                    const factor = 1 + saturation;
+                    nr = gray + (nr - gray) * factor;
+                    ng = gray + (ng - gray) * factor;
+                    nb = gray + (nb - gray) * factor;
+                }
+                
+                if (desaturation > 0) {
+                    const gray = (nr + ng + nb) / 3;
+                    const factor = 1 - desaturation;
+                    nr = gray + (nr - gray) * factor;
+                    ng = gray + (ng - gray) * factor;
+                    nb = gray + (nb - gray) * factor;
+                }
+                
+                if (sepia > 0) {
+                    const newR = 0.393 * nr + 0.769 * ng + 0.189 * nb;
+                    const newG = 0.349 * nr + 0.686 * ng + 0.168 * nb;
+                    const newB = 0.272 * nr + 0.534 * ng + 0.131 * nb;
+                    nr = newR;
+                    ng = newG;
+                    nb = newB;
+                }
+                
+                if (vintage > 0) {
+                    const factor = vintage;
+                    nr = nr + 15 * factor;
+                    ng = ng + 5 * factor;
+                    nb = nb - 15 * factor;
+                    const contrastValue = -10 * factor;
+                    const contrastFactor = (259 * (contrastValue + 255)) / (255 * (259 - contrastValue));
+                    nr = contrastFactor * (nr - 128) + 128;
+                    ng = contrastFactor * (ng - 128) + 128;
+                    nb = contrastFactor * (nb - 128) + 128;
+                }
+                
+                if (film > 0) {
+                    const factor = film;
+                    const contrastValue = 20 * factor;
+                    const contrastFactor = (259 * (contrastValue + 255)) / (255 * (259 - contrastValue));
+                    nr = contrastFactor * (nr - 128) + 128;
+                    ng = contrastFactor * (ng - 128) + 128;
+                    nb = contrastFactor * (nb - 128) + 128;
+                    const gray = (nr + ng + nb) / 3;
+                    const satFactor = 1 - 0.3 * factor;
+                    nr = gray + (nr - gray) * satFactor;
+                    ng = gray + (ng - gray) * satFactor;
+                    nb = gray + (nb - gray) * satFactor;
+                }
+                
+                if (warm > 0) {
+                    const value = warm * 30;
+                    nr = nr + value;
+                    nb = nb - value;
+                }
+                
+                if (cool > 0) {
+                    const value = cool * 30;
+                    nb = nb + value;
+                    nr = nr - value;
+                }
+                
+                if (splittoning > 0) {
+                    const factor = splittoning;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    const threshold = 128;
+                    if (gray > threshold) {
+                        nr = nr + 30 * factor;
+                    } else {
+                        nb = nb + 30 * factor;
+                    }
+                }
+                
+                if (cinemalut > 0) {
+                    const factor = cinemalut;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    if (gray < 64) {
+                        ng = ng * (1 + 0.2 * factor);
+                    } else if (gray < 128) {
+                        ng = ng * (1 - 0.1 * factor);
+                    } else if (gray < 192) {
+                        nr = nr * (1 + 0.2 * factor);
+                        nb = nb * (1 - 0.2 * factor);
+                    } else {
+                        nr = nr * (1 + 0.3 * factor);
+                        ng = ng * (1 + 0.1 * factor);
+                        nb = nb * (1 - 0.3 * factor);
+                    }
+                }
+                
+                if (vignette > 0) {
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+                    const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
+                    const x = i / 4 % width;
+                    const y = Math.floor(i / 4 / width);
+                    const dist = Math.sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
+                    const factor = 1 - vignette * (dist / maxDist);
+                    nr = nr * factor;
+                    ng = ng * factor;
+                    nb = nb * factor;
+                }
+                
+                if (grain > 0) {
+                    const value = grain * 30;
+                    const noise = (Math.random() - 0.5) * 2 * value;
+                    nr = nr + noise;
+                    ng = ng + noise;
+                    nb = nb + noise;
+                }
+                
+                if (hdrlook > 0) {
+                    const factor = hdrlook;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    if (gray < 128) {
+                        nr = nr * (1 + 0.3 * factor);
+                        ng = ng * (1 + 0.3 * factor);
+                        nb = nb * (1 + 0.3 * factor);
+                    } else {
+                        nr = nr * (1 - 0.2 * factor);
+                        ng = ng * (1 - 0.2 * factor);
+                        nb = nb * (1 - 0.2 * factor);
+                    }
+                }
+                
+                if (invertcolors > 0) {
+                    nr = 255 - nr;
+                    ng = 255 - ng;
+                    nb = 255 - nb;
+                }
+                
+                if (cartoon > 0) {
+                    const factor = cartoon;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    const levels = 8;
+                    const step = 255 / levels;
+                    const quantized = Math.floor(gray / step) * step;
+                    nr = quantized;
+                    ng = quantized;
+                    nb = quantized;
+                }
+                
+                if (gradientoverlay > 0) {
+                    const factor = gradientoverlay;
+                    const x = (i / 4) % width;
+                    const y = Math.floor((i / 4) / width);
+                    const alpha = factor * 0.3;
+                    const gradientR = 255 * (y / height);
+                    const gradientG = 200 * (y / height);
+                    const gradientB = 150 * (y / height);
+                    nr = nr * (1 - alpha) + gradientR * alpha;
+                    ng = ng * (1 - alpha) + gradientG * alpha;
+                    nb = nb * (1 - alpha) + gradientB * alpha;
+                }
+                
+                nr = Math.min(255, Math.max(0, nr));
+                ng = Math.min(255, Math.max(0, ng));
+                nb = Math.min(255, Math.max(0, nb));
+                
+                data[i] = Math.round(nr);
+                data[i + 1] = Math.round(ng);
+                data[i + 2] = Math.round(nb);
+            }
+            
+            if (blur > 0) {
+                const blurRadius = Math.round(blur * 5);
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = width;
+                tempCanvas.height = height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.putImageData(imageData, 0, 0);
+                
+                const src = imageData.data;
+                const dst = tempCtx.getImageData(0, 0, width, height).data;
+                
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        let r = 0, g = 0, b = 0, count = 0;
+                        
+                        for (let ky = -blurRadius; ky <= blurRadius; ky++) {
+                            for (let kx = -blurRadius; kx <= blurRadius; kx++) {
+                                const px = x + kx;
+                                const py = y + ky;
+                                
+                                if (px >= 0 && px < width && py >= 0 && py < height) {
+                                    const idx = (py * width + px) * 4;
+                                    r += src[idx];
+                                    g += src[idx + 1];
+                                    b += src[idx + 2];
+                                    count++;
+                                }
+                            }
+                        }
+                        
+                        const dstIdx = (y * width + x) * 4;
+                        dst[dstIdx] = r / count;
+                        dst[dstIdx + 1] = g / count;
+                        dst[dstIdx + 2] = b / count;
+                        dst[dstIdx + 3] = src[(y * width + x) * 4 + 3];
+                    }
+                }
+                
+                imageData = tempCtx.getImageData(0, 0, width, height);
+                data = imageData.data;
+            }
+            
+            if (sharpen > 0) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = width;
+                tempCanvas.height = height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.putImageData(imageData, 0, 0);
+                
+                const kernel = [
+                    0, -1, 0,
+                    -1, 5, -1,
+                    0, -1, 0
+                ];
+                
+                const side = 3;
+                const halfSide = 1;
+                const src = imageData.data;
+                const dst = tempCtx.getImageData(0, 0, width, height).data;
+                
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const dstOff = (y * width + x) * 4;
+                        let r = 0, g = 0, b = 0;
+                        
+                        for (let cy = 0; cy < side; cy++) {
+                            for (let cx = 0; cx < side; cx++) {
+                                const scy = y + cy - halfSide;
+                                const scx = x + cx - halfSide;
+                                
+                                if (scy >= 0 && scy < height && scx >= 0 && scx < width) {
+                                    const srcOff = (scy * width + scx) * 4;
+                                    const weight = kernel[cy * side + cx];
+                                    r += src[srcOff] * weight;
+                                    g += src[srcOff + 1] * weight;
+                                    b += src[srcOff + 2] * weight;
+                                }
+                            }
+                        }
+                        
+                        dst[dstOff] = r;
+                        dst[dstOff + 1] = g;
+                        dst[dstOff + 2] = b;
+                        dst[dstOff + 3] = src[(y * width + x) * 4 + 3];
+                    }
+                }
+                
+                imageData = tempCtx.getImageData(0, 0, width, height);
+                data = imageData.data;
+            }
+            
+            hiddenCtx.putImageData(imageData, 0, 0);
+            previewCtx.drawImage(hiddenCanvas, 0, 0, width, height);
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+            
+            const format = exportFormat === 'jpg' ? 'image/jpeg' : 
+                         exportFormat === 'webp' ? 'image/webp' : 'image/png';
+            const extension = exportFormat === 'jpg' ? 'jpg' : exportFormat;
+            
+            previewCanvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `image-filtered.${extension}`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }, format, 0.92);
+        }
+
+        const PAGE_MAP = {
+            "blackwhite-image": {
+                effect: "blackwhite",
+                title: "मुफ्त ऑनलाइन ब्लैक वाइट इमेज | CaliperTools",
+                description: "इमेजों को ऑनलाइन मुफ्त में ब्लैक वाइट में बदलें। ग्रेस्केल प्रभाव तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "brightness-image": {
+                effect: "brightness",
+                title: "मुफ्त ऑनलाइन चमक इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में इमेज चमक समायोजित करें। चमक को तुरंत बढ़ाया या घटाया जा सकता है। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "contrast-image": {
+                effect: "contrast",
+                title: "मुफ्त ऑनलाइन कॉन्ट्रास्ट इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में इमेज कॉन्ट्रास्ट समायोजित करें। कॉन्ट्रास्ट को तुरंत बढ़ाया या घटाया जा सकता है। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "sharpen-image": {
+                effect: "sharpen",
+                title: "मुफ्त ऑनलाइन तेज इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में इमेज तेज करें। समायोज्य तेजी तीव्रता तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "blur-image": {
+                effect: "blur",
+                title: "मुफ्त ऑनलाइन धुंधला इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में धुंधला प्रभाव लगाएं। समायोज्य धुंधला तीव्रता तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "warm-image": {
+                effect: "warm",
+                title: "मुफ्त ऑनलाइन गर्म इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में गर्म टोन जोड़ें। गर्मी को तुरंत समायोजित करें। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "cool-image": {
+                effect: "cool",
+                title: "मुफ्त ऑनलाइन कूल इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में कूल टोन जोड़ें। कूलन को तुरंत समायोजित करें। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "vintage-image": {
+                effect: "vintage",
+                title: "मुफ्त ऑनलाइन विंटेज इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में विंटेज प्रभाव लगाएं। रेट्रो शैली तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "film-image": {
+                effect: "film",
+                title: "मुफ्त ऑनलाइन फिल्म इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में फिल्म प्रभाव लगाएं। सिनेमैटिक लुक तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "sepia-image": {
+                effect: "sepia",
+                title: "मुफ्त ऑनलाइन सेपिया इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में सेपिया प्रभाव लगाएं। भूरा टोन तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "saturation-image": {
+                effect: "saturation",
+                title: "मुफ्त ऑनलाइन सैचुरेशन इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में इमेज सैचुरेशन बढ़ाएं। रंगों को तुरंत बढ़ाएं। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "desaturation-image": {
+                effect: "desaturation",
+                title: "मुफ्त ऑनलाइन डीसैचुरेशन इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में डीसैचुरेशन प्रभाव लगाएं। मैट लुक तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "splittoning-image": {
+                effect: "splittoning",
+                title: "मुफ्त ऑनलाइन स्प्लिट टोनिंग इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में स्प्लिट टोनिंग प्रभाव लगाएं। कलर ग्रेडिंग तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "cinemalut-image": {
+                effect: "cinemalut",
+                title: "मुफ्त ऑनलाइन सिनेमा LUT इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में सिनेमा LUT प्रभाव लगाएं। सिनेमैटिक रंग तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "vignette-image": {
+                effect: "vignette",
+                title: "मुफ्त ऑनलाइन विगनेट इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में विगनेट प्रभाव लगाएं। डार्क एजेस तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "grain-image": {
+                effect: "grain",
+                title: "मुफ्त ऑनलाइन दाना इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में फिल्म दाना जोड़ें। टेक्सचर प्रभाव तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "hdrlook-image": {
+                effect: "hdrlook",
+                title: "मुफ्त ऑनलाइन HDR लुक इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में HDR लुक लगाएं। डायनैमिक रेंज तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "invertcolors-image": {
+                effect: "invertcolors",
+                title: "मुफ्त ऑनलाइन रंग उल्टा इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में इमेज रंग उल्टा करें। नेगेटिव प्रभाव तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "cartoon-image": {
+                effect: "cartoon",
+                title: "मुफ्त ऑनलाइन कार्टून इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में कार्टून प्रभाव लगाएं। कार्टून शैली तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "gradientoverlay-image": {
+                effect: "gradientoverlay",
+                title: "मुफ्त ऑनलाइन ग्रेडिएंट ओवरले इमेज | CaliperTools",
+                description: "ऑनलाइन मुफ्त में ग्रेडिएंट ओवरले लगाएं। कलर ग्रेडिएंट तुरंत। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "image-effects-png": {
+                title: "मुफ्त PNG इमेज प्रभाव ऑनलाइन | CaliperTools",
+                description: "ऑनलाइन मुफ्त में PNG इमेज प्रभाव लगाएं। 20 पेशेवर फिल्टर्स। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "image-effects-jpg": {
+                title: "मुफ्त JPG इमेज प्रभाव ऑनलाइन | CaliperTools",
+                description: "ऑनलाइन मुफ्त में JPG इमेज प्रभाव लगाएं। 20 पेशेवर फिल्टर्स। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            },
+            "image-effects-webp": {
+                title: "मुफ्त WebP इमेज प्रभाव ऑनलाइन | CaliperTools",
+                description: "ऑनलाइन मुफ्त में WebP इमेज प्रभाव लगाएं। 20 पेशेवर फिल्टर्स। कोई अपलोड आवश्यक नहीं। सर्वोत्तम गुणवत्ता के परिणाम।"
+            }
+        };
+
+        function parseUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            
+            updatePageConfig(mode);
+            
+            if (PAGE_MAP[mode] && PAGE_MAP[mode].effect && filtersState[PAGE_MAP[mode].effect]) {
+                filtersState[PAGE_MAP[mode].effect].enabled = true;
+                const filterItem = document.querySelector(`[data-filter="${PAGE_MAP[mode].effect}"]`);
+                const toggleBtn = filterItem.querySelector('.filter-toggle');
+                filterItem.classList.add('active');
+                toggleBtn.classList.add('active');
+            }
+            
+            if (mode === "image-effects-png") {
+                exportFormat = "png";
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.format-btn[data-format="png"]').classList.add('active');
+            } else if (mode === "image-effects-jpg") {
+                exportFormat = "jpg";
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.format-btn[data-format="jpg"]').classList.add('active');
+            } else if (mode === "image-effects-webp") {
+                exportFormat = "webp";
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.format-btn[data-format="webp"]').classList.add('active');
+            }
+        }
+
+        parseUrlParams();
+    </script>
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../scripts/script.js"></script>
+</body>
+</html>

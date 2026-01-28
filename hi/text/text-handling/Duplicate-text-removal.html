@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>दोहरा पाठ हटाना | CaliperTools</title>
+<meta name="description" content="CaliperTools द्वारा निःशुल्क ऑनलाइन दोहरा पाठ हटाने का टूल। आसानी से दोहरी पंक्तियाँ, शब्द, वाक्य, अनुच्छेद हटाएं।" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Duplicate Text Removal Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.preview {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.export-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.export-buttons button:hover {
+    background: #0052a3;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.options strong {
+    margin-top: 8px;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 60%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('राइट-क्लिक मेनू डिसेबल है।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('कॉपी फ़ंक्शन डिसेबल है।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('डेवलपर टूल अक्षम हैं');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>दोहरा पाठ हटाना</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">पहले की स्थिति में लाएं</button>
+                    <button onclick="redo()">फिर से करें</button>
+                    <button onclick="clearText()">साफ करें</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        कैसे उपयोग करें?
+                    </a>
+                </div>
+                <textarea id="input" oninput="processText()" placeholder="अपना पाठ यहां डालें..."></textarea>
+                
+                <div class="stats">
+                    <div class="stat" id="charCount">वर्ण: 0</div>
+                    <div class="stat" id="nonBlankChar">खाली नहीं: 0</div>
+                    <div class="stat" id="wordCount">शब्द: 0</div>
+                    <div class="stat" id="lineCount">पंक्तियाँ: 0</div>
+                    <div class="stat" id="paraCount">अनुच्छेद: 0</div>
+                    <div class="stat" id="pages">पृष्ठ: 0</div>
+                    <div class="stat" id="readingTime">पढ़ने का समय: 0 मिनट</div>
+                    <div class="stat" id="speakingTime">बोलने का समय: 0 मिनट</div>
+                </div>
+
+                <div class="options">
+                    <strong>संचालन मोड:</strong>
+                    <label><input type="radio" name="mode" value="all">सभी दोहरी पंक्तियाँ हटाएं</label>
+                    <label><input type="radio" name="mode" value="consecutive">लगातार दोहरी पंक्तियाँ हटाएं</label>
+                    <label><input type="radio" name="mode" value="unique">केवल पूर्णतः अद्वितीय पाठ पंक्तियाँ रखें</label>
+                    <label><input type="radio" name="mode" value="word">दोहरे शब्द हटाएं</label>
+                    <label><input type="radio" name="mode" value="paragraph">दोहरे अनुच्छेद हटाएं</label>
+                    <label><input type="radio" name="mode" value="sentence">दोहरे वाक्य हटाएं</label>
+
+                    <strong>नई पंक्तियाँ, टैब और स्पेस:</strong>
+                    <label><input type="radio" name="newline" value="preserve">सभी नई पंक्तियाँ संरक्षित करें</label>
+                    <label><input type="radio" name="newline" value="filter">सभी नई पंक्तियाँ फ़िल्टर करें</label>
+                    <label><input type="radio" name="newline" value="delete">सभी नई पंक्तियाँ हटाएं</label>
+                    <label><input type="checkbox" id="trim">पाठ पंक्तियाँ काटें</label>
+                    <label><input type="checkbox" id="caseSensitive">केस सेंसिटिव</label>
+
+                    <strong>पंक्तियों को क्रमबद्ध करें:</strong>
+                    <label><input type="checkbox" id="sortLines">आउटपुट पंक्तियों को वर्णानुक्रम में क्रमबद्ध करें</label>
+
+                    <strong>कस्टम वर्ण हटाना:</strong>
+                    <label>वर्ण हटाएं:<input type="text" id="removeChars" placeholder=",.;!?"></label>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>आउटपुट</h2>
+                <div class="export-buttons" style="margin-bottom: 15px; display: flex; justify-content: flex-start;">
+                    <button onclick="copyText()">कॉपी करें</button>
+                    <button onclick="exportTXT()">TXT निर्यात करें</button>
+                    <button onclick="exportWord()">Word निर्यात करें</button>
+                    <button onclick="exportPDF()">PDF निर्यात करें</button>
+                </div>
+                <div class="preview" id="preview"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Duplicate Text Removal -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>दोहरा पाठ हटाना कैसे उपयोग करें</h3>
+                <p>
+                    अनुकूलन के विभिन्न विकल्पों के साथ अपने पाठ से दोहरी सामग्री को हटाने के लिए इन सरल चरणों का पालन करें।
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>चरण 1: अपना पाठ दर्ज करें</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>चरण 2: विकल्प कॉन्फ़िगर करें</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>चरण 3: अपने परिणाम प्राप्त करें</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>चरण-दर-चरण ट्यूटोरियल</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 1: अपना पाठ दर्ज करें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">अपना पाठ दो तरीकों में से किसी एक तरीके से दर्ज करें:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>पाठ टाइप करें या पेस्ट करें:</strong> सीधे पाठ क्षेत्र में अपना पाठ टाइप करें या पेस्ट करें</li>
+                            </ul>
+                            <p style="text-align: left;">जैसे-जैसे आप टाइप करते हैं या विकल्पों में परिवर्तन करते हैं, टूल आपके पाठ को रीयल-टाइम में संसाधित करता है।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 2: विकल्प कॉन्फ़िगर करें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">इन विकल्पों के साथ अपने दोहरा हटाने को अनुकूलित करें:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>संचालन मोड:</strong> चुनें कि दोहरे कैसे हटाएं (सभी, लगातार, अद्वितीय, शब्द, अनुच्छेद, वाक्य)</li>
+                                <li><strong>नई पंक्तियों का संचालन:</strong> सभी नई पंक्तियों को संरक्षित करें, फ़िल्टर करें या हटाएं</li>
+                                <li><strong>पाठ प्रसंस्करण:</strong> पाठ पंक्तियों को काटें या संचालन को केस सेंसिटिव बनाएं</li>
+                                <li><strong>क्रमबद्धता:</strong> आउटपुट पंक्तियों को वर्णानुक्रम में क्रमबद्ध करें</li>
+                                <li><strong>कस्टम वर्ण हटाना:</strong> अपने पाठ से हटाने के लिए वर्ण निर्दिष्ट करें</li>
+                            </ul>
+                            <p style="text-align: left;">उपलब्ध विकल्प आपके द्वारा चुने गए संचालन मोड के आधार पर बदलते हैं।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 3: अपने परिणाम प्राप्त करें</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">दोहरे हटाए गए आपका पाठ तुरंत दाएं आउटपुट क्षेत्र में दिखाई देगा। आप कर सकते हैं:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"कॉपी करें" बटन का उपयोग करके संसाधित पाठ को एक क्लिक में कॉपी करें</li>
+                                <li>परिणाम को TXT, Word या PDF फ़ाइलों के रूप में निर्यात करें</li>
+                                <li>परिवर्तनों को पूर्ववत करने या पुनर्स्थापित करने के लिए पहले की स्थिति में लाएं/फिर से करें बटन का उपयोग करें</li>
+                                <li>"साफ करें" बटन के साथ नए सिरे से शुरू करने के लिए सभी सामग्री को साफ करें</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">सर्वोत्तम परिणामों के लिए युक्तियाँ</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>व्यापक दोहरा हटाने के लिए "सभी दोहरी पंक्तियाँ हटाएं" का उपयोग करें</li>
+                                <li>दोहराई गई लगातार पंक्तियों की केवल एक प्रति रखने के लिए "लगातार दोहरी पंक्तियाँ हटाएं" का उपयोग करें</li>
+                                <li>केवल एक बार दिखाई देने वाली पंक्तियों को रखने के लिए "केवल पूर्णतः अद्वितीय पाठ पंक्तियाँ रखें" का उपयोग करें</li>
+                                <li>जब सटीक केस मिलान महत्वपूर्ण हो तो "केस सेंसिटिव" विकल्प का उपयोग करें</li>
+                                <li>साफ़ परिणामों के लिए "पाठ पंक्तियाँ काटें" को दोहरा हटाने के साथ जोड़ें</li>
+                                <li>विशिष्ट विराम चिह्न या वर्णों को हटाने के लिए कस्टम वर्ण हटाने की सुविधा का उपयोग करें</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">संबंधित टूल</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("duplicate-text-removal");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const input=document.getElementById('input');
+const preview=document.getElementById('preview');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); processText(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); processText(); } }
+function clearText(){ saveState(); input.value=''; processText(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'क्लिपबोर्ड में कॉपी किया गया!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(preview.textContent)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+
+function updateStats(text){
+  document.getElementById('charCount').innerText='वर्ण: '+text.length;
+  document.getElementById('nonBlankChar').innerText='खाली नहीं: '+text.replace(/\s/g,'').length;
+  const words=text.match(/\S+/g); 
+  document.getElementById('wordCount').innerText='शब्द: '+(words?words.length:0);
+  // Fix line count display issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines=text.split(/\r?\n/); 
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='पंक्तियाँ: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); 
+  document.getElementById('paraCount').innerText='अनुच्छेद: '+paras.length;
+  const pages=Math.ceil((words?words.length:0)/500); 
+  document.getElementById('pages').innerText='पृष्ठ: '+pages;
+  const reading=Math.ceil((words?words.length:0)/200); 
+  document.getElementById('readingTime').innerText='पढ़ने का समय: '+reading+' मिनट';
+  const speaking=Math.ceil((words?words.length:0)/130); 
+  document.getElementById('speakingTime').innerText='बोलने का समय: '+speaking+' मिनट';
+}
+
+function processText(){
+  saveState();
+  let text=input.value;
+
+  const caseSensitive = document.getElementById('caseSensitive').checked;
+  const removeChars = document.getElementById('removeChars').value || '';
+  if(removeChars){
+    const pattern = new RegExp("["+removeChars+"]","g");
+    text = text.replace(pattern,'');
+  }
+
+  const newlineMode=document.querySelector('input[name="newline"]:checked')?.value;
+  if(newlineMode==='delete'){ text=text.replace(/\r?\n/g,''); }
+  else if(newlineMode==='filter'){ text=text.replace(/\r?\n/g,'\n'); }
+  if(document.getElementById('trim').checked){ text=text.split(/\r?\n/).map(l=>l.trim()).join('\n'); }
+
+  const mode=document.querySelector('input[name="mode"]:checked')?.value;
+  if(mode){
+    if(mode==='all' || mode==='consecutive' || mode==='unique'){
+      let lines=text.split(/\r?\n/);
+      if(!caseSensitive){ lines = lines.map(l=>l.toLowerCase()); }
+      if(mode==='all'){
+        let seen=new Set();
+        lines=lines.filter(l=>{ if(seen.has(l)) return false; seen.add(l); return true; });
+      } else if(mode==='consecutive'){
+        lines=lines.filter((l,i,a)=>i===0||l!==a[i-1]);
+      } else if(mode==='unique'){
+        let counts={}; lines.forEach(l=>counts[l]=(counts[l]||0)+1);
+        lines=lines.filter(l=>counts[l]===1);
+      }
+      text=lines.join('\n');
+    } else if(mode==='word'){ // remove duplicate words
+      text = text.split(/\s+/).filter((v,i,a)=>{ 
+        if(!caseSensitive)v=v.toLowerCase(); 
+        return a.indexOf(v)===i; 
+      }).join(' ');
+    } else if(mode==='paragraph'){
+      let paras=text.split(/\n\s*\n/);
+      let seen=new Set();
+      paras = paras.filter(p=>{ 
+        let t = caseSensitive?p:p.toLowerCase(); 
+        if(seen.has(t)) return false; 
+        seen.add(t); 
+        return true; 
+      });
+      text=paras.join('\n\n');
+    } else if(mode==='sentence'){
+      let sentences=text.match(/[^\.!\?]+[\.!\?]*/g)||[text];
+      let seen=new Set();
+      sentences = sentences.filter(s=>{
+        let t = caseSensitive?s:s.toLowerCase();
+        if(seen.has(t)) return false;
+        seen.add(t);
+        return true;
+      });
+      text=sentences.join(' ');
+    }
+  }
+
+  if(document.getElementById('sortLines').checked){
+    text=text.split(/\r?\n/).sort().join('\n');
+  }
+
+  preview.textContent=text;
+  updateStats(text);
+}
+
+function exportTXT(){
+  const blob=new Blob([preview.textContent],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='output.txt'; a.click();
+}
+function exportWord(){
+  const blob=new Blob([preview.textContent],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='output.docx'; a.click();
+}
+function exportPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const lines=preview.textContent.split('\n');
+  let y=10;
+  lines.forEach(line=>{
+    if(y>280){ doc.addPage(); y=10; }
+    doc.text(line,10,y); y+=7;
+  });
+  doc.save('output.pdf');
+}
+
+// Add event listeners to automatically call processText function when options change
+const allOptions = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+allOptions.forEach(option => {
+    option.addEventListener('change', processText);
+});
+
+processText();
+</script>
+</body>
+</html>

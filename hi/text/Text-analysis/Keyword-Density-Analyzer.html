@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+<meta charset="UTF-8">
+<title>कीवर्ड डेंसिटी एनालाइजर | CaliperTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="कीवर्ड डेंसिटी एनालाइजर। SEO के लिए कीवर्ड आवृत्ति, घनत्व, स्टॉप वर्ड और बहु-शब्द वाक्यांशों का विश्लेषण करें।" />
+
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Gray background */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Full-width container ensures it stays within viewport */
+.full-width-container {
+    width: 100%;
+    overflow: visible;
+}
+
+/* Tool container ensures it stays within viewport, add appropriate padding */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+    overflow: visible;
+    align-items: stretch;
+    min-height: 80vh;
+}
+
+/* Add proper padding to left and right panels */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    overflow: hidden;
+}
+
+/* Tool title styles */
+.tool-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Text input area */
+textarea {
+    flex: 1;
+    width: 100%;
+    padding: 1rem;
+    font-size: 14px;
+    resize: vertical;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+}
+
+/* Options area */
+.options {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+}
+
+.options h4 {
+    margin: 12px 0 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+label {
+    display: block;
+    margin: 6px 0;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+select, button {
+    font-size: 13px;
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+select:hover, button:hover {
+    border-color: #0066cc;
+    background-color: #f9fafb;
+}
+
+button {
+    background-color: #0066cc;
+    color: white;
+    border-color: #0066cc;
+}
+
+button:hover {
+    background-color: #0052a3;
+    border-color: #0052a3;
+    color: white;
+}
+
+/* Statistics area */
+.stats {
+    padding: 8px 12px;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+    background: #fafafa;
+    color: #6b7280;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th, td {
+    border-bottom: 1px solid #eee;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+th {
+    background: #fafafa;
+    font-weight: 600;
+    color: #374151;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Action buttons area */
+.actions {
+    padding: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem;
+    }
+    
+    .cta-section {
+        padding: 1.5rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.75rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tool-container {
+        padding: 0 0.5rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem 1rem;
+    }
+    
+    .cta-section {
+        padding: 1.5rem 1rem;
+        margin-top: 2rem;
+    }
+    
+    .features-row {
+        gap: 0.5rem;
+    }
+    
+    .feature-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel, .right-panel {
+        padding: 1rem 0.75rem;
+    }
+    
+    .cta-section {
+        padding: 1rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* Related tools section styles */
+.related-tools h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .tool-title {
+        font-size: 1.5rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.75rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+    
+    .left-panel, .right-panel {
+        min-height: auto;
+    }
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('राइट-क्लिक मेनू डिसेबल है।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('कॉपी फ़ंक्शन डिसेबल है।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('डेवलपर टूल अक्षम हैं');
+        }
+    });
+</script>
+</head>
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content area -->
+<main class="main">
+    <div class="tool-container">
+            <!-- INPUT -->
+            <div class="left-panel">
+                <h1 class="tool-title" style="display: flex; align-items: center; justify-content: space-between;">कीवर्ड डेंसिटी एनालाइजर <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">इसे कैसे उपयोग करें?</a></h1>
+                <textarea id="input" placeholder="अपने लेख का टेक्स्ट यहां चिपकाएं..."></textarea>
+
+                <div class="stats" id="globalStats"></div>
+
+                <div class="options">
+                    <h4>टोकनीकरण</h4>
+                    <label><input type="checkbox" id="ignoreCase" checked> केस अनदेखा करें</label>
+                    <label><input type="checkbox" id="filterStop" checked> स्टॉप वर्ड फ़िल्टर करें</label>
+
+                    <h4>कीवर्ड</h4>
+                    <label>
+                        वाक्यांश लंबाई:
+                        <select id="phraseLen">
+                            <option value="1">1-शब्द</option>
+                            <option value="2">2-शब्द</option>
+                            <option value="3">3-शब्द</option>
+                        </select>
+                    </label>
+
+                    <label>
+                            शीर्ष N:
+                            <select id="topN">
+                                <option value="10" selected>शीर्ष 10</option>
+                                <option value="20">शीर्ष 20</option>
+                                <option value="50">शीर्ष 50</option>
+                            </select>
+                        </label>
+
+                    <h4>क्रमबद्ध करें</h4>
+                    <select id="sort">
+                        <option value="freq">आवृत्ति के अनुसार</option>
+                        <option value="alpha">वर्णानुक्रम के अनुसार</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- OUTPUT -->
+            <div class="right-panel">
+                <div style="flex:1;overflow:auto">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>परिणाम</th>
+                                    <th>कीवर्ड</th>
+                                    <th>संख्या</th>
+                                    <th>घनत्व</th>
+                                </tr>
+                            </thead>
+                            <tbody id="result"></tbody>
+                        </table>
+                    </div>
+                <div class="actions">
+                    <button id="copyTable"><i class="fas fa-copy"></i> तालिका कॉपी करें</button>
+                    <button id="copyCSV"><i class="fas fa-file-csv"></i> CSV डाउनलोड करें</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Section - How to Use Keyword Density Analyzer -->
+    <section class="cta-section" id="tutorial">
+        <div class="cta-content">
+            <h3>कीवर्ड डेंसिटी एनालाइजर का उपयोग कैसे करें</h3>
+            <p>
+                अपने टेक्स्ट में कीवर्ड घनत्व का कुशलतापूर्वक विश्लेषण करने के लिए इन सरल चरणों का पालन करें।
+            </p>
+            
+            <div class="features-row">
+                <div class="feature-item">
+                    <span class="icon">📋</span>
+                    <span>चरण 1: अपना टेक्स्ट चिपकाएं</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">⚙️</span>
+                    <span>चरण 2: विकल्प कॉन्फ़िगर करें</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">📊</span>
+                    <span>चरण 3: परिणाम देखें</span>
+                </div>
+            </div>
+            
+            <div class="cta-features">
+                <h4>चरण-दर-चरण ट्यूटोरियल</h4>
+                <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="tutorial-step">
+                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 1: अपना टेक्स्ट चिपकाएं</h5>
+                        <p style="margin-bottom: 1rem; text-align: left;">अपने लेख या टेक्स्ट को बाएं टेक्स्ट क्षेत्र में कॉपी और पेस्ट करें।</p>
+                        <p style="text-align: left;">विश्लेषक स्वचालित रूप से कुल शब्द, वर्ण और पढ़ने के समय जैसे बुनियादी आंकड़े गणना करेगा।</p>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 2: विकल्प कॉन्फ़िगर करें</h5>
+                        <p style="margin-bottom: 1rem; text-align: left;">इन विकल्पों के साथ अपने विश्लेषण को अनुकूलित करें:</p>
+                        <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                            <li><strong>टोकनीकरण:</strong> केस अनदेखा करना और स्टॉप वर्ड फ़िल्टर करना चुनें</li>
+                            <li><strong>कीवर्ड:</strong> वाक्यांश लंबाई (1-3 शब्द) और कितने शीर्ष कीवर्ड दिखाने के लिए सेट करें</li>
+                            <li><strong>क्रमबद्ध करें:</strong> परिणामों को आवृत्ति या वर्णानुक्रम के अनुसार क्रमबद्ध करें</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">चरण 3: परिणाम देखें</h5>
+                        <p style="margin-bottom: 1rem; text-align: left;">दायां पैनल आपके कीवर्ड घनत्व परिणाम प्रदर्शित करेगा, जिसमें शामिल हैं:</p>
+                        <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                            <li>आपके टेक्स्ट में पाए गए कीवर्ड वाक्यांश</li>
+                            <li>प्रत्येक कीवर्ड के लिए आवृत्ति गिनती</li>
+                            <li>प्रत्येक कीवर्ड के लिए घनत्व प्रतिशत</li>
+                        </ul>
+                        <p style="text-align: left;">अपने परिणामों को निर्यात करने के लिए "तालिका कॉपी करें" या "CSV डाउनलोड करें" बटन का उपयोग करें।</p>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">सर्वोत्तम परिणामों के लिए टिप्स</h5>
+                        <ul style="text-align: left; margin-left: 2rem;">
+                            <li>अधिक सटीक परिणामों के लिए "केस अनदेखा करें" विकल्प का उपयोग करें</li>
+                            <li>अर्थपूर्ण कीवर्ड पर ध्यान केंद्रित करने के लिए स्टॉप वर्ड फ़िल्टर करें</li>
+                            <li>लॉन्ग-टेल कीवर्ड खोजने के लिए विभिन्न वाक्यांश लंबाई आज़माएं</li>
+                            <li>प्रतिद्वंद्वियों की सामग्री का विश्लेषण करें ताकि उनकी कीवर्ड रणनीति की पहचान की जा सके</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="section related-tools">
+        <div class="container">
+            <h2 class="section-title">संबंधित टूल्स</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+<script>
+// Execute after page load
+window.addEventListener('DOMContentLoaded', function() {
+    analyze();
+});
+
+const input=document.getElementById('input');
+const result=document.getElementById('result');
+const globalStats=document.getElementById('globalStats');
+
+const ignoreCase=document.getElementById('ignoreCase');
+const filterStop=document.getElementById('filterStop');
+const phraseLen=document.getElementById('phraseLen');
+const topN=document.getElementById('topN');
+const sort=document.getElementById('sort');
+
+// 印地文停用词
+const stopWords=new Set([
+  'के','को','से','है','कि','पर','में','एक','ही','की','या','रहा','हैं','हो','तो',
+  'जो','का','ने','कर','दिया','लिए','हुआ','था','हुई','जैसे','अपने','तक','होता',
+  'होती','होते','करने','करता','करती','करते','होने','होकर','मे','द्वारा','अंदर','भी',
+  'वर्ग','इसमें','दूर','सभी','तथा','करें','किया','गर','जब','वर्ग','कोई','है','कुछ',
+  'है','क्या','है','है','यह','वह','ये','वे','इस','उस','इसे','उसे','इन','उन','इन्हें',
+  'उन्हें','इनके','उनके','इनकी','उनकी','इनका','उनका','इसके','उसके','इसकी','उसकी',
+  'इसका','उसका','और','पर','से','को','की','के','ने','में','का','है','हैं','हो','था',
+  'थी','थे','हुआ','हुई','हुए','रहा','रही','रहे','होता','होती','होते','करता','करती',
+  'करते','करने','करना','करें','किया','की','के','को','से','में','पर','अपने','अपनी',
+  'अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी',
+  'अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी',
+  'अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी','अपने','अपनी'
+]);
+
+function tokenize(text){
+  // 保留印地文字符、英文单词和空格，移除其他特殊字符
+  text=text.replace(/[^\w\s\u0900-\u097f]/g,' ');
+  if(ignoreCase.checked) text=text.toLowerCase();
+  return text.split(/\s+/).filter(Boolean);
+}
+
+function analyze(){
+  const text=input.value;
+  const chars=text.length;
+  const charsNoSpace=text.replace(/\s+/g,'').length;
+
+  let words=tokenize(text);
+  const totalWords=words.length;
+
+  globalStats.textContent=
+    `कुल शब्द: ${totalWords} | वर्ण: ${chars} | वर्ण (बिना स्पेस): ${charsNoSpace} | पढ़ने का समय: ${Math.max(1,Math.ceil(totalWords/200))} मिनट`;
+
+  let tokens=[...words];
+  if(filterStop.checked){
+    tokens=tokens.filter(w=>!stopWords.has(w));
+  }
+
+  const n=parseInt(phraseLen.value,10);
+  const freq={};
+
+  for(let i=0;i<=tokens.length-n;i++){
+    const phrase=tokens.slice(i,i+n).join(' ');
+    freq[phrase]=(freq[phrase]||0)+1;
+  }
+
+  let rows=Object.entries(freq);
+
+  if(sort.value==='freq'){
+    rows.sort((a,b)=>b[1]-a[1]);
+  }else{
+    rows.sort((a,b)=>a[0].localeCompare(b[0]));
+  }
+
+  rows=rows.slice(0,parseInt(topN.value,10));
+
+  result.innerHTML='';
+  rows.forEach(([k,c], index)=>{
+    const density=((c/totalWords)*100).toFixed(2);
+    const d=density+'%';
+    const tr=document.createElement('tr');
+    // Add Result column to show index
+    const isHighDensity=parseFloat(density)>3;
+    const densityContent=isHighDensity?`<span style="background-color: rgba(216, 191, 216, 0.6); padding: 0.2rem 0.5rem; border-radius: 0.3rem; display: inline-block;">${d}</span>`:d;
+    tr.innerHTML=`<td>${index+1}</td><td>${k}</td><td>${c}</td><td>${densityContent}</td>`;
+    result.appendChild(tr);
+ });
+}
+
+document.querySelectorAll('textarea,input,select')
+  .forEach(el=>el.addEventListener('input',analyze));
+
+document.getElementById('copyTable').onclick=()=>{
+  let text='परिणाम\tकीवर्ड\tसंख्या\tघनत्व\n';
+  result.querySelectorAll('tr').forEach(tr=>{
+    const tds=tr.querySelectorAll('td');
+    text+=`${tds[0].textContent}\t${tds[1].textContent}\t${tds[2].textContent}\t${tds[3].textContent}\n`;
+  });
+  navigator.clipboard.writeText(text);
+};
+
+document.getElementById('copyCSV').onclick=()=>{
+  let text='परिणाम,कीवर्ड,संख्या,घनत्व\n';
+  result.querySelectorAll('tr').forEach(tr=>{
+    const tds=tr.querySelectorAll('td');
+    text+=`${tds[0].textContent},"${tds[1].textContent}",${tds[2].textContent},${tds[3].textContent}\n`;
+  });
+  // Create Blob object and download link
+  const blob = new Blob([text], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'keyword-density.csv');
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("keyword-density-analyzer");
+</script>
+</body>
+</html>
