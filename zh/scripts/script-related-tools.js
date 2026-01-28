@@ -126,10 +126,10 @@ function initRelatedTools(currentSlug) {
                             let toolUrl = tool.url;
                             if (toolUrl === '#') {
                                 // 占位符链接指向主页
-                                toolUrl = `${basePath}index.html`;
+                                toolUrl = `/${lang}/index.html`;
                             } else {
-                                // 所有工具现在都使用正确的路径格式，只需添加basePath
-                                toolUrl = `${basePath}${toolUrl}`;
+                                // 所有工具现在都使用正确的路径格式，只需添加语言前缀
+                                toolUrl = `/${lang}/${tool.url}`;
                             }
                             
                             return `
