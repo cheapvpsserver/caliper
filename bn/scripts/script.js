@@ -433,16 +433,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         directoryDepth = lastSegment.includes('.') ? relativeSegments.length - 1 : relativeSegments.length;
     }
     
-    // Calculate base path according to directory depth
-    const basePath = directoryDepth > 0 ? '../'.repeat(directoryDepth) : '';
+    // Detect language from URL (/zh/xxx or /en/xxx)
+    const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+    const lang = langMatch ? langMatch[1] : 'en';
     
-    // Load header
-    await loadHTML(`${basePath}header.html`, document.body, 'prepend');
+    // Load header (language-specific)
+    await loadHTML(`/${lang}/header.html`, document.body, 'prepend');
     
-    // Load footer
+    // Load footer (language-specific)
     const mainElement = document.querySelector('main.main');
     if (mainElement) {
-        await loadHTML(`${basePath}footer.html`, mainElement, 'after');
+        await loadHTML(`/${lang}/footer.html`, mainElement, 'after');
     }
     
     // Only load tool list on homepage or pages containing the corresponding container
