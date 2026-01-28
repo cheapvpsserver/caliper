@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>ভিডিও মেটাডেটা প্রদর্শন | | CaliperTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MP4 এবং AV1 ভিডিও ফাইল বিশ্লেষণ করতে, মেটাডেটা বের করতে এবং ভিডিও ফ্রেম ক্যাপচার করতে বিনামূল্যে অনলাইন ভিডিও মেটাডেটা ভিউয়ার টুল। দ্রুত, নিরাপদ এবং সহজে ব্যবহার করা যায়।">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<!-- Add a simple favicon.ico as default -->
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Import FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Gray background */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Full width container to ensure it stays within viewport */
+.full-width-container {
+    width: 100%;
+    overflow: visible;
+}
+
+/* Tool container to ensure it stays within viewport, add appropriate padding */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+    align-items: stretch;
+    min-height: 80vh;
+}
+
+/* Add proper padding to left and right panels */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    overflow: hidden;
+}
+
+/* Tool title styles */
+.tool-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Video metadata styles */
+h3 {
+    margin: 1.5rem 0 0.8rem 0;
+    color: #111827;
+    font-size: 1.25rem;
+}
+
+/* Upload area styles */
+.upload {
+    border: 2px dashed #bbb;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    background: #fafafa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.upload:hover {
+    border-color: #0066cc;
+    background: #f5f5f5;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload-icon {
+    font-size: 32px;
+    color: #0066cc;
+}
+
+/* Action button styles */
+.actions {
+    margin: 16px 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.actions button, .actions a {
+    font-size: 13px;
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.actions button:hover, .actions a:hover {
+    background-color: #0052a3;
+    border-color: #0052a3;
+    color: white;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 12px 0;
+}
+
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+td:first-child {
+    color: #666;
+    width: 40%;
+    font-weight: 500;
+}
+
+td:last-child {
+    color: #333;
+}
+
+/* Section styles */
+.section {
+    margin-top: 15px;
+}
+
+.video-section {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+/* Video and canvas styles */
+video {
+    max-width: 100%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+/* Special handling for portrait videos */
+video[style*="height: auto"] {
+    max-height: 300px;
+}
+
+/* Landscape videos can have greater width */
+video[style*="width: auto"] {
+    max-width: 100%;
+}
+
+canvas {
+    margin-top: 8px;
+    max-width: 100%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+/* Output area styles */
+#output {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Remove global container fullscreen coverage, restore normal width */
+
+/* Fix right panel table overflow issue */
+.right-panel h3 {
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.right-panel table {
+    margin: 8px 0;
+    font-size: 13px;
+    width: 100%;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    table-layout: auto;
+}
+
+.right-panel td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    word-wrap: break-word;
+    white-space: normal;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.right-panel td:first-child {
+    width: 400px;
+    font-weight: 500;
+    color: #666;
+    padding-right: 12px;
+    text-align: left;
+    min-width: 400px;
+    max-width: 400px;
+}
+
+.right-panel td:last-child {
+    width: calc(100% - 400px);
+    color: #333;
+    text-align: left;
+    min-width: 0;
+}
+
+/* Override global section styles, prevent affecting right panel width */
+.tool-container .section {
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.right-panel .section {
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    width: 100% !important;
+}
+
+/* Ensure right panel content doesn't overflow */
+.right-panel {
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Ensure output area displays properly */
+#output {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Ensure left panel content also displays properly */
+.left-panel .section {
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Ensure all elements within the tool container use correct width */
+.tool-container > * {
+    box-sizing: border-box;
+}
+
+/* Prevent table from being stretched */
+#output table {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* CTA Section Styles - Copied from Keyword-Density-Analyzer.html */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Tutorial Step Styles - Using styles from Keyword-Density-Analyzer.html */
+.tutorial-step {
+    text-align: left;
+}
+
+.tutorial-step h5 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+    text-align: center !important;
+}
+
+.tutorial-step p {
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    color: white !important;
+}
+
+.tutorial-step ul {
+    text-align: left !important;
+    margin-left: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+}
+
+.tutorial-step li {
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+
+/* Related Tools Section Styles - Copied from Keyword-Density-Analyzer.html */
+.related-tools h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Ensure Related Tools displays 5 columns, using normal width */
+.related-tools .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Restore normal container styles */
+.related-tools .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Restore normal section styles */
+.related-tools.section {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 2rem 0;
+    background-color: #f5f5f5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem;
+    }
+    
+    /* Related Tools responsive adjustments */
+    .related-tools .tools-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .tool-container {
+        padding: 0 0.5rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem 1rem;
+    }
+    
+    /* Related Tools responsive adjustments */
+    .related-tools .tools-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel, .right-panel {
+        padding: 1rem 0.75rem;
+    }
+    
+    /* Related Tools responsive adjustments */
+    .related-tools .tools-grid {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+}
+
+/* Screenshot container styles */
+.captured-frames-container {
+    margin-top: 1rem;
+}
+
+/* Screenshot grid layout */
+.captured-frames-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Screenshot item styles */
+.frame-item {
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+/* Screenshot image styles */
+.frame-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Delete icon styles */
+.delete-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.delete-icon:hover {
+    background-color: rgba(255, 0, 0, 1);
+}
+
+/* Screenshot count indicator */
+.frame-count {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .tool-title {
+        font-size: 1.5rem;
+    }
+    
+    .left-panel, .right-panel {
+        min-height: auto;
+    }
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('ডান-ক্লিক মেনুটি অক্ষম করা আছে।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('কপি ফাংশনটি নিষ্ক্রিয় করা আছে।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ডেভেলপার টুলগুলি অক্ষম করা আছে');
+        }
+    });
+</script>
+</head>
+
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content -->
+<main class="main full-width-container">
+    <div class="tool-container">
+        <!-- Left Panel: Upload video and display video -->
+        <div class="left-panel">
+            <h1 class="tool-title" style="display: flex; align-items: center; justify-content: space-between;">ভিডিও মেটাডেটা প্রদর্শন <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">ব্যবহার বিধি</a></h1>
+            
+            <!-- Upload area -->
+            <div class="upload" onclick="fileInput.click()">
+                <div class="upload-content">
+                    <i class="fas fa-upload upload-icon"></i>
+                    <p>ভিডিও ফাইলগুলি ক্লিক করুন বা এখানে টেনে আনুন</p>
+                </div>
+            </div>
+            <input type="file" id="fileInput" accept="video/mp4,video/av1" multiple hidden>
+
+            <!-- Video playback and frame capture -->
+            <div class="section" id="frameSection" style="display:none;">
+                <h3>ভিডিও ফ্রেম ক্যাপচার</h3>
+                <div class="video-section">
+                    <video id="video" controls></video>
+                </div>
+                <div class="actions">
+                    <button onclick="captureFrame()">ফ্রেম ক্যাপচার করুন</button>
+                    <button onclick="downloadAllFrames()">সমস্ত ফ্রেম ডাউনলোড করুন</button>
+                </div>
+                <canvas id="canvas" style="display:none;"></canvas>
+                
+                <!-- Screenshot display container -->
+                <div class="captured-frames-container" style="margin-top: 1rem;">
+                    <div id="capturedFrames" class="captured-frames-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Display data -->
+        <div class="right-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3>ভিডিও মেটাডেটা</h3>
+                <!-- Action buttons -->
+                <div class="actions" id="actions" style="display:none; justify-content: flex-end;">
+                    <button onclick="copyTable()">টেবিল কপি করুন</button>
+                    <button onclick="copyJSON()">মেটাডেটা কপি করুন</button>
+                    <button onclick="downloadJSON()">JSON ডাউনলোড করুন</button>
+                    <button onclick="downloadVideo()">ভিডিও ডাউনলোড করুন</button>
+                </div>
+            </div>
+            
+            <!-- Data display area -->
+            <div id="output">
+                <p style="color: #666; text-align: center; margin: 40px 0;">মেটাডেটা দেখতে একটি ভিডিও ফাইল আপলোড করুন</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Section -->
+    <section class="cta-section" id="tutorial">
+        <div class="cta-content">
+            <h3>ভিডিও মেটাডেটা প্রদর্শন ব্যবহার করতে হবে কিভাবে</h3>
+            <p>
+                আপনার ভিডিও ফাইলগুলি বিশ্লেষণ করতে এবং মেটাডেটা বের করতে এই সহজ পদক্ষেপগুলি অনুসরণ করুন।
+            </p>
+            
+            <div class="features-row">
+                <div class="feature-item">
+                    <span class="icon">📁</span>
+                    <span>ধাপ 1: আপনার ভিডিও আপলোড করুন</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">⚙️</span>
+                    <span>ধাপ 2: মেটাডেটা দেখুন</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">✨</span>
+                    <span>ধাপ 3: ফ্রেমগুলি ক্যাপচার করুন</span>
+                </div>
+            </div>
+            
+            <div class="cta-features">
+                <h4>ধাপে ধাপে টিউটোরিয়াল</h4>
+                <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="tutorial-step">
+                        <h5>ধাপ 1: আপনার ভিডিও ফাইলগুলি আপলোড করুন</h5>
+                        <p>আপনি দুটি উপায়ে ভিডিও আপলোড করতে পারেন:</p>
+                        <ul>
+                            <li>আপলোড এলাকায় ক্লিক করুন এবং আপনার কম্পিউটার থেকে ভিডিও ফাইলগুলি নির্বাচন করুন</li>
+                            <li>সরাসরি আপলোড এলাকায় ভিডিও ফাইলগুলি টেনে আনুন</li>
+                        </ul>
+                        <p>মেটাডেটা বিশ্লেষণের জন্য ভিউয়ার MP4 এবং AV1 ভিডিও ফর্ম্যাটগুলি সমর্থন করে।</p>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h5>ধাপ 2: ভিডিও মেটাডেটা দেখুন</h5>
+                        <p>আপনার ভিডিও আপলোড হওয়ার পর, ভিউয়ার এটি স্বয়ংক্রিয়ভাবে বিশ্লেষণ করবে এবং বিস্তারিত মেটাডেটা প্রদর্শন করবে, যার মধ্যে রয়েছে:</p>
+                        <ul>
+                            <li><strong>ফাইল তথ্য:</strong> নাম, আকার, MIME টাইপ এবং শেষ পরিবর্তনের তারিখ</li>
+                            <li><strong>কন্টেইনার:</strong> প্রধান ব্র্যান্ড, সামঞ্জস্যপূর্ণ ব্র্যান্ড, টাইমস্কেল, সময়কাল এবং ফ্র্যাগমেন্টেশন অবস্থা</li>
+                            <li><strong>ভিডিও ট্র্যাক:</strong> কোডেক, রিজোলিউশন, বিটরেট এবং রোটেশন</li>
+                            <li><strong>রঙ:</strong> প্রাইমারিজ, ট্রান্সফার বৈশিষ্ট্য, ম্যাট্রিক্স সহগ এবং বিট ডেপথ</li>
+                        </ul>
+                        <p>আপনি মেটাডেটা ক্লিপবোর্ডে কপি করতে পারেন বা আরও বিশ্লেষণের জন্য JSON ফাইল হিসাবে ডাউনলোড করতে পারেন।</p>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h5>ধাপ 3: ভিডিও চালান এবং ফ্রেমগুলি ক্যাপচার করুন</h5>
+                        <p>আপনার ভিডিও প্রাকদর্শন করতে ভিডিও প্লেয়ার ব্যবহার করুন। আপনি পারবেন:</p>
+                        <ul>
+                            <li>ভিডিও চালান, বিরতি দিন এবং খুঁজুন</li>
+                            <li>ভিডিওতে যেকোনো সময় ফ্রেমগুলি ক্যাপচার করুন</li>
+                            <li>PNG ছবি হিসাবে ক্যাপচারকৃত ফ্রেমগুলি ডাউনলোড করুন</li>
+                        </ul>
+                        <p>ফ্রেম ক্যাপচার বৈশিষ্ট্য আপনাকে আপনার ভিডিও ফাইলগুলি থেকে উচ্চ মানের ছবি বের করতে দেয়।</p>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <h5>সেরা ফলাফলের জন্য পরামর্শ</h5>
+                        <ul>
+                            <li>আরও নির্ভুল মেটাডেটা বের করতে উচ্চ মানের ভিডিও ফাইলগুলি ব্যবহার করুন</li>
+                            <li>নিশ্চিত করুন যে আপনার ভিডিও ফাইলগুলি ক্ষতিগ্রস্ত বা এনক্রিপ্ট করা নয়</li>
+                            <li>বড় ভিডিও ফাইলের জন্য, বিশ্লেষণ শেষ হতে কিছু সময় দিন</li>
+                            <li>আপনার ভিডিওগুলি থেকে গুরুত্বপূর্ণ মুহূর্ত বের করতে ফ্রেম ক্যাপচার বৈশিষ্ট্য ব্যবহার করুন</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="section related-tools">
+        <div class="container">
+            <h2 class="section-title">সংশ্লিষ্ট টুলস</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/mp4box@0.5.2/dist/mp4box.all.min.js"></script>
+
+<script>
+const output = document.getElementById("output");
+const fileInput = document.getElementById("fileInput");
+const actions = document.getElementById("actions");
+const videoEl = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let currentFile = null;
+let metadataJSON = {};
+let capturedFrames = [];
+const MAX_FRAMES = 20;
+
+fileInput.addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  
+  // Clear previous screenshots when uploading a new video
+  capturedFrames = [];
+  renderFrames();
+  
+  currentFile = file;
+  analyze(file);
+});
+
+function analyze(file) {
+  output.innerHTML = "বিশ্লেষণ করা হচ্ছে…";
+  actions.style.display = "none";
+
+  const mp4boxfile = MP4Box.createFile();
+  let offset = 0;
+
+  mp4boxfile.onReady = info => render(file, info);
+  mp4boxfile.onError = () => output.innerHTML = "ভিডিও ফাইল পার্স করতে ব্যর্থ হয়েছে।";
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const buffer = e.target.result;
+    buffer.fileStart = offset;
+    offset += buffer.byteLength;
+    mp4boxfile.appendBuffer(buffer);
+    mp4boxfile.flush();
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function render(file, info) {
+  const video = info.tracks.find(t => t.video);
+  
+  // Extract file extension from filename
+  const fileExtension = file.name.split('.').pop().toLowerCase();
+  
+  // Calculate megapixels
+  const megapixels = ((video.video.width * video.video.height) / 1000000).toFixed(3);
+  
+  // Extract duration values
+  const containerDuration = info.duration || 0;
+  const trackDuration = video.duration || containerDuration;
+  
+  // Calculate average bitrate
+  const avgBitrate = containerDuration ? (file.size * 8 / containerDuration / 1000000).toFixed(2) : "N/A";
+
+  metadataJSON = {
+    file: {
+      name: file.name,
+      size: file.size,
+      mime: file.type,
+      extension: fileExtension,
+      lastModified: new Date(file.lastModified).toISOString()
+    },
+    container: info,
+    videoTrack: video
+  };
+
+  actions.style.display = "flex";
+
+  videoEl.src = URL.createObjectURL(file);
+  document.getElementById("frameSection").style.display = "block";
+
+  output.innerHTML = `
+  <div class="section">
+    <h3>ফাইল তথ্য</h3>
+    <table>
+      <tr><td>নাম</td><td>${file.name}</td></tr>
+      <tr><td>আকার</td><td>${(file.size/1024/1024).toFixed(2)} এমবি</td></tr>
+      <tr><td>ফাইলের ধরন</td><td>${file.type.split('/')[1]?.toUpperCase() || "MP4"}</td></tr>
+      <tr><td>ফাইল এক্সটেনশন</td><td>${fileExtension}</td></tr>
+      <tr><td>মাইম টাইপ</td><td>${file.type}</td></tr>
+      <tr><td>সর্বশেষ পরিবর্তন</td><td>${new Date(file.lastModified).toISOString()}</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>কন্টেইনার</h3>
+    <table>
+      <tr><td>প্রধান ব্র্যান্ড</td><td>${info.brands?.[0] || "অজানা (dash)"}</td></tr>
+      <tr><td>ছোট সংস্করণ</td><td>${info.minor_version || "0.0.0"}</td></tr>
+      <tr><td>সামঞ্জস্যপূর্ণ ব্র্যান্ডগুলি</td><td>${info.brands?.join(", ")}</td></tr>
+      <tr><td>সময় স্কেল</td><td>${info.timescale || "প্রযোজ্য নয়"}</td></tr>
+      <tr><td>সময়কাল</td><td>${containerDuration.toFixed(3)} সেকেন্ড</td></tr>
+      <tr><td>ফ্র্যাগমেন্টেড</td><td>${info.isFragmented ? "হ্যাঁ" : "না"}</td></tr>
+      <tr><td>পরবর্তী ট্র্যাক আইডি</td><td>${info.next_track_ID || "প্রযোজ্য নয়"}</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>ভিডিও ট্র্যাক</h3>
+    <table>
+      <tr><td>কোডেক</td><td>${video.codec}</td></tr>
+      <tr><td>রিজোলিউশন</td><td>${video.video.width} × ${video.video.height}</td></tr>
+      <tr><td>ছবির আকার</td><td>${video.video.width}x${video.video.height}</td></tr>
+      <tr><td>মেগাপিক্সেল</td><td>${megapixels}</td></tr>
+      <tr><td>বিটরেট</td><td>${(video.bitrate/1000).toFixed(2)} কিলোবিট/সেকেন্ড</td></tr>
+      <tr><td>গড় বিটরেট</td><td>${avgBitrate} মেগাবিট/সেকেন্ড</td></tr>
+      <tr><td>টাইমস্কেল</td><td>${video.timescale}</td></tr>
+      <tr><td>ট্র্যাকের সময়কাল</td><td>${trackDuration.toFixed(3)} সেকেন্ড</td></tr>
+      <tr><td>ট্র্যাক আইডি</td><td>${video.id}</td></tr>
+      <tr><td>মিডিয়া ভাষা কোড</td><td>${video.lang || "und"}</td></tr>
+      <tr><td>হ্যান্ডলার টাইপ</td><td>ভিডিও ট্র্যাক</td></tr>
+      <tr><td>রোটেশন</td><td>${video.video.rotation || 0}</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>রঙ</h3>
+    <table>
+      <tr><td>প্রাইমারিজ</td><td>${video.video.color_primaries || "BT.709"}</td></tr>
+      <tr><td>ট্রান্সফার বৈশিষ্ট্য</td><td>${video.video.transfer_characteristics || "BT.709"}</td></tr>
+      <tr><td>ম্যাট্রিক্স সহগ</td><td>${video.video.matrix_coefficients || "BT.709"}</td></tr>
+      <tr><td>বিট ডেপথ</td><td>${video.video.bit_depth || "24"}</td></tr>
+      <tr><td>রঙ প্রোফাইল</td><td>${video.video.color_profile || "nclx"}</td></tr>
+      <tr><td>ভিডিও ফুল রেঞ্জ ফ্ল্যাগ</td><td>${video.video.full_range || 0}</td></tr>
+    </table>
+  </div>
+  `;
+}
+
+function copyJSON() {
+  navigator.clipboard.writeText(JSON.stringify(metadataJSON, null, 2));
+}
+
+function copyTable() {
+  const output = document.getElementById('output');
+  const tableContent = output.innerHTML;
+  
+  // Create a temporary element to get text content from tables
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = tableContent;
+  
+  // Extract text content from tables in a formatted way
+  let formattedText = '';
+  const sections = tempDiv.querySelectorAll('.section');
+  
+  sections.forEach(section => {
+    const title = section.querySelector('h3').textContent;
+    formattedText += `${title}\n${'='.repeat(title.length)}\n\n`;
+    
+    const table = section.querySelector('table');
+    const rows = table.querySelectorAll('tr');
+    
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      if (cells.length === 2) {
+        const label = cells[0].textContent.trim();
+        const value = cells[1].textContent.trim();
+        formattedText += `${label}:\t${value}\n`;
+      }
+    });
+    
+    formattedText += '\n';
+  });
+  
+  navigator.clipboard.writeText(formattedText);
+}
+
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(metadataJSON, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "metadata.json";
+  a.click();
+}
+
+function downloadVideo() {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(currentFile);
+  a.download = currentFile.name;
+  a.click();
+}
+
+function captureFrame() {
+  if (capturedFrames.length >= MAX_FRAMES) {
+    alert(`সর্বাধিক ${MAX_FRAMES} ফ্রেম অনুমোদিত। দয়া করে প্রথমে কিছু ফ্রেম মুছে ফেলুন।`);
+    return;
+  }
+  
+  canvas.width = videoEl.videoWidth;
+  canvas.height = videoEl.videoHeight;
+  ctx.drawImage(videoEl, 0, 0);
+  
+  const frameData = canvas.toDataURL("image/png");
+  const frameId = Date.now();
+  
+  capturedFrames.push({ id: frameId, data: frameData });
+  renderFrames();
+}
+
+function renderFrames() {
+  const container = document.getElementById("capturedFrames");
+  
+  if (capturedFrames.length === 0) {
+    container.innerHTML = "<p style='text-align: center; color: #666; margin: 20px 0;'>এখনও কোনো ফ্রেম ক্যাপচার করা হয়নি।</p>";
+    return;
+  }
+  
+  container.innerHTML = capturedFrames.map((frame, index) => `
+    <div class="frame-item">
+      <img src="${frame.data}" alt="Frame ${index + 1}" class="frame-image">
+      <button class="delete-icon" onclick="deleteFrame(${frame.id})" title="ফ্রেম মুছুন">
+        ×
+      </button>
+    </div>
+  `).join('');
+}
+
+function deleteFrame(frameId) {
+  capturedFrames = capturedFrames.filter(frame => frame.id !== frameId);
+  renderFrames();
+}
+
+function downloadAllFrames() {
+  if (capturedFrames.length === 0) {
+    alert("ডাউনলোড করার জন্য কোনো ফ্রেম নেই।");
+    return;
+  }
+  
+  capturedFrames.forEach((frame, index) => {
+    const link = document.createElement("a");
+    link.href = frame.data;
+    link.download = `frame_${index + 1}.png`;
+    link.click();
+  });
+}
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("video-metadata-viewer");
+</script>
+
+
+</script>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+</body>
+</html>

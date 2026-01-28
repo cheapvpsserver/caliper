@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="bn-BD">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ক্যালিপারটুলস এর বিনামূল্যের অনলাইন টেক্সট লাইন সাজানোর টুল - বিভিন্ন অপশন সহ বর্ণানুক্রমিক, সংখ্যাগত, দৈর্ঘ্য অনুযায়ী এবং আরও অনেক কিছুতে টেক্সট সাজানোর জন্য।" />
+<title>টেক্সট লাইন সাজান | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure html and body both fill the screen */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        background-color: #f5f5f5; /* Gray background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full width container ensures it stays within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Textarea styles */
+    textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Option area styles */
+    .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem 1rem;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .options label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Action button styles */
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Statistics styles */
+    .stats {
+        margin-top: 1rem;
+        font-size: 12px;
+        color: #555;
+    }
+    
+    /* Title styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .cta-section {
+            padding: 1.5rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.75rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .cta-section {
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        .features-row {
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cta-section {
+            padding: 1rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('ডান-ক্লিক মেনুটি অক্ষম করা আছে।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('কপি ফাংশনটি নিষ্ক্রিয় করা আছে।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ডেভেলপার টুলগুলি অক্ষম করা আছে');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>টেক্সট লাইন সাজান</h1>
+                
+                <h4>ইনপুট <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; margin-left: 0.5rem;">ব্যবহার বিধি</a></h4>
+                <textarea id="input" placeholder="এখানে টেক্সট লিখুন বা পেস্ট করুন..."></textarea>
+
+                <div class="stats" id="stats"></div>
+
+                <div class="options">
+                    <label><input type="radio" name="sortType" value="alpha" checked> বর্ণানুক্রমিক</label>
+                    <label><input type="radio" name="sortType" value="numeric"> সংখ্যাগত</label>
+                    <label><input type="radio" name="sortType" value="natural"> প্রাকৃতিক</label>
+                    <label><input type="radio" name="sortType" value="length"> দৈর্ঘ্য অনুযায়ী</label>
+                    <label><input type="radio" name="order" value="asc" checked> ঊর্ধ্বগামী</label>
+                    <label><input type="radio" name="order" value="desc"> অধোগামী</label>
+                    <label><input type="checkbox" id="ignoreCase"> হরফ গুরুত্ব না দিন</label>
+                    <label><input type="checkbox" id="removeEmpty"> ফাঁকা লাইন সরান</label>
+                    <label><input type="checkbox" id="trimSpaces"> স্পেস ছোট করুন</label>
+                    <label><input type="checkbox" id="removeDuplicates"> প্রতিলিপি সরান</label>
+                    <label><input type="checkbox" id="reverseResult"> ফলাফল উল্টান</label>
+                </div>
+
+                <div class="actions">
+                    <button onclick="copyOutput()">আউটপুট কপি করুন</button>
+                    <button onclick="clearAll()">সব মুছে ফেলুন</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>আউটপুট</h4>
+                <textarea id="output" readonly placeholder="সাজানো টেক্সট এখানে দেখাবে..."></textarea>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Sort Text Lines -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>টেক্সট লাইন সাজানোর নিয়ম</h3>
+                <p>
+                    বিভিন্ন সাজানোর অপশন সহ আপনার টেক্সট লাইনগুলো কার্যকরভাবে সাজাতে এই সহজ ধাপগুলো অনুসরণ করুন।
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>ধাপ 1: আপনার টেক্সট ইনপুট দিন</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>ধাপ 2: সাজানোর অপশন কনফিগার করুন</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>ধাপ 3: আপনার ফলাফল পান</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>ধাপে ধাপে টিউটোরিয়াল</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ধাপ 1: আপনার টেক্সট ইনপুট দিন</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">বামের টেক্সট এরিয়াতে আপনার টেক্সট লিখুন বা পেস্ট করুন। প্রতিটি লাইন আলাদাভাবে সাজানোর জন্য প্রসেস করা হবে। টুলটি লাইন সংখ্যা এবং অক্ষর সংখ্যা সহ রিয়েল-টাইম পরিসংখ্যান প্রদর্শন করে।</p>
+                            <p style="text-align: left;">টেক্সট এরিয়াটি আয়তন পরিবর্তনযোগ্য, যা আপনাকে স্বাচ্ছন্দ্যযুক্ত সম্পাদনার জন্য পছন্দের উচ্চতায় সামঞ্জস্য করতে দেয়।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ধাপ 2: সাজানোর অপশন কনফিগার করুন</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">আপনার ফলাফল কাস্টমাইজ করতে বিভিন্ন সাজানোর অপশন থেকে নির্বাচন করুন:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>সাজানোর ধরন:</strong> বর্ণানুক্রমিক, সংখ্যাগত, প্রাকৃতিক বা দৈর্ঘ্য অনুযায়ী সাজানোর মধ্যে নির্বাচন করুন</li>
+                                <li><strong>ক্রম:</strong> ঊর্ধ্বগামী বা অধোগামী ক্রমে সাজান</li>
+                                <li><strong>হরফ গুরুত্ব না দিন:</strong> বর্ণানুক্রমিক সাজানোর জন্য কেস-সংবেদনশীলতা না করে সাজান</li>
+                                <li><strong>ফাঁকা লাইন সরান:</strong> ফলাফল থেকে স্বয়ংক্রিয়ভাবে ফাঁকা লাইন মুছে ফেলুন</li>
+                                <li><strong>স্পেস ছোট করুন:</strong> প্রতিটি লাইন থেকে প্রান্তের স্পেসগুলো সরান</li>
+                                <li><strong>প্রতিলিপি সরান:</strong> সাজানো আউটপুট থেকে পুনরাবৃত্ত লাইনগুলো সরিয়ে দিন</li>
+                                <li><strong>ফলাফল উল্টান:</strong> চূড়ান্ত সাজানো ক্রমটি উল্টান</li>
+                            </ul>
+                            <p style="text-align: left;">সমস্ত অপশন রিয়েল-টাইমে প্রয়োগ করা হয়, তাই আপনি তাৎক্ষণিকভাবে প্রভাবগুলো দেখতে পারবেন।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ধাপ 3: আপনার ফলাফল পান</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">আপনার সাজানো টেক্সট ডানদিকের আউটপুট এরিয়াতে তাৎক্ষণিকভাবে দেখা যাবে। আপনি পারবেন:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"আউটপুট কপি করুন" বোতাম ব্যবহার করে এক ক্লিকে সাজানো টেক্সট কপি করুন</li>
+                                <li>"সব মুছে ফেলুন" বোতাম দিয়ে সম্পূর্ণ টেক্সট মুছে নতুন করে শুরু করুন</li>
+                                <li>নিখুঁত ফলাফল পেতে বিভিন্ন সাজানোর সংমিশ্রণ চেষ্টা করুন</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">সেরা ফলাফলের জন্য টিপস</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>মিশ্র টেক্সট এবং সংখ্যার জন্য <strong>প্রাকৃতিক সাজানো</strong> ব্যবহার করুন (যেমন, "আইটেম1", "আইটেম10", "আইটেম2")</li>
+                                <li>কেস নির্বিশেষে ধারাবাহিক বর্ণানুক্রমিক সাজানোর জন্য <strong>হরফ গুরুত্ব না দিন</strong> সক্ষম করুন</li>
+                                <li>পুনরাবৃত্ত এন্ট্রি সহ তালিকা পরিষ্কার করতে <strong>প্রতিলিপি সরান</strong> ব্যবহার করুন</li>
+                                <li>পরিষ্কার ফলাফলের জন্য <strong>স্পেস ছোট করুন</strong> এবং <strong>ফাঁকা লাইন সরান</strong> একত্রে ব্যবহার করুন</li>
+                                <li>সবচেয়ে ছোট থেকে বড় বা বিপরীত ক্রমে লাইনগুলো সাজাতে <strong>দৈর্ঘ্য অনুযায়ী</strong> সাজানো ব্যবহার করুন</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">সম্পর্কিত টুল</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const stats = document.getElementById('stats');
+
+// Undo/Redo stack
+let undoStack = [];
+let redoStack = [];
+
+function saveState(){
+    undoStack.push(input.value);
+    if(undoStack.length>100) undoStack.shift(); // limit size
+}
+
+function undo(){ 
+    if(undoStack.length){
+        redoStack.push(input.value);
+        input.value = undoStack.pop();
+        process();
+    }
+}
+
+function redo(){
+    if(redoStack.length){
+        undoStack.push(input.value);
+        input.value = redoStack.pop();
+        process();
+    }
+}
+
+function clearAll(){
+    saveState();
+    input.value='';
+    process();
+}
+
+function copyOutput(){
+    navigator.clipboard.writeText(output.value)
+        .then(() => {
+            // Create temporary tip element
+            const tip = document.createElement('div');
+            tip.textContent = 'ক্লিপবোর্ডে কপি করা হয়েছে!';
+            tip.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 6px;
+                font-size: 16px;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            document.body.appendChild(tip);
+            
+            // Show tip
+            setTimeout(() => {
+                tip.style.opacity = '1';
+            }, 10);
+            
+            // Remove tip after 2 seconds
+            setTimeout(() => {
+                tip.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(tip);
+                }, 300);
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+
+function process(){
+    let text = input.value;
+    saveState();
+
+    let lines = text.split(/\r?\n/);
+
+    if(document.getElementById('trimSpaces').checked)
+        lines = lines.map(l=>l.trim());
+
+    if(document.getElementById('removeEmpty').checked)
+        lines = lines.filter(l=>l!=='');
+    
+    if(document.getElementById('removeDuplicates').checked){
+        const seen = new Set();
+        const ignoreCase = document.getElementById('ignoreCase').checked;
+        lines = lines.filter(l=>{
+            const key = ignoreCase? l.toLowerCase() : l;
+            if(seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+    }
+
+    const sortType = document.querySelector('input[name="sortType"]:checked').value;
+    const order = document.querySelector('input[name="order"]:checked').value;
+    const ignoreCase = document.getElementById('ignoreCase').checked;
+
+    lines.sort((a,b)=>{
+        let A = ignoreCase? a.toLowerCase() : a;
+        let B = ignoreCase? b.toLowerCase() : b;
+
+        if(sortType==='numeric') return (parseFloat(A)||0)-(parseFloat(B)||0);
+        if(sortType==='natural') return A.localeCompare(B, undefined, {numeric:true, sensitivity:ignoreCase?'base':'variant'});
+        if(sortType==='length') return A.length-B.length;
+        return A.localeCompare(B);
+    });
+
+    if(order==='desc') lines.reverse();
+    if(document.getElementById('reverseResult').checked) lines.reverse();
+
+    output.value = lines.join('\n');
+    stats.textContent = `Lines: ${lines.length} | Characters: ${Array.from(output.value).length}`;
+}
+
+// bind events for live update
+document.querySelectorAll('input, textarea').forEach(el=>{
+    el.addEventListener('input',process);
+    el.addEventListener('change',process);
+    el.addEventListener('click',process);
+});
+
+process(); // initial run
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+    process();
+});
+</script>
+
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+    
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("sort-text-lines");
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="bn-BD">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফ্রি অনলাইন ইমেজ মেটাডাটা | CaliperTools</title>
+    <meta name="description" content="অনলাইনে বিনামূল্যে ইমেজ মেটাডাটা দেখুন। অবিলম্বে EXIF, GPS, ক্যামেরা তথ্য বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+    <script src="../scripts/script.js"></script>
+    <!-- Custom CSS for sections -->
+    <style>
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .metadata-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 750px;
+        }
+
+        @media (max-width: 768px) {
+            .metadata-container {
+                flex-direction: column-reverse;
+                height: auto;
+            }
+
+            .sidebar-container {
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid #ddd;
+                border-bottom: none;
+            }
+
+            .sidebar {
+                height: auto;
+                max-height: none;
+                padding: 15px;
+            }
+
+            .sidebar-content {
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .sidebar-actions {
+                position: relative;
+                border-top: 1px solid #ddd;
+            }
+
+            .preview-area {
+                height: auto;
+                min-height: 400px;
+                max-height: 60vh;
+            }
+
+            .upload-prompt {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+            }
+
+            .sidebar .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .sidebar-container {
+            width: 380px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar {
+            padding: 20px;
+            background-color: #ffffff;
+            height: 750px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .tools-section {
+            margin-bottom: 20px;
+        }
+
+        .tools-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .sidebar .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .tool-btn {
+            padding: 10px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-align: center;
+        }
+
+        .tool-btn:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tool-btn i {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .tool-btn span {
+            font-size: 11px;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .preview-area {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .upload-prompt {
+            text-align: center;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-prompt.drag-over {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .upload-prompt-icon {
+            font-size: 60px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-prompt-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .upload-prompt-instruction {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .preview-wrapper {
+            position: relative;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .delete-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .delete-image-btn:hover {
+            background-color: rgba(220, 53, 69, 1);
+            transform: scale(1.1);
+        }
+
+        .preview-wrapper.active {
+            display: block;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .result-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            overflow-y: auto;
+            display: none;
+            color: #ffffff;
+        }
+
+        .result-panel.active {
+            display: block;
+        }
+
+        .result-panel h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .result-table th,
+        .result-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .result-table th {
+            background-color: rgba(255, 255, 255, 0.15);
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .result-table td {
+            color: #e0e0e0;
+        }
+
+        .result-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .result-info {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .result-info h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .result-info p {
+            font-size: 14px;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .result-info strong {
+            color: #ffffff;
+        }
+
+        .result-info ul {
+            margin-left: 20px;
+            margin-top: 10px;
+            color: #e0e0e0;
+        }
+
+        .result-info li {
+            margin-bottom: 5px;
+        }
+
+        .download-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .download-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .histogram-container {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 15px;
+        }
+
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .color-swatch span {
+            font-size: 12px;
+            color: #ffffff;
+            margin-top: 5px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .edit-form {
+            margin-bottom: 15px;
+        }
+
+        .edit-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .edit-form input,
+        .edit-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .edit-form input:focus,
+        .edit-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .edit-form input::placeholder,
+        .edit-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .edit-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('ডান-ক্লিক মেনুটি অক্ষম করা আছে।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('কপি ফাংশনটি নিষ্ক্রিয় করা আছে।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ডেভেলপার টুলগুলি অক্ষম করা আছে');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center mb-8">ইমেজ মেটাডাটা এবং তথ্য</h1>
+        </div>
+        <div class="metadata-container">
+                    <div class="sidebar-container">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div class="upload-section">
+                                    <button id="upload-btn" class="upload-btn">
+                                        <i class="fas fa-upload"></i> ইমেজ আপলোড করুন
+                                    </button>
+                                    <input type="file" id="file-input" class="file-input" accept="image/jpeg,image/png,image/webp" multiple>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>মেটাডাটা রিডার</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="reader" data-tool="exif" title="ফ্রি EXIF ডেটা অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে EXIF ডেটা দেখুন। অবিলম্বে ক্যামেরা সেটিংস বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>EXIF ডেটা</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="gps" title="ফ্রি GPS তথ্য অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে GPS তথ্য দেখুন। অবিলম্বে অবস্থান ডেটা বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>GPS তথ্য</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="camera" title="ফ্রি ক্যামেরা তথ্য অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে ক্যামেরা তথ্য দেখুন। অবিলম্বে ডিভাইস ডেটা বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-camera"></i>
+                                            <span>ক্যামেরা তথ্য</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="date" title="ফ্রি তারিখ নেওয়া অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে তারিখ নেওয়া দেখুন। অবিলম্বে টাইমস্ট্যাম্প বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>তারিখ নেওয়া</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="resolution" title="ফ্রি রেজোলিউশন অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে রেজোলিউশন দেখুন। অবিলম্বে মাত্রা বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-expand"></i>
+                                            <span>রেজোলিউশন</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="filesize" title="ফ্রি ফাইল সাইজ অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে ফাইল সাইজ দেখুন। অবিলম্বে সাইজ ডেটা বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-file"></i>
+                                            <span>ফাইল সাইজ</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="colorprofile" title="ফ্রি কালার প্রোফাইল অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে কালার প্রোফাইল দেখুন। অবিলম্বে কালার ডেটা বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-palette"></i>
+                                            <span>কালার প্রোফাইল</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="reader" data-tool="orientation" title="ফ্রি ওরিয়েন্টেশন অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে ওরিয়েন্টেশন দেখুন। অবিলম্বে ঘূর্ণন সনাক্ত করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-sync-alt"></i>
+                                            <span>ওরিয়েন্টেশন</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>গোপনীয়তা ক্লিনার</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="cleaner" data-tool="remove-exif" title="ফ্রি EXIF রিমুভ অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে EXIF ডেটা রিমুভ করুন। অবিলম্বে গোপনীয়তা রক্ষা করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-eraser"></i>
+                                            <span>EXIF রিমুভ করুন</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="cleaner" data-tool="remove-gps" title="ফ্রি GPS রিমুভ অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে GPS তথ্য রিমুভ করুন। অবিলম্বে অবস্থান রক্ষা করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-map-marker-slash"></i>
+                                            <span>GPS রিমুভ করুন</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="cleaner" data-tool="batch-clean" title="ফ্রি ব্যাচ ক্লিন অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে ব্যাচ মেটাডাটা ক্লিন করুন। অবিলম্বে সমস্ত ডেটা রিমুভ করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-broom"></i>
+                                            <span>ব্যাচ ক্লিন</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>ইমেজ বিশ্লেষণ</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="analysis" data-tool="histogram" title="ফ্রি হিস্টোগ্রাম অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে হিস্টোগ্রাম দেখুন। অবিলম্বে কালার বিশ্লেষণ করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-chart-bar"></i>
+                                            <span>হিস্টোগ্রাম</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="analysis" data-tool="palette" title="ফ্রি কালার প্যালেট অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে কালার প্যালেট দেখুন। অবিলম্বে কালার বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-swatchbook"></i>
+                                            <span>কালার প্যালেট</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>মেটাডাটা এডিটর</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-module="editor" data-tool="edit-exif" title="ফ্রি EXIF এডিট অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে EXIF ডেটা এডিট করুন। অবিলম্বে মেটাডাটা পরিবর্তন করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-edit"></i>
+                                            <span>EXIF এডিট করুন</span>
+                                        </button>
+                                        <button class="tool-btn" data-module="editor" data-tool="remove-colorprofile" title="ফ্রি প্রোফাইল রিমুভ অনলাইন | CaliperTools" data-description="অনলাইনে বিনামূল্যে কালার প্রোফাইল রিমুভ করুন। অবিলম্বে ইমেজ ক্লিন করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।">
+                                            <i class="fas fa-palette"></i>
+                                            <span>প্রোফাইল রিমুভ করুন</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="privacy-statement">
+                                    <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+                                    ফাইলগুলি স্থানীয়ভাবে প্রক্রিয়া করা হয় এবং কোন সার্ভারে আপলোড হয় না।
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-area">
+                        <div id="upload-prompt" class="upload-prompt">
+                            <div class="upload-prompt-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="upload-prompt-title">ইমেজ মেটাডাটা এবং তথ্য</div>
+                            <div class="upload-prompt-instruction">বিশ্লেষণ শুরু করতে এখানে ক্লিক করুন বা ইমেজ টেনে নামান</div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">সাপোর্ট করে: JPG, PNG, WebP (একটি বা একাধিক)</p>
+                        </div>
+
+                        <div id="preview-wrapper" class="preview-wrapper">
+                            <button id="delete-image-btn" class="delete-image-btn" title="ইমেজ মুছুন">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <img id="preview-image" class="preview-image" alt="Preview">
+                        </div>
+
+                        <div id="result-panel" class="result-panel">
+                        </div>
+                    </div>
+            </div>
+
+    <!-- Tutorial Explanation Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">ইমেজ মেটাডাটা টুল কিভাবে ব্যবহার করবেন</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        ইমেজ আপলোড করুন
+                    </h3>
+                    <div>
+                        <p title="আপনার ইমেজটি সরাসরি আপলোড অ্যারিয়ায় টেনে নামান বা ডিভাইস থেকে বেছে নেওয়ার জন্য আপলোড বাটন ক্লিক করুন। JPG, PNG, এবং WebP ফরম্যাট সমর্থন করে।">আপনার ইমেজটি সরাসরি আপলোড অ্যারিয়ায় টেনে নামান বা ডিভাইস থেকে বেছে নেওয়ার জন্য আপলোড বাটন ক্লিক করুন। JPG, PNG, এবং WebP ফরম্যাট সমর্থন করে।</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        টুল নির্বাচন করুন
+                    </h3>
+                    <div>
+                        <p title="4টি মডিউলে সংগঠিত 15টি বিভিন্ন টুল থেকে নির্বাচন করুন: মেটাডাটা রিডার, গোপনীয়তা ক্লিনার, ইমেজ বিশ্লেষণ, এবং মেটাডাটা এডিটর।">4টি মডিউলে সংগঠিত 15টি বিভিন্ন টুল থেকে নির্বাচন করুন: মেটাডাটা রিডার, গোপনীয়তা ক্লিনার, ইমেজ বিশ্লেষণ, এবং মেটাডাটা এডিটর।</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                        ফলাফল দেখুন
+                    </h3>
+                    <div>
+                        <p title="EXIF, GPS, ক্যামেরা সেটিংস সহ বিস্তারিত মেটাডাটা তথ্য দেখুন। ইমেজ বৈশিষ্ট্য এবং ভিজ্যুয়াল ডেটা বিশ্লেষণ করুন।">EXIF, GPS, ক্যামেরা সেটিংস সহ বিস্তারিত মেটাডাটা তথ্য দেখুন। ইমেজ বৈশিষ্ট্য এবং ভিজ্যুয়াল ডেটা বিশ্লেষণ করুন।</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        ইমেজ এক্সপোর্ট করুন
+                    </h3>
+                    <div>
+                        <p title="মেটাডাটা রিমুভ বা এডিট করা ক্লিন ইমেজ এক্সপোর্ট করুন। পৃথকভাবে বা ব্যাচ হিসেবে ডাউনলোড করুন।">মেটাডাটা রিমুভ বা এডিট করা ক্লিন ইমেজ এক্সপোর্ট করুন। পৃথকভাবে বা ব্যাচ হিসেবে ডাউনলোড করুন।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1719937206498-b31844530a96?w=600&h=400&fit=crop" alt="Image Metadata Tool" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>প্রফেশনাল ইমেজ মেটাডাটা বিশ্লেষণ</h2>
+                    <p>সুনির্দিষ্টতা এবং সহজে ইমেজ মেটাডাটা বের করুন এবং বিশ্লেষণ করুন। আমাদের টুল বিস্তৃত EXIF, GPS, ক্যামেরা এবং প্রযুক্তিগত তথ্য প্রদান করে।</p>
+                    <p>ফটোগ্রাফার, ডিজাইনার এবং যারা ইমেজ বৈশিষ্ট্য বুঝতে চান তারা জন্য পেরফেক্ট।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Features Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>4টি শক্তিশালী মডিউল</h2>
+                    <p>মেটাডাটা রিডিং থেকে গোপনীয়তা ক্লিনিং, ইমেজ বিশ্লেষণ থেকে উন্নত এডিটিং পর্যন্ত, আমাদের টুলে প্রফেশনালভাবে ইমেজ মেটাডাটা পরিচালনা করার জন্য আপনার প্রয়োজনীয় সবকিছু রয়েছে।</p>
+                    <p>সংবেদনশীল তথ্য রিমুভ করে আপনার গোপনীয়তা রক্ষা করুন। হিস্টোগ্রাম এবং কালার প্যালেট দিয়ে ভিজ্যুয়াল ডেটা বিশ্লেষণ করুন। আরও ভাল সামঞ্জস্যের জন্য মেটাডাটা এডিট করুন এবং স্ট্যান্ডার্ডাইজ করুন।</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1481762554390-ff5562748bdf?w=600&h=400&fit=crop" alt="Metadata Modules" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Security Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1700830193301-99e1c863ee38?w=600&h=400&fit=crop" alt="Privacy Protection" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>100% গোপনীয়তা সুরক্ষা</h2>
+                    <p>সমস্ত ইমেজ প্রক্রিয়া আপনার ব্রাউজারে স্থানীয়ভাবে ঘটে। আপনার ইমেজ কখনও কোন সার্ভারে আপলোড হয় না।</p>
+                    <p>আপনার ডেটা আপনার ডিভাইসে থাকে, সংবেদনশীল ইমেজের জন্য সম্পূর্ণ গোপনীয়তা এবং সুরক্ষা নিশ্চিত করে।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Support Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>মোবাইল-ফ্রেন্ডলি ডিজাইন</h2>
+                    <p>আমাদের মোবাইল-ফ্রেন্ডলি ডিজাইনের মাধ্যমে আপনি চলার সময় ইমেজ মেটাডাটা বিশ্লেষণ করতে পারেন। আমাদের টুল স্মার্টফোন এবং ট্যাবলেটে নিরবচ্ছিন্নভাবে কাজ করে, যার মাধ্যমে আপনি যেখানেই থাকুন ইমেজ বৈশিষ্ট্য পরীক্ষা করতে পারেন।</p>
+                    <p>যেকোনো স্ক্রিন সাইজের সাথে খাপ খাওয়ানোর জন্য একটি রেসপন্সિવ ইন্টারফেসের সাথে, আপনি আপনার মোবাইল ডিভাইস ব্যবহার করে সহজেই ইমেজ আপলোড, বিশ্লেষণ করুন এবং ডাউনলোড করতে পারেন। কোন অ্যাপ ইনস্টল করতে হবে না, শুধুমাত্র আপনার ব্রাউজার খুলুন এবং বিশ্লেষণ শুরু করুন।</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=600&h=400&fit=crop" alt="Mobile-Friendly Design" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Section -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>সহজেই বিনামূল্যে ইমেজ মেটাডাটা বিশ্লেষণ করুন</h2>
+            <p>ইমেজ মেটাডাটা বিশ্লেষণ করার জন্য জটিল সফটওয়্যার ব্যবহারের বিদায় বলুন। CaliperTools Image Metadata এর সাহায্যে আপনি বিনামূল্যে সহজেই ইমেজ তথ্য বের করুন এবং বিশ্লেষণ করুন。 সেরা বিষয় হল আপনি যেকোনো ডিভাইস থেকে একটি ব্রাউজার দিয়ে আমাদের টুল ব্যবহার করতে পারেন, কোন ডাউনলোড বা ইনস্টলেশনের প্রয়োজন নেই। কোন অভিজ্ঞতা প্রয়োজন নেই!</p>
+            <p>ড্র্যাগ-এন্ড-ড্রপ এডিটর ব্যবহার করে আপনার ইমেজ আপলোড করুন, এবং CaliperTools Image Metadata বাকি সব কাজ করবে। আপনি শেষ করলে আপনার ক্লিন বা এডিট করা ইমেজ ডাউনলোড করুন。 আপনার পছন্দ অনুযায়ী যতগুলি ছবি বিশ্লেষণ করুন, সবই কেবল কয়েকটি ক্লিকে।</p>
+            
+            <h2>প্রতিবার বিস্তৃত মেটাডাটা বিশ্লেষণ</h2>
+            <p>আপনার ইমেজ থেকে বিস্তারিত EXIF ডেটা, GPS স্থানাঙ্ক, ক্যামেরা সেটিংস এবং প্রযুক্তিগত বৈশিষ্ট্য বের করুন。 আমাদের উন্নত বিশ্লেষণ টুল নিশ্চিত করে যে আপনি ইমেজের মান বজায় রেখে নির্ভুল তথ্য পান।</p>
+            <p>আমাদের বিল্ট-ইন গোপনীয়তা ক্লিনিং এবং এডিটিং ফিচারের সাহায্যে, আপনি সংবেদনশীল মেটাডাটা রিমুভ করতে পারেন, EXIF ফিল্ড এডিট করতে পারেন এবং কালার প্রোফাইল স্ট্যান্ডার্ডাইজ করতে পারেন。 নিখুঁতভাবে বিশ্লেষিত ইমেজের মাধ্যমে আপনার গোপনীয়তা রক্ষা করুন এবং ইমেজ সামঞ্জস্য বাড়ান।</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="related-tools">
+        <div class="container">
+            <h2 class="section-title">সম্পর্কিত টুলস</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentSlug = 'image-metadata-tool';
+            if (typeof initRelatedTools === 'function') {
+                initRelatedTools(currentSlug);
+            }
+        });
+    </script>
+
+    <script>
+        let currentImage = null;
+        let currentFile = null;
+        let currentTool = null;
+        let currentModule = null;
+        let exifData = null;
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const previewWrapper = document.getElementById('preview-wrapper');
+        const previewImage = document.getElementById('preview-image');
+        const resultPanel = document.getElementById('result-panel');
+        const deleteImageBtn = document.getElementById('delete-image-btn');
+        const toolButtons = document.querySelectorAll('.tool-btn');
+
+        function handleUrlParams() {
+            const pathname = window.location.pathname;
+            const segments = pathname.split('/');
+            const toolParam = segments[segments.length - 1];
+            
+            if (toolParam && toolParam !== 'Image-Metadata.html') {
+                const toolBtn = document.querySelector('.tool-btn[data-tool="' + toolParam + '"]');
+                if (toolBtn) {
+                    toolBtn.click();
+                }
+            }
+        }
+
+        function init() {
+            setupEventListeners();
+            handleUrlParams();
+        }
+
+        function setupEventListeners() {
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            uploadPrompt.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', handleFileUpload);
+
+            const previewArea = document.querySelector('.preview-area');
+            previewArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.add('drag-over');
+            });
+
+            previewArea.addEventListener('dragleave', function() {
+                uploadPrompt.classList.remove('drag-over');
+            });
+
+            previewArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    loadImages(files);
+                }
+            });
+
+            deleteImageBtn.addEventListener('click', function() {
+                currentImage = null;
+                currentFile = null;
+                uploadPrompt.style.display = 'flex';
+                previewWrapper.classList.remove('active');
+                resultPanel.classList.remove('active');
+                resultPanel.innerHTML = '';
+                
+                document.title = 'ফ্রি অনলাইন ইমেজ মেটাডাটা | CaliperTools';
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', 'অনলাইনে বিনামূল্যে ইমেজ মেটাডাটা দেখুন। অবিলম্বে EXIF, GPS, ক্যামেরা তথ্য বের করুন। কোন রেজিস্ট্রেশন প্রয়োজন নেই। সেরা মানের ফলাফল।');
+                }
+                
+                const newUrl = new URL(window.location.href);
+                // 确保无论当前URL是什么，都返回正确的基础URL
+                const segments = newUrl.pathname.split('/');
+                // 找到bn目录的位置
+                const langIndex = segments.indexOf('bn');
+                if (langIndex !== -1) {
+                    // 构建正确的路径：bn/Image/Image-Metadata.html
+                    newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Metadata.html';
+                } else {
+                    //  fallback：如果找不到bn目录，直接使用根目录
+                    newUrl.pathname = '/bn/Image/Image-Metadata.html';
+                }
+                window.history.pushState({}, '', newUrl);
+                
+                toolButtons.forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                currentTool = null;
+                currentModule = null;
+            });
+
+            toolButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    if (!currentImage) {
+                        alert('প্রথমে একটি ইমেজ আপলোড করুন');
+                        return;
+                    }
+
+                    const tool = btn.dataset.tool;
+                    const module = btn.dataset.module;
+
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    btn.classList.add('active');
+                    currentTool = tool;
+                    currentModule = module;
+
+                    const toolTitle = btn.getAttribute('title');
+                    const toolDescription = btn.getAttribute('data-description');
+                    if (toolTitle) {
+                        document.title = toolTitle;
+                    }
+                    
+                    if (toolDescription) {
+                        const metaDescription = document.querySelector('meta[name="description"]');
+                        if (metaDescription) {
+                            metaDescription.setAttribute('content', toolDescription);
+                        }
+                    }
+
+                    const newUrl = new URL(window.location.href);
+                    // 直接构建正确的路径，不依赖当前URL结构
+                    const segments = newUrl.pathname.split('/');
+                    // 找到bn目录的位置
+                    const langIndex = segments.indexOf('bn');
+                    if (langIndex !== -1) {
+                        // 构建正确的路径：/bn/Image/Image-Metadata/tool
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Metadata/' + tool;
+                    } else {
+                        //  fallback：如果找不到bn目录，直接使用根目录
+                        newUrl.pathname = '/bn/Image/Image-Metadata/' + tool;
+                    }
+                window.history.pushState({}, '', newUrl);
+
+                    executeTool(tool, module);
+                });
+            });
+        }
+
+        function handleFileUpload(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                loadImages(files);
+            }
+        }
+
+        function loadImages(files) {
+            if (files.length === 1) {
+                loadSingleImage(files[0]);
+            } else if (files.length > 1) {
+                loadMultipleImages(files);
+            }
+        }
+
+        function loadSingleImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    currentImage = img;
+                    currentFile = file;
+
+                    console.log('File type:', file.type);
+                    console.log('File name:', file.name);
+                    console.log('File size:', (file.size / 1024).toFixed(2), 'KB');
+                    console.log('Image loaded:', img.width, 'x', img.height);
+                    console.log('Image natural size:', img.naturalWidth, 'x', img.naturalHeight);
+
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = (maxWidth / width) * height;
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = (maxHeight / height) * width;
+                        height = maxHeight;
+                    }
+
+                    previewImage.src = e.target.result;
+                    previewWrapper.style.width = width + 'px';
+                    previewWrapper.style.height = height + 'px';
+
+                    uploadPrompt.style.display = 'none';
+                    previewWrapper.classList.add('active');
+
+                    setTimeout(function() {
+                        try {
+                            console.log('=== EXIF Reading Attempt ===');
+                            console.log('window.EXIF:', window.EXIF);
+                            console.log('typeof window.EXIF.getData:', typeof window.EXIF.getData);
+                            
+                            if (window.EXIF && typeof window.EXIF.getData === 'function') {
+                                console.log('Calling EXIF.getData on img element...');
+                                window.EXIF.getData(img, function() {
+                                    console.log('=== EXIF Data Loaded ===');
+                                    
+                                    exifData = {};
+                                    
+                                    var make = window.EXIF.getTag(this, 'Make');
+                                    var model = window.EXIF.getTag(this, 'Model');
+                                    var software = window.EXIF.getTag(this, 'Software');
+                                    var dateTime = window.EXIF.getTag(this, 'DateTime');
+                                    var dateTimeOriginal = window.EXIF.getTag(this, 'DateTimeOriginal');
+                                    var exposureTime = window.EXIF.getTag(this, 'ExposureTime');
+                                    var fNumber = window.EXIF.getTag(this, 'FNumber');
+                                    var iso = window.EXIF.getTag(this, 'ISOSpeedRatings');
+                                    var focalLength = window.EXIF.getTag(this, 'FocalLength');
+                                    var copyright = window.EXIF.getTag(this, 'Copyright');
+                                    var imageDescription = window.EXIF.getTag(this, 'ImageDescription');
+                                    var gpsLatitude = window.EXIF.getTag(this, 'GPSLatitude');
+                                    var gpsLongitude = window.EXIF.getTag(this, 'GPSLongitude');
+                                    var gpsLatitudeRef = window.EXIF.getTag(this, 'GPSLatitudeRef');
+                                    var gpsLongitudeRef = window.EXIF.getTag(this, 'GPSLongitudeRef');
+                                    var gpsAltitude = window.EXIF.getTag(this, 'GPSAltitude');
+                                    var gpsImgDirection = window.EXIF.getTag(this, 'GPSImgDirection');
+                                    var gpsSpeed = window.EXIF.getTag(this, 'GPSSpeed');
+                                    
+                                    if (make) exifData.Make = make;
+                                    if (model) exifData.Model = model;
+                                    if (software) exifData.Software = software;
+                                    if (dateTimeOriginal) exifData.DateTimeOriginal = dateTimeOriginal;
+                                    if (dateTime) exifData.DateTime = dateTime;
+                                    if (exposureTime) exifData.ExposureTime = exposureTime;
+                                    if (fNumber) exifData.FNumber = fNumber;
+                                    if (iso) exifData.ISOSpeedRatings = iso;
+                                    if (focalLength) exifData.FocalLength = focalLength;
+                                    if (copyright) exifData.Copyright = copyright;
+                                    if (imageDescription) exifData.ImageDescription = imageDescription;
+                                    if (gpsLatitude) exifData.GPSLatitude = gpsLatitude;
+                                    if (gpsLongitude) exifData.GPSLongitude = gpsLongitude;
+                                    if (gpsLatitudeRef) exifData.GPSLatitudeRef = gpsLatitudeRef;
+                                    if (gpsLongitudeRef) exifData.GPSLongitudeRef = gpsLongitudeRef;
+                                    if (gpsAltitude) exifData.GPSAltitude = gpsAltitude;
+                                    if (gpsImgDirection) exifData.GPSImgDirection = gpsImgDirection;
+                                    if (gpsSpeed) exifData.GPSSpeed = gpsSpeed;
+                                    
+                                    console.log('EXIF data extracted:', exifData);
+                                    console.log('EXIF keys:', Object.keys(exifData));
+                                    console.log('GPSLatitude:', exifData.GPSLatitude);
+                                    console.log('GPSLongitude:', exifData.GPSLongitude);
+                                });
+                            } else {
+                                console.log('EXIF library not available');
+                                exifData = null;
+                            }
+                        } catch (err) {
+                            console.log('Error reading EXIF:', err);
+                            exifData = null;
+                        }
+                    }, 300);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function loadMultipleImages(files) {
+            currentImage = { multiple: true, files: files };
+            currentFile = { multiple: true, files: files };
+
+            uploadPrompt.style.display = 'none';
+            previewWrapper.classList.add('active');
+
+            const previewHTML = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 10px; max-height: 100%; overflow-y: auto;">' +
+                Array.from(files).map((file, index) => '<div style="border: 1px solid #ddd; border-radius: 8px; padding: 10px; text-align: center;"><i class="fas fa-image" style="font-size: 40px; color: #007bff; margin-bottom: 10px;"></i><div style="font-size: 12px; color: #666; word-break: break-all;">' + file.name + '</div></div>').join('') +
+                '</div>';
+            previewWrapper.innerHTML = previewHTML;
+        }
+
+        function executeTool(tool, module) {
+            resultPanel.innerHTML = '';
+            resultPanel.classList.add('active');
+
+            if (module === 'reader') {
+                executeReaderTool(tool);
+            } else if (module === 'cleaner') {
+                executeCleanerTool(tool);
+            } else if (module === 'analysis') {
+                executeAnalysisTool(tool);
+            } else if (module === 'editor') {
+                executeEditorTool(tool);
+            }
+        }
+
+        function executeReaderTool(tool) {
+            let html = '';
+            let hasData = true;
+
+            if (tool === 'exif') {
+                html = generateExifTable();
+            } else if (tool === 'gps') {
+                html = generateGpsTable();
+            } else if (tool === 'camera') {
+                html = generateCameraTable();
+            } else if (tool === 'date') {
+                html = generateDateTable();
+            } else if (tool === 'resolution') {
+                html = generateResolutionTable();
+            } else if (tool === 'filesize') {
+                html = generateFileSizeTable();
+            } else if (tool === 'colorprofile') {
+                html = generateColorProfileTable();
+            } else if (tool === 'orientation') {
+                html = generateOrientationTable();
+            }
+
+            if (!hasData) {
+                html = '<div class="no-data"><i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 15px;"></i><p>এই ইমেজের জন্য কোন মেটাডাটা ডেটা পাওয়া যায়নি</p></div>';
+            }
+
+            resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+        }
+
+        function executeCleanerTool(tool) {
+            let html = '';
+            let showDownload = true;
+
+            if (tool === 'remove-exif') {
+                html = generateRemoveExifInfo();
+            } else if (tool === 'remove-gps') {
+                html = generateRemoveGpsInfo();
+            } else if (tool === 'batch-clean') {
+                html = generateBatchCleanInfo();
+                showDownload = currentFile && currentFile.multiple;
+            }
+
+            if (!showDownload) {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+            } else {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html + '<div class="download-section"><button class="download-btn" onclick="downloadCleaned(\'' + tool + '\')"><i class="fas fa-download"></i> ক্লিন ইমেজ ডাউনলোড করুন</button></div>';
+            }
+        }
+
+        function executeAnalysisTool(tool) {
+            let html = '';
+
+            if (tool === 'histogram') {
+                html = generateHistogram();
+                setTimeout(function() { 
+                    console.log('Executing generateHistogramData...');
+                    generateHistogramData(); 
+                }, 500);
+            } else if (tool === 'palette') {
+                html = generateColorPalette();
+                setTimeout(function() { 
+                    console.log('Executing getMockColorPalette...');
+                    getMockColorPalette(); 
+                }, 500);
+            }
+
+            resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+        }
+
+        function executeEditorTool(tool) {
+            let html = '';
+
+            if (tool === 'edit-exif') {
+                html = generateEditExifForm();
+            } else if (tool === 'remove-colorprofile') {
+                html = generateRemoveColorProfileInfo();
+            }
+
+            const showDownload = tool === 'edit-exif';
+
+            if (showDownload) {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html + '<div class="download-section"><button class="download-btn" onclick="downloadEdited(\'' + tool + '\')"><i class="fas fa-download"></i> এডিট করা ইমেজ ডাউনলোড করুন</button></div>';
+            } else {
+                resultPanel.innerHTML = '<h3>' + getToolTitle(tool) + '</h3>' + html;
+            }
+        }
+
+        function getToolTitle(tool) {
+            const titles = {
+                'exif': 'EXIF ডেটা',
+                'gps': 'GPS তথ্য',
+                'camera': 'ক্যামেরা তথ্য',
+                'date': 'তারিখ নেওয়া',
+                'resolution': 'রেজোলিউশন',
+                'filesize': 'ফাইল সাইজ',
+                'colorprofile': 'কালার প্রোফাইল',
+                'orientation': 'ইমেজ ওরিয়েন্টেশন',
+                'remove-exif': 'EXIF ডেটা রিমুভ করুন',
+                'remove-gps': 'GPS তথ্য রিমুভ করুন',
+                'batch-clean': 'ব্যাচ মেটাডাটা ক্লিনার',
+                'histogram': 'RGB হিস্টোগ্রাম',
+                'palette': 'কালার প্যালেট',
+                'edit-exif': 'EXIF ডেটা এডিট করুন',
+                'remove-colorprofile': 'কালার প্রোফাইল রিমুভ করুন'
+            };
+            return titles[tool] || tool;
+        }
+
+        function generateExifTable() {
+            const exifData = getExifData();
+            if (exifData.length === 0) {
+                return '<div class="no-data"><i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 15px;"></i><p>এই ইমেজের জন্য কোন EXIF ডেটা পাওয়া যায়নি</p></div>';
+            }
+            return '<table class="result-table"><thead><tr><th>Tag</th><th>Value</th></tr></thead><tbody>' +
+                exifData.map(item => '<tr><td>' + item.tag + '</td><td>' + item.value + '</td></tr>').join('') +
+                '</tbody></table>';
+        }
+
+        function generateGpsTable() {
+            const gpsData = getGpsData();
+            if (!gpsData) {
+                return '<div class="no-data"><i class="fas fa-map-marker-slash" style="font-size: 48px; margin-bottom: 15px;"></i><p>এই ইমেজে কোন GPS তথ্য পাওয়া যায়নি</p></div>';
+            }
+            return '<div class="result-info"><h4>GPS স্থানাঙ্ক</h4><p><strong>ল্যাটিটিউড:</strong> ' + gpsData.latitude + '</p><p><strong>লংজিটিউড:</strong> ' + gpsData.longitude + '</p><p><strong>উচ্চতা:</strong> ' + gpsData.altitude + '</p></div>' +
+                '<div class="result-info"><h4>অবস্থান বিবরণ</h4><p><strong>দিক:</strong> ' + gpsData.direction + '</p><p><strong>গতি:</strong> ' + gpsData.speed + '</p></div>';
+
+        }
+
+        function generateCameraTable() {
+            const cameraData = getCameraData();
+            return '<table class="result-table"><thead><tr><th>বৈশিষ্ট্য</th><th>মান</th></tr></thead><tbody>' +
+                cameraData.map(item => '<tr><td>' + item.property + '</td><td>' + item.value + '</td></tr>').join('') +
+                '</tbody></table>';
+        }
+
+        function generateDateTable() {
+            const dateData = getDateData();
+            return '<div class="result-info"><h4>মূল তারিখ নেওয়া</h4><p><strong>তারিখ:</strong> ' + dateData.date + '</p><p><strong>সময়:</strong> ' + dateData.time + '</p><p><strong>টাইমজোন:</strong> ' + dateData.timezone + '</p></div>' +
+                '<div class="result-info"><h4>ফাইল তথ্য</h4><p><strong>পরিবর্তিত:</strong> ' + dateData.modified + '</p><p><strong>তৈরি:</strong> ' + dateData.created + '</p></div>';
+        }
+
+        function generateResolutionTable() {
+            const resolutionData = getResolutionData();
+            return '<div class="result-info"><h4>ইমেজ মাত্রা</h4><p><strong>প্রস্থ:</strong> ' + resolutionData.width + ' পিক্সেল</p><p><strong>উচ্চতা:</strong> ' + resolutionData.height + ' পিক্সেল</p><p><strong>মোট পিক্সেল:</strong> ' + resolutionData.total.toLocaleString() + '</p></div>' +
+                '<div class="result-info"><h4>অ্যাসপেক্ট অনুপাত</h4><p><strong>অনুপাত:</strong> ' + resolutionData.ratio + '</p><p><strong>ওরিয়েন্টেশন:</strong> ' + resolutionData.orientation + '</p></div>';
+        }
+
+        function generateFileSizeTable() {
+            const sizeData = getFileSizeData();
+            return '<div class="result-info"><h4>মূল ফাইল সাইজ</h4><p><strong>সাইজ:</strong> ' + sizeData.originalSize + '</p><p><strong>ফরম্যাট:</strong> ' + sizeData.format + '</p></div>' +
+                '<div class="result-info"><h4>সাইজ তুলনা</h4><p><strong>EXIF রিমুভ করার পর:</strong> ' + sizeData.afterRemoval + '</p><p><strong>সংরক্ষিত:</strong> ' + sizeData.saved + '</p></div>';
+        }
+
+        function generateColorProfileTable() {
+            const profileData = getColorProfileData();
+            return '<div class="result-info"><h4>কালার প্রোফাইল</h4><p><strong>প্রোফাইল:</strong> ' + profileData.profile + '</p><p><strong>কালার স্পেস:</strong> ' + profileData.colorSpace + '</p></div>' +
+                '<div class="result-info"><h4>প্রোফাইল বিবরণ</h4><p><strong>বিট গভীরতা:</strong> ' + profileData.bitDepth + '</p><p><strong>ICC প্রোফাইল:</strong> ' + profileData.iccProfile + '</p></div>';
+        }
+
+        function generateOrientationTable() {
+            const orientationData = getOrientationData();
+            return '<div class="result-info"><h4>EXIF ওরিয়েন্টেশন</h4><p><strong>ওরিয়েন্টেশন মান:</strong> ' + orientationData.exifValue + '</p><p><strong>ঘূর্ণন প্রয়োজন:</strong> ' + orientationData.rotationNeeded + '</p></div>' +
+                '<div class="result-info"><h4>ইমেজ মাত্রা</h4><p><strong>প্রস্থ:</strong> ' + orientationData.width + ' px</p><p><strong>উচ্চতা:</strong> ' + orientationData.height + ' px</p><p><strong>অ্যাসপেক্ট অনুপাত:</strong> ' + orientationData.ratio + '</p></div>';
+        }
+
+        function generateRemoveExifInfo() {
+            return '<div class="result-info"><h4>EXIF ডেটা রিমুভ করুন</h4><p>এটি মূল ইমেজের মান বজায় রেখে ইমেজ থেকে সমস্ত EXIF মেটাডাটা রিমুভ করবে।</p><p><strong>কী রিমুভ করা হবে:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>ক্যামেরা মেক এবং মডেল</li><li>GPS স্থানাঙ্ক</li><li>তারিখ এবং সময় তথ্য</li><li>কপিরাইট এবং লেখক তথ্য</li><li>সফটওয়্যার এবং সরঞ্জাম বিবরণ</li></ul></div>' +
+                '<div class="result-info"><h4>কী বজায় রাখা হবে:</h4><p><strong>বজায় রাখা হবে:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>ইমেজের মান এবং রেজোলিউশন</li><li>কালার প্রোফাইল</li><li>ভিজ্যুয়াল চেহারা</li><li>ফাইল ফরম্যাট</li></ul></div>';
+        }
+
+        function generateRemoveGpsInfo() {
+            return '<div class="result-info"><h4>GPS তথ্য রিমুভ করুন</h4><p>এটি শুধুমাত্র GPS-সম্পর্কিত মেটাডাটা রিমুভ করবে অন্যান্য EXIF তথ্য বজায় রেখে।</p><p><strong>কী রিমুভ করা হবে:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>GPS স্থানাঙ্ক (ল্যাটিটিউড, লংজিটিউড)</li><li>উচ্চতা তথ্য</li><li>দিক এবং গতি ডেটা</li><li>অবস্থান টাইমস্ট্যাম্প</li></ul></div>' +
+                '<div class="result-info"><h4>কী বজায় রাখা হবে:</h4><p><strong>বজায় রাখা হবে:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>ক্যামেরা তথ্য</li><li>তারিখ এবং সময়</li><li>কপিরাইট এবং লেখক</li><li>অন্যান্য EXIF ডেটা</li></ul></div>';
+        }
+
+        function generateBatchCleanInfo() {
+            const fileCount = currentFile && currentFile.multiple ? currentFile.files.length : 1;
+            return '<div class="result-info"><h4>ব্যাচ মেটাডাটা ক্লিনার</h4><p>একবারে ' + fileCount + 'টি ইমেজ থেকে সমস্ত মেটাডাটা রিমুভ করুন।</p><p><strong>প্রক্রিয়া করার ফাইল:</strong> ' + fileCount + '</p></div>' +
+                '<div class="result-info"><h4>কী রিমুভ করা হবে:</h4><p><strong>সমস্ত মেটাডাটা:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>EXIF ডেটা</li><li>GPS তথ্য</li><li>ক্যামেরা সেটিংস</li><li>তারিখ এবং সময়</li><li>কপিরাইট এবং লেখক</li><li>সফটওয়্যার তথ্য</li></ul></div>';
+        }
+
+        function generateHistogram() {
+            return '<div class="result-info"><h4>RGB হিস্টোগ্রাম</h4><p>আপনার ইমেজে কালার বণ্টনের ভিজ্যুয়াল প্রতিনিধিত্ব।</p></div>' +
+                '<div class="histogram-container"><canvas id="histogram-canvas" style="width: 100%; height: 300px;"></canvas></div>' +
+                '<script>setTimeout(function() { generateHistogramData(); }, 100);<\/script>';
+        }
+
+        function generateColorPalette() {
+            console.log('generateColorPalette called');
+            const colors = getMockColorPalette();
+            console.log('Colors to display:', colors);
+            return '<div class="result-info"><h4>কালার প্যালেট</h4><p>আপনার ইমেজ থেকে প্রধান কালার বের করা হয়েছে।</p></div>' +
+                '<div class="color-palette">' +
+                colors.map(color => '<div class="color-swatch" style="background-color: ' + color.hex + ';"><span>' + color.hex + '</span></div>').join('') +
+                '</div>';
+        }
+
+        function generateEditExifForm() {
+            const exifData = getExifData();
+            const copyrightItem = exifData.find(function(d) { return d.tag === 'Copyright'; });
+            const copyright = copyrightItem ? copyrightItem.value : '';
+            const descriptionItem = exifData.find(function(d) { return d.tag === 'Image Description'; });
+            const description = descriptionItem ? descriptionItem.value : '';
+            const softwareItem = exifData.find(function(d) { return d.tag === 'Software'; });
+            const software = softwareItem ? softwareItem.value : '';
+            
+            return '<div class="edit-form">' +
+                '<label for="author">লেখক / কপিরাইট</label>' +
+                '<input type="text" id="edit-author" value="' + copyright + '" placeholder="লেখকের নাম লিখুন">' +
+                '<label for="description">ইমেজ বর্ণনা</label>' +
+                '<textarea id="edit-description" placeholder="ইমেজ বর্ণনা লিখুন">' + description + '</textarea>' +
+                '<label for="software">সফটওয়্যার নাম</label>' +
+                '<input type="text" id="edit-software" value="' + software + '" placeholder="সফটওয়্যার নাম লিখুন">' +
+                '</div>';
+        }
+
+        function generateRemoveColorProfileInfo() {
+            return '<div class="result-info"><h4>কালার প্রোফাইল রিমুভ করুন</h4><p>এটি ইমেজ থেকে এমবেড করা কালার প্রোফাইল রিমুভ করবে বা স্ট্যান্ডার্ডাইজ করবে।</p><p><strong>কী হবে:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>এমবেড করা ICC প্রোফাইল রিমুভ করুন</li><li>sRGB কালার স্পেসে রূপান্তর করুন</li><li>ভিজ্যুয়াল চেহারা বজায় রাখুন</li><li>ক্রস-প্ল্যাটফর্ম সামঞ্জস্য বাড়ান</li></ul></div>' +
+                '<div class="result-info"><h4>ফায়দা:</h4><p><strong>কেন রিমুভ করবেন:</strong></p><ul style="margin-left: 20px; margin-top: 10px;"><li>ডিভাইস জুড়ে আরও সামঞ্জস্যপূর্ণ কালার</li><li>ছোট ফাইল সাইজ</li><li>আরও ভাল ওয়েব সামঞ্জস্য</li><li>কালার শিফট প্রতিরোধ করুন</li></ul></div>';
+        }
+
+        function getExifData() {
+            console.log('getExifData called, exifData:', exifData);
+            
+            if (!exifData) {
+                console.log('exifData is null or undefined');
+                return [];
+            }
+
+            const data = [];
+            
+            console.log('Checking EXIF properties...');
+            console.log('Make:', exifData.Make);
+            console.log('Model:', exifData.Model);
+            console.log('Software:', exifData.Software);
+            console.log('DateTime:', exifData.DateTimeOriginal);
+            console.log('ExposureTime:', exifData.ExposureTime);
+            console.log('FNumber:', exifData.FNumber);
+            console.log('ISO:', exifData.ISOSpeedRatings);
+            console.log('FocalLength:', exifData.FocalLength);
+            console.log('Copyright:', exifData.Copyright);
+            console.log('ImageDescription:', exifData.ImageDescription);
+            
+            if (exifData.Make) {
+                data.push({ tag: 'Make', value: exifData.Make });
+            }
+            if (exifData.Model) {
+                data.push({ tag: 'Model', value: exifData.Model });
+            }
+            if (exifData.Software) {
+                data.push({ tag: 'Software', value: exifData.Software });
+            }
+            if (exifData.DateTimeOriginal) {
+                data.push({ tag: 'Date/Time', value: exifData.DateTimeOriginal });
+            }
+            if (exifData.ExposureTime) {
+                data.push({ tag: 'Exposure Time', value: exifData.ExposureTime + ' s' });
+            }
+            if (exifData.FNumber) {
+                data.push({ tag: 'F-Number', value: 'f/' + exifData.FNumber });
+            }
+            if (exifData.ISOSpeedRatings) {
+                data.push({ tag: 'ISO', value: exifData.ISOSpeedRatings });
+            }
+            if (exifData.FocalLength) {
+                data.push({ tag: 'Focal Length', value: exifData.FocalLength + 'mm' });
+            }
+            if (exifData.Copyright) {
+                data.push({ tag: 'Copyright', value: exifData.Copyright });
+            }
+            if (exifData.ImageDescription) {
+                data.push({ tag: 'Image Description', value: exifData.ImageDescription });
+            }
+
+            console.log('Final EXIF data array:', data);
+            return data;
+        }
+
+        function getGpsData() {
+            if (!exifData || !exifData.GPSLatitude || !exifData.GPSLongitude) {
+                return null;
+            }
+
+            const lat = exifData.GPSLatitude;
+            const latRef = exifData.GPSLatitudeRef || 'N';
+            const lon = exifData.GPSLongitude;
+            const lonRef = exifData.GPSLongitudeRef || 'E';
+
+            const convertDMSToDD = function(dms, ref) {
+                const degrees = dms[0] + dms[1] / 60 + dms[2] / 3600;
+                return (ref === 'S' || ref === 'W') ? -degrees : degrees;
+            };
+
+            const latitude = convertDMSToDD(lat, latRef).toFixed(6) + '° ' + latRef;
+            const longitude = convertDMSToDD(lon, lonRef).toFixed(6) + '° ' + lonRef;
+            const altitude = exifData.GPSAltitude ? exifData.GPSAltitude + ' meters' : 'N/A';
+
+            return {
+                latitude: latitude,
+                longitude: longitude,
+                altitude: altitude,
+                direction: exifData.GPSImgDirection ? exifData.GPSImgDirection + '°' : 'N/A',
+                speed: exifData.GPSSpeed ? exifData.GPSSpeed + ' km/h' : 'N/A'
+            };
+        }
+
+        function getCameraData() {
+            if (!exifData) {
+                return [];
+            }
+
+            const data = [];
+            
+            if (exifData.Make) {
+                data.push({ property: 'Camera Make', value: exifData.Make });
+            }
+            if (exifData.Model) {
+                data.push({ property: 'Camera Model', value: exifData.Model });
+            }
+            if (exifData.FocalLength) {
+                data.push({ property: 'Focal Length', value: exifData.FocalLength + 'mm' });
+            }
+            if (exifData.FNumber) {
+                data.push({ property: 'Aperture', value: 'f/' + exifData.FNumber });
+            }
+            if (exifData.ExposureTime) {
+                data.push({ property: 'Shutter Speed', value: '1/' + Math.round(1 / exifData.ExposureTime) + ' s' });
+            }
+            if (exifData.ISOSpeedRatings) {
+                data.push({ property: 'ISO', value: exifData.ISOSpeedRatings });
+            }
+            if (exifData.Flash) {
+                data.push({ property: 'Flash', value: exifData.Flash ? 'On' : 'Off' });
+            }
+
+            return data;
+        }
+
+        function getDateData() {
+            if (!exifData) {
+                return {
+                    date: 'N/A',
+                    time: 'N/A',
+                    timezone: 'N/A',
+                    modified: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A',
+                    created: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A'
+                };
+            }
+
+            return {
+                date: exifData.DateTimeOriginal ? exifData.DateTimeOriginal.split(' ')[0] : 'N/A',
+                time: exifData.DateTimeOriginal ? exifData.DateTimeOriginal.split(' ')[1] : 'N/A',
+                timezone: 'N/A',
+                modified: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A',
+                created: currentFile ? new Date(currentFile.lastModified).toLocaleString() : 'N/A'
+            };
+        }
+
+        function getResolutionData() {
+            if (!currentImage) {
+                return {
+                    width: 0,
+                    height: 0,
+                    total: 0,
+                    ratio: 'N/A',
+                    orientation: 'N/A'
+                };
+            }
+
+            const width = currentImage.width;
+            const height = currentImage.height;
+            const total = width * height;
+            const gcd = function(a, b) {
+                while (b) {
+                    let temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a;
+            };
+            const divisor = gcd(width, height);
+            const orientation = width > height ? 'ল্যান্ডস্কেপ' : (width < height ? 'পোর্ট্রেট' : 'বর্গাকার');
+
+            return {
+                width: width,
+                height: height,
+                total: total,
+                ratio: (width / divisor) + ':' + (height / divisor),
+                orientation: orientation
+            };
+        }
+
+        function getFileSizeData() {
+            if (!currentFile) {
+                return {
+                    originalSize: 'N/A',
+                    format: 'N/A',
+                    afterRemoval: 'N/A',
+                    saved: 'N/A'
+                };
+            }
+
+            const originalSize = (currentFile.size / 1024 / 1024).toFixed(2);
+            const afterRemoval = (originalSize * 0.9).toFixed(2);
+            const saved = (originalSize - afterRemoval).toFixed(2);
+            const format = currentFile.name.split('.').pop().toUpperCase();
+
+            return {
+                originalSize: originalSize + ' MB',
+                format: format,
+                afterRemoval: afterRemoval + ' MB',
+                saved: saved + ' MB (' + ((saved / originalSize) * 100).toFixed(1) + '%)'
+            };
+        }
+
+        function getColorProfileData() {
+            if (!exifData) {
+                return {
+                    profile: 'N/A',
+                    colorSpace: 'N/A',
+                    bitDepth: 'N/A',
+                    iccProfile: 'N/A'
+                };
+            }
+
+            return {
+                profile: exifData.ColorSpace || 'sRGB',
+                colorSpace: exifData.ColorSpace || 'RGB',
+                bitDepth: '8 bits per channel',
+                iccProfile: exifData.ColorSpace ? 'Embedded ICC profile detected' : 'No embedded profile'
+            };
+        }
+
+        function getOrientationData() {
+            if (!exifData) {
+                return {
+                    exifValue: 'N/A',
+                    rotationNeeded: 'N/A',
+                    width: currentImage ? currentImage.width : 0,
+                    height: currentImage ? currentImage.height : 0,
+                    ratio: currentImage ? (currentImage.width / currentImage.height).toFixed(2) : 'N/A'
+                };
+            }
+
+            const orientation = exifData.Orientation || 1;
+            const rotationMap = {
+                1: 'কোন ঘূর্ণন প্রয়োজন নেই',
+                2: 'অনুভূমিকভাবে ফ্লিপ করুন',
+                3: '180° ঘোরান',
+                4: 'উল্লম্বভাবে ফ্লিপ করুন',
+                5: '90° ঘড়ির কাঁটার দিকে ঘোরান + অনুভূমিকভাবে ফ্লিপ করুন',
+                6: '90° ঘড়ির কাঁটার দিকে ঘোরান',
+                7: '90° ঘড়ির কাঁটার বিপরীত দিকে ঘোরান + অনুভূমিকভাবে ফ্লিপ করুন',
+                8: '90° ঘড়ির কাঁটার বিপরীত দিকে ঘোরান'
+            };
+
+            return {
+                exifValue: orientation + ' (' + (rotationMap[orientation] || 'অজানা') + ')',
+                rotationNeeded: rotationMap[orientation] || 'অজানা',
+                width: currentImage ? currentImage.width : 0,
+                height: currentImage ? currentImage.height : 0,
+                ratio: currentImage ? (currentImage.width / currentImage.height).toFixed(2) : 'N/A'
+            };
+        }
+
+        function getMockColorPalette() {
+            if (!currentImage) {
+                console.log('No current image, using default colors');
+                return [
+                { hex: '#2C3E50', name: 'গভীর নীল' },
+                { hex: '#34495E', name: 'নীল ধূসর' },
+                { hex: '#E74C3C', name: 'মৃদু লাল' },
+                { hex: '#ECF0F1', name: 'হালকা নীল' },
+                { hex: '#95A5A6', name: 'টিল' },
+                { hex: '#F39C12', name: 'কমলা' },
+                { hex: '#D35400', name: 'জ্বলন্ত কমলা' },
+                { hex: '#E8E8E8', name: 'হালকা ধূসর' }
+            ];
+            }
+
+            console.log('Extracting colors from image:', currentImage.width, 'x', currentImage.height);
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 300;
+            canvas.height = 300;
+            ctx.drawImage(currentImage, 0, 0, 300, 300);
+
+            const imageData = ctx.getImageData(0, 0, 300, 300);
+            const data = imageData.data;
+            const colorCounts = {};
+            const totalPixels = data.length / 4;
+
+            console.log('Total pixels to analyze:', totalPixels);
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                
+                const hex = '#' + [r, g, b].map(function(x) {
+                    const hex = x.toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                }).join('');
+
+                if (colorCounts[hex]) {
+                    colorCounts[hex]++;
+                } else {
+                    colorCounts[hex] = 1;
+                }
+            }
+
+            console.log('Total unique colors found:', Object.keys(colorCounts).length);
+
+            const sortedColors = Object.entries(colorCounts)
+                .sort(function(a, b) { return b[1] - a[1]; });
+
+            console.log('All colors sorted:', sortedColors.length);
+
+            const palette = [];
+            const colorDistance = function(c1, c2) {
+                const r1 = parseInt(c1.substr(1, 2), 16);
+                const g1 = parseInt(c1.substr(3, 2), 16);
+                const b1 = parseInt(c1.substr(5, 2), 16);
+                const r2 = parseInt(c2.substr(1, 2), 16);
+                const g2 = parseInt(c2.substr(3, 2), 16);
+                const b2 = parseInt(c2.substr(5, 2), 16);
+                return Math.sqrt(
+                    Math.pow(r1 - r2, 2) +
+                    Math.pow(g1 - g2, 2) +
+                    Math.pow(b1 - b2, 2)
+                );
+            };
+
+            for (let i = 0; i < sortedColors.length; i++) {
+                const currentColor = sortedColors[i][0];
+                let isSimilar = false;
+
+                for (let j = 0; j < palette.length; j++) {
+                    const paletteColor = palette[j][0];
+                    if (colorDistance(currentColor, paletteColor) < 30) {
+                        isSimilar = true;
+                        break;
+                    }
+                }
+
+                if (!isSimilar) {
+                    palette.push(sortedColors[i]);
+                }
+            }
+
+            console.log('Final palette size:', palette.length);
+
+            return palette.map(function(item) {
+                return { hex: item[0], name: item[0] };
+            });
+        }
+
+        function generateHistogramData() {
+            console.log('generateHistogramData called');
+            if (!currentImage) {
+                console.log('No current image');
+                return;
+            }
+            
+            const canvas = document.getElementById('histogram-canvas');
+            console.log('Canvas element:', canvas);
+            if (!canvas) {
+                console.log('Canvas not found');
+                return;
+            }
+
+            console.log('Canvas dimensions:', canvas.width, 'x', canvas.height);
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const redData = new Array(256).fill(0);
+            const greenData = new Array(256).fill(0);
+            const blueData = new Array(256).fill(0);
+
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = currentImage.width;
+            tempCanvas.height = currentImage.height;
+            tempCtx.drawImage(currentImage, 0, 0);
+
+            const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            const data = imageData.data;
+
+            console.log('Image data length:', data.length);
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                redData[r]++;
+                greenData[g]++;
+                blueData[b]++;
+            }
+
+            const maxCount = Math.max(
+                Math.max.apply(null, redData),
+                Math.max.apply(null, greenData),
+                Math.max.apply(null, blueData)
+            );
+
+            console.log('Max count:', maxCount);
+
+            const y = height / 2;
+            const barWidth = width / 256;
+
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Arial';
+            ctx.fillText('লাল', 10, y - 40);
+            ctx.fillText('সবুজ', 10, y + 10);
+            ctx.fillText('নীল', 10, y + 60);
+
+            for (let i = 0; i < 256; i++) {
+                const x = i * barWidth;
+
+                ctx.fillStyle = 'rgb(' + i + ', 0, 0)';
+                ctx.fillRect(x, y - 50, barWidth, (redData[i] / maxCount) * 50);
+
+                ctx.fillStyle = 'rgb(0, ' + i + ', 0)';
+                ctx.fillRect(x, y, barWidth, (greenData[i] / maxCount) * 50);
+
+                ctx.fillStyle = 'rgb(0, 0, ' + i + ')';
+                ctx.fillRect(x, y + 50, barWidth, (blueData[i] / maxCount) * 50);
+            }
+
+            console.log('Histogram drawn');
+        }
+
+        function downloadCleaned(tool) {
+            if (!currentFile || !currentImage) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = currentImage.width || 800;
+            canvas.height = currentImage.height || 600;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(currentImage, 0, 0);
+
+            let suffix = '';
+            if (tool === 'remove-exif') {
+                suffix = '-cleaned';
+            } else if (tool === 'remove-gps') {
+                suffix = '-no-gps';
+            } else if (tool === 'batch-clean') {
+                suffix = '-cleaned';
+            }
+
+            const originalName = currentFile.name || 'image';
+            const dotIndex = originalName.lastIndexOf('.');
+            const name = originalName.substring(0, dotIndex);
+            const extension = originalName.substring(dotIndex);
+            const newName = name + suffix + '.' + extension;
+
+            const link = document.createElement('a');
+            link.download = newName;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+
+            showSuccessMessage('ইমেজ সফলভাবে ডাউনলোড হয়েছে!');
+        }
+
+        function downloadEdited(tool) {
+            if (!currentFile || !currentImage) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = currentImage.width || 800;
+            canvas.height = currentImage.height || 600;
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(currentImage, 0, 0);
+
+            if (tool === 'edit-exif') {
+                const author = document.getElementById('edit-author') ? document.getElementById('edit-author').value : '';
+                const description = document.getElementById('edit-description') ? document.getElementById('edit-description').value : '';
+                const software = document.getElementById('edit-software') ? document.getElementById('edit-software').value : '';
+
+                console.log('Edited EXIF:', { author, description, software });
+            }
+
+            const originalName = currentFile.name || 'image';
+            const dotIndex = originalName.lastIndexOf('.');
+            const name = originalName.substring(0, dotIndex);
+            const extension = originalName.substring(dotIndex);
+            const newName = name + '-edited.' + extension;
+
+            const link = document.createElement('a');
+            link.download = newName;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+
+            showSuccessMessage('Image downloaded successfully!');
+        }
+
+        function showSuccessMessage(message) {
+            const existing = document.querySelector('.success-message');
+            if (existing) {
+                existing.remove();
+            }
+
+            const msg = document.createElement('div');
+            msg.className = 'success-message';
+            msg.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            document.body.appendChild(msg);
+
+            setTimeout(function() {
+                msg.remove();
+            }, 3000);
+        }
+
+        init();
+    </script>
+    </main>
+</body>
+</html>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="bn-BD">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>টেক্সট ফরমেটার | CaliperTools</title>
+<meta name="description" content="CaliperTools এর বিনামূল্যের অনলাইন টেক্সট ফরমেটার টুল। বিভিন্ন কেসে টেক্সট ফরমেট করুন, স্পেস পরিচালনা করুন এবং সহজে টেক্সট ম্যানিপুলেট করুন।" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Text Formatter Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Right panel styles */
+.right-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.category {
+    grid-column: span 2;
+    margin-top: 10px;
+    padding: 6px 0;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding-left: 6px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.option input {
+    margin-right: 6px;
+}
+
+/* Find & Replace Modal */
+#findReplaceModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0f8ff; /* Light blue background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    z-index: 1000;
+    border: 1px solid #0066cc;
+}
+
+#findReplaceModal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #0066cc;
+    font-size: 1.2rem;
+}
+
+#findReplaceModal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#findReplaceModal button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+#findReplaceModal button:not(.close) {
+    background: #0066cc;
+    color: white;
+}
+
+#findReplaceModal button:not(.close):hover {
+    background: #0052a3;
+}
+
+#findReplaceModal .close {
+    background: #f44336;
+    color: white;
+    margin-bottom: 0;
+}
+
+#findReplaceModal .close:hover {
+    background: #e53935;
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .right-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .category {
+        grid-column: span 1;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('ডান-ক্লিক মেনুটি অক্ষম করা আছে।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('কপি ফাংশনটি নিষ্ক্রিয় করা আছে।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ডেভেলপার টুলগুলি অক্ষম করা আছে');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>টেক্সট ফরমেটার</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">পূর্বাবস্থান</button>
+                    <button onclick="redo()">পুনরায় করুন</button>
+                    <button onclick="openFindReplaceModal()">খুঁজুন এবং প্রতিস্থাপন করুন</button>
+                    <button onclick="clearText()">মুছুন</button>
+                    <button onclick="copyText()">কপি</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        ব্যবহার বিধি?
+                    </a>
+                </div>
+                <textarea id="input" oninput="updateStats()" placeholder="এখানে আপনার টেক্সট পেস্ট করুন..."></textarea>
+                <div class="stats">
+                    <div class="stat" id="charCount">অক্ষর: 0</div>
+                    <div class="stat" id="nonBlankChar">অ-ফাঁকা: 0</div>
+                    <div class="stat" id="wordCount">শব্দ: 0</div>
+                    <div class="stat" id="lineCount">লাইন: 0</div>
+                    <div class="stat" id="paraCount">অনুচ্ছেদ: 0</div>
+                    <div class="stat" id="pages">পৃষ্ঠা: 0</div>
+                    <div class="stat" id="readingTime">পঠন: 0 মিনিট</div>
+                    <div class="stat" id="speakingTime">বক্তৃতা: 0 মিনিট</div>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <!-- Case Formatting -->
+                <div class="category">কেস ফরমেটিং
+                    <button onclick="toggleCategory('case')">সব</button>
+                </div>
+                <div class="option"><input type="checkbox" class="case" id="upper"><label for="upper">বড়হাতের অক্ষর</label></div>
+                <div class="option"><input type="checkbox" class="case" id="lower"><label for="lower">ছোটহাতের অক্ষর</label></div>
+                <div class="option"><input type="checkbox" class="case" id="title"><label for="title">শিরোনামের কেস</label></div>
+                <div class="option"><input type="checkbox" class="case" id="sentence"><label for="sentence">বাক্যের কেস</label></div>
+                <div class="option"><input type="checkbox" class="case" id="camel"><label for="camel">ক্যামেলকেস</label></div>
+
+                <!-- Space & Line Management -->
+                <div class="category">স্পেস এবং লাইন ব্যবস্থাপনা
+                    <button onclick="toggleCategory('space')">সব</button>
+                </div>
+                <div class="option"><input type="checkbox" class="space" id="trim"><label for="trim">ট্রিম (অগ্রগামী এবং পশ্চাতে স্পেসগুলি সরান)</label></div>
+                <div class="option"><input type="checkbox" class="space" id="leading"><label for="leading">অগ্রগামী স্পেসগুলি সরান</label></div>
+                <div class="option"><input type="checkbox" class="space" id="trailing"><label for="trailing">পশ্চাতের স্পেসগুলি সরান</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiSpace"><label for="multiSpace">একাধিক স্পেস থেকে একক</label></div>
+                <div class="option"><input type="checkbox" class="space" id="allSpaces"><label for="allSpaces">সমস্ত স্পেস মুছে ফেলুন</label></div>
+                <div class="option"><input type="checkbox" class="space" id="spaceToTab"><label for="spaceToTab">৪ স্পেসকে ১ ট্যাব দিয়ে প্রতিস্থাপন করুন</label></div>
+                <div class="option"><input type="checkbox" class="space" id="tabToSpace"><label for="tabToSpace">১ ট্যাবকে ৪ স্পেস দিয়ে প্রতিস্থাপন করুন</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeBlankLines"><label for="removeBlankLines">ফাঁকা/খালি লাইনগুলি মুছে ফেলুন</label></div>
+                <div class="option"><input type="checkbox" class="space" id="multiBlank"><label for="multiBlank">একাধিক ফাঁকা লাইন থেকে একক</label></div>
+                <div class="option"><input type="checkbox" class="space" id="lineBreakSpace"><label for="lineBreakSpace">লাইন ব্রেককে স্পেস দিয়ে প্রতিস্থাপন করুন</label></div>
+                <div class="option"><input type="checkbox" class="space" id="removeLineBreak"><label for="removeLineBreak">সমস্ত লাইন ব্রেক মুছে ফেলুন</label></div>
+
+                <!-- Text Manipulation -->
+                <div class="category">টেক্সট ম্যানিপুলেশন
+                    <button onclick="toggleCategory('text')">সব</button>
+                </div>
+                <div class="option"><input type="checkbox" class="text" id="reverse"><label for="reverse">টেক্সট উল্টান</label></div>
+                <div class="option"><input type="checkbox" class="text" id="sortLines"><label for="sortLines">লাইনগুলি A-Z এ সাজান</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removePunct"><label for="removePunct">বিরাম চিহ্নগুলি সরান</label></div>
+                <div class="option"><input type="checkbox" class="text" id="stripEmoji"><label for="stripEmoji">সমস্ত ইমোজি সরান</label></div>
+                <div class="option"><input type="checkbox" class="text" id="removeAccents"><label for="removeAccents">অক্ষরের স্বরচিহ্নগুলি সরান (ডায়াক্রিটিক্স)</label></div>
+                <div class="option"><input type="checkbox" class="text" id="normalize"><label for="normalize">ইউনিকোড অক্ষর/অক্ষরগুলি স্বাভাবিক করুন</label></div>
+
+                <!-- Character Filtering -->
+                <div class="category">অক্ষর ফিল্টারিং
+                    <button onclick="toggleCategory('char')">সব</button>
+                </div>
+                <div class="option"><input type="checkbox" class="char" id="removeReplacement"><label for="removeReplacement">প্রতিস্থাপন অক্ষর সরান</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonASCII"><label for="removeNonASCII">অ-ASCII অক্ষরগুলি সরান</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeNonAlpha"><label for="removeNonAlpha">অ-আলফানিউমেরিক অক্ষরগুলি সরান</label></div>
+                <div class="option"><input type="checkbox" class="char" id="stripEmails"><label for="stripEmails">সমস্ত ইমেইল সরান</label></div>
+                <div class="option"><input type="checkbox" class="char" id="removeURLs"><label for="removeURLs">সমস্ত ওয়েব URL সরান</label></div>
+                <div class="option"><input type="checkbox" class="char" id="convertURL"><label for="convertURL">URL গুলি লিঙ্কে রূপান্তর করুন</label></div>
+
+                <!-- HTML & Code Processing -->
+                <div class="category">HTML এবং কোড প্রসেসিং
+                    <button onclick="toggleCategory('html')">সব</button>
+                </div>
+                <div class="option"><input type="checkbox" class="html" id="removeBB"><label for="removeBB">BBCode ট্যাগগুলি সরান</label></div>
+                <div class="option"><input type="checkbox" class="html" id="unescapeHTML"><label for="unescapeHTML">HTML ট্যাগগুলি আনএস্কেপ করুন</label></div>
+                <div class="option"><input type="checkbox" class="html" id="stripHTML"><label for="stripHTML">সমস্ত HTML ট্যাগ সরান</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeIDs"><label for="removeIDs">সমস্ত ID সরান</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeClasses"><label for="removeClasses">সমস্ত ক্লাস সরান</label></div>
+                <div class="option"><input type="checkbox" class="html" id="removeStyles"><label for="removeStyles">ইনলাইন স্টাইলগুলি সরান</label></div>
+
+                <!-- Encoding & Decoding -->
+                <div class="category">এনকোডিং এবং ডিকোডিং
+                    <button onclick="toggleCategory('encode')">সব</button>
+                </div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeHTML"><label for="decodeHTML">HTML অক্ষর এনটিটিগুলি ডিকোড করুন</label></div>
+                <div class="option"><input type="checkbox" class="encode" id="decodeURL"><label for="decodeURL">URL-এনকোডেড অক্ষরগুলি ডিকোড করুন</label></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Formatter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>টেক্সট ফরমেটার ব্যবহার করার নিয়ম</h3>
+                <p>
+                    বিভিন্ন ফরমেটিং অপশন ব্যবহার করে আপনার টেক্সট দক্ষতার সাথে ফরমেট করতে এই সহজ ধাপগুলি অনুসরণ করুন।
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>ধাপ 1: আপনার টেক্সট ইনপুট দিন</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>ধাপ 2: ফরমেটিং অপশন চয়ন করুন</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>ধাপ 3: আপনার ফলাফল পান</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>ধাপে ধাপে টিউটোরিয়াল</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ধাপ 1: আপনার টেক্সট ইনপুট দিন</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">বাম দিকের টেক্সট এলাকায় আপনার টেক্সট পেস্ট করুন বা টাইপ করুন। টুলটি স্বয়ংক্রিয়ভাবে আপনার টেক্সট সম্পর্কে বিস্তারিত পরিসংখ্যান প্রদর্শন করবে, যার মধ্যে রয়েছে অক্ষর গণনা, শব্দ গণনা এবং পড়ার সময়।</p>
+                            <p style="text-align: left;">আপনি প্রয়োজন মতো পরিবর্তনগুলি পূর্বাবস্থায় ফেরাতে বা পুনরুদ্ধার করতে পূর্বাবস্থান এবং পুনরায় করুন বোতামগুলি ব্যবহার করতে পারেন।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ধাপ 2: ফরমেটিং অপশনগুলি বেছে নিন</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">ডান প্যানেলে বিস্তৃত ফরমেটিং অপশনগুলি থেকে নির্বাচন করুন:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>কেস ফরমেটিং:</strong> টেক্সটকে বড়হাতের অক্ষর, ছোটহাতের অক্ষর, শিরোনামের কেস, বাক্যের কেস, ক্যামেলকেস এবং আরও অনেক কিছুতে রূপান্তর করুন</li>
+                                <li><strong>স্পেস ব্যবস্থাপনা:</strong> স্পেস, ট্যাব এবং লাইন ব্রেক যোগ করুন, সরান বা সামঞ্জস্য করুন</li>
+                                <li><strong>টেক্সট ম্যানিপুলেশন:</strong> টেক্সট উল্টান, লাইনগুলি সাজান, বিরাম চিহ্ন সরান এবং আরও অনেক কিছু</li>
+                                <li><strong>অক্ষর ফিল্টারিং:</strong> অবাঞ্ছিত অক্ষর, বিশেষ অক্ষর বা নকলগুলি সরান</li>
+                                <li><strong>HTML এবং কোড:</strong> HTML ট্যাগগুলি ফরমেট করুন, বিশেষ অক্ষরগুলি এস্কেপ করুন এবং আরও অনেক কিছু</li>
+                                <li><strong>এনকোডিং এবং ডিকোডিং:</strong> HTML এনটিটিগুলি এবং URL-এনকোডেড অক্ষরগুলি ডিকোড করুন</li>
+                            </ul>
+                            <p style="text-align: left;">একবারে সেই বিভাগের সমস্ত অপশন প্রয়োগ করতে প্রতিটি বিভাগে "সব" বোতামগুলি ক্লিক করুন।</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ধাপ 3: আপনার ফলাফল পান</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Your formatted text will appear in the left text area instantly. You can:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"কপি" বোতাম ব্যবহার করে এক ক্লিকে ফরমেটেড টেক্সট কপি করুন</li>
+                                <li>"মুছুন" বোতাম দিয়ে সমস্ত টেক্সট মুছে ফেলুন এবং নতুন করে শুরু করুন</li>
+                                <li>লক্ষ্য করে পরিবর্তন করতে খুঁজুন এবং প্রতিস্থাপন বৈশিষ্ট্যটি ব্যবহার করুন</li>
+                                <li>আপডেট করা টেক্সট পরিসংখ্যান পর্যালোচনা করুন</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">সেরা ফলাফলের জন্য টিপস</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>আপনার প্রয়োজনীয় ফরমেটিং সম্পর্কে স্পষ্ট ধারণা দিয়ে শুরু করুন</li>
+                                <li>একটি ফরমেটিং অপশন এক সময়ে প্রয়োগ করুন তার প্রভাব দেখতে</li>
+                                <li>ফরমেটিং করার ফলাফল পছন্দ না হলে পূর্বাবস্থান বোতাম ব্যবহার করুন</li>
+                                <li>আরও জটিল টেক্সট রূপান্তরের জন্য একাধিক ফরমেটিং অপশন একত্রিত করুন</li>
+                                <li>আপনার ফরমেটিং আপনার প্রয়োজনীয়তা পূরণ করছে কিনা তা নিশ্চিত করতে টেক্সট পরিসংখ্যান পরীক্ষা করুন</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">সংশ্লিষ্ট টুলস</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-formatter");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+    <!-- Find & Replace Modal -->
+    <div id="findReplaceModal">
+        <h3>খুঁজুন এবং প্রতিস্থাপন করুন</h3>
+        <input type="text" id="findText" placeholder="টেক্সট খুঁজুন">
+        <input type="text" id="replaceText" placeholder="এর সাথে প্রতিস্থাপন করুন">
+        <button onclick="replaceNext()">পরবর্তীটি প্রতিস্থাপন করুন</button>
+        <button onclick="replaceAll()">সব প্রতিস্থাপন করুন</button>
+        <button class="close" onclick="closeFindReplaceModal()">বন্ধ</button>
+    </div>
+
+    <script>
+const input=document.getElementById('input');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); updateStats(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); updateStats(); } }
+function clearText(){ saveState(); input.value=''; updateStats(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'ক্লিপবোর্ডে কপি করা হয়েছে!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(input.value)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+function countWords(text) {
+    if (!text.trim()) return 0;
+    
+    // For languages with spaces, use traditional counting
+    const spaceWords = text.trim().split(/\s+/).filter(Boolean);
+    if (spaceWords.length > 1) {
+        return spaceWords.length;
+    }
+    
+    // For languages without spaces (like Chinese, Japanese, Korean)
+    // Count each character as a word, except for whitespace and punctuation
+    let wordCount = 0;
+    for (let char of text) {
+        if (!char.match(/\s|[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’]/g)) {
+            wordCount++;
+        }
+    }
+    return wordCount;
+}
+function setText(value){ input.value=value; updateStats(); saveState(); }
+
+function updateStats(){
+  const text=input.value;
+  const wordCount = countWords(text);
+  document.getElementById('charCount').innerText='অক্ষর: '+text.length;
+  document.getElementById('nonBlankChar').innerText='অ-ফাঁকা: '+text.replace(/\s/g,'').length;
+  document.getElementById('wordCount').innerText='শব্দ: '+wordCount;
+  // Fix line count issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines = text.split(/\r?\n/);
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='লাইন: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); document.getElementById('paraCount').innerText='অনুচ্ছেদ: '+paras.length;
+  const pages=Math.ceil(wordCount/500); document.getElementById('pages').innerText='পৃষ্ঠা: '+pages;
+  const reading=Math.ceil(wordCount/200); document.getElementById('readingTime').innerText='পঠন: '+reading+' মিনিট';
+  const speaking=Math.ceil(wordCount/130); document.getElementById('speakingTime').innerText='বক্তৃতা: '+speaking+' মিনিট';
+}
+
+// --- Live Apply ---
+const options=document.querySelectorAll('.option input');
+options.forEach(opt=>{
+  opt.addEventListener('change',()=>{ saveState(); applyOption(opt); });
+});
+
+function applyOption(opt){
+  let text=input.value;
+  const id=opt.id;
+  if(opt.checked){
+    switch(id){
+      case 'upper': text=text.toUpperCase(); break;
+      case 'lower': text=text.toLowerCase(); break;
+      case 'title': text=text.replace(/\b\p{L}/gu,c=>c.toUpperCase()); break;
+      case 'sentence': text=text.replace(/(^\s*\p{L}|[.!?。！？]\s*\p{L})/gu,c=>c.toUpperCase()); break;
+      case 'camel': text=[...text].map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join(''); break;
+      case 'trim': text=text.trim(); break;
+      case 'leading': text=text.replace(/^\s+/gm,''); break;
+      case 'trailing': text=text.replace(/\s+$/gm,''); break;
+      case 'multiSpace': text=text.replace(/\s+/g,' '); break;
+      case 'allSpaces': text=text.replace(/\s+/g,''); break;
+      case 'spaceToTab': text=text.replace(/ {4}/g,'\t'); break;
+      case 'tabToSpace': text=text.replace(/\t/g,'    '); break;
+      case 'removeBlankLines': text=text.replace(/^\s*$/gm,''); break;
+      case 'multiBlank': text=text.replace(/(\r?\n){2,}/g,'\n'); break;
+      case 'lineBreakSpace': text=text.replace(/\r?\n/g,' '); break;
+      case 'removeLineBreak': text=text.replace(/\r?\n/g,''); break;
+      case 'reverse': text=text.split('').reverse().join(''); break;
+      case 'sortLines': text=text.split('\n').sort().join('\n'); break;
+      case 'removePunct': text=text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()，。、！？；：【】（）《》“”‘’『』「」〔〕〝〞〟～…—━〈〉＜＞「」｛｝［］｜｜\／：；，。！？‘’""()）（．．．・・・]/g,''); break;
+      case 'stripEmoji': text=text.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF]+/g,''); break;
+      case 'removeAccents': text=text.normalize("NFD").replace(/[\u0300-\u036f]/g,""); break;
+      case 'normalize': text=text.normalize(); break;
+      case 'removeReplacement': text=text.replace(/�/g,''); break;
+      case 'removeNonASCII': text=text.replace(/[^\x00-\x7F]/g,''); break;
+      case 'removeNonAlpha': text=text.replace(/[^\p{L}\p{N}\s]/gu,''); break;
+      case 'stripEmails': text=text.replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g,''); break;
+      case 'removeURLs': text=text.replace(/\b(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*\b/g,''); break;
+      case 'convertURL': text=text.replace(/(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*/g,url=>`<a href="${url}" target="_blank">${url}</a>`); break;
+      case 'removeBB': text=text.replace(/\[.*?\]/g,''); break;
+      case 'unescapeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'stripHTML': text=text.replace(/<[^>]+>/g,''); break;
+      case 'removeIDs': text=text.replace(/\s?id=".*?"/g,''); break;
+      case 'removeClasses': text=text.replace(/\s?class=".*?"/g,''); break;
+      case 'removeStyles': text=text.replace(/\s?style=".*?"/g,''); break;
+      case 'decodeHTML': text=text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'); break;
+      case 'decodeURL': try{text=decodeURIComponent(text);}catch(e){} break;
+    }
+    setText(text);
+  } else { undo(); }
+}
+
+// --- Category Toggle ---
+function toggleCategory(cat){
+  const elems=document.querySelectorসব('.'+cat);
+  const allChecked=[...elems].every(e=>e.checked);
+  elems.forEach(e=>{ e.checked=!allChecked; e.dispatchEvent(new Event('change')); });
+}
+
+// --- Find & Replace ---
+let lastFindIndex=0;
+function openFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='block'; lastFindIndex=0;}
+function closeFindReplaceModal(){ document.getElementById('findReplaceModal').style.display='none';}
+function replaceNext(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const text=input.value;
+  const idx=text.indexOf(find,lastFindIndex);
+  if(idx!==-1){
+    input.value=text.slice(0,idx)+replace+text.slice(idx+find.length);
+    lastFindIndex=idx+replace.length;
+    updateStats();
+  } else { lastFindIndex=0; alert('No more matches'); }
+}
+function replaceAll(){
+  const find=document.getElementById('findText').value;
+  const replace=document.getElementById('replaceText').value;
+  const regex=new RegExp(find,'g');
+  input.value=input.value.replace(regex,replace);
+  updateStats();
+}
+
+updateStats();
+</script>
+</body>
+</html>

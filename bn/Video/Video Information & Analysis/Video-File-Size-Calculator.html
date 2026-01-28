@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>ভিডিও ফাইল সাইজ ক্যালকুলেটর | CaliperTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="সময়কাল, রেজোলিউশন, ফ্রেম রেট এবং বিটরেটের উপর ভিত্তি করে ভিডিও ফাইলের আকার অনুমান করতে বিনামূল্যে অনলাইন ভিডিও ফাইল সাইজ ক্যালকুলেটর। দ্রুত, নিরাপদ এবং ব্যবহার করা সহজ।">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<!-- Add simple favicon.ico as default -->
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body background is consistent with website */
+body {
+    background-color: #f5f5f5; /* Gray background, consistent with other pages of the website */
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Tool specific styles */
+.tool-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+}
+
+.tool-container h1 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #111827;
+  text-align: center;
+}
+
+.tool-container label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.tool-container input, 
+.tool-container select {
+  padding: 12px;
+
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #111827;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tool-container input:focus, 
+.tool-container select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tool-container .button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tool-container button {
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.tool-container button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.tool-container button:active {
+  transform: translateY(0);
+}
+
+.tool-container .output {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+.tool-container .duration-inputs {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tool-container .duration-inputs input {
+  width: 33%;
+}
+
+.tool-container .unit-select {
+  margin-top: 8px;
+}
+
+#targetSizeInput {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px){
+  .tool-container {
+    padding: 16px;
+  }
+  
+  .tool-container h1 {
+    font-size: 24px;
+  }
+  
+  .tool-container .duration-inputs {
+    flex-direction: column;
+  }
+  
+  .tool-container .duration-inputs input {
+    width: 100%;
+  }
+  
+  .tool-container .button-row {
+    flex-direction: column;
+  }
+  
+  .tool-container button {
+    width: 100%;
+  }
+}
+
+/* CTA Section Styles - Copied from Video-Metadata-Viewer.html */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 确保CTA功能列表的背景和文字颜色正确 */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tutorial Step Styles - 从Video-Metadata-Viewer.html复制 */
+.tutorial-step {
+    text-align: left;
+}
+
+.tutorial-step h5 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+    text-align: center !important;
+}
+
+.tutorial-step p {
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    color: white !important;
+}
+
+.tutorial-step ul {
+    text-align: left !important;
+    margin-left: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+}
+
+.tutorial-step li {
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('ডান-ক্লিক মেনুটি অক্ষম করা আছে।');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('কপি ফাংশনটি নিষ্ক্রিয় করা আছে।');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ডেভেলপার টুলগুলি অক্ষম করা আছে');
+        }
+    });
+</script>
+</head>
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content -->
+<main class="main">
+  <div class="tool-container">
+    <h1 class="tool-title" style="display: flex; align-items: center; justify-content: space-between;">ভিডিও ফাইল সাইজ ক্যালকুলেটর <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">ব্যবহার করার নিয়ম?</a></h1>
+
+    <label>সময়কাল</label>
+    <div class="duration-inputs">
+      <input type="number" id="hours" placeholder="HH" min="0">
+      <input type="number" id="minutes" placeholder="MM" min="0" max="59">
+      <input type="number" id="seconds" placeholder="SS" min="0" max="59">
+    </div>
+
+    <label>রেজোলিউশন</label>
+    <select id="resolutionSelect">
+      <option value="640x360">360p - 640x360 (16:9)</option>
+      <option value="640x480">480p - 640x480 (4:3)</option>
+      <option value="1280x720">720p - 1280x720 (16:9)</option>
+      <option value="1920x1080" selected>1080p - 1920x1080 (16:9)</option>
+      <option value="3840x2160">4K - 3840x2160 (16:9)</option>
+      <option value="7680x4320">8K - 7680x4320 (16:9)</option>
+      <option value="1080x1920">1080x1920 (উল্লম্ব)</option>
+      <option value="720x1280">720x1280 (উল্লম্ব)</option>
+    </select>
+
+    <label>ফ্রেম রেট (FPS)</label>
+    <select id="fpsSelect">
+      <option>24</option>
+      <option>30</option>
+      <option>60</option>
+      <option>120</option>
+    </select>
+
+    <label>ভিডিও কোডেক</label>
+    <select id="codecSelect">
+      <option>H.264 (এইচ.২৬৪)</option>
+      <option>H.265 (এইচ.২৬৫)</option>
+      <option>AV1</option>
+      <option>ProRes</option>
+      <option>DNxHD/DNxHR</option>
+    </select>
+
+    <label>ভিডিও বিটরেট</label>
+    <div style="position: relative; width: 100%; display: flex; margin-bottom: 16px;">
+      <input type="number" id="vBitrate" placeholder="ভিডিও বিটরেট লিখুন" style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-right: none; border-radius: 4px 0 0 4px; font-size: 16px; box-sizing: border-box; height: 46px;">
+      <select id="vBitrateUnit" class="unit-select" style="width: 90px; background: white; border: 1px solid #d1d5db; border-left: none; border-radius: 0 4px 4px 0; box-shadow: none; outline: none; padding: 12px 20px 12px 12px; margin: 0; font-size: 16px; box-sizing: border-box; height: 46px;">
+        <option value="kbps">কিলোবিট/সেকেন্ড</option>
+        <option value="Mbps">মেগাবিট/সেকেন্ড</option>
+      </select>
+    </div>
+
+    <label>অডিও বিটরেট (ঐচ্ছিক)</label>
+    <div style="position: relative; width: 100%; display: flex; margin-bottom: 16px;">
+      <input type="number" id="aBitrate" placeholder="অডিও বিটরেট লিখুন" style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-right: none; border-radius: 4px 0 0 4px; font-size: 16px; box-sizing: border-box; height: 46px;">
+      <select id="aBitrateUnit" class="unit-select" style="width: 90px; background: white; border: 1px solid #d1d5db; border-left: none; border-radius: 0 4px 4px 0; box-shadow: none; outline: none; padding: 12px 20px 12px 12px; margin: 0; font-size: 16px; box-sizing: border-box; height: 46px;">
+        <option value="kbps">কিলোবিট/সেকেন্ড</option>
+        <option value="Mbps">মেগাবিট/সেকেন্ড</option>
+      </select>
+    </div>
+
+    <div class="button-row">
+      <button onclick="calculateFileSize()">ফাইল সাইজ হিসাব করুন</button>
+      <button onclick="calculateTargetBitrate()">লক্ষ্য সাইজের জন্য বিটরেট হিসাব করুন</button>
+    </div>
+
+    <input type="text" id="targetSizeInput" placeholder="লক্ষ্য সাইজ MB">
+    <div class="output" id="fileSizeOutput"></div>
+    <div class="output" id="bitrateOutput"></div>
+  </div>
+
+  <!-- Tutorial Section -->
+  <section class="cta-section" id="tutorial">
+    <div class="cta-content">
+      <h3>ভিডিও ফাইল সাইজ ক্যালকুলেটর ব্যবহার করার নিয়ম</h3>
+      <p>
+        সময়কাল, রেজোলিউশন, ফ্রেম রেট এবং বিটরেটের উপর ভিত্তি করে ভিডিও ফাইলের আকার হিসাব করতে এই সহজ ধাপগুলি অনুসরণ করুন।
+      </p>
+      
+      <div class="features-row">
+        <div class="feature-item">
+          <span class="icon">⏱️</span>
+          <span>ধাপ 1: সময়কাল নির্ধারণ করুন</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📏</span>
+          <span>ধাপ 2: রেজোলিউশন নির্বাচন করুন</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">⚡</span>
+          <span>ধাপ 3: সেটিংস নির্বাচন করুন</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">🔢</span>
+          <span>ধাপ 4: ফলাফল পান</span>
+        </div>
+      </div>
+      
+      <div class="cta-features">
+        <h4>ধাপে ধাপে টিউটোরিয়াল</h4>
+        <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="tutorial-step">
+            <h5>ধাপ 1: ভিডিও সময়কাল নির্ধারণ করুন</h5>
+            <p>ঘন্টা, মিনিট এবং সেকেন্ড ক্ষেত্রগুলি ব্যবহার করে আপনার ভিডিওর সময়কাল লিখুন।</p>
+            <ul>
+              <li>যে ক্ষেত্রগুলি প্রযোজ্য নয় সেগুলির জন্য 0 লিখুন (উদাহরণ: যদি আপনার ভিডিও শুধুমাত্র 30 সেকেন্ডের হয়, তবে ঘন্টা এবং মিনিট 0 হিসাবে সেট করুন)</li>
+              <li>মিনিট এবং সেকেন্ড 0 থেকে 59 এর মধ্যে হতে হবে</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>ধাপ 2: রেজোলিউশন নির্বাচন করুন</h5>
+            <p>ড্রপডাউন মেনু থেকে আপনার ভিডিওর রেজোলিউশন নির্বাচন করুন। আমরা বিভিন্ন রেজোলিউশন সমর্থন করি যেমন:</p>
+            <ul>
+              <li>প্রমিত রেজোলিউশন: 360p, 480p, 720p, 1080p, 4K, 8K</li>
+              <li>সোশ্যাল মিডিয়ার জন্য উল্লম্ব রেজোলিউশন: 720x1280, 1080x1920</li>
+              <li>16:9 এবং 4:3 উভয় অ্যাসপেক্ট রেশিও</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>ধাপ 3: ফ্রেম রেট এবং কোডেক নির্বাচন করুন</h5>
+            <p>আপনার ভিডিওর জন্য উপযুক্ত সেটিংস নির্বাচন করুন:</p>
+            <ul>
+              <li><strong>ফ্রেম রেট (FPS):</strong> সাধারণ বিকল্পগুলির মধ্যে রয়েছে 24, 30, 60, এবং 120 FPS</li>
+              <li><strong>ভিডিও কোডেক:</strong> H.264, H.265, AV1, ProRes, বা DNxHD/DNxHR থেকে নির্বাচন করুন</li>
+              <li><strong>ভিডিও বিটরেট:</strong> আপনার ভিডিওর জন্য বিটরেট লিখুন (kbps বা Mbps এ)</li>
+              <li><strong>অডিও বিটরেট (ঐচ্ছিক):</strong> প্রযোজ্য হলে অডিও বিটরেট লিখুন</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>ধাপ 4: ফাইল সাইজ বা লক্ষ্য বিটরেট হিসাব করুন</h5>
+            <p>দুটি হিসাবের বিকল্পগুলির মধ্যে একটি ব্যবহার করুন:</p>
+            <ul>
+              <li><strong>ফাইল সাইজ হিসাব করুন:</strong> আপনার সেটিংসের উপর ভিত্তি করে ভিডিও ফাইলের আকার অনুমান করতে এই বোতামটিতে ক্লিক করুন</li>
+              <li><strong>লক্ষ্য সাইজের জন্য বিটরেট হিসাব করুন:</strong> MB এ একটি লক্ষ্য ফাইল সাইজ লিখুন এবং প্রয়োজনীয় বিটরেট খুঁজে পেতে এই বোতামটিতে ক্লিক করুন</li>
+            </ul>
+            <p>ফলাফলগুলি বোতামগুলির নিচে আউটপুট এলাকায় প্রদর্শিত হবে।</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>সেরা ফলাফলের জন্য পরামর্শ</h5>
+            <ul>
+              <li>ভালো ভিডিও কোয়ালিটির জন্য উচ্চতর বিটরেট ব্যবহার করুন, তবে বড় ফাইল সাইজের প্রত্যাশা করুন</li>
+              <li>H.265 এবং AV1 কোডেকগুলি একই কোয়ালিটি লেভেলে H.264 এর তুলনায় ভালো কমপ্রেশন দেয়</li>
+              <li>একই সময়কাল এবং রেজোলিউশনের 60 FPS ভিডিওগুলির ফাইল সাইজ 30 FPS ভিডিওগুলির চেয়ে বড় হবে</li>
+              <li>সেটিংস নির্বাচন করার সময় আপনার লক্ষ্য প্ল্যাটফর্মের প্রয়োজনীয়তা বিবেচনা করুন (উদাহরণ: সোশ্যাল মিডিয়া প্ল্যাটফর্মগুলিতে প্রায়শই ফাইল সাইজের সীমা থাকে)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Tools Section -->
+  <section class="section related-tools">
+    <div class="container">
+      <h2 class="section-title">সম্পর্কিত টুল</h2>
+      <div class="tools-grid" id="relatedTools">
+        <!-- Related tools will be dynamically generated by JS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+<script>
+function getDurationSeconds() {
+  const h = Number(document.getElementById('hours').value) || 0;
+  const m = Number(document.getElementById('minutes').value) || 0;
+  const s = Number(document.getElementById('seconds').value) || 0;
+  return h*3600 + m*60 + s;
+}
+
+function convertToKbps(value, unit) {
+  if(unit === "Mbps") return value*1000;
+  return value;
+}
+
+function calculateFileSize() {
+  const durationSec = getDurationSeconds();
+  if(durationSec === 0) {
+    document.getElementById('fileSizeOutput').innerHTML = "অনুগ্রহ করে একটি বৈধ সময়কাল লিখুন।";
+    return;
+  }
+  let vBitrate = Number(document.getElementById('vBitrate').value) || 0;
+  let aBitrate = Number(document.getElementById('aBitrate').value) || 0;
+  vBitrate = convertToKbps(vBitrate, document.getElementById('vBitrateUnit').value);
+  aBitrate = convertToKbps(aBitrate, document.getElementById('aBitrateUnit').value);
+  const totalBps = (vBitrate + aBitrate) * 1000;
+  const sizeBytes = totalBps/8 * durationSec;
+  const sizeMB = sizeBytes/1024/1024;
+  const sizeGB = sizeMB/1024;
+  document.getElementById('fileSizeOutput').innerHTML = 
+    `অনুমানিত ফাইল সাইজ: ${sizeMB.toFixed(2)} MB (${sizeGB.toFixed(2)} GB)`;
+}
+
+function calculateTargetBitrate() {
+  const durationSec = getDurationSeconds();
+  const targetMB = Number(document.getElementById('targetSizeInput').value);
+  if(!targetMB || durationSec === 0) {
+    document.getElementById('bitrateOutput').innerHTML = "অনুগ্রহ করে বৈধ সময়কাল এবং লক্ষ্য সাইজ লিখুন।";
+    return;
+  }
+  const totalBps = targetMB*1024*1024*8 / durationSec;
+  const vBitrateKbps = totalBps/1000;
+  document.getElementById('bitrateOutput').innerHTML = 
+    `প্রয়োজনীয় মোট বিটরেট: ${vBitrateKbps.toFixed(2)} kbps (ভিডিও + অডিও)`;
+}
+</script>
+
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("video-file-size-calculator");
+</script>
+
+</body>
+</html>
