@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="ur-PK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آن لائن مفت تصویری فلٹرز | CaliperTools</title>
+    <meta name="description" content="آن لائن مفت تصویری فلٹرز لگائیں۔ 20 پیشہ ورانہ اثرات۔ اپ لوڈ کی ضرورت نہیں۔ فوری پیش نظارہ۔ بہترین معیار کے نتائج۔">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS for sections -->
+    <style>
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+            font-size: 0.875rem;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            max-width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .sidebar {
+            width: 320px;
+            height: 850px;
+            background: #f9f9f9;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .main-content {
+            flex: 1;
+            height: 850px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .filter-tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            background: white;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem 0.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .filter-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+
+        .filter-item.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-header label {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .filter-toggle {
+            width: 36px;
+            height: 20px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .filter-toggle.active {
+            background: #667eea;
+        }
+
+        .filter-toggle::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-toggle.active::after {
+            left: 18px;
+        }
+
+        .slider-container {
+            margin-top: 0.75rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .export-section {
+            padding: 1rem;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+            margin-top: auto;
+        }
+
+        .export-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: #333;
+        }
+
+        .format-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .format-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .format-btn:hover {
+            border-color: #667eea;
+        }
+
+        .format-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .export-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .upload-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            min-height: 200px;
+        }
+
+        .upload-area:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .upload-area.dragover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .upload-content p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-content .hint {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .preview-container {
+            display: none;
+            flex: 1;
+            padding: 1rem;
+            gap: 1rem;
+            overflow: hidden;
+            max-height: 100%;
+            position: relative;
+        }
+
+        .preview-container.active {
+            display: flex;
+        }
+
+        .preview-box {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        .preview-box h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .canvas-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f9f9f9;
+            border-radius: 6px;
+            overflow: hidden;
+            min-height: 150px;
+            max-height: 100%;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        #hiddenCanvas {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 850px;
+            }
+
+            .preview-container {
+                flex-direction: column;
+            }
+
+            .main-content {
+            height: 850px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cursor-help {
+            cursor: help;
+        }
+
+
+    </style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('دائیں کلک کا مینو غیر فعال ہے۔');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('کاپی فنکشن غیر فعال ہے۔');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ڈویلپر ٹولز غیر فعال ہیں۔');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center">تصویری فلٹرز اور ایفیکٹس ٹول</h1>
+        </div>
+
+        <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>تصویری فلٹرز</h2>
+                <p>اپنی تصاویر پر پیشہ ورانہ فلٹرز لگائیں</p>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="tab active" data-tab="basic">بنیادی</button>
+                <button class="tab" data-tab="style">انداز</button>
+                <button class="tab" data-tab="creative">تخلیقی</button>
+            </div>
+
+            <div class="tab-content active" id="basic">
+                <div class="filter-item" data-filter="blackwhite">
+                    <div class="filter-header">
+                        <label>سیاہ و سفید</label>
+                        <button class="filter-toggle" onclick="toggleFilter('blackwhite')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="blackwhiteValue">0%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="0" oninput="updateFilter('blackwhite', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="brightness">
+                    <div class="filter-header">
+                        <label>چمک</label>
+                        <button class="filter-toggle" onclick="toggleFilter('brightness')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="brightnessValue">20%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="20" oninput="updateFilter('brightness', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="contrast">
+                    <div class="filter-header">
+                        <label>کنٹراسٹ</label>
+                        <button class="filter-toggle" onclick="toggleFilter('contrast')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="contrastValue">10%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="10" oninput="updateFilter('contrast', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="sharpen">
+                    <div class="filter-header">
+                        <label>تیز کریں</label>
+                        <button class="filter-toggle" onclick="toggleFilter('sharpen')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="sharpenValue">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" oninput="updateFilter('sharpen', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="blur">
+                    <div class="filter-header">
+                        <label>دھندلا</label>
+                        <button class="filter-toggle" onclick="toggleFilter('blur')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="blurValue">5%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="5" oninput="updateFilter('blur', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="warm">
+                    <div class="filter-header">
+                        <label>گرم</label>
+                        <button class="filter-toggle" onclick="toggleFilter('warm')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="warmValue">15%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="15" oninput="updateFilter('warm', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="cool">
+                    <div class="filter-header">
+                        <label>ٹھنڈا</label>
+                        <button class="filter-toggle" onclick="toggleFilter('cool')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="coolValue">15%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="15" oninput="updateFilter('cool', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="style">
+                <div class="filter-item" data-filter="vintage">
+                    <div class="filter-header">
+                        <label>قدیم</label>
+                        <button class="filter-toggle" onclick="toggleFilter('vintage')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="vintageValue">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" oninput="updateFilter('vintage', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="film">
+                    <div class="filter-header">
+                        <label>فلم</label>
+                        <button class="filter-toggle" onclick="toggleFilter('film')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="filmValue">35%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="35" oninput="updateFilter('film', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="sepia">
+                    <div class="filter-header">
+                        <label>سیپیا</label>
+                        <button class="filter-toggle" onclick="toggleFilter('sepia')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="sepiaValue">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" oninput="updateFilter('sepia', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="saturation">
+                    <div class="filter-header">
+                        <label>سیرابی بڑھائیں</label>
+                        <button class="filter-toggle" onclick="toggleFilter('saturation')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="saturationValue">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" oninput="updateFilter('saturation', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="desaturation">
+                    <div class="filter-header">
+                        <label>غیر سیرابی / میٹ</label>
+                        <button class="filter-toggle" onclick="toggleFilter('desaturation')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="desaturationValue">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" oninput="updateFilter('desaturation', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="splittoning">
+                    <div class="filter-header">
+                        <label>تقسیم ٹوننگ</label>
+                        <button class="filter-toggle" onclick="toggleFilter('splittoning')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="splittoningValue">25%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="25" oninput="updateFilter('splittoning', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="cinemalut">
+                    <div class="filter-header">
+                        <label>سینما LUT انداز</label>
+                        <button class="filter-toggle" onclick="toggleFilter('cinemalut')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="cinemalutValue">45%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="45" oninput="updateFilter('cinemalut', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="creative">
+                <div class="filter-item" data-filter="vignette">
+                    <div class="filter-header">
+                        <label>ویگنیٹ</label>
+                        <button class="filter-toggle" onclick="toggleFilter('vignette')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="vignetteValue">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" oninput="updateFilter('vignette', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="grain">
+                    <div class="filter-header">
+                        <label>دانے</label>
+                        <button class="filter-toggle" onclick="toggleFilter('grain')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="grainValue">20%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="20" oninput="updateFilter('grain', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="hdrlook">
+                    <div class="filter-header">
+                        <label>HDR نظارہ</label>
+                        <button class="filter-toggle" onclick="toggleFilter('hdrlook')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="hdrlookValue">35%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="35" oninput="updateFilter('hdrlook', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="invertcolors">
+                    <div class="filter-header">
+                        <label>الٹے رنگ</label>
+                        <button class="filter-toggle" onclick="toggleFilter('invertcolors')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="invertcolorsValue">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" oninput="updateFilter('invertcolors', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="cartoon">
+                    <div class="filter-header">
+                        <label>کارتون</label>
+                        <button class="filter-toggle" onclick="toggleFilter('cartoon')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="cartoonValue">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" oninput="updateFilter('cartoon', this.value)">
+                    </div>
+                </div>
+
+                <div class="filter-item" data-filter="gradientoverlay">
+                    <div class="filter-header">
+                        <label>گریڈیئنٹ اوورلے</label>
+                        <button class="filter-toggle" onclick="toggleFilter('gradientoverlay')"></button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>شدت</span>
+                            <span id="gradientoverlayValue">25%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="25" oninput="updateFilter('gradientoverlay', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="export-section">
+                <h3>ایکسپورٹ فارمیٹ</h3>
+                <div class="format-selector">
+                    <button class="format-btn active" data-format="png">PNG</button>
+                    <button class="format-btn" data-format="jpg">JPG</button>
+                    <button class="format-btn" data-format="webp">WebP</button>
+                </div>
+                <button class="export-btn" id="exportBtn" onclick="downloadImage()" disabled>
+                    تصویر ایکسپورٹ کریں
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <div class="upload-icon">📷</div>
+                    <p>تصاویر کو یہاں ڈریگ اور ڈراپ کریں یا براؤز کرنے کے لیے کلک کریں</p>
+                    <p class="hint">حمایت: JPG، PNG، WebP</p>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple style="display: none;">
+                </div>
+            </div>
+
+            <div class="preview-container" id="previewContainer">
+                <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                    <button id="deleteImageBtn" style="background: rgba(255, 255, 255, 0.8); border: 1px solid #ddd; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #dc3545; transition: all 0.3s ease;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="preview-box">
+                    <h3>اصل تصویر</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="originalCanvas"></canvas>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <h3>فلٹر شدہ تصویر</h3>
+                    <div class="canvas-wrapper">
+                        <canvas id="previewCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">تصویری فلٹرز اور ایفیکٹس ٹول کا استعمال کیسے کریں</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        تصویر اپ لوڈ کریں
+                    </h3>
+                    <p title="اپنی تصویر کو براہ راست اپ لوڈ علاقے پر ڈریگ اور ڈراپ کریں یا اپنے آلے سے منتخب کرنے کے لیے اپ لوڈ بٹن پر کلک کریں۔ ہمارا ٹول جے پی جی، پی این جی، اور ویب پی سمیت مختلف فارمیٹس کی حمایت کرتا ہے۔">اپنی تصویر کو براہ راست اپ لوڈ علاقے پر ڈریگ اور ڈراپ کریں یا اپنے آلے سے منتخب کرنے کے لیے اپ لوڈ بٹن پر کلک کریں۔ ہمارا ٹول جے پی جی، پی این جی، اور ویب پی سمیت مختلف فارمیٹس کی حمایت کرتا ہے۔</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </span>
+                        فلٹرز منتخب کریں
+                    </h3>
+                    <p title="Select from 20 professional filters across 3 categories: Basic, Style, and Creative. Adjust intensity sliders to fine-tune the effect.">3 زمرہ جات: بنیادی، انداز اور تخلیقی میں سے 20 پیشہ ورانہ فلٹرز میں سے منتخب کریں۔ اثر کو بہتر بنانے کے لیے شدت سلائیڈرز کو ایڈجسٹ کریں۔</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-magic"></i>
+                        </span>
+                        نتائج کا جائزہ لیں
+                    </h3>
+                    <p title="See real-time preview comparing original and filtered images side by side. Make adjustments until you're satisfied with the result.">اصل اور فلٹر شدہ تصاویر کا ایک ساتھ موازنہ کرتے ہوئے حقیقی وقت کا جائزہ دیکھیں۔ جب تک آپ نتیجے سے مطمئن نہ ہو جائیں تبدیلیاں کرتے رہیں۔</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        تصویر ایکسپورٹ کریں
+                    </h3>
+                    <p title="اپنا ترجیحی آؤٹ پٹ فارمیٹ (PNG، JPG، یا WebP) منتخب کریں اور اپنی فلٹر شدہ تصویر ڈاؤن لوڈ کرنے کے لیے 'تصویر ایکسپورٹ کریں' پر کلک کریں۔">اپنا ترجیحی آؤٹ پٹ فارمیٹ (PNG، JPG، یا WebP) منتخب کریں اور اپنی فلٹر شدہ تصویر ڈاؤن لوڈ کرنے کے لیے 'تصویر ایکسپورٹ کریں' پر کلک کریں۔</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1670349272570-a03edb4e653d?w=600&h=400&fit=crop" alt="Image Filters">
+                </div>
+                <div class="content-text">
+                    <h2>پیشہ ورانہ تصویری فلٹرز</h2>
+                    <p>اپنی تصاویر پر فوری طور پر 20 پیشہ ورانہ فلٹرز لاگو کریں۔ ہمارا ٹول ہر بار درست اور مسلسل نتائج کے لیے معیاری پکسل سطح کے الگورتھم استعمال کرتا ہے۔</p>
+                    <p>چمک اور کنٹراسٹ جیسی بنیادی ایڈجسٹمنٹس سے لے کر ویگنیٹ اور گرین جیسے تخلیقی اثرات تک، اپنی تصاویر کو آسانی سے تبدیل کریں۔ تمام پروسیسنگ زیادہ سے زیادہ رازداری کے لیے آپ کے براؤزر میں مقامی طور پر ہوتی ہے۔</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Preview Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>حقیقی وقت کا جائزہ</h2>
+                    <p>ہمارے ساتھ ساتھ جائزے کے ساتھ اپنی تبدیلیاں فوری طور پر دیکھیں۔ جیسے جیسے آپ فلٹر کی شدت کو ایڈجسٹ کریں گے اصل اور فلٹر شدہ تصاویر کا حقیقی وقت میں موازنہ کریں۔</p>
+                    <p>ہر فلٹر کو 0% سے 100% تک درست شدت سلائیڈرز کے ساتھ بہتر بنائیں۔ کسی بھی اندازے کے بغیر بالکل ویسا ہی نظارہ حاصل کریں جیسا آپ چاہتے ہیں۔</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1523251239923-9969d2b4f95f?w=600&h=400&fit=crop" alt="Real-Time Preview">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multiple Filters Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1584007952771-96d1f3866a6b?w=600&h=400&fit=crop" alt="Multiple Filters">
+                </div>
+                <div class="content-text">
+                    <h2>متعدد فلٹرز ملانا</h2>
+                    <p>منحصر اثرات پیدا کرنے کے لیے متعدد فلٹرز کو ایک جگہ جمع کریں۔ حیران کن نتائج کے لیے بنیادی ایڈجسٹمنٹس کو تخلیقی فلٹرز کے ساتھ مکس کریں۔</p>
+                    <p>کسی بھی فلٹر کو ایک کلک میں فعال یا غیر فعال کریں۔ اپنا منفرد نظارہ حاصل کرنے کے لیے ہر فلٹر کے لیے شدت کو آزادانہ طور پر ایڈجسٹ کریں۔</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Protection Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>100% رازداری کی حفاظت</h2>
+                    <p>تمام تصویری پروسیسنگ آپ کے براؤزر میں مقامی طور پر ہوتی ہے۔ آپ کی تصاویر آپ کے آلے سے کبھی نہیں چھوڑتیں یا کسی سرور پر اپ لوڈ نہیں ہوتیں۔</p>
+                    <p>ترمیم کرتے وقت مکمل رازداری اور سیکیورٹی کا لطف اٹھائیں۔ کوئی ڈیٹا جمع، کوئی رجسٹریشن کی ضرورت نہیں، صرف خالص کلائنٹ سائیڈ پروسیسنگ۔</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://plus.unsplash.com/premium_photo-1700830452546-96547de21071?w=600&h=400&fit=crop" alt="Privacy Protection">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Section -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>اپنی تصاویر کو مفت تبدیل کریں</h2>
+            <p>مہنگے فوٹو ایڈیٹنگ سافٹ ویئر کو الوداع کہیں۔ CaliperTools تصویری فلٹرز اور ایفیکٹس کے ساتھ، آپ اپنی تصاویر پر مفت پیشہ ورانہ فلٹرز لاگو کر سکتے ہیں۔ سب سے بہتر یہ ہے کہ آپ کسی بھی آلے کے براؤزر کے ساتھ ہمارے ٹول کو استعمال کر سکتے ہیں، ڈاؤن لوڈ یا انسٹال کرنے کی ضرورت نہیں۔ کوئی تجربہ درکار نہیں!</p>
+            <p class="mb-10">اپنی تصویر اپ لوڈ کرنے کے لیے ہمارے شعوری انٹرفیس کا استعمال کریں، 20 پیشہ ورانہ فلٹرز میں سے انتخاب کریں، شدت کی سطحیں ایڈجسٹ کریں، اور حقیقی وقت کے نتائج دیکھیں۔ جب آپ اثر سے خوش ہوں تو اپنی پسندیدہ شکل میں ایکسپورٹ کریں۔ جتنے چاہیں فلٹرز لگائیں، محض چند کلکس میں۔</p>
+            
+            <h2>ہر بار پکسل سے مکمل نتائج</h2>
+            <p>ہمارے فلٹرز معیاری پکسل سطح کے الگورتھم استعمال کرتے ہیں تاکہ درست اور مسلسل نتائج یقینی بنائے جا سکیں۔ چاہے آپ چمک کو ایڈجسٹ کر رہے ہوں، قدیم اثرات لاگو کر رہے ہوں یا تخلیقی اوورلےز شامل کر رہے ہوں، آپ ہر بار پیشہ ورانہ معیار کا آؤٹ پٹ حاصل کریں گے۔</p>
+            <p>تمام تصویری پروسیسنگ آپ کے براؤزر میں مقامی طور پر ہوتی ہے، تاکہ آپ کی تصاویر آپ کے آلے کو کبھی نہ چھوڑیں۔ PNG، JPG، اور WebP فارمیٹس کی حمایت کے ساتھ، آپ اس فارمیٹ میں ایکسپورٹ کر سکتے ہیں جو آپ کی ضروریات کے لیے سب سے بہترین ہو۔</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="related-tools">
+        <div class="container">
+            <h2 class="section-title">متعلقہ اوزار</h2>
+            <div class="tools-grid" id="relatedTools">
+                <!-- Related tools will be dynamically generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        initRelatedTools('image-filters-effects-tool');
+    </script>
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <canvas id="hiddenCanvas"></canvas>
+    <script>
+        let originalImage = null;
+        let originalImageData = null;
+        let exportFormat = 'png';
+        let filtersState = {
+            blackwhite: { enabled: false, intensity: 0 },
+            brightness: { enabled: false, intensity: 20 },
+            contrast: { enabled: false, intensity: 10 },
+            sharpen: { enabled: false, intensity: 30 },
+            blur: { enabled: false, intensity: 5 },
+            warm: { enabled: false, intensity: 15 },
+            cool: { enabled: false, intensity: 15 },
+            vintage: { enabled: false, intensity: 40 },
+            film: { enabled: false, intensity: 35 },
+            sepia: { enabled: false, intensity: 50 },
+            saturation: { enabled: false, intensity: 30 },
+            desaturation: { enabled: false, intensity: 40 },
+            splittoning: { enabled: false, intensity: 25 },
+            cinemalut: { enabled: false, intensity: 45 },
+            vignette: { enabled: false, intensity: 30 },
+            grain: { enabled: false, intensity: 20 },
+            hdrlook: { enabled: false, intensity: 35 },
+            invertcolors: { enabled: false, intensity: 50 },
+            cartoon: { enabled: false, intensity: 40 },
+            gradientoverlay: { enabled: false, intensity: 25 }
+        };
+
+        let updateTimeout = null;
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const hiddenCanvas = document.getElementById('hiddenCanvas');
+        const originalCtx = originalCanvas.getContext('2d');
+        const previewCtx = previewCanvas.getContext('2d');
+        const hiddenCtx = hiddenCanvas.getContext('2d');
+        const exportBtn = document.getElementById('exportBtn');
+        const deleteImageBtn = document.getElementById('deleteImageBtn');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.format-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                exportFormat = btn.dataset.format;
+                updateUrlForFormat();
+            });
+        });
+
+        deleteImageBtn.addEventListener('click', () => {
+            // Reset image variables
+            originalImage = null;
+            originalImageData = null;
+            
+            // Show upload area and hide preview container
+            uploadArea.style.display = 'flex';
+            previewContainer.classList.remove('active');
+            
+            // Disable export button
+            exportBtn.disabled = true;
+            
+            // Clear canvases
+            originalCtx.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+            previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+            hiddenCtx.clearRect(0, 0, hiddenCanvas.width, hiddenCanvas.height);
+            
+            // Reset URL to original .html format
+            const newUrl = new URL(window.location.href);
+            const pathParts = newUrl.pathname.split('/');
+            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
+            if (toolIndex !== -1) {
+                const basePath = pathParts.slice(0, toolIndex).join('/');
+                newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool.html`;
+            }
+            newUrl.search = '';
+            window.history.pushState({}, '', newUrl);
+            updatePageConfig(null);
+            
+            // Reset file input
+            fileInput.value = '';
+        });
+
+        function updateUrlForFormat() {
+            const newUrl = new URL(window.location.href);
+            
+            // Remove any existing path segments after Image-Filters-Effects-Tool
+            const pathParts = newUrl.pathname.split('/');
+            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
+            if (toolIndex !== -1) {
+                const basePath = pathParts.slice(0, toolIndex + 1).join('/');
+                newUrl.pathname = basePath;
+            } else {
+                const toolHtmlIndex = pathParts.indexOf('Image-Filters-Effects-Tool.html');
+                if (toolHtmlIndex !== -1) {
+                    const basePath = pathParts.slice(0, toolHtmlIndex).join('/');
+                    newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool`;
+                }
+            }
+            
+            if (exportFormat === 'png') {
+                newUrl.pathname += '/image-effects-png';
+                history.replaceState(null, '', newUrl);
+                updatePageConfig('image-effects-png');
+            } else if (exportFormat === 'jpg') {
+                newUrl.pathname += '/image-effects-jpg';
+                history.replaceState(null, '', newUrl);
+                updatePageConfig('image-effects-jpg');
+            } else if (exportFormat === 'webp') {
+                newUrl.pathname += '/image-effects-webp';
+                history.replaceState(null, '', newUrl);
+                updatePageConfig('image-effects-webp');
+            }
+        }
+
+        function updateUrlForFilter(filterName, enabled) {
+            const newUrl = new URL(window.location.href);
+            
+            // Remove any existing path segments after Image-Filters-Effects-Tool
+            const pathParts = newUrl.pathname.split('/');
+            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
+            if (toolIndex !== -1) {
+                const basePath = pathParts.slice(0, toolIndex + 1).join('/');
+                newUrl.pathname = basePath;
+            } else {
+                const toolHtmlIndex = pathParts.indexOf('Image-Filters-Effects-Tool.html');
+                if (toolHtmlIndex !== -1) {
+                    const basePath = pathParts.slice(0, toolHtmlIndex).join('/');
+                    newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool`;
+                }
+            }
+            
+            if (enabled) {
+                const slug = `${filterName}-image`;
+                newUrl.pathname += `/${slug}`;
+                history.replaceState(null, '', newUrl);
+                updatePageConfig(slug);
+            } else {
+                // Check if current URL has a filter slug
+                const currentSlug = newUrl.pathname.split('/').pop();
+                const isFormatSlug = currentSlug === 'image-effects-png' || currentSlug === 'image-effects-jpg' || currentSlug === 'image-effects-webp';
+                if (!isFormatSlug) {
+                    // Keep the base tool path without any slug
+                    history.replaceState(null, '', newUrl);
+                    updatePageConfig(null);
+                }
+            }
+        }
+
+        function updatePageConfig(slug) {
+            const pageConfig = PAGE_MAP[slug] || {
+                title: "آن لائن مفت تصویری فلٹرز اور ایفیکٹس | CaliperTools",
+                description: "آن لائن مفت تصویری فلٹرز لگائیں۔ 20 پیشہ ورانہ اثرات۔ اپ لوڈ کی ضرورت نہیں۔ فوری پیش نظارہ۔ بہترین معیار کے نتائج۔"
+            };
+            
+            document.title = pageConfig.title;
+            
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement("meta");
+                metaDesc.name = "description";
+                document.head.appendChild(metaDesc);
+            }
+            metaDesc.content = pageConfig.description;
+        }
+
+        function handleFiles(files) {
+            if (files.length === 0) return;
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    originalImage = img;
+                    
+                    const maxWidth = 800;
+                    const scale = Math.min(1, maxWidth / img.width);
+                    const width = Math.round(img.width * scale);
+                    const height = Math.round(img.height * scale);
+                    
+                    originalCanvas.width = width;
+                    originalCanvas.height = height;
+                    previewCanvas.width = width;
+                    previewCanvas.height = height;
+                    hiddenCanvas.width = width;
+                    hiddenCanvas.height = height;
+                    
+                    originalCtx.drawImage(img, 0, 0, width, height);
+                    hiddenCtx.drawImage(img, 0, 0, width, height);
+                    originalImageData = hiddenCtx.getImageData(0, 0, width, height);
+                    
+                    uploadArea.style.display = 'none';
+                    previewContainer.classList.add('active');
+                    
+                    applyFilters();
+                    exportBtn.disabled = false;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function toggleFilter(filterName) {
+            filtersState[filterName].enabled = !filtersState[filterName].enabled;
+            const filterItem = document.querySelector(`[data-filter="${filterName}"]`);
+            const toggleBtn = filterItem.querySelector('.filter-toggle');
+            
+            if (filtersState[filterName].enabled) {
+                filterItem.classList.add('active');
+                toggleBtn.classList.add('active');
+            } else {
+                filterItem.classList.remove('active');
+                toggleBtn.classList.remove('active');
+            }
+            
+            updateUrlForFilter(filterName, filtersState[filterName].enabled);
+            scheduleFilterUpdate();
+        }
+
+        function updateFilter(filterName, value) {
+            filtersState[filterName].intensity = parseInt(value);
+            document.getElementById(`${filterName}Value`).textContent = `${value}%`;
+            
+            if (parseInt(value) > 0 && !filtersState[filterName].enabled) {
+                filtersState[filterName].enabled = true;
+                const filterItem = document.querySelector(`[data-filter="${filterName}"]`);
+                const toggleBtn = filterItem.querySelector('.filter-toggle');
+                filterItem.classList.add('active');
+                toggleBtn.classList.add('active');
+                updateUrlForFilter(filterName, true);
+            } else if (parseInt(value) === 0 && filtersState[filterName].enabled) {
+                filtersState[filterName].enabled = false;
+                const filterItem = document.querySelector(`[data-filter="${filterName}"]`);
+                const toggleBtn = filterItem.querySelector('.filter-toggle');
+                filterItem.classList.remove('active');
+                toggleBtn.classList.remove('active');
+                updateUrlForFilter(filterName, false);
+            }
+            
+            scheduleFilterUpdate();
+        }
+
+        function scheduleFilterUpdate() {
+            if (updateTimeout) {
+                clearTimeout(updateTimeout);
+            }
+            updateTimeout = setTimeout(() => {
+                applyFilters();
+            }, 10);
+        }
+
+        function applyFilters() {
+            if (!originalImageData) return;
+            
+            const width = previewCanvas.width;
+            const height = previewCanvas.height;
+            
+            hiddenCtx.putImageData(originalImageData, 0, 0);
+            
+            let imageData = hiddenCtx.getImageData(0, 0, width, height);
+            let data = imageData.data;
+            
+            const blackwhite = filtersState.blackwhite.enabled ? filtersState.blackwhite.intensity / 100 : 0;
+            const brightness = filtersState.brightness.enabled ? filtersState.brightness.intensity / 100 : 0;
+            const contrast = filtersState.contrast.enabled ? filtersState.contrast.intensity / 100 : 0;
+            const sharpen = filtersState.sharpen.enabled ? filtersState.sharpen.intensity / 100 : 0;
+            const blur = filtersState.blur.enabled ? filtersState.blur.intensity / 100 : 0;
+            const warm = filtersState.warm.enabled ? filtersState.warm.intensity / 100 : 0;
+            const cool = filtersState.cool.enabled ? filtersState.cool.intensity / 100 : 0;
+            const vintage = filtersState.vintage.enabled ? filtersState.vintage.intensity / 100 : 0;
+            const film = filtersState.film.enabled ? filtersState.film.intensity / 100 : 0;
+            const sepia = filtersState.sepia.enabled ? filtersState.sepia.intensity / 100 : 0;
+            const saturation = filtersState.saturation.enabled ? filtersState.saturation.intensity / 100 : 0;
+            const desaturation = filtersState.desaturation.enabled ? filtersState.desaturation.intensity / 100 : 0;
+            const splittoning = filtersState.splittoning.enabled ? filtersState.splittoning.intensity / 100 : 0;
+            const cinemalut = filtersState.cinemalut.enabled ? filtersState.cinemalut.intensity / 100 : 0;
+            const vignette = filtersState.vignette.enabled ? filtersState.vignette.intensity / 100 : 0;
+            const grain = filtersState.grain.enabled ? filtersState.grain.intensity / 100 : 0;
+            const hdrlook = filtersState.hdrlook.enabled ? filtersState.hdrlook.intensity / 100 : 0;
+            const invertcolors = filtersState.invertcolors.enabled ? filtersState.invertcolors.intensity / 100 : 0;
+            const cartoon = filtersState.cartoon.enabled ? filtersState.cartoon.intensity / 100 : 0;
+            const gradientoverlay = filtersState.gradientoverlay.enabled ? filtersState.gradientoverlay.intensity / 100 : 0;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                
+                let nr = r, ng = g, nb = b;
+                
+                if (blackwhite > 0) {
+                    const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+                    nr = gray;
+                    ng = gray;
+                    nb = gray;
+                }
+                
+                if (brightness > 0) {
+                    const value = brightness * 200 - 100;
+                    nr = nr + value;
+                    ng = ng + value;
+                    nb = nb + value;
+                }
+                
+                if (contrast > 0) {
+                    const value = contrast * 200 - 100;
+                    const factor = (259 * (value + 255)) / (255 * (259 - value));
+                    nr = factor * (nr - 128) + 128;
+                    ng = factor * (ng - 128) + 128;
+                    nb = factor * (nb - 128) + 128;
+                }
+                
+                if (saturation > 0) {
+                    const gray = (nr + ng + nb) / 3;
+                    const factor = 1 + saturation;
+                    nr = gray + (nr - gray) * factor;
+                    ng = gray + (ng - gray) * factor;
+                    nb = gray + (nb - gray) * factor;
+                }
+                
+                if (desaturation > 0) {
+                    const gray = (nr + ng + nb) / 3;
+                    const factor = 1 - desaturation;
+                    nr = gray + (nr - gray) * factor;
+                    ng = gray + (ng - gray) * factor;
+                    nb = gray + (nb - gray) * factor;
+                }
+                
+                if (sepia > 0) {
+                    const newR = 0.393 * nr + 0.769 * ng + 0.189 * nb;
+                    const newG = 0.349 * nr + 0.686 * ng + 0.168 * nb;
+                    const newB = 0.272 * nr + 0.534 * ng + 0.131 * nb;
+                    nr = newR;
+                    ng = newG;
+                    nb = newB;
+                }
+                
+                if (vintage > 0) {
+                    const factor = vintage;
+                    nr = nr + 15 * factor;
+                    ng = ng + 5 * factor;
+                    nb = nb - 15 * factor;
+                    const contrastValue = -10 * factor;
+                    const contrastFactor = (259 * (contrastValue + 255)) / (255 * (259 - contrastValue));
+                    nr = contrastFactor * (nr - 128) + 128;
+                    ng = contrastFactor * (ng - 128) + 128;
+                    nb = contrastFactor * (nb - 128) + 128;
+                }
+                
+                if (film > 0) {
+                    const factor = film;
+                    const contrastValue = 20 * factor;
+                    const contrastFactor = (259 * (contrastValue + 255)) / (255 * (259 - contrastValue));
+                    nr = contrastFactor * (nr - 128) + 128;
+                    ng = contrastFactor * (ng - 128) + 128;
+                    nb = contrastFactor * (nb - 128) + 128;
+                    const gray = (nr + ng + nb) / 3;
+                    const satFactor = 1 - 0.3 * factor;
+                    nr = gray + (nr - gray) * satFactor;
+                    ng = gray + (ng - gray) * satFactor;
+                    nb = gray + (nb - gray) * satFactor;
+                }
+                
+                if (warm > 0) {
+                    const value = warm * 30;
+                    nr = nr + value;
+                    nb = nb - value;
+                }
+                
+                if (cool > 0) {
+                    const value = cool * 30;
+                    nb = nb + value;
+                    nr = nr - value;
+                }
+                
+                if (splittoning > 0) {
+                    const factor = splittoning;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    const threshold = 128;
+                    if (gray > threshold) {
+                        nr = nr + 30 * factor;
+                    } else {
+                        nb = nb + 30 * factor;
+                    }
+                }
+                
+                if (cinemalut > 0) {
+                    const factor = cinemalut;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    if (gray < 64) {
+                        ng = ng * (1 + 0.2 * factor);
+                    } else if (gray < 128) {
+                        ng = ng * (1 - 0.1 * factor);
+                    } else if (gray < 192) {
+                        nr = nr * (1 + 0.2 * factor);
+                        nb = nb * (1 - 0.2 * factor);
+                    } else {
+                        nr = nr * (1 + 0.3 * factor);
+                        ng = ng * (1 + 0.1 * factor);
+                        nb = nb * (1 - 0.3 * factor);
+                    }
+                }
+                
+                if (vignette > 0) {
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+                    const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
+                    const x = i / 4 % width;
+                    const y = Math.floor(i / 4 / width);
+                    const dist = Math.sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
+                    const factor = 1 - vignette * (dist / maxDist);
+                    nr = nr * factor;
+                    ng = ng * factor;
+                    nb = nb * factor;
+                }
+                
+                if (grain > 0) {
+                    const value = grain * 30;
+                    const noise = (Math.random() - 0.5) * 2 * value;
+                    nr = nr + noise;
+                    ng = ng + noise;
+                    nb = nb + noise;
+                }
+                
+                if (hdrlook > 0) {
+                    const factor = hdrlook;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    if (gray < 128) {
+                        nr = nr * (1 + 0.3 * factor);
+                        ng = ng * (1 + 0.3 * factor);
+                        nb = nb * (1 + 0.3 * factor);
+                    } else {
+                        nr = nr * (1 - 0.2 * factor);
+                        ng = ng * (1 - 0.2 * factor);
+                        nb = nb * (1 - 0.2 * factor);
+                    }
+                }
+                
+                if (invertcolors > 0) {
+                    nr = 255 - nr;
+                    ng = 255 - ng;
+                    nb = 255 - nb;
+                }
+                
+                if (cartoon > 0) {
+                    const factor = cartoon;
+                    const gray = 0.299 * nr + 0.587 * ng + 0.114 * nb;
+                    const levels = 8;
+                    const step = 255 / levels;
+                    const quantized = Math.floor(gray / step) * step;
+                    nr = quantized;
+                    ng = quantized;
+                    nb = quantized;
+                }
+                
+                if (gradientoverlay > 0) {
+                    const factor = gradientoverlay;
+                    const x = (i / 4) % width;
+                    const y = Math.floor((i / 4) / width);
+                    const alpha = factor * 0.3;
+                    const gradientR = 255 * (y / height);
+                    const gradientG = 200 * (y / height);
+                    const gradientB = 150 * (y / height);
+                    nr = nr * (1 - alpha) + gradientR * alpha;
+                    ng = ng * (1 - alpha) + gradientG * alpha;
+                    nb = nb * (1 - alpha) + gradientB * alpha;
+                }
+                
+                nr = Math.min(255, Math.max(0, nr));
+                ng = Math.min(255, Math.max(0, ng));
+                nb = Math.min(255, Math.max(0, nb));
+                
+                data[i] = Math.round(nr);
+                data[i + 1] = Math.round(ng);
+                data[i + 2] = Math.round(nb);
+            }
+            
+            if (blur > 0) {
+                const blurRadius = Math.round(blur * 5);
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = width;
+                tempCanvas.height = height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.putImageData(imageData, 0, 0);
+                
+                const src = imageData.data;
+                const dst = tempCtx.getImageData(0, 0, width, height).data;
+                
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        let r = 0, g = 0, b = 0, count = 0;
+                        
+                        for (let ky = -blurRadius; ky <= blurRadius; ky++) {
+                            for (let kx = -blurRadius; kx <= blurRadius; kx++) {
+                                const px = x + kx;
+                                const py = y + ky;
+                                
+                                if (px >= 0 && px < width && py >= 0 && py < height) {
+                                    const idx = (py * width + px) * 4;
+                                    r += src[idx];
+                                    g += src[idx + 1];
+                                    b += src[idx + 2];
+                                    count++;
+                                }
+                            }
+                        }
+                        
+                        const dstIdx = (y * width + x) * 4;
+                        dst[dstIdx] = r / count;
+                        dst[dstIdx + 1] = g / count;
+                        dst[dstIdx + 2] = b / count;
+                        dst[dstIdx + 3] = src[(y * width + x) * 4 + 3];
+                    }
+                }
+                
+                imageData = tempCtx.getImageData(0, 0, width, height);
+                data = imageData.data;
+            }
+            
+            if (sharpen > 0) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = width;
+                tempCanvas.height = height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.putImageData(imageData, 0, 0);
+                
+                const kernel = [
+                    0, -1, 0,
+                    -1, 5, -1,
+                    0, -1, 0
+                ];
+                
+                const side = 3;
+                const halfSide = 1;
+                const src = imageData.data;
+                const dst = tempCtx.getImageData(0, 0, width, height).data;
+                
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const dstOff = (y * width + x) * 4;
+                        let r = 0, g = 0, b = 0;
+                        
+                        for (let cy = 0; cy < side; cy++) {
+                            for (let cx = 0; cx < side; cx++) {
+                                const scy = y + cy - halfSide;
+                                const scx = x + cx - halfSide;
+                                
+                                if (scy >= 0 && scy < height && scx >= 0 && scx < width) {
+                                    const srcOff = (scy * width + scx) * 4;
+                                    const weight = kernel[cy * side + cx];
+                                    r += src[srcOff] * weight;
+                                    g += src[srcOff + 1] * weight;
+                                    b += src[srcOff + 2] * weight;
+                                }
+                            }
+                        }
+                        
+                        dst[dstOff] = r;
+                        dst[dstOff + 1] = g;
+                        dst[dstOff + 2] = b;
+                        dst[dstOff + 3] = src[(y * width + x) * 4 + 3];
+                    }
+                }
+                
+                imageData = tempCtx.getImageData(0, 0, width, height);
+                data = imageData.data;
+            }
+            
+            hiddenCtx.putImageData(imageData, 0, 0);
+            previewCtx.drawImage(hiddenCanvas, 0, 0, width, height);
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+            
+            const format = exportFormat === 'jpg' ? 'image/jpeg' : 
+                         exportFormat === 'webp' ? 'image/webp' : 'image/png';
+            const extension = exportFormat === 'jpg' ? 'jpg' : exportFormat;
+            
+            previewCanvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `image-filtered.${extension}`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }, format, 0.92);
+        }
+
+        const PAGE_MAP = {
+            "blackwhite-image": {
+                effect: "blackwhite",
+                title: "آن لائن مفت سیاہ و سفید تصویر | CaliperTools",
+                description: "تصاویر کو آن لائن مفت سیاہ و سفید میں تبدیل کریں۔ گرے اسکیل اثر فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "brightness-image": {
+                effect: "brightness",
+                title: "آن لائن مفت چمکدار تصویر | CaliperTools",
+                description: "تصویر کی چمک کو آن لائن مفت ایڈجسٹ کریں۔ چمک کو فوری طور پر بڑھائیں یا کم کریں۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "contrast-image": {
+                effect: "contrast",
+                title: "آن لائن مفت کنٹراسٹ تصویر | CaliperTools",
+                description: "تصویر کے کنٹراسٹ کو آن لائن مفت ایڈجسٹ کریں۔ کنٹراسٹ کو فوری طور پر بڑھائیں یا کم کریں۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "sharpen-image": {
+                effect: "sharpen",
+                title: "آن لائن مفت تیز تصویر | CaliperTools",
+                description: "تصاویر کو آن لائن مفت تیز کریں۔ قابل ایڈجسٹ شدہ تیزی کی شدت فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "blur-image": {
+                effect: "blur",
+                title: "آن لائن مفت دھندلا تصویر | CaliperTools",
+                description: "آن لائن مفت دھندلا اثر لاگو کریں۔ قابل ایڈجسٹ شدہ دھندلا شدت فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "warm-image": {
+                effect: "warm",
+                title: "آن لائن مفت گرم تصویر | CaliperTools",
+                description: "آن لائن مفت گرم ٹون شامل کریں۔ گرمی کو فوری طور پر ایڈجسٹ کریں۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "cool-image": {
+                effect: "cool",
+                title: "آن لائن مفت ٹھنڈا تصویر | CaliperTools",
+                description: "آن لائن مفت ٹھنڈا ٹون شامل کریں۔ ٹھنڈک کو فوری طور پر ایڈجسٹ کریں۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "vintage-image": {
+                effect: "vintage",
+                title: "آن لائن مفت قدیمی تصویر | CaliperTools",
+                description: "آن لائن مفت قدیمی اثر لاگو کریں۔ ریٹرو انداز فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "film-image": {
+                effect: "film",
+                title: "آن لائن مفت فلم تصویر | CaliperTools",
+                description: "آن لائن مفت فلم اثر لاگو کریں۔ سنیما کا نظارہ فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "sepia-image": {
+                effect: "sepia",
+                title: "آن لائن مفت سیپیا تصویر | CaliperTools",
+                description: "آن لائن مفت سیپیا اثر لاگو کریں۔ بھورا ٹون فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "saturation-image": {
+                effect: "saturation",
+                title: "آن لائن مفت سیرابی تصویر | CaliperTools",
+                description: "تصویر کی سیرابی کو آن لائن مفت بڑھائیں۔ رنگینی فوری طور پر بہتر کریں۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "desaturation-image": {
+                effect: "desaturation",
+                title: "آن لائن مفت غیر سیرابی تصویر | CaliperTools",
+                description: "آن لائن مفت غیر سیرابی اثر لاگو کریں۔ میٹ نظارہ فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "splittoning-image": {
+                effect: "splittoning",
+                title: "آن لائن مفت ٹوننگ تقسیم تصویر | CaliperTools",
+                description: "آن لائن مفت ٹوننگ تقسیم اثر لاگو کریں۔ رنگوں کی گریڈنگ فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "cinemalut-image": {
+                effect: "cinemalut",
+                title: "آن لائن مفت سنیما LUT تصویر | CaliperTools",
+                description: "آن لائن مفت سنیما LUT اثر لاگو کریں۔ سنیما کا رنگ فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "vignette-image": {
+                effect: "vignette",
+                title: "آن لائن مفت ویگنیٹ تصویر | CaliperTools",
+                description: "آن لائن مفت ویگنیٹ اثر لاگو کریں۔ گہرے کنارے فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "grain-image": {
+                effect: "grain",
+                title: "آن لائن مفت دانہ تصویر | CaliperTools",
+                description: "آن لائن مفت فلم کا دانہ شامل کریں۔ ٹیکسچر اثر فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "hdrlook-image": {
+                effect: "hdrlook",
+                title: "آن لائن مفت HDR نظارہ تصویر | CaliperTools",
+                description: "آن لائن مفت HDR نظارہ لاگو کریں۔ ڈائنامک رینج فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "invertcolors-image": {
+                effect: "invertcolors",
+                title: "آن لائن مفت رنگ الٹنا تصویر | CaliperTools",
+                description: "تصویر کے رنگ آن لائن مفت الٹ دیں۔ منفی اثر فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "cartoon-image": {
+                effect: "cartoon",
+                title: "آن لائن مفت کارتون تصویر | CaliperTools",
+                description: "آن لائن مفت کارتون اثر لاگو کریں۔ کارتون انداز فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "gradientoverlay-image": {
+                effect: "gradientoverlay",
+                title: "آن لائن مفت گریڈینٹ اوورلے تصویر | CaliperTools",
+                description: "آن لائن مفت گریڈینٹ اوورلے لاگو کریں۔ رنگین گریڈینٹ فوری طور پر۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "image-effects-png": {
+                title: "آن لائن مفت PNG تصویری ایفیکٹس | CaliperTools",
+                description: "PNG تصویری ایفیکٹس آن لائن مفت لاگو کریں۔ 20 پیشہ ورانہ فلٹرز۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "image-effects-jpg": {
+                title: "آن لائن مفت JPG تصویری ایفیکٹس | CaliperTools",
+                description: "JPG تصویری ایفیکٹس آن لائن مفت لاگو کریں۔ 20 پیشہ ورانہ فلٹرز۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            },
+            "image-effects-webp": {
+                title: "آن لائن مفت WebP تصویری ایفیکٹس | CaliperTools",
+                description: "WebP تصویری ایفیکٹس آن لائن مفت لاگو کریں۔ 20 پیشہ ورانہ فلٹرز۔ اپ لوڈ کی ضرورت نہیں۔ بہترین معیار کے نتائج۔"
+            }
+        };
+
+        function parseUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            
+            updatePageConfig(mode);
+            
+            if (PAGE_MAP[mode] && PAGE_MAP[mode].effect && filtersState[PAGE_MAP[mode].effect]) {
+                filtersState[PAGE_MAP[mode].effect].enabled = true;
+                const filterItem = document.querySelector(`[data-filter="${PAGE_MAP[mode].effect}"]`);
+                const toggleBtn = filterItem.querySelector('.filter-toggle');
+                filterItem.classList.add('active');
+                toggleBtn.classList.add('active');
+            }
+            
+            if (mode === "image-effects-png") {
+                exportFormat = "png";
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.format-btn[data-format="png"]').classList.add('active');
+            } else if (mode === "image-effects-jpg") {
+                exportFormat = "jpg";
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.format-btn[data-format="jpg"]').classList.add('active');
+            } else if (mode === "image-effects-webp") {
+                exportFormat = "webp";
+                document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.format-btn[data-format="webp"]').classList.add('active');
+            }
+        }
+
+        parseUrlParams();
+    </script>
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../scripts/script.js"></script>
+</body>
+</html>

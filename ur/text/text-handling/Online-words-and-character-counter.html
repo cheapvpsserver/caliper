@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ur-PK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>آن لائن الفاظ اور حروف کا شمار | CaliperTools</title>
+<meta name="description" content="کیلپر ٹولز کا آن لائن مفت حروف اور الفاظ کا شمار کرنے والا ٹول۔ تفصیلی تجزیات کے ساتھ حروف، الفاظ، جملے اور مزید کا شمار کریں۔" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Textbox styles */
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+/* Statistics styles */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stat-item {
+    background: #f0f0f0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    flex: 1 1 30%;
+    text-align: center;
+    font-weight: normal;
+}
+
+.stat-item span {
+    font-weight: bold;
+    color: #0066cc;
+}
+
+/* Button styles */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #0066cc;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #0052a3;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #f0f0f0;
+}
+
+/* Other styles */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+.file-input {
+    margin-bottom: 15px;
+}
+
+.warning {
+    margin-top: 10px;
+    color: red;
+    font-weight: bold;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #111827;
+    margin-top: 1.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Table container ensures internal scrolling only */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 1rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('دائیں کلک کا مینو غیر فعال ہے۔');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('کاپی فنکشن غیر فعال ہے۔');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ڈویلپر ٹولز غیر فعال ہیں۔');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>آن لائن الفاظ اور حروف کا شمار</h1>
+                
+                <!-- Custom file input with English text only -->
+                <div style="margin-bottom: 10px; display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        استعمال کیسے کریں؟
+                    </a>
+                    <label style="position: relative; display: inline-block;">
+                        <input type="file" id="fileInput" class="file-input" accept=".txt,.pdf,.docx" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;" />
+                        <span style="display: inline-block; padding: 8px 16px; border-radius: 6px; background: #10b981; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">فائل منتخب کریں</span>
+                    </label>
+                </div>
+                <textarea id="textInput" placeholder="یہاں متن چسپاں یا ٹائپ کریں..."></textarea>
+
+                <div class="stats">
+                    <div class="stat-item">حروف: <span id="charCount">0</span></div>
+                    <div class="stat-item">غیر خالی حروف: <span id="charNoSpace">0</span></div>
+                    <div class="stat-item">الفاظ: <span id="wordCount">0</span></div>
+                    <div class="stat-item">خلا: <span id="spaceCount">0</span></div>
+                    <div class="stat-item">جملے: <span id="sentenceCount">0</span></div>
+                    <div class="stat-item">لکیریں: <span id="lineCount">0</span></div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">غیر خالی لکیریں: <span id="notEmptyLineCount">0</span></div>
+                    <div class="stat-item">صفحات: <span id="pages">0</span></div>
+                    <div class="stat-item">پڑھنے کا وقت: <span id="readingTime">0 منٹ</span></div>
+                    <div class="stat-item">بولنے کا وقت: <span id="speakingTime">0 منٹ</span></div>
+                    <div class="stat-item">پڑھنے کی سطح: <span id="readingLevel">0</span></div>
+                </div>
+
+                <button class="copy-btn" onclick="copyText()">متن کاپی کریں</button>
+                <div class="warning" id="warning"></div>
+            </div>
+
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h3 style="font-size: 1.2rem; margin-top: 0; margin-bottom: 1rem;">غیر فلٹرڈ الفاظ کا شمار</h3>
+                
+                <div class="controls-container" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; height: 40px;">
+                    <div class="show-top-container" style="display: flex; align-items: center; gap: 0.5rem; height: 40px;">
+                        <label style="margin: 0; display: flex; align-items: center; height: 100%;">اوپر دکھائیں:</label>
+                        <input type="number" id="topN" value="20" min="1" style="width: 80px; height: 40px; padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc;">
+                        <label style="margin: 0; display: flex; align-items: center; height: 100%;">الفاظ</label>
+                    </div>
+                    <button id="exportCSV" style="padding: 0 16px; font-size: 16px; width: 120px; height: 40px;">CSV برآمد کریں</button>
+                </div>
+                
+                <style>
+                    /* Ensure control container styles are applied correctly */
+                    .controls-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        margin-bottom: 1.5rem;
+                        height: 40px !important;
+                    }
+                    
+                    .show-top-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        height: 40px !important;
+                    }
+                    
+                    .show-top-container label {
+                        margin: 0;
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                    }
+                    
+                    #topN {
+                        width: 80px;
+                        height: 40px !important;
+                        padding: 8px;
+                        font-size: 16px;
+                        border-radius: 4px;
+                        border: 1px solid #ccc;
+                    }
+                    
+                    #exportCSV {
+                        padding: 0 16px;
+                        font-size: 16px;
+                        width: 120px;
+                        height: 40px !important;
+                    }
+                    
+                    /* Responsive design: Show Show Top and Export CSV as two rows on mobile */
+                    @media (max-width: 767px) {
+                        .controls-container {
+                            flex-direction: column !important;
+                            height: auto !important;
+                            align-items: stretch !important;
+                            margin-bottom: 1.5rem !important;
+                        }
+                        
+                        .show-top-container {
+                            margin-bottom: 1rem !important;
+                        }
+                        
+                        #exportCSV {
+                            width: 100% !important;
+                        }
+                    }
+                </style>
+
+                <div class="table-wrapper">
+                    <table id="wordTable">
+                        <thead>
+                            <tr>
+                                <th>ترتیب</th>
+                                <th>لفظ</th>
+                                <th>تعدد</th>
+                                <th>فیصد</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Online Words and Character Counter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>آن لائن الفاظ اور حروف کا شمار کیسے استعمال کریں</h3>
+                <p>
+                    حروف، الفاظ کا شمار کرنے اور تفصیلی بصائر کے ساتھ اپنے متن کا تجزیہ کرنے کے لیے ان سادہ اقدامات پر عمل کریں۔
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>مرحلہ 1: اپنا متن داخل کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚡</span>
+                        <span>مرحلہ 2: فوری اعدادوشمار دیکھیں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📊</span>
+                        <span>مرحلہ 3: الفاظ کی تعدد کا تجزیہ کریں</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>مرحلہ وار سبق</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 1: اپنا متن داخل کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنا متن درج کرنے کے دو طریقے ہیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>متن ٹائپ یا چسپاں کریں:</strong> براہ راست ٹائپ کریں یا متن کو متن کے علاقے میں چسپاں کریں</li>
+                                <li><strong>فائل اپ لوڈ کریں:</strong> اپنے آلے سے TXT، PDF، یا DOCX فائل اپ لوڈ کرنے کے لیے "فائل منتخب کریں" بٹن پر کلک کریں</li>
+                            </ul>
+                            <p style="text-align: left;">آپ کے ٹائپ کرنے یا تبدیلیاں کرنے کے دوران ٹول آپ کا متن حقیقت وقت میں پروسیس کرتا ہے۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 2: فوری اعدادوشمار دیکھیں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">آپ کا متن فوری طور پر تجزیہ کیا جائے گا، جامع اعدادوشمار ظاہر کرے گا:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>بنیادی شمار:</strong> حروف، غیر خالی حروف، الفاظ، خلا، جملے، اور لکیریں</li>
+                                <li><strong>اعلی معیار:</strong> خالی نہیں لکیریں، تخمینی صفحات، پڑھنے کا وقت، بولنے کا وقت، اور پڑھنے کی سطح</li>
+                            </ul>
+                            <p style="text-align: left;">تمام اعدادوشمار کو ایک بار میں آپ کے کلپ بورڈ پر کاپی کرنے کے لیے "متن کاپی کریں" بٹن پر کلک کریں۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 3: الفاظ کی تعدد کا تجزیہ کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">داییں پینل پر تفصیلی الفاظ کی تعدد کا تجزیہ دیکھیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>لفظ کی درجہ بندی:</strong> اپنے متن میں سب سے زیادہ استعمال ہونے والے الفاظ دیکھیں</li>
+                                <li><strong>تعدد:</strong> یہ چیک کریں کہ ہر لفظ کتنی بار ظاہر ہوتا ہے</li>
+                                <li><strong>فیصد:</strong> دیکھیں کہ ہر لفظ کل الفاظ کا کتنا فیصد نمائندگی کرتا ہے</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنے منظر کو حسب ضرورت بنائیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>ظاہر ہونے والے الفاظ کی تعداد کو ایڈجسٹ کرنے کے لیے "اوپر دکھائیں" ان پٹ کا استعمال کریں</li>
+                                <li>CSV فائل کے طور پر الفاظ کی تعدد ڈیٹا ڈاؤن لوڈ کرنے کے لیے "CSV برآمد کریں" پر کلک کریں</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">بہتر نتائج کے لیے نکات</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>صحیح پڑھنے کی سطح کے حساب کے لیے، یقینی بنائیں کہ آپ کے متن میں کم از کم 10 الفاظ اور 2 جملے ہیں</li>
+                                <li>مکمل دستاویزات کے تیز تجزیہ کے لیے فائل اپ لوڈ کی سہولت کا استعمال کریں</li>
+                                <li>Spreadsheet ایپلیکیشنز میں مزید تجزیہ کے لیے CSV ڈیٹا برآمد کریں</li>
+                                <li>انہیں آسانی سے شیئر کرنے یا رپورٹس میں شامل کرنے کے لیے اعدادوشمار کاپی کریں</li>
+                                <li>یاد رکھیں کہ بہت لمبے متن (10,000 سے زائد حروف) کارکردگی کو سست کر سکتے ہیں</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">متعلقہ اوزار</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("words-and-character-counter");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+<script>
+const textInput = document.getElementById('textInput');
+const charCount = document.getElementById('charCount');
+const charNoSpace = document.getElementById('charNoSpace');
+const wordCount = document.getElementById('wordCount');
+const spaceCount = document.getElementById('spaceCount');
+const sentenceCount = document.getElementById('sentenceCount');
+const lineCount = document.getElementById('lineCount');
+const notEmptyLineCount = document.getElementById('notEmptyLineCount');
+const pages = document.getElementById('pages');
+const readingTime = document.getElementById('readingTime');
+const speakingTime = document.getElementById('speakingTime');
+const readingLevel = document.getElementById('readingLevel');
+const warning = document.getElementById('warning');
+const wordTableBody = document.querySelector('#wordTable tbody');
+const fileInput = document.getElementById('fileInput');
+const topNInput = document.getElementById('topN');
+const exportBtn = document.getElementById('exportCSV');
+
+function updateCounts() {
+    const text = textInput.value;
+
+    // Basic counts
+    charCount.textContent = text.length;
+    charNoSpace.textContent = text.replace(/\s/g,'').length;
+    spaceCount.textContent = (text.match(/\s/g)||[]).length;
+    
+    // Improved word counting that supports languages without spaces
+    const words = countWords(text);
+    wordCount.textContent = words.length;
+
+    const lines = text.split(/\r\n|\r|\n/);
+    // Handle empty text case: if text is empty, line count is 0
+    const actualLines = text.length === 0 ? 0 : lines.length;
+    lineCount.textContent = actualLines;
+    notEmptyLineCount.textContent = lines.filter(l=>l.trim().length>0).length;
+
+    const sentences = text.split(/[.!?。！？]+/).filter(s=>s.trim().length>0);
+    sentenceCount.textContent = sentences.length;
+
+    pages.textContent = Math.ceil(text.length/1800);
+    readingTime.textContent = Math.ceil(words.length/200)+' min';
+    speakingTime.textContent = Math.ceil(words.length/130)+' min';
+
+    // Remove English-only syllable count and reading level calculation
+    readingLevel.textContent = 'N/A';
+
+    warning.textContent = text.length>10000? '⚠️ متن بہت لمبا ہے، کارکردگی سست ہو سکتی ہے!' : '';
+
+    updateWordTable(words);
+}
+
+// Improved word counting function that supports languages without spaces
+function countWords(text) {
+    // If text is empty, return empty array
+    if (!text.trim()) return [];
+    
+    // Split by spaces for languages with spaces
+    const spaceWords = text.trim().split(/\s+/).filter(Boolean);
+    
+    // For languages with spaces, use traditional counting
+    if (spaceWords.length > 1) {
+        return spaceWords;
+    }
+    
+    // For languages without spaces (like Chinese, Japanese, Korean)
+    // Count each character as a word (simplified approach)
+    // This is a basic implementation - can be enhanced with more sophisticated algorithms
+    const charWords = [];
+    for (let char of text) {
+        if (!char.match(/\s/)) {
+            charWords.push(char);
+        }
+    }
+    
+    return charWords;
+}
+
+// Word Table
+function updateWordTable(words){
+    const freqMap = {};
+    words.forEach(w=> freqMap[w]=(freqMap[w]||0)+1);
+    let sorted = Object.entries(freqMap).sort((a,b)=>b[1]-a[1]);
+    const topN = parseInt(topNInput.value)||20;
+    sorted = sorted.slice(0, topN);
+
+    wordTableBody.innerHTML='';
+    const totalWords = words.length||1;
+    sorted.forEach((item,index)=>{
+        const tr = document.createElement('tr');
+        const percent = ((item[1]/totalWords)*100).toFixed(4)+'%';
+        tr.innerHTML=`<td>${index+1}</td><td>${item[0]}</td><td>${item[1]}</td><td>${percent}</td>`;
+        wordTableBody.appendChild(tr);
+    });
+}
+
+// Copy Text
+function copyText(){
+    // Collect all statistics
+    const statsText = `حروف: ${charCount.textContent}
+غیر خالی حروف: ${charNoSpace.textContent}
+الفاظ: ${wordCount.textContent}
+خلا: ${spaceCount.textContent}
+جملے: ${sentenceCount.textContent}
+لکیریں: ${lineCount.textContent}
+غیر خالی لکیریں: ${notEmptyLineCount.textContent}
+صفحات: ${pages.textContent}
+پڑھنے کا وقت: ${readingTime.textContent}
+بولنے کا وقت: ${speakingTime.textContent}
+پڑھنے کی سطح: ${readingLevel.textContent}`;
+    
+    navigator.clipboard.writeText(statsText)
+        .then(()=>{
+            // Create temporary tip element
+            const tip = document.createElement('div');
+            tip.textContent = 'کاپی ہو گیا ✓';
+            tip.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #34d399;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-weight: bold;
+                z-index: 10000;
+                animation: fadeInOut 2s ease-in-out;
+            `;
+            document.body.appendChild(tip);
+            setTimeout(() => tip.remove(), 2000);
+        })
+        .catch(()=>alert('متن کاپی کرنے میں ناکامی۔'));
+}
+
+// Export CSV
+exportBtn.addEventListener('click', ()=>{
+    const rows = [['ترتیب','لفظ','تعدد','فیصد']];
+    document.querySelectorAll('#wordTable tbody tr').forEach(tr=>{
+        const cols = Array.from(tr.querySelectorAll('td')).map(td=>td.textContent);
+        rows.push(cols);
+    });
+    const csvContent = rows.map(r=>r.join(',')).join('\n');
+    const blob = new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download='wordcount_ur.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+// File Upload
+fileInput.addEventListener('change', async e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const ext = file.name.split('.').pop().toLowerCase();
+    if(ext==='txt'){
+        const text = await file.text();
+        textInput.value=text;
+        updateCounts();
+    } else if(ext==='pdf'){
+        const reader = new FileReader();
+        reader.onload = async function(){
+            const typedArray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedArray).promise;
+            let text='';
+            for(let i=1;i<=pdf.numPages;i++){
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text+=content.items.map(item=>item.str).join(' ')+'\n';
+            }
+            textInput.value=text;
+            updateCounts();
+        }
+        reader.readAsArrayBuffer(file);
+    } else if(ext==='docx'){
+        const reader = new FileReader();
+        reader.onload = async function(ev){
+            const result = await mammoth.extractRawText({arrayBuffer:ev.target.result});
+            textInput.value=result.value;
+            updateCounts();
+        }
+        reader.readAsArrayBuffer(file);
+    } else {
+        alert('غیر تعاون یافتہ فائل کی قسم');
+    }
+});
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(-20px); }
+        20% { opacity: 1; transform: translateY(0); }
+        80% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+`;
+document.head.appendChild(style);
+
+textInput.addEventListener('input', updateCounts);
+topNInput.addEventListener('input', updateCounts);
+
+// Call updateCounts function on page load to show initial state
+updateCounts();</script>
+</body>
+</html>

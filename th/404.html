@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th-TH">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - หน้าไม่พบ | CaliperTools</title>
+    <meta name="description" content="หน้าที่คุณกำลังค้นหาไม่มีอยู่ โปรดเรียกดูเครื่องมือออนไลน์ฟรีของเรา">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon32.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="scripts/script.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        accent: '#1d4ed8',
+                        success: '#10b981',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .error-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .error-content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .error-icon {
+            font-size: 120px;
+            color: #3b82f6;
+            margin-bottom: 2rem;
+        }
+
+        .error-code {
+            font-size: 80px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            font-size: 24px;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        .error-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .back-home {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .tools-section {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <main class="main">
+        <div class="container">
+            <div class="error-container">
+                <div class="error-content">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="error-code">404</div>
+                    <div class="error-message">หน้าไม่พบ</div>
+                    <div class="error-description">
+                        ห้าที่คุณกำลังค้นหาไม่มีอยู่หรือได้ถูกย้ายไปแล้ว
+                    </div>
+                    <a href="/" class="back-home">
+                        <i class="fas fa-home"></i> กลับไปหน้าหลัก
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-section">
+            <div class="container mx-auto px-6 max-w-[1400px]">
+                <h2 class="section-title text-3xl font-bold text-gray-900 mb-12 text-center">เครื่องมือที่เกี่ยวข้อง</h2>
+                <div class="tools-grid" id="popularTools">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            await displayPopularTools();
+        });
+    </script>
+</body>
+</html>

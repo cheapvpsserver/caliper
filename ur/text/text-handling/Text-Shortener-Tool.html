@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ur-PK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متن مختصر کرنے والا آلہ | CaliperTools</title>
+<meta name="description" content="CaliperTools کا مفت آن لائن متن مختصر کرنے اور خلاصہ کرنے والا آلہ۔ حسب ضرورت لمبائی کے ساتھ پیرا یا بولٹ پوائنٹ فارمیٹ میں اپنے متن کا خلاصہ کریں۔" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Text shortener tool custom styles */
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Add proper padding to left and right panels */
+.text-section, .result-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .text-section, .result-section {
+        padding: 1.5rem;
+    }
+}
+
+/* Textarea Styles */
+textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    resize: vertical;
+}
+
+/* Control Area Styles */
+.controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+/* Select Box and Button Styles */
+select, button {
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    border-radius: 0.375rem;
+    border: 1px solid #e5e7eb;
+    background: white;
+    cursor: pointer;
+}
+
+button.primary {
+    background: #0066cc;
+    color: white;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+button.primary:hover {
+    background: #0052a3;
+}
+
+/* Statistics Information Styles */
+.stats {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+/* Keyword Styles */
+.keyword {
+    display: inline-block;
+    margin: 0.375rem 0.625rem 0 0;
+    font-size: 0.875rem;
+    cursor: move;
+}
+
+/* Result Area Styles */
+.result {
+    margin-top: 1.25rem;
+    display: none;
+}
+
+/* Result Area Bottom Layout */
+.result-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    gap: 1rem;
+}
+
+/* Result Actions Area */
+.result-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Copy Tip Styles */
+.copy-tip {
+    font-size: 0.8125rem;
+    color: #34d399;
+    margin-top: 0.375rem;
+    text-align: left;
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #111827;
+}
+
+h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #6b7280;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+}
+
+.feature-list-item i {
+    color: #34d399;
+    font-size: 1.125rem;
+}
+
+/* Ensure titles in CTA section are white */
+.cta-section h4 {
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.cta-section .feature-list-item {
+    color: white;
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+    .cta-section .feature-list-item {
+        white-space: normal;
+        text-overflow: clip;
+    }
+}
+
+/* Adjust feature icon styles */
+.feature-item .icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('دائیں کلک کا مینو غیر فعال ہے۔');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('کاپی فنکشن غیر فعال ہے۔');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ڈویلپر ٹولز غیر فعال ہیں۔');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="text-section">
+                <h1>متن مختصر کرنے والا آلہ</h1>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p style="margin: 0;">اس میں اپنا متن چسپاں کریں تاکہ اس کا خلاصہ کیا جا سکے۔</p>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        استعمال کیسے کریں؟
+                    </a>
+                </div>
+
+                <textarea id="inputText" placeholder="یہاں اپنا متن چسپاں کریں..."></textarea>
+                <div class="stats" id="inputStats">الفاظ: 0</div>
+
+                <div class="controls">
+                    <select id="format">
+                        <option value="paragraph">پیرا</option>
+                        <option value="bullet">نقطہ جات</option>
+                    </select>
+                    <select id="length">
+                        <option value="short" selected>مختصر</option>
+                        <option value="medium">درمیانہ</option>
+                        <option value="long">طویل</option>
+                        <option value="detailed">تفصیلی</option>
+                    </select>
+                    <button class="primary" onclick="summarize()">مختصر کریں اور خلاصہ کریں</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Advanced analysis -->
+            <div class="result-section">
+                <div id="keywords">
+                    <strong>کلیدی الفاظ منتخب کریں</strong>
+                    <div id="keywordList"></div>
+                </div>
+
+                <div class="result" id="resultBox">
+                    <h3>نتیجہ</h3>
+                    <textarea id="outputText"></textarea>
+                    <div class="result-footer">
+                        <div class="stats" id="outputStats"></div>
+                        <div class="result-actions">
+                            <button onclick="downloadText()">TXT کے طور پر ڈاؤن لوڈ کریں</button>
+                            <button onclick="copyText()">متن کو کاپی کریں</button>
+                        </div>
+                    </div>
+                    <div class="copy-tip" id="copyTip"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Shortener Tool -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>متن مختصر کرنے والے آلے کا استعمال کیسے کریں</h3>
+                <p>
+                    اپنے متن کو مؤثر انداز میں مختصر اور خلاصہ کرنے کے لیے ان سادہ اقدامات پر عمل کریں۔
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>مرحلہ 1: اپنا متن درج کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>مرحلہ 2: اختیارات وضع کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>مرحلہ 3: اپنے نتائج حاصل کریں</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>مرحلہ وار سبق</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 1: اپنا متن درج کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنا طویل متن بائیں متن کے علاقے میں چسپاں کریں۔ یہ آلہ خود بخود الفاظ کی گنتی کرے گا۔</p>
+                            <p style="text-align: left;">بہترین نتائج کے لیے، معنی خیز خلاصے حاصل کرنے کے لیے کم از کم 50 الفاظ درج کریں۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 2: اپنے خلاصے کے اختیارات وضع کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنے متن کو کیسے مختصر کیا جائے اسے حسب ضرورت بنائیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>فارمیٹ:</strong> پیرا یا بولٹ پوائنٹس فارمیٹ کے درمیان انتخاب کریں</li>
+                                <li><strong>لمبائی:</strong> مختصر، درمیانہ، طویل یا تفصیلی خلاصے کی لمبائی منتخب کریں</li>
+                                <li><strong>کلیدی الفاظ:</strong> نظرثانی کریں اور اہم کلیدی الفاظ کو منتخب کریں تاکہ اس پر توجہ مرکوز کی جا سکے</li>
+                            </ul>
+                            <p style="text-align: left;">آپ کلیدی الفاظ کو ان کی ترتیب اور اہمیت کو حسب ضرورت بنانے کے لیے ڈریگ اینڈ ڈراپ بھی کر سکتے ہیں۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 3: اپنا خلاصہ تیار کریں اور استعمال کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنا خلاصہ تیار کرنے کے لیے "مختصر کریں اور خلاصہ کریں" بٹن پر کلک کریں۔ آپ کے نتائج دائیں آؤٹ پٹ علاقے میں ظاہر ہوں گے۔</p>
+                            <p style="margin-bottom: 1rem; text-align: left;">آپ کر سکتے ہیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"متن کو کاپی کریں" بٹن کا استعمال کرتے ہوئے ایک کلک میں خلاصہ شدہ متن کو کاپی کریں</li>
+                                <li>TXT فائل کے طور پر خلاصہ ڈاؤن لوڈ کریں</li>
+                                <li>ضرورت پڑنے پر اختیارات کو ایڈجسٹ کریں اور خلاصہ دوبارہ تیار کریں</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">بہترین نتائج کے لیے نکات</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>علمی متنوں کے لیے، "تفصیلی" لمبائی کا اختیار استعمال کریں</li>
+                                <li>سماجی میڈیا کی پوسٹس کے لیے، بولٹ پوائنٹس کے ساتھ "مختصر" لمبائی استعمال کریں</li>
+                                <li>ہمیشہ یقینی بنائیں کہ یہ کلیدی نکات کو قید کرتا ہے، خلاصے کو نظرثانی کریں</li>
+                                <li>مختلف خلاصے حاصل کرنے کے لیے مختلف کلیدی الفاظ کے انتخاب کے ساتھ تجربہ کریں</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">متعلقہ اوزار</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-shortener-tool");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    <script>
+        // Text shortener tool core logic
+        const input = document.getElementById("inputText");
+        const inputStats = document.getElementById("inputStats");
+        const keywordsBox = document.getElementById("keywords");
+        const keywordList = document.getElementById("keywordList");
+        const output = document.getElementById("outputText");
+        const outputStats = document.getElementById("outputStats");
+        const resultBox = document.getElementById("resultBox");
+        const copyTip = document.getElementById("copyTip");
+        
+        input.addEventListener("input", () => {
+            const text = input.value.trim();
+            inputStats.textContent = "الفاظ: " + countWords(text);
+            if(text.length > 30) extractKeywords(text);
+            else keywordsBox.style.display = "none";
+        });
+        
+        // Multi-language word count function
+        function countWords(t){
+            if (!t) return 0;
+            
+            // Check if text contains Chinese, Japanese, or Korean characters
+            if (/[\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/.test(t)) {
+                // For CJK languages, count characters (excluding punctuation and spaces)
+                return t.replace(/[^\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af\p{L}]/gu, '').length;
+            }
+            // For other languages, split by whitespace
+            return t.split(/\s+/).length;
+        }
+        
+        // Multi-language sentence splitting function
+        function splitSentences(text){
+            // Extended sentence delimiters for multiple languages
+            const delimiters = /[.!?。！？．！？]/g;
+            const sentences = [];
+            let lastIndex = 0;
+            let match;
+            
+            while ((match = delimiters.exec(text)) !== null) {
+                const sentence = text.slice(lastIndex, match.index + 1).trim();
+                if (sentence) sentences.push(sentence);
+                lastIndex = match.index + 1;
+            }
+            
+            // Add the last sentence if any
+            const lastSentence = text.slice(lastIndex).trim();
+            if (lastSentence) sentences.push(lastSentence);
+            
+            return sentences;
+        }
+        
+        // Multi-language keyword extraction function
+        function extractKeywords(text){
+            const freq = {};
+            
+            // Check if text contains Chinese, Japanese, or Korean characters
+            if (/[\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/.test(text)) {
+                // For CJK languages, use character frequency analysis
+                // Remove punctuation and spaces, then count character frequencies
+                const chars = text.replace(/[^\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/g, '');
+                for (const char of chars) {
+                    freq[char] = (freq[char] || 0) + 1;
+                }
+            } else {
+                // For other languages, use word frequency analysis with Unicode support
+                const words = text.toLowerCase().match(/\b\p{L}{2,}\b/gu) || [];
+                words.forEach(w => freq[w] = (freq[w] || 0) + 1);
+            }
+        
+            const top = Object.entries(freq)
+                .sort((a,b) => b[1] - a[1])
+                .slice(0,10)
+                .map(i => i[0]);
+        
+            keywordList.innerHTML = "";
+            top.forEach(k => {
+                const label = document.createElement("label");
+                label.className = "keyword";
+                label.innerHTML = `<input type="checkbox" value="${k}"> ${k}`;
+                keywordList.appendChild(label);
+            });
+        
+            keywordsBox.style.display = "block";
+        
+            // Enable keyword drag-and-drop functionality
+            makeKeywordsDraggable();
+        }
+        
+        // Get selected keywords
+        function getSelectedKeywords(){
+            return Array.from(
+                document.querySelectorAll("#keywordList input:checked")
+            ).map(i => i.value);
+        }
+        
+        // Keyword drag functionality
+        function makeKeywordsDraggable() {
+            const draggableItems = document.querySelectorAll('.keyword');
+            draggableItems.forEach(item => {
+                item.setAttribute('draggable', 'true');
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragover', dragOver);
+                item.addEventListener('drop', drop);
+            });
+        }
+        
+        let draggedItem = null;
+        function dragStart(event) {
+            draggedItem = event.target;
+            event.dataTransfer.setData('text/plain', draggedItem.innerHTML);
+        }
+        
+        function dragOver(event) {
+            event.preventDefault();
+            event.target.style.background = "#f0f0f0";
+        }
+        
+        function drop(event) {
+            event.preventDefault();
+            if(event.target.classList.contains('keyword')){
+                event.target.style.background = "#fff";
+                const parent = keywordList;
+                parent.insertBefore(draggedItem, event.target.nextSibling);
+            }
+        }
+        
+        // Text shortening function
+        function summarize() {
+            const text = input.value.trim();
+            if (!text) return;
+        
+            const format = document.getElementById("format").value;
+            const length = document.getElementById("length").value;
+            const keywords = getSelectedKeywords();
+        
+            const sentences = splitSentences(text);
+            const ratioMap = { short: 0.25, medium: 0.4, long: 0.6, detailed: 0.85 };
+            const ratio = ratioMap[length];
+        
+            let keep = Math.max(1, Math.round(sentences.length * ratio));
+        
+            let selected = sentences.filter(s =>
+                keywords.some(k => s.toLowerCase().includes(k))
+            );
+        
+            let result = selected.length
+                ? selected
+                : sentences.slice(0, keep);
+        
+            // Bullet point formatting
+            if (format === "bullet") {
+                const bulletLimit = { short: 3, medium: 5, long: 8 };
+                const limit = bulletLimit[length];
+                result = result.slice(0, limit).map(s => `• ${s.trim()}`).join("\n");
+            } else {
+                result = result.join(" ").trim();
+            }
+        
+            // Final output
+            output.value = result;
+            resultBox.style.display = "block";
+        
+            outputStats.textContent =
+                `اصل: ${countWords(text)} الفاظ | نتیجہ: ${countWords(result)} الفاظ`;
+        }
+        
+        // Copy text function
+        function copyText(){
+            output.select();
+            document.execCommand("copy");
+            copyTip.textContent = "کاپی ہو گیا ✓";
+            setTimeout(() => copyTip.textContent = "", 1200);
+        }
+        
+        // Download text function
+        function downloadText(){
+            const text = output.value;
+            if (!text) {
+                copyTip.textContent = "ڈاؤن لوڈ کرنے کے لیے کوئی مواد نہیں ہے";
+                setTimeout(() => copyTip.textContent = "", 1200);
+                return;
+            }
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'summary.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            copyTip.textContent = "ڈاؤن لوڈ ہو گیا ✓";
+            setTimeout(() => copyTip.textContent = "", 1200);
+        }
+    </script>
+</body>
+</html>

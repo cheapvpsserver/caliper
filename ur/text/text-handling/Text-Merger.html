@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ur-PK">
+<head>
+<meta charset="UTF-8" />
+<title>متن کا مربوط کنندہ – متعدد متن کی لکیروں کو ملانا  | CaliperTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="متن کی لکیروں کو مربوط کریں اور ایک سے زیادہ متن یا TXT فائلیں ایک میں ضم کریں۔ ڈپلیکیٹس کو ہٹائیں، خالی جگہوں کو کاٹیں، لکیروں کو ترتیب دیں، اور فوری طور پر کاپی کریں۔" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Gray background */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Full-width container to ensure it's within the viewport */
+.full-width-container {
+    width: 100%;
+    overflow: visible;
+}
+
+/* Tool container ensures it stays within viewport, add appropriate padding */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Add proper padding to left and right panels */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Left panel without scrollbar, content displayed completely */
+.left-panel {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Left panel title */
+.left-panel h1 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+/* Left file upload area */
+.left-panel .file-upload {
+    margin-bottom: 1rem;
+}
+
+/* Text area within left panel */
+.left-panel textarea {
+    flex: 1 1 auto;
+    min-height: 100px;
+    max-height: 500px;
+    overflow: auto;
+    margin-bottom: 1rem;
+    resize: vertical;
+}
+
+/* Ensure left panel adapts to input box height changes */
+.left-panel {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+}
+
+/* Show scrollbar when right panel content is too long */
+.right-panel {
+    overflow: auto;
+    min-height: auto;
+}
+
+/* Ensure left and right panels have equal height */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+    overflow: visible;
+    align-items: start;
+}
+
+/* Left options area */
+.left-panel .options {
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Ensure left and right panels have absolute equal height */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+    overflow: visible;
+    align-items: stretch;
+    min-height: 80vh;
+}
+
+/* Left panel adapts to height, input box is resizable */
+.left-panel {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Right panel has absolute equal height with left */
+.right-panel {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Right output box has fixed height, show scrollbar when content is too long */
+.right-panel pre {
+    flex: 1;
+    width: 100%;
+    height: 500px;
+    max-height: 780px;
+    min-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background: #f9fafb;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Optimize mobile responsive design */
+@media (max-width: 768px) {
+    .tool-container {
+        padding: 0 0.5rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel, .right-panel {
+        padding: 1rem 0.75rem;
+    }
+    
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    h2 {
+        font-size: 1rem;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem;
+    }
+}
+
+/* Text area styles */
+textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    flex: 1;
+    overflow: auto;
+}
+
+/* Output area styles */
+pre {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow: auto;
+    white-space: pre-wrap;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background: #f9fafb;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    flex: 1;
+}
+
+/* Option area styles */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.options h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.options label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Inline option styles */
+.inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+}
+
+.inline label {
+    margin-bottom: 0;
+}
+
+/* Input and select box styles */
+input[type="text"], select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+}
+
+/* Action button styles */
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+    justify-content: flex-end;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background: #0052a3;
+}
+
+/* File upload area styles */
+.file-upload {
+    padding: 12px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+}
+
+/* Two column section layout */
+.two-column-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.section-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive Adjustment */
+@media (max-width: 768px) {
+    .two-column-sections {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Adjustment */
+@media (max-width: 1024px) {
+    .cta-section {
+        padding: 1.5rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.75rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-section {
+        padding: 1.5rem 1rem;
+        margin-top: 2rem;
+    }
+    
+    .features-row {
+        gap: 0.5rem;
+    }
+    
+    .feature-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta-section {
+        padding: 1rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('دائیں کلک کا مینو غیر فعال ہے۔');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('کاپی فنکشن غیر فعال ہے۔');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ڈویلپر ٹولز غیر فعال ہیں۔');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>متن کا مربوط کنندہ / متن کو ضم کنندہ</h1>
+                
+                <!-- TXT UPLOAD -->
+                <div class="file-upload">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label for="fileInput" style="margin-bottom: 0;">TXT فائلیں اپ لوڈ کریں:</label>
+                        <div style="position: relative;">
+                            <!-- Hidden file input -->
+                            <input type="file" id="fileInput" accept=".txt" multiple style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; z-index: 2; cursor: pointer;">
+                            <!-- Custom file upload button -->
+                            <button type="button" style="position: relative; z-index: 1;">
+                                فائلیں منتخب کریں
+                            </button>
+                        </div>
+                        <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                            استعمال کیسے کریں؟
+                        </a>
+                    </div>
+                </div>
+
+                <textarea id="input" placeholder="یہاں متن چسپاں کریں یا TXT فائلیں اپ لوڈ کریں۔ ہر لکیر کو ایک چیز کے طور پر سمجھا جائے گا۔"></textarea>
+
+                <div class="options">
+                    <div>
+                        <h4>مربوط کرنے کا طریقہ</h4>
+                        <label>الگ کرنے والا:</label>
+                        <select id="separator">
+                            <option value="">کوئی الگ کرنے والا نہیں</option>
+                            <option value=" ">خالی جگہ</option>
+                            <option value=",">کوما</option>
+                            <option value="\n">نئی لکیر</option>
+                            <option value="custom">حسب ضرورت</option>
+                        </select>
+                        <label>حسب ضرورت الگ کرنے والا:</label>
+                        <input type="text" id="customSeparator">
+                    </div>
+
+                    <div class="two-column-sections">
+                        <div class="section-column">
+                            <div>
+                                <h4>صاف کرنے کے اختیارات</h4>
+                                <label><input type="checkbox" id="ignoreEmpty" checked> خالی لکیروں کو نظر انداز کریں</label>
+                                <label><input type="checkbox" id="trim" checked> خالی جگہیں کاٹیں</label>
+                            </div>
+                        </div>
+                        <div class="section-column">
+                            <div>
+                                <h4>ڈپلیکیٹس</h4>
+                                <label><input type="checkbox" id="dedupe"> ڈپلیکیٹس ہٹائیں</label>
+                                <label><input type="checkbox" id="caseSensitive"> حروف کا احترام کریں</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4>ترتیب دیں</h4>
+                        <select id="sort">
+                            <option value="none">کوئی ترتیب نہیں</option>
+                            <option value="az">A–Z</option>
+                            <option value="za">Z–A</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <h4>سابقہ / لاحقہ</h4>
+                        <label>سابقہ:</label>
+                        <input type="text" id="prefix">
+                        <label>لاحقہ:</label>
+                        <input type="text" id="suffix">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>اُنتاج</h4>
+                <pre id="output"></pre>
+                <div class="actions">
+                    <button id="copyBtn">کاپی</button>
+                    <button id="clearBtn">صاف کریں</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Merger -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>متن کے مربوط کنندہ کا استعمال کیسے کریں</h3>
+                <p>
+                    اپنے متن کی فائلیں اور لکیروں کو موثر انداز میں ضم اور مربوط کرنے کے لیے ان سادہ اقدامات پر عمل کریں۔
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>مرحلہ 1: اپنا متن درج کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>مرحلہ 2: اختیارات کی تشکیل کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>مرحلہ 3: اپنے نتائج حاصل کریں</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>مرحلہ وار سبق</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 1: اپنا متن درج کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">آپ دو طریقوں سے متن درج کر سکتے ہیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>براہ راست اپنا متن بائیں متن کے علاقے میں چسپاں کریں</li>
+                                <li>ایک یا زیادہ TXT فائلیں اپ لوڈ کرنے کے لیے "فائلیں منتخب کریں" پر کلک کریں</li>
+                            </ul>
+                            <p style="text-align: left;">مربوط کرنے کے لیے متن کی ہر لکیر کو ایک چیز کے طور پر سمجھا جائے گا۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 2: مربوط کرنے کے اختیارات کی تشکیل کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنے متن کو کیسے مربوط کیا جائے اسے حسب ضرورت بنائیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>مربوط کرنے کا طریقہ:</strong> الگ کرنے والا منتخب کریں (خالی جگہ، کوما، نئی لکیر، یا حسب ضرورت)</li>
+                                <li><strong>صاف کرنے کے اختیارات:</strong> خالی لکیروں کو نظر انداز کریں اور خالی جگہیں کاٹیں</li>
+                                <li><strong>ڈپلیکیٹس:</strong> اختیاری حروف کا احترام کے ساتھ ڈپلیکیٹ لکیریں ہٹائیں</li>
+                                <li><strong>ترتیب دیں:</strong> لکیروں کو حروف تہجی کے مطابق (A-Z یا Z-A) ترتیب دیں</li>
+                                <li><strong>سابقہ/لاحقہ:</strong> ہر لکیر میں حسب ضرورت سابقہ اور لاحقہ شامل کریں</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 3: اپنے نتائج حاصل کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">آپ کا مربوط متن دائیں اُنتاج کے علاقے میں فوراً ظاہر ہو جائے گا۔ آپ کر سکتے ہیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"کاپی" بٹن کا استعمال کرتے ہوئے ایک کلک میں مربوط متن کو کاپی کریں</li>
+                                <li>"صاف کریں" بٹن کے ساتھ دوبارہ شروع کرنے کے لیے تمام متن کو صاف کریں</li>
+                            </ul>
+                            <p style="text-align: left;">اُنتاج کا علاقہ طویل مواد کے لیے خود بخود سکرول بار شامل کرتا ہے۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">بہترین نتائج کے لیے نکات</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>بڑی فائلیں کے لیے، انہیں چھوٹے ٹکڑوں میں تقسیم کرنا غور کریں</li>
+                                <li>اپنا ان پٹ صاف کرنے کے لیے "خالی لکیروں کو نظر انداز کریں" کا اختیار استعمال کریں</li>
+                                <li>اپنی ضروریات کے لیے بہترین فارمیٹ تلاش کرنے کے لیے مختلف الگ کرنے والوں کی کوشش کریں</li>
+                                <li>ہر لکیر میں کوٹس یا دیگر حروف شامل کرنے کے لیے سابقہ/لاحقہ کا اختیار استعمال کریں</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">متعلقہ اوزار</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const fileInput = document.getElementById('fileInput');
+
+const separatorSelect = document.getElementById('separator');
+const customSeparator = document.getElementById('customSeparator');
+const ignoreEmpty = document.getElementById('ignoreEmpty');
+const trimLines = document.getElementById('trim');
+const dedupe = document.getElementById('dedupe');
+const caseSensitive = document.getElementById('caseSensitive');
+const sortSelect = document.getElementById('sort');
+const prefixInput = document.getElementById('prefix');
+const suffixInput = document.getElementById('suffix');
+
+function mergeText(){
+  let lines = input.value.split(/\r?\n/);
+
+  if(trimLines.checked) lines = lines.map(l=>l.trim());
+  if(ignoreEmpty.checked) lines = lines.filter(l=>l!=='');
+
+  if(dedupe.checked){
+    const seen=new Set();
+    lines=lines.filter(l=>{
+      const key=caseSensitive.checked?l:l.toLowerCase();
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  if(sortSelect.value!=='none'){
+    lines.sort((a,b)=>{
+      const A=caseSensitive.checked?a:a.toLowerCase();
+      const B=caseSensitive.checked?b:b.toLowerCase();
+      return sortSelect.value==='az'
+        ? A.localeCompare(B)
+        : B.localeCompare(A);
+    });
+  }
+
+  lines = lines.map(l => prefixInput.value + l + suffixInput.value);
+
+  let sep = separatorSelect.value;
+  if(sep==='custom') sep=customSeparator.value;
+  if(sep==='\\n') sep='\n';
+
+  output.textContent = lines.join(sep);
+}
+
+fileInput.addEventListener('change',()=>{
+  const files=[...fileInput.files];
+  let pending=files.length;
+  let text='';
+
+  files.forEach(file=>{
+    if(!file.name.toLowerCase().endsWith('.txt')){
+      pending--; return;
+    }
+    const reader=new FileReader();
+    reader.onload=e=>{
+      text+=e.target.result+'\n';
+      pending--;
+      if(pending===0){
+        input.value = input.value
+          ? input.value+'\n'+text.trimEnd()
+          : text.trimEnd();
+        mergeText();
+      }
+    };
+    reader.readAsText(file);
+  });
+  fileInput.value='';
+});
+
+document.querySelectorAll('textarea,input,select')
+  .forEach(el=>el.addEventListener('input',mergeText));
+
+document.getElementById('copyBtn').onclick=()=>{
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+        // Create temporary tip element
+        const tip = document.createElement('div');
+        tip.textContent = 'کلپ بورڈ پر کاپی ہو گیا!';
+        tip.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(tip);
+        
+        // Show tip
+        setTimeout(() => {
+            tip.style.opacity = '1';
+        }, 10);
+        
+        // Remove tip after 2 seconds
+        setTimeout(() => {
+            tip.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(tip);
+            }, 300);
+        }, 2000);
+    })
+    .catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+};
+document.getElementById('clearBtn').onclick=()=>{
+  input.value='';
+  output.textContent='';
+};
+
+mergeText();
+</script>
+
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+    
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-merger");
+    </script>
+
+</body>
+</html>

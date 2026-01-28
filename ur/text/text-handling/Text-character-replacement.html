@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ur-PK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="حروف یا متن کو فوری طور پر تبدیل کریں۔ کیس سینسیٹو اختیارات، خصوصی حرف کے پری سیٹس اور حقیقی وقت کے جائزے کے ساتھ آن لائن متن تلاش کریں اور تبدیل کریں۔" />
+<title>متن کے حروف کی تبدیلی | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Gray background */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Full-width container ensures it spans the viewport */
+.full-width-container {
+    width: 100%;
+    overflow: visible;
+}
+
+/* Tool container ensures it stays within viewport, add appropriate padding */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Add proper padding to left and right panels */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Optimize mobile responsive design */
+@media (max-width: 768px) {
+    .tool-container {
+        padding: 0 0.5rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel, .right-panel {
+        padding: 1rem 0.75rem;
+    }
+    
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    h2 {
+        font-size: 1rem;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .left-panel, .right-panel {
+        padding: 1.5rem;
+    }
+}
+
+/* Text area styles */
+textarea, pre {
+    width: 100%;
+    min-height: 300px;
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+pre {
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+/* Options area styles */
+.controls {
+    margin-top: 1rem;
+}
+
+.controls h4 {
+    margin: 1rem 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.controls label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 14px;
+}
+
+.controls input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+}
+
+.inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.inline label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0;
+}
+
+/* Action button styles */
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .cta-section {
+        padding: 1.5rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.75rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-section {
+        padding: 1.5rem 1rem;
+        margin-top: 2rem;
+    }
+    
+    .features-row {
+        gap: 0.5rem;
+    }
+    
+    .feature-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cta-section {
+        padding: 1rem;
+    }
+    
+    .cta-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('دائیں کلک کا مینو غیر فعال ہے۔');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('کاپی فنکشن غیر فعال ہے۔');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('ڈویلپر ٹولز غیر فعال ہیں۔');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1 style="display: flex; align-items: center; justify-content: space-between;">
+                    متن کے حروف کی تبدیلی
+                    <a href="#tutorial" style="font-size: 14px; color: #0066cc; text-decoration: none; cursor: pointer; font-weight: normal;">
+                        استعمال کیسے کریں؟
+                    </a>
+                </h1>
+                
+                <textarea id="input" placeholder="یہاں متن چسپاں یا ٹائپ کریں..."></textarea>
+
+                <div class="controls">
+                    <h4>تلاش اور تبدیل کریں</h4>
+
+                    <label>
+                        تلاش کریں:
+                        <input type="text" id="findText" placeholder="تلاش کرنے کے لیے متن یا حرف">
+                    </label>
+
+                    <label>
+                        اس کے ساتھ تبدیل کریں:
+                        <input type="text" id="replaceText" placeholder="حذف کرنے کے لیے خالی چھوڑ دیں">
+                    </label>
+
+                    <label>
+                        <input type="checkbox" id="caseSensitive">
+                        کیس سینسیٹو
+                    </label>
+
+                    <h4>خصوصی پری سیٹس</h4>
+                    <div class="inline">
+                        <label><input type="checkbox" id="replaceLineBreaks"> لکیر کے ٹوٹنے کو تبدیل کریں</label>
+                        <label><input type="checkbox" id="replaceTabs"> ٹیبز کو تبدیل کریں</label>
+                        <label><input type="checkbox" id="replaceSpaces"> متعدد خالی جگہوں کو تبدیل کریں</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h2>آؤٹ پٹ</h2>
+                <pre id="output"></pre>
+                <div class="actions">
+                    <button id="clearBtn">صاف کریں</button>
+                    <button id="copyBtn">کاپی</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Character Replacement -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>متن کے حروف کی تبدیلی کا استعمال کیسے کریں</h3>
+                <p>
+                    اپنے مواد میں حروف یا متن کو تبدیل کرنے کے لیے مختلف اختیارات کے ساتھ ان سادہ اقدامات پر عمل کریں۔
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>مرحلہ 1: اپنا متن درج کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>مرحلہ 2: تبدیلی کے اختیارات وضع کریں</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>مرحلہ 3: اپنے نتائج حاصل کریں</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>مرحلہ وار سبق</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 1: اپنا متن درج کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">اپنا متن درج کرنے کے دو طریقے ہیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>متن ٹائپ یا چسپاں کریں:</strong> براہ راست متن کے علاقے میں اپنا متن ٹائپ یا چسپاں کریں</li>
+                            </ul>
+                            <p style="text-align: left;">آپ کا ٹول آپ کا متن حقیقی وقت میں پروسیس کرتا ہے جیسے ہی آپ ٹائپ کریں یا اختیارات میں تبدیلی کریں۔</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 2: تبدیلی کے اختیارات وضع کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">ان اختیارات کے ساتھ اپنی متن کی تبدیلی کو حسب ضرورت بنائیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>تلاش کریں:</strong> وہ متن یا حرف درج کریں جسے آپ تبدیل کرنا چاہتے ہیں</li>
+                                <li><strong>اس کے ساتھ تبدیل کریں:</strong> تبدیل کرنے کے لیے متن درج کریں (حذف کرنے کے لیے خالی چھوڑ دیں)</li>
+                                <li><strong>کیس سینسیٹو:</strong> تبدیلی کو کیس سینسیٹو بنائیں</li>
+                                <li><strong>خصوصی پری سیٹس:</strong> لکیر کے ٹوٹنے، ٹیبز، یا متعدد خالی جگہوں کو تبدیل کریں</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">مرحلہ 3: اپنے نتائج حاصل کریں</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">تبدیلیاں لاگو کرنے کے ساتھ آپ کا متن دائیں آؤٹ پٹ علاقے میں فوری طور پر ظاہر ہو جائے گا۔ آپ کر سکتے ہیں:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"کاپی" بٹن کا استعمال کرکے ایک کلک میں پروسیس شدہ متن کو کاپی کریں</li>
+                                <li>"صاف کریں" بٹن کے ساتھ نیا آغاز کرنے کے لیے تمام مواد صاف کریں</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">بہترین نتائج کے لیے نکات</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>جب بالکل مطابقت کیس کی ضروری ہو تو "کیس سینسیٹو" استعمال کریں</li>
+                                <li>ناپسندیدہ حروف یا متن کو ہٹانے کے لیے "اس کے ساتھ تبدیل کریں" کو خالی چھوڑ دیں</li>
+                                <li>فارمیٹنگ کے مسائل کو صاف کرنے کے لیے خصوصی پری سیٹس استعمال کریں</li>
+                                <li>جامع متن کی صفائی کے لیے متعدد پری سیٹس کو جوڑیں</li>
+                                <li>پیچیدہ تبدیلیوں کے لیے پہلے چھوٹے حصوں کے ساتھ ٹیسٹ کریں</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">متعلقہ اوزار</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+const findText = document.getElementById('findText');
+const replaceText = document.getElementById('replaceText');
+const caseSensitive = document.getElementById('caseSensitive');
+
+const replaceLineBreaks = document.getElementById('replaceLineBreaks');
+const replaceTabs = document.getElementById('replaceTabs');
+const replaceSpaces = document.getElementById('replaceSpaces');
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceContent() {
+  let text = input.value;
+  let result = text;
+
+  // Preset replacements
+  if (replaceLineBreaks.checked) {
+    result = result.replace(/\r?\n/g, replaceText.value);
+  }
+
+  if (replaceTabs.checked) {
+    result = result.replace(/\t/g, replaceText.value);
+  }
+
+  if (replaceSpaces.checked) {
+    result = result.replace(/\s{2,}/g, replaceText.value || ' ');
+  }
+
+  // Manual find & replace
+  const find = findText.value;
+  if (find) {
+    const flags = caseSensitive.checked ? 'g' : 'gi';
+    const pattern = new RegExp(escapeRegExp(find), flags);
+    result = result.replace(pattern, replaceText.value);
+  }
+
+  output.textContent = result;
+}
+
+document.querySelectorAll(
+  'textarea, input[type="text"], input[type="checkbox"]'
+).forEach(el => el.addEventListener('input', replaceContent));
+
+document.getElementById('copyBtn').onclick = () => {
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'کلپ بورڈ پر کاپی ہو گیا!';
+      tip.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 12px 24px;
+          border-radius: 6px;
+          font-size: 16px;
+          z-index: 10000;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+          tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+          tip.style.opacity = '0';
+          setTimeout(() => {
+              document.body.removeChild(tip);
+          }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+};
+
+document.getElementById('clearBtn').onclick = () => {
+  input.value = '';
+  output.textContent = '';
+  findText.value = '';
+  replaceText.value = '';
+  caseSensitive.checked = false;
+  replaceLineBreaks.checked = false;
+  replaceTabs.checked = false;
+  replaceSpaces.checked = false;
+};
+
+replaceContent();
+</script>
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("text-character-replacement");
+</script>
+
+</body>
+</html>
