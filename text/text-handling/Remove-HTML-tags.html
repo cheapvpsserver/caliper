@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Remove HTML Tags | CaliperTools</title>
+<meta name="description" content="Free online HTML tag remover and text cleaner tool by CaliperTools. Remove HTML tags, decode entities, and clean up text with ease." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+<link rel="icon" href="../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Remove HTML Tags Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+.output {
+    width: 100%;
+    height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+.options h3 {
+    margin: 20px 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+}
+
+.options label {
+    display: block;
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.options input[type="file"] {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export {
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.export button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.export button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>
+    // 1. Disable the right-click menu.
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('The right-click menu has been disabled.');
+    });
+
+    // 2. Disable text selection
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Disable copy shortcut keys
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('The copy function has been disabled.');
+        }
+    });
+
+    // 4. Preventing the opening of developer tools via F12.
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Developer tools have been disabled.');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>Remove HTML Tags</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Undo</button>
+                    <button onclick="redo()">Redo</button>
+                    <button onclick="clearText()">Clear</button>
+                    <!-- Custom file input with English text only -->
+                    <label style="position: relative; display: inline-block; margin-left: 10px;">
+                        <input type="file" id="fileInput" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;" />
+                        <span style="display: inline-block; padding: 8px 16px; border-radius: 6px; background: #10b981; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">Choose File</span>
+                    </label>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        How to use?
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="Paste HTML or text here..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">Characters: 0</div>
+                    <div class="stat" id="nonBlankChar">Non-blank: 0</div>
+                    <div class="stat" id="wordCount">Words: 0</div>
+                    <div class="stat" id="lineCount">Lines: 0</div>
+                    <div class="stat" id="paraCount">Paragraphs: 0</div>
+                    <div class="stat" id="pages">Pages: 0</div>
+                    <div class="stat" id="readingTime">Reading: 0 min</div>
+                    <div class="stat" id="speakingTime">Speaking: 0 min</div>
+                </div>
+
+                <div class="options">
+                    <h3>HTML Tag Options</h3>
+                    <label><input type="checkbox" id="decode"> Decode HTML Entities</label>
+                    <label>
+                        Preserve tags (comma separated):
+                        <input type="text" id="preserve" placeholder="b,strong,a">
+                    </label>
+
+                    <h3>Text Cleanup</h3>
+                    <label><input type="checkbox" id="trim"> Trim Extra Spaces</label>
+                    <label><input type="checkbox" id="removeEmpty"> Remove Empty Lines</label>
+
+
+                </div>
+            </div>
+
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>Output</h2>
+                <div class="export">
+                    <button onclick="copyOut()">Copy</button>
+                    <button onclick="exportFile('txt')">Export TXT</button>
+                    <button onclick="exportFile('html')">Export HTML</button>
+                    <button onclick="exportFile('doc')">Export Word</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Remove HTML Tags -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>How to Use Remove HTML Tags</h3>
+                <p>
+                    Follow these simple steps to remove HTML tags and clean up your text efficiently with various processing options.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Step 1: Input Your Content</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Step 2: Configure Cleaning Options</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Step 3: Get Your Results</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Step-by-Step Tutorial</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Step 1: Input Your Content</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Enter your HTML content in one of two ways:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Paste HTML Text:</strong> Directly paste your HTML content into the text area</li>
+                                <li><strong>Upload File:</strong> Click the "Choose File" button to upload an HTML file from your device</li>
+                            </ul>
+                            <p style="text-align: left;">The tool processes your content in real-time as you type or make changes to the options.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Step 2: Configure Cleaning Options</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Customize your HTML cleaning with these options:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Decode HTML Entities:</strong> Convert HTML entities like &amp;lt; to their actual characters like &lt;</li>
+                                <li><strong>Preserve Tags:</strong> Specify which HTML tags to keep (comma-separated, e.g., "b,strong,a")</li>
+                                <li><strong>Trim Extra Spaces:</strong> Remove leading and trailing whitespace from each line</li>
+                                <li><strong>Remove Empty Lines:</strong> Delete blank lines from the final output</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Step 3: Get Your Results</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Your cleaned text will appear in the right output area instantly. You can:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Copy the cleaned text with one click using the "Copy" button</li>
+                                <li>Export to various formats: TXT, HTML, or Word</li>
+                                <li>Undo/Redo changes using the toolbar buttons</li>
+                                <li>Clear all content to start fresh with the "Clear" button</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Tips for Best Results</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Use <strong>Decode HTML Entities</strong> when working with encoded HTML content</li>
+                                <li>Specify <strong>Preserve Tags</strong> to keep important formatting like bold or links</li>
+                                <li>Combine <strong>Trim Extra Spaces</strong> with <strong>Remove Empty Lines</strong> for cleaner results</li>
+                                <li>Upload files for quick processing of entire HTML documents</li>
+                                <li>Export to Word format for easy editing in Microsoft Word</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Related Tools</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("remove-html-tags");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input', () => {
+  pushHistory();
+  sourceText = input.value;
+  process();
+});
+
+document.querySelectorAll('.options input').forEach(i=>{
+  i.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value = history.pop();
+  sourceText = input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value = future.pop();
+  sourceText = input.value;
+  process(false);
+}
+
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(updateInput=true){
+  let text = sourceText;
+
+  if(document.getElementById('decode').checked){
+    const d=document.createElement('textarea');
+    d.innerHTML=text;
+    text=d.value;
+  }
+
+  const keep = document.getElementById('preserve').value
+    .split(',')
+    .map(t=>t.trim())
+    .filter(Boolean);
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      const re=new RegExp(`<${tag}\\b[^>]*>`,`gi`);
+      const re2=new RegExp(`</${tag}>`,`gi`);
+      text=text.replace(re,`§§${tag}§§`).replace(re2,`§§/${tag}§§`);
+    });
+  }
+
+  text = text.replace(/<[^>]*>/g,'');
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      text=text
+        .replaceAll(`§§${tag}§§`,`<${tag}>`)
+        .replaceAll(`§§/${tag}§§`,`</${tag}>`);
+    });
+  }
+
+  if(document.getElementById('trim').checked){
+    text = text
+      .split(/\r?\n/)
+      .map(l=>l.trim())
+      .join('\n');
+  }
+
+  if(document.getElementById('removeEmpty').checked){
+    text = text
+      .split(/\r?\n/)
+      .filter(l=>l.trim()!=='')
+      .join('\n');
+  }
+
+  output.textContent = text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const nonBlank=t.replace(/\s/g,'').length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  const paras=t.split(/\n\s*\n/).filter(p=>p.trim()).length;
+  // Remove Math.max(1, ...), let page count calculate naturally
+  const pages=Math.ceil(words/500);
+  // Remove Math.max(1, ...), let time calculate naturally
+  const read=Math.ceil(words/200);
+  const speak=Math.ceil(words/130);
+
+  // Update each statistic
+  document.getElementById('charCount').textContent = `Characters: ${chars}`;
+  document.getElementById('nonBlankChar').textContent = `Non-blank: ${nonBlank}`;
+  document.getElementById('wordCount').textContent = `Words: ${words}`;
+  document.getElementById('lineCount').textContent = `Lines: ${lines}`;
+  document.getElementById('paraCount').textContent = `Paragraphs: ${paras}`;
+  document.getElementById('pages').textContent = `Pages: ${pages}`;
+  document.getElementById('readingTime').textContent = `Reading: ${read} min`;
+  document.getElementById('speakingTime').textContent = `Speaking: ${speak} min`;
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'Copied to clipboard!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyOut(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Show copy success notification
+      const toast = document.getElementById('copyToast');
+      toast.style.opacity = '1';
+      // Hide notification after 2 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+function exportFile(type){
+  let blob,filename='output';
+  if(type==='txt'){
+    blob=new Blob([output.textContent],{type:'text/plain'});
+    filename+='.txt';
+  }
+  if(type==='html'){
+    blob=new Blob([output.innerHTML],{type:'text/html'});
+    filename+='.html';
+  }
+  if(type==='doc'){
+    blob=new Blob([output.textContent],{type:'application/msword'});
+    filename+='.doc';
+  }
+  if(type==='pdf'){
+    // For PDF, we use a simpler method: export as HTML and prompt user to print as PDF
+    const pdfContent = `
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${filename}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+          }
+          .content {
+            max-width: 800px;
+            margin: 0 auto;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="content">
+          ${output.innerHTML}
+        </div>
+      </body>
+      </html>
+    `;
+    // Use text/html type to ensure file opens correctly
+    blob=new Blob([pdfContent],{type:'text/html'});
+    filename+='.html';
+    // Prompt user to print as PDF
+    setTimeout(() => {
+      alert('File downloaded successfully. You can open this HTML file and print it to PDF from your browser.');
+    }, 500);
+  }
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+
+document.getElementById('fileInput').addEventListener('change',e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    input.value=ev.target.result;
+    sourceText=input.value;
+    process();
+  };
+  r.readAsText(f);
+});
+</script>
+
+</body>
+</html>

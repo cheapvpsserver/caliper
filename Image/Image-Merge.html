@@ -1,0 +1,2604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Image Merge & Split Tools | CaliperTools</title>
+    <meta name="description" content="Merge images online free. Combine multiple images horizontally, vertically, or in grids. No upload needed. Best quality results.">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="../scripts/script.js"></script><!-- Custom CSS for sections -->
+    <style>
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+            font-size: 0.875rem;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        main > .container {
+            max-width: 1920px !important;
+        }
+
+        .merge-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 750px;
+        }
+
+        @media (max-width: 768px) {
+            .merge-container {
+                flex-direction: column-reverse;
+                height: auto;
+            }
+
+            .sidebar-container {
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid #ddd;
+                border-bottom: none;
+            }
+
+            .sidebar {
+                height: auto;
+                max-height: none;
+                padding: 15px;
+            }
+
+            .sidebar-content {
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .sidebar-actions {
+                position: relative;
+                border-top: 1px solid #ddd;
+            }
+
+            .canvas-area {
+                height: auto;
+                min-height: 400px;
+                max-height: 60vh;
+            }
+
+            .upload-prompt {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+            }
+
+            .sidebar .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .sidebar-container {
+            width: 380px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar {
+            padding: 20px;
+            background-color: #ffffff;
+            height: 750px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 180px;
+        }
+
+        .sidebar-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .sidebar-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            z-index: 10;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .tools-section {
+            margin-bottom: 20px;
+        }
+
+        .tools-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .sidebar .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .tools-section > .tools-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tool-btn {
+            padding: 10px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tool-btn:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tool-btn i {
+            font-size: 18px;
+        }
+
+        .settings-section {
+            margin-bottom: 20px;
+        }
+
+        .settings-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .setting-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .setting-select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .size-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+
+        .size-display {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .actions-section {
+            margin-top: auto;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .zip-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .canvas-area {
+            flex: 1;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            position: relative;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: calc(100% - 40px);
+            max-height: calc(100% - 40px);
+            overflow: auto;
+            background-color: white;
+            border-radius: 8px;
+        }
+        
+        .canvas-delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .canvas-delete-btn:hover {
+            background-color: #c82333;
+            transform: scale(1.1);
+        }
+
+        .upload-prompt {
+            text-align: center;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-prompt.drag-over {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .upload-prompt-icon {
+            font-size: 60px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-prompt-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .upload-prompt-instruction {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .canvas-wrapper.active {
+            display: block;
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .image-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .image-item {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .image-item:last-child {
+            border-bottom: none;
+        }
+
+        .image-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .image-item-name {
+            flex: 1;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .image-item-remove {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        .image-item-remove:hover {
+            color: #a71d2a;
+        }
+
+        .image-item-move {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px;
+            margin-right: 5px;
+        }
+
+        .image-item-move:hover {
+            color: #0056b3;
+        }
+
+        .mode-group {
+            margin-bottom: 15px;
+        }
+
+        .mode-group-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #0F172A;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .download-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .download-option {
+            flex: 1;
+        }
+
+        .download-option label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .download-option select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .split-warning {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff3cd;
+            color: #721c24;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            max-width: 400px;
+        }
+
+        .warning-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .warning-content i {
+            font-size: 24px;
+            color: #721c24;
+        }
+
+        .warning-text strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #721c24;
+        }
+
+        .warning-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #5c5c5c;
+            line-height: 1.5;
+        }
+
+        .image-item-use {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .image-item-use:hover {
+            background: #059669;
+            transform: scale(1.05);
+        }
+
+        .image-item-used {
+            color: #999;
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+    </style>
+    <script>
+    // 1. Disable the right-click menu.
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('The right-click menu has been disabled.');
+    });
+
+    // 2. Disable text selection
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Disable copy shortcut keys
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('The copy function has been disabled.');
+        }
+    });
+
+    // 4. Preventing the opening of developer tools via F12.
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Developer tools have been disabled.');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div class="container">
+            <div style="padding: 2rem 0;">
+                <h1 class="text-3xl font-bold text-center mb-8">Image Merge & Split Tool</h1>
+                <div class="merge-container">
+                    <div class="sidebar-container">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div class="upload-section">
+                                    <button id="upload-btn" class="upload-btn">
+                                        <i class="fas fa-upload"></i> Upload Images
+                                    </button>
+                                    <input type="file" id="file-input" class="file-input" accept="image/jpeg,image/png,image/webp" multiple>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>Merge & Split Tools</h2>
+                                    <div class="tools-grid">
+                                        <div class="mode-group">
+                                            <div class="mode-group-title">Merge Tools</div>
+                                            <div class="tools-grid">
+                                                <button class="tool-btn" data-mode="horizontal-merge" data-title="Free Horizontal Merge Online | CaliperTools" data-description="Merge images horizontally online free. Combine multiple images left to right instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-arrows-alt-h"></i>
+                                                    <span>Horizontal</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="vertical-merge" data-title="Free Vertical Merge Online | CaliperTools" data-description="Merge images vertically online free. Combine multiple images top to bottom instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-arrows-alt-v"></i>
+                                                    <span>Vertical</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="grid-merge" data-title="Free Grid Merge Online | CaliperTools" data-description="Merge images in grid online free. Custom rows and columns instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-th"></i>
+                                                    <span>Grid</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="overlay-merge" data-title="Free Overlay Merge Online | CaliperTools" data-description="Overlay images online free. Merge with transparency instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-layer-group"></i>
+                                                    <span>Overlay</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="batch-merge" data-title="Free Batch Merge Online | CaliperTools" data-description="Batch merge images online free. Multiple groups instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-layer-group"></i>
+                                                    <span>Batch</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="transparent-merge" data-title="Free Transparent Merge Online | CaliperTools" data-description="Merge transparent images online free. PNG transparency instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-image"></i>
+                                                    <span>Transparent</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mode-group">
+                                            <div class="mode-group-title">Split Tools</div>
+                                            <div class="tools-grid">
+                                                <button class="tool-btn" data-mode="split-horizontal" data-title="Free Horizontal Split Online | CaliperTools" data-description="Split images horizontally online free. Multiple sections instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-grip-lines-vertical"></i>
+                                                    <span>H-Split</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="split-vertical" data-title="Free Vertical Split Online | CaliperTools" data-description="Split images vertically online free. Multiple sections instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-grip-lines"></i>
+                                                    <span>V-Split</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="split-grid" data-title="Free Grid Split Online | CaliperTools" data-description="Split images in grid online free. Equal parts instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-th-large"></i>
+                                                    <span>Grid Split</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="sprite-slice" data-title="Free Sprite Slice Online | CaliperTools" data-description="Slice sprite sheet online free. Individual frames instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-film"></i>
+                                                    <span>Sprite</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="social-split" data-title="Free Social Split Online | CaliperTools" data-description="Split for social media online free. Platform ready instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-share-alt"></i>
+                                                    <span>Social</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="pixel-split" data-title="Free Pixel Split Online | CaliperTools" data-description="Split by pixels online free. Fixed dimensions instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-ruler-combined"></i>
+                                                    <span>Pixel</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="aspect-split" data-title="Free Aspect Split Online | CaliperTools" data-description="Split by aspect ratio online free. Perfect ratio instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-expand-arrows-alt"></i>
+                                                    <span>Aspect</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="tile-image" data-title="Free Tile Image Online | CaliperTools" data-description="Tile images online free. Create pattern instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-border-all"></i>
+                                                    <span>Tile</span>
+                                                </button>
+                                                <button class="tool-btn" data-mode="bg-remove-merge" data-title="Free Remove BG Merge Online | CaliperTools" data-description="Remove background online free. Merge images instantly. No upload needed. Best quality results.">
+                                                    <i class="fas fa-eraser"></i>
+                                                    <span>Remove BG</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section" id="settings-section">
+                                    <h2>Tool Settings</h2>
+                                    <div id="dynamic-settings">
+                                        <p style="color: #666; font-size: 14px;">Select a tool to see settings</p>
+                                    </div>
+                                </div>
+
+                                <div class="image-list" id="image-list" style="display: none;">
+                                    <div id="image-list-content"></div>
+                                </div>
+
+                                <div class="privacy-statement">
+                                    <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+                                    Files are processed locally and deleted automatically after processing.
+                                </div>
+                            </div>
+
+                            <div class="sidebar-actions">
+                                <div class="download-options">
+                                    <div class="download-option">
+                                        <label>Format:</label>
+                                        <select id="download-format">
+                                            <option value="png">PNG</option>
+                                            <option value="jpeg">JPG</option>
+                                            <option value="webp">WebP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="action-row">
+                                    <button id="clear-btn" class="action-btn clear-btn">
+                                        <i class="fas fa-trash"></i> Clear All
+                                    </button>
+                                    <button id="download-btn" class="action-btn download-btn" disabled>
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <button id="zip-btn" class="action-btn zip-btn" disabled>
+                                        <i class="fas fa-download"></i> ZIP
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="canvas-area">
+                        <div id="upload-prompt" class="upload-prompt">
+                            <div class="upload-prompt-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <div class="upload-prompt-title">Image Merge & Split Tool</div>
+                            <div class="upload-prompt-instruction">Click here or drag & drop images to start merging or splitting</div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">Supports: JPG, PNG, WebP (Multiple files allowed)</p>
+                        </div>
+
+                        <div id="canvas-wrapper" class="canvas-wrapper">
+                            <canvas id="resultCanvas"></canvas>
+                        </div>
+                        <div id="split-warning" class="split-warning" style="display: none;">
+                            <div class="warning-content">
+                                <i class="fas fa-info-circle"></i>
+                                <div class="warning-text">
+                                    <strong>Multiple images uploaded</strong>
+                                    <p>Split modes only use the first image. Check the image list on the left to select which image to use.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Tutorial Explanation Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">How to Use Image Merge & Split Tool</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        Upload Images
+                    </h3>
+                    <div>
+                        <p title="Drag and drop multiple images or click upload button. Supports JPG, PNG, and WebP formats.">Drag and drop multiple images or click upload button. Supports JPG, PNG, and WebP formats.</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-tools"></i>
+                        </span>
+                        Select Mode
+                    </h3>
+                    <div>
+                        <p title="Choose from 15 merge and split modes including horizontal, vertical, grid, overlay, and various split options.">Choose from 15 merge and split modes including horizontal, vertical, grid, overlay, and various split options.</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </span>
+                        Adjust Settings
+                    </h3>
+                    <div>
+                        <p title="Customize parameters like grid size, transparency, split count, and more using the settings panel.">Customize parameters like grid size, transparency, split count, and more using the settings panel.</p>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        Download Result
+                    </h3>
+                    <div>
+                        <p title="Preview your result in real-time and download as PNG, JPG, or WebP format.">Preview your result in real-time and download as PNG, JPG, or WebP format.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1755286853366-0d802aa98b65?w=600&h=400&fit=crop" alt="Image Merge Tool">
+                </div>
+                <div class="content-text">
+                    <h2>Professional Image Merge & Split</h2>
+                    <p>Merge and split images with precision and ease. Our tool provides 15 professional modes to help you combine or divide images exactly how you need them.</p>
+                    <p>Perfect for creating panoramas, sprite sheets, social media posts, and any image manipulation task.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Features Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>15 Powerful Modes</h2>
+                    <p>From simple horizontal and vertical merging to advanced grid layouts and sprite slicing, our tool has everything you need.</p>
+                    <p>Merge images with transparency control, split by pixels or aspect ratio, create tiled patterns, and even remove solid backgrounds automatically.</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1625619456890-b907126970f6?w=600&h=400&fit=crop" alt="Merge Tools">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Security Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1742479210282-52746cdb18b5?w=600&h=400&fit=crop" alt="Privacy Protection">
+                </div>
+                <div class="content-text">
+                    <h2>100% Privacy Protection</h2>
+                    <p>All image processing happens locally in your browser. Your images are never uploaded to any server.</p>
+                    <p>Your data stays on your device, ensuring complete privacy and security for sensitive images.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Support Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>Mobile-Friendly Design</h2>
+                    <p>Merge and split images on the go with our mobile-friendly design. Our tool works seamlessly on smartphones and tablets.</p>
+                    <p>With a responsive interface that adapts to any screen size, you can easily upload, process, and download images using your mobile device.</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1654554455393-e78cc5960a41?w=600&h=400&fit=crop" alt="Mobile-Friendly Design">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Section -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>Merge and split images for free</h2>
+            <p>Say goodbye to complex image editing software. With CaliperTools Image Merge & Split, you can effortlessly combine and divide images for free. The best part is you can use our tool from any device with a browser, no downloads or installations required.</p>
+            <p class="mb-10">Use drag-and-drop to upload your images, select from 15 different merge and split modes, customize settings, and download your results as PNG, JPG, or WebP. Process as many images as you like, all in just a few clicks.</p>
+            
+            <h2>High-quality results every time</h2>
+            <p>Preserve the quality of your images while merging or splitting. Our advanced processing ensures that your images maintain their clarity and detail.</p>
+            <p>With built-in customization options, you can adjust transparency, grid layouts, split dimensions, and choose from 15 different modes to achieve exactly the result you need.</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="related-tools">
+        <div class="container">
+            <h2 class="section-title">Related Tools</h2>
+            <div class="tools-grid" id="relatedTools">
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        initRelatedTools('image-merge-split-tool');
+    </script>
+
+    <script>
+        let resultCanvas, resultCtx;
+        let uploadedImages = [];
+        let currentMode = null;
+        let currentSettings = {};
+        let splitImages = [];
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let imageOffsetX = 0;
+        let imageOffsetY = 0;
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const canvasWrapper = document.getElementById('canvas-wrapper');
+        const clearBtn = document.getElementById('clear-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const zipBtn = document.getElementById('zip-btn');
+        const downloadFormat = document.getElementById('download-format');
+        const toolButtons = document.querySelectorAll('.tool-btn');
+        const dynamicSettings = document.getElementById('dynamic-settings');
+        const imageList = document.getElementById('image-list');
+        const imageListContent = document.getElementById('image-list-content');
+
+        const settingsTemplates = {
+            'horizontal-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Height:</span>
+                    <select id="setting-height-mode" class="setting-select">
+                        <option value="min">Minimum Height</option>
+                        <option value="max">Maximum Height</option>
+                        <option value="custom">Custom Height</option>
+                    </select>
+                </div>
+                <div class="setting-row" id="custom-height-row" style="display: none;">
+                    <span class="setting-label">Custom:</span>
+                    <input type="number" id="setting-custom-height" class="setting-input" value="500" min="100">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Gap:</span>
+                    <input type="number" id="setting-gap" class="setting-input" value="0" min="0">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Background:</span>
+                    <input type="color" id="setting-bg-color" class="color-picker" value="#ffffff">
+                </div>
+            `,
+            'vertical-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Width:</span>
+                    <select id="setting-width-mode" class="setting-select">
+                        <option value="min">Minimum Width</option>
+                        <option value="max">Maximum Width</option>
+                        <option value="custom">Custom Width</option>
+                    </select>
+                </div>
+                <div class="setting-row" id="custom-width-row" style="display: none;">
+                    <span class="setting-label">Custom:</span>
+                    <input type="number" id="setting-custom-width" class="setting-input" value="500" min="100">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Gap:</span>
+                    <input type="number" id="setting-gap" class="setting-input" value="0" min="0">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Background:</span>
+                    <input type="color" id="setting-bg-color" class="color-picker" value="#ffffff">
+                </div>
+            `,
+            'grid-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Columns:</span>
+                    <input type="number" id="setting-cols" class="setting-input" value="3" min="1" max="10">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Gap:</span>
+                    <input type="number" id="setting-gap" class="setting-input" value="10" min="0">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Background:</span>
+                    <input type="color" id="setting-bg-color" class="color-picker" value="#ffffff">
+                </div>
+            `,
+            'overlay-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Opacity:</span>
+                    <input type="range" id="setting-opacity" class="size-slider" min="0" max="100" value="50">
+                    <span id="opacity-display" class="size-display">50%</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Blend Mode:</span>
+                    <select id="setting-blend-mode" class="setting-select">
+                        <option value="normal">Normal</option>
+                        <option value="multiply">Multiply</option>
+                        <option value="screen">Screen</option>
+                        <option value="overlay">Overlay</option>
+                        <option value="darken">Darken</option>
+                        <option value="lighten">Lighten</option>
+                    </select>
+                </div>
+            `,
+            'batch-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Group Size:</span>
+                    <input type="number" id="setting-group-size" class="setting-input" value="2" min="1">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Direction:</span>
+                    <select id="setting-direction" class="setting-select">
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                    </select>
+                </div>
+            `,
+            'transparent-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Direction:</span>
+                    <select id="setting-direction" class="setting-select">
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Gap:</span>
+                    <input type="number" id="setting-gap" class="setting-input" value="0" min="0">
+                </div>
+            `,
+            'split-horizontal': `
+                <div class="setting-row">
+                    <span class="setting-label">Parts:</span>
+                    <input type="number" id="setting-parts" class="setting-input" value="2" min="1" max="20">
+                </div>
+            `,
+            'split-vertical': `
+                <div class="setting-row">
+                    <span class="setting-label">Parts:</span>
+                    <input type="number" id="setting-parts" class="setting-input" value="2" min="1" max="20">
+                </div>
+            `,
+            'split-grid': `
+                <div class="setting-row">
+                    <span class="setting-label">Rows:</span>
+                    <input type="number" id="setting-rows" class="setting-input" value="2" min="1" max="10">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Columns:</span>
+                    <input type="number" id="setting-cols" class="setting-input" value="2" min="1" max="10">
+                </div>
+            `,
+            'sprite-slice': `
+                <div class="setting-row">
+                    <span class="setting-label">Frame Width:</span>
+                    <input type="number" id="setting-frame-width" class="setting-input" value="64" min="1">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Frame Height:</span>
+                    <input type="number" id="setting-frame-height" class="setting-input" value="64" min="1">
+                </div>
+            `,
+            'social-split': `
+                <div class="setting-row">
+                    <span class="setting-label">Platform:</span>
+                    <select id="setting-platform" class="setting-select">
+                        <option value="instagram">Instagram (1:1)</option>
+                        <option value="tiktok">TikTok (9:16)</option>
+                        <option value="twitter">Twitter (16:9)</option>
+                        <option value="facebook">Facebook (4:5)</option>
+                    </select>
+                </div>
+            `,
+            'pixel-split': `
+                <div class="setting-row">
+                    <span class="setting-label">Width:</span>
+                    <input type="number" id="setting-split-width" class="setting-input" value="500" min="1">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Height:</span>
+                    <input type="number" id="setting-split-height" class="setting-input" value="500" min="1">
+                </div>
+            `,
+            'aspect-split': `
+                <div class="setting-row">
+                    <span class="setting-label">Aspect Ratio:</span>
+                    <select id="setting-aspect-ratio" class="setting-select">
+                        <option value="1:1">1:1 (Square)</option>
+                        <option value="4:5">4:5 (Portrait)</option>
+                        <option value="16:9">16:9 (Landscape)</option>
+                        <option value="9:16">9:16 (Mobile)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Position:</span>
+                    <select id="setting-position" class="setting-select">
+                        <option value="center">Center</option>
+                        <option value="top-left">Top Left</option>
+                        <option value="top-right">Top Right</option>
+                        <option value="bottom-left">Bottom Left</option>
+                        <option value="bottom-right">Bottom Right</option>
+                    </select>
+                </div>
+            `,
+            'tile-image': `
+                <div class="setting-row">
+                    <span class="setting-label">Repeat X:</span>
+                    <input type="number" id="setting-repeat-x" class="setting-input" value="3" min="1">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Repeat Y:</span>
+                    <input type="number" id="setting-repeat-y" class="setting-input" value="3" min="1">
+                </div>
+            `,
+            'bg-remove-merge': `
+                <div class="setting-row">
+                    <span class="setting-label">Tolerance:</span>
+                    <input type="range" id="setting-tolerance" class="size-slider" min="0" max="100" value="30">
+                    <span id="tolerance-display" class="size-display">30%</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Target Color:</span>
+                    <input type="color" id="setting-target-color" class="color-picker" value="#ffffff">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Direction:</span>
+                    <select id="setting-direction" class="setting-select">
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                    </select>
+                </div>
+            `
+        };
+
+        function handleUrlParams() {
+            const pathname = window.location.pathname;
+            const segments = pathname.split('/');
+            const modeParam = segments[segments.length - 1];
+            if (modeParam && modeParam !== 'Image-Merge.html') {
+                const modeBtn = document.querySelector(`.tool-btn[data-mode="${modeParam}"]`);
+                if (modeBtn) {
+                    modeBtn.click();
+                }
+            }
+        }
+
+        function init() {
+            resultCanvas = document.getElementById('resultCanvas');
+            resultCtx = resultCanvas.getContext('2d');
+            setupEventListeners();
+            handleUrlParams();
+        }
+
+        function setupEventListeners() {
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            uploadPrompt.addEventListener('click', function() {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', handleFileUpload);
+
+            const canvasArea = document.querySelector('.canvas-area');
+            canvasArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.add('drag-over');
+            });
+
+            canvasArea.addEventListener('dragleave', function() {
+                uploadPrompt.classList.remove('drag-over');
+            });
+
+            canvasArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                handleMultipleFiles(files);
+            });
+
+            document.getElementById('split-warning').addEventListener('click', function() {
+                document.getElementById('split-warning').style.display = 'none';
+            });
+
+            clearBtn.addEventListener('click', clearAll);
+            downloadBtn.addEventListener('click', downloadResult);
+            zipBtn.addEventListener('click', downloadZip);
+
+            resultCanvas.addEventListener('mousedown', handleMouseDown);
+            resultCanvas.addEventListener('mousemove', handleMouseMove);
+            resultCanvas.addEventListener('mouseup', handleMouseUp);
+            resultCanvas.addEventListener('mouseleave', handleMouseUp);
+
+            toolButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const mode = btn.dataset.mode;
+                    
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    btn.classList.add('active');
+                    currentMode = mode;
+                    splitImages = [];
+                    imageOffsetX = 0;
+                    imageOffsetY = 0;
+                    
+                    const toolTitle = btn.dataset.title;
+                    const toolDescription = btn.dataset.description;
+                    
+                    if (toolTitle) {
+                        document.title = toolTitle;
+                    }
+                    
+                    const newUrl = new URL(window.location.href);
+            const segments = newUrl.pathname.split('/');
+            const imageIndex = segments.indexOf('Image');
+            
+            const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
+            const langIndex = segments.findIndex(segment => langCodes.includes(segment));
+            
+            if (langIndex !== -1) {
+                newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Merge/' + mode;
+            } else if (imageIndex !== -1) {
+                newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Merge/' + mode;
+            } else {
+                newUrl.pathname = '/Image/Image-Merge/' + mode;
+            }
+            window.history.pushState({}, '', newUrl);
+                    
+                    const metaDescription = document.querySelector('meta[name="description"]');
+                    if (metaDescription && toolDescription) {
+                        metaDescription.setAttribute('content', toolDescription);
+                    }
+                    
+                    updateSettingsPanel(mode);
+                    processImages();
+                });
+            });
+
+            document.addEventListener('change', function(e) {
+                if (e.target.id.startsWith('setting-')) {
+                    processImages();
+                }
+            });
+
+            document.addEventListener('input', function(e) {
+                if (e.target.id === 'setting-opacity') {
+                    document.getElementById('opacity-display').textContent = e.target.value + '%';
+                    processImages();
+                }
+                if (e.target.id === 'setting-tolerance') {
+                    document.getElementById('tolerance-display').textContent = e.target.value + '%';
+                    processImages();
+                }
+                if (e.target.id === 'setting-height-mode') {
+                    const customRow = document.getElementById('custom-height-row');
+                    customRow.style.display = e.target.value === 'custom' ? 'flex' : 'none';
+                    processImages();
+                }
+                if (e.target.id === 'setting-width-mode') {
+                    const customRow = document.getElementById('custom-width-row');
+                    customRow.style.display = e.target.value === 'custom' ? 'flex' : 'none';
+                    processImages();
+                }
+                if (e.target.id === 'setting-aspect-ratio' || e.target.id === 'setting-position') {
+                    imageOffsetX = 0;
+                    imageOffsetY = 0;
+                    processImages();
+                }
+            });
+        }
+
+        function handleFileUpload(e) {
+            handleMultipleFiles(e.target.files);
+        }
+
+        function handleMultipleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            uploadedImages.push({
+                                src: event.target.result,
+                                name: file.name,
+                                img: img,
+                                width: img.width,
+                                height: img.height
+                            });
+                            updateImageList();
+                            processImages();
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            const splitModes = ['split-horizontal', 'split-vertical', 'split-grid', 'sprite-slice', 'pixel-split', 'aspect-split'];
+            if (uploadedImages.length > 1) {
+                const splitWarning = document.getElementById('split-warning');
+                splitWarning.style.display = 'block';
+            } else {
+                const splitWarning = document.getElementById('split-warning');
+                splitWarning.style.display = 'none';
+            }
+        }
+
+        function updateImageList() {
+            if (uploadedImages.length > 0) {
+                imageList.style.display = 'block';
+                imageListContent.innerHTML = uploadedImages.map((item, index) => `
+                    <div class="image-item">
+                        <img src="${item.src}" alt="${item.name}">
+                        <span class="image-item-name">${item.name}</span>
+                        <button class="image-item-move" onclick="moveImage(${index}, -1)" title="Move Up"><i class="fas fa-arrow-up"></i></button>
+                        <button class="image-item-move" onclick="moveImage(${index}, 1)" title="Move Down"><i class="fas fa-arrow-down"></i></button>
+                        <button class="image-item-remove" onclick="removeImage(${index})" title="Remove"><i class="fas fa-times"></i></button>
+                        ${index > 0 ? `<button class="image-item-use" onclick="useImage(${index})" title="Use this image"><i class="fas fa-check"></i></button>` : '<span class="image-item-used"><i class="fas fa-star"></i></span>'}
+                    </div>
+                `).join('');
+            } else {
+                imageList.style.display = 'none';
+            }
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            updateImageList();
+            processImages();
+        }
+
+        function moveImage(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < uploadedImages.length) {
+                const temp = uploadedImages[index];
+                uploadedImages[index] = uploadedImages[newIndex];
+                uploadedImages[newIndex] = temp;
+                updateImageList();
+                processImages();
+            }
+        }
+
+        function useImage(index) {
+            if (uploadedImages.length === 0) return;
+            
+            const temp = uploadedImages[0];
+            uploadedImages[0] = uploadedImages[index];
+            uploadedImages[index] = temp;
+            updateImageList();
+            processImages();
+            
+            const splitWarning = document.getElementById('split-warning');
+            splitWarning.style.display = 'none';
+        }
+
+        function updateSettingsPanel(mode) {
+            if (settingsTemplates[mode]) {
+                dynamicSettings.innerHTML = settingsTemplates[mode];
+            } else {
+                dynamicSettings.innerHTML = '<p style="color: #666; font-size: 14px;">No settings for this mode</p>';
+            }
+        }
+
+        function getSettingValue(id) {
+            const element = document.getElementById(id);
+            return element ? element.value : null;
+        }
+
+        function processImages() {
+            if (uploadedImages.length === 0) {
+                uploadPrompt.style.display = 'flex';
+                canvasWrapper.classList.remove('active');
+                downloadBtn.disabled = true;
+                // Remove delete button if it exists
+                const existingDeleteBtn = canvasWrapper.querySelector('.canvas-delete-btn');
+                if (existingDeleteBtn) {
+                    existingDeleteBtn.remove();
+                }
+                return;
+            }
+
+            uploadPrompt.style.display = 'none';
+            canvasWrapper.classList.add('active');
+            
+            // Add delete button if it doesn't exist
+            let deleteBtn = canvasWrapper.querySelector('.canvas-delete-btn');
+            if (!deleteBtn) {
+                deleteBtn = document.createElement('button');
+                deleteBtn.className = 'canvas-delete-btn';
+                deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                deleteBtn.addEventListener('click', clearAll);
+                canvasWrapper.appendChild(deleteBtn);
+            }
+
+            if (!currentMode) {
+                const img = uploadedImages[0];
+                resultCanvas.width = img.width;
+                resultCanvas.height = img.height;
+                resultCtx.fillStyle = '#ffffff';
+                resultCtx.fillRect(0, 0, img.width, img.height);
+                resultCtx.drawImage(img.img, 0, 0, img.width, img.height);
+                downloadBtn.disabled = false;
+                zipBtn.disabled = false;
+                return;
+            }
+
+            splitImages = [];
+
+            switch (currentMode) {
+                case 'horizontal-merge':
+                    processHorizontalMerge();
+                    break;
+                case 'vertical-merge':
+                    processVerticalMerge();
+                    break;
+                case 'grid-merge':
+                    processGridMerge();
+                    break;
+                case 'overlay-merge':
+                    processOverlayMerge();
+                    break;
+                case 'batch-merge':
+                    processBatchMerge();
+                    break;
+                case 'transparent-merge':
+                    processTransparentMerge();
+                    break;
+                case 'split-horizontal':
+                    processSplitHorizontal();
+                    break;
+                case 'split-vertical':
+                    processSplitVertical();
+                    break;
+                case 'split-grid':
+                    processSplitGrid();
+                    break;
+                case 'sprite-slice':
+                    processSpriteSlice();
+                    break;
+                case 'social-split':
+                    processSocialSplit();
+                    break;
+                case 'pixel-split':
+                    processPixelSplit();
+                    break;
+                case 'aspect-split':
+                    processAspectSplit();
+                    break;
+                case 'tile-image':
+                    processTileImage();
+                    break;
+                case 'bg-remove-merge':
+                    processBgRemoveMerge();
+                    break;
+            }
+
+            downloadBtn.disabled = false;
+            zipBtn.disabled = false;
+        }
+
+        function processHorizontalMerge() {
+            const heightMode = getSettingValue('setting-height-mode');
+            const customHeight = parseInt(getSettingValue('setting-custom-height')) || 500;
+            const gap = parseInt(getSettingValue('setting-gap')) || 0;
+            const bgColor = getSettingValue('setting-bg-color') || '#ffffff';
+
+            let targetHeight;
+            if (heightMode === 'min') {
+                targetHeight = Math.min(...uploadedImages.map(img => img.height));
+            } else if (heightMode === 'max') {
+                targetHeight = Math.max(...uploadedImages.map(img => img.height));
+            } else {
+                targetHeight = customHeight;
+            }
+
+            const totalWidth = uploadedImages.reduce((sum, img) => {
+                const scale = targetHeight / img.height;
+                return sum + img.width * scale;
+            }, 0) + gap * (uploadedImages.length - 1);
+
+            resultCanvas.width = totalWidth;
+            resultCanvas.height = targetHeight;
+
+            resultCtx.fillStyle = bgColor;
+            resultCtx.fillRect(0, 0, totalWidth, targetHeight);
+
+            let currentX = 0;
+            uploadedImages.forEach(item => {
+                const scale = targetHeight / item.height;
+                const newWidth = item.width * scale;
+                resultCtx.drawImage(item.img, currentX, 0, newWidth, targetHeight);
+                currentX += newWidth + gap;
+            });
+        }
+
+        function processVerticalMerge() {
+            const widthMode = getSettingValue('setting-width-mode');
+            const customWidth = parseInt(getSettingValue('setting-custom-width')) || 500;
+            const gap = parseInt(getSettingValue('setting-gap')) || 0;
+            const bgColor = getSettingValue('setting-bg-color') || '#ffffff';
+
+            let targetWidth;
+            if (widthMode === 'min') {
+                targetWidth = Math.min(...uploadedImages.map(img => img.width));
+            } else if (widthMode === 'max') {
+                targetWidth = Math.max(...uploadedImages.map(img => img.width));
+            } else {
+                targetWidth = customWidth;
+            }
+
+            const totalHeight = uploadedImages.reduce((sum, img) => {
+                const scale = targetWidth / img.width;
+                return sum + img.height * scale;
+            }, 0) + gap * (uploadedImages.length - 1);
+
+            resultCanvas.width = targetWidth;
+            resultCanvas.height = totalHeight;
+
+            resultCtx.fillStyle = bgColor;
+            resultCtx.fillRect(0, 0, targetWidth, totalHeight);
+
+            let currentY = 0;
+            uploadedImages.forEach(item => {
+                const scale = targetWidth / item.width;
+                const newHeight = item.height * scale;
+                resultCtx.drawImage(item.img, 0, currentY, targetWidth, newHeight);
+                currentY += newHeight + gap;
+            });
+        }
+
+        function processGridMerge() {
+            const cols = parseInt(getSettingValue('setting-cols')) || 3;
+            const gap = parseInt(getSettingValue('setting-gap')) || 10;
+            const bgColor = getSettingValue('setting-bg-color') || '#ffffff';
+
+            const rows = Math.ceil(uploadedImages.length / cols);
+
+            const maxWidth = Math.max(...uploadedImages.map(img => img.width));
+            const maxHeight = Math.max(...uploadedImages.map(img => img.height));
+
+            const cellWidth = maxWidth;
+            const cellHeight = maxHeight;
+
+            resultCanvas.width = cols * cellWidth + (cols + 1) * gap;
+            resultCanvas.height = rows * cellHeight + (rows + 1) * gap;
+
+            resultCtx.fillStyle = bgColor;
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+            uploadedImages.forEach((item, index) => {
+                const col = index % cols;
+                const row = Math.floor(index / cols);
+                const x = gap + col * (cellWidth + gap);
+                const y = gap + row * (cellHeight + gap);
+
+                const scale = Math.min(cellWidth / item.width, cellHeight / item.height);
+                const newWidth = item.width * scale;
+                const newHeight = item.height * scale;
+                const offsetX = (cellWidth - newWidth) / 2;
+                const offsetY = (cellHeight - newHeight) / 2;
+
+                resultCtx.drawImage(item.img, x + offsetX, y + offsetY, newWidth, newHeight);
+            });
+        }
+
+        function processOverlayMerge() {
+            const opacity = parseInt(getSettingValue('setting-opacity')) / 100;
+            const blendMode = getSettingValue('setting-blend-mode');
+
+            const maxWidth = Math.max(...uploadedImages.map(img => img.width));
+            const maxHeight = Math.max(...uploadedImages.map(img => img.height));
+
+            resultCanvas.width = maxWidth;
+            resultCanvas.height = maxHeight;
+
+            resultCtx.clearRect(0, 0, maxWidth, maxHeight);
+
+            uploadedImages.forEach((item, index) => {
+                resultCtx.globalAlpha = index === 0 ? 1 : opacity;
+                resultCtx.globalCompositeOperation = index === 0 ? 'source-over' : blendMode;
+                
+                const x = (maxWidth - item.width) / 2;
+                const y = (maxHeight - item.height) / 2;
+                resultCtx.drawImage(item.img, x, y, item.width, item.height);
+            });
+
+            resultCtx.globalAlpha = 1;
+            resultCtx.globalCompositeOperation = 'source-over';
+        }
+
+        function processBatchMerge() {
+            const groupSize = parseInt(getSettingValue('setting-group-size')) || 2;
+            const direction = getSettingValue('setting-direction');
+
+            const groups = [];
+            for (let i = 0; i < uploadedImages.length; i += groupSize) {
+                groups.push(uploadedImages.slice(i, i + groupSize));
+            }
+
+            if (groups.length === 0) return;
+
+            const groupCanvases = groups.map(group => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                if (direction === 'horizontal') {
+                    const maxHeight = Math.max(...group.map(img => img.height));
+                    const totalWidth = group.reduce((sum, img) => sum + img.width, 0);
+                    canvas.width = totalWidth;
+                    canvas.height = maxHeight;
+
+                    let currentX = 0;
+                    group.forEach(item => {
+                        ctx.drawImage(item.img, currentX, 0, item.width, item.height);
+                        currentX += item.width;
+                    });
+                } else {
+                    const maxWidth = Math.max(...group.map(img => img.width));
+                    const totalHeight = group.reduce((sum, img) => sum + img.height, 0);
+                    canvas.width = maxWidth;
+                    canvas.height = totalHeight;
+
+                    let currentY = 0;
+                    group.forEach(item => {
+                        ctx.drawImage(item.img, 0, currentY, item.width, item.height);
+                        currentY += item.height;
+                    });
+                }
+
+                return canvas;
+            });
+
+            const maxGroupWidth = Math.max(...groupCanvases.map(c => c.width));
+            const maxGroupHeight = Math.max(...groupCanvases.map(c => c.height));
+
+            const cols = Math.ceil(Math.sqrt(groupCanvases.length));
+            const rows = Math.ceil(groupCanvases.length / cols);
+
+            resultCanvas.width = cols * maxGroupWidth;
+            resultCanvas.height = rows * maxGroupHeight;
+
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+            groupCanvases.forEach((canvas, index) => {
+                const col = index % cols;
+                const row = Math.floor(index / cols);
+                const x = col * maxGroupWidth;
+                const y = row * maxGroupHeight;
+                resultCtx.drawImage(canvas, x, y);
+            });
+        }
+
+        function processTransparentMerge() {
+            const direction = getSettingValue('setting-direction');
+            const gap = parseInt(getSettingValue('setting-gap')) || 0;
+
+            if (uploadedImages.length === 0) return;
+
+            if (direction === 'horizontal') {
+                const maxHeight = Math.max(...uploadedImages.map(img => img.height));
+                const totalWidth = uploadedImages.reduce((sum, img) => sum + img.width, 0) + gap * (uploadedImages.length - 1);
+
+                resultCanvas.width = totalWidth;
+                resultCanvas.height = maxHeight;
+
+                resultCtx.clearRect(0, 0, totalWidth, maxHeight);
+
+                let currentX = 0;
+                uploadedImages.forEach(item => {
+                    const y = (maxHeight - item.height) / 2;
+                    resultCtx.drawImage(item.img, currentX, y, item.width, item.height);
+                    currentX += item.width + gap;
+                });
+            } else {
+                const maxWidth = Math.max(...uploadedImages.map(img => img.width));
+                const totalHeight = uploadedImages.reduce((sum, img) => sum + img.height, 0) + gap * (uploadedImages.length - 1);
+
+                resultCanvas.width = maxWidth;
+                resultCanvas.height = totalHeight;
+
+                resultCtx.clearRect(0, 0, maxWidth, totalHeight);
+
+                let currentY = 0;
+                uploadedImages.forEach(item => {
+                    const x = (maxWidth - item.width) / 2;
+                    resultCtx.drawImage(item.img, x, currentY, item.width, item.height);
+                    currentY += item.height + gap;
+                });
+            }
+        }
+
+        function processSplitHorizontal() {
+            if (uploadedImages.length === 0) return;
+
+            const parts = parseInt(getSettingValue('setting-parts')) || 2;
+            const img = uploadedImages[0];
+
+            const partHeight = img.height / parts;
+
+            splitImages = [];
+            
+            for (let i = 0; i < parts; i++) {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = partHeight;
+                const ctx = canvas.getContext('2d');
+                
+                const y = i * partHeight;
+                ctx.drawImage(img.img, 0, y, img.width, partHeight, 0, 0, img.width, partHeight);
+                
+                splitImages.push({
+                    canvas: canvas,
+                    name: `split-horizontal-${i + 1}`
+                });
+            }
+
+            resultCanvas.width = img.width;
+            resultCanvas.height = img.height;
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, img.width, img.height);
+
+            for (let i = 0; i < parts; i++) {
+                const y = i * partHeight;
+                resultCtx.drawImage(img.img, 0, y, img.width, partHeight, 0, y, img.width, partHeight);
+                
+                if (i > 0) {
+                    resultCtx.strokeStyle = '#000000';
+                    resultCtx.lineWidth = 2;
+                    resultCtx.beginPath();
+                    resultCtx.moveTo(0, y);
+                    resultCtx.lineTo(img.width, y);
+                    resultCtx.stroke();
+                }
+            }
+        }
+
+        function processSplitVertical() {
+            if (uploadedImages.length === 0) return;
+
+            const parts = parseInt(getSettingValue('setting-parts')) || 2;
+            const img = uploadedImages[0];
+
+            const partWidth = img.width / parts;
+
+            splitImages = [];
+            
+            for (let i = 0; i < parts; i++) {
+                const canvas = document.createElement('canvas');
+                canvas.width = partWidth;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                
+                const x = i * partWidth;
+                ctx.drawImage(img.img, x, 0, partWidth, img.height, 0, 0, partWidth, img.height);
+                
+                splitImages.push({
+                    canvas: canvas,
+                    name: `split-vertical-${i + 1}`
+                });
+            }
+
+            resultCanvas.width = img.width;
+            resultCanvas.height = img.height;
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, img.width, img.height);
+
+            for (let i = 0; i < parts; i++) {
+                const x = i * partWidth;
+                resultCtx.drawImage(img.img, x, 0, partWidth, img.height, x, 0, partWidth, img.height);
+                
+                if (i > 0) {
+                    resultCtx.strokeStyle = '#000000';
+                    resultCtx.lineWidth = 2;
+                    resultCtx.beginPath();
+                    resultCtx.moveTo(x, 0);
+                    resultCtx.lineTo(x, img.height);
+                    resultCtx.stroke();
+                }
+            }
+        }
+
+        function processSplitGrid() {
+            if (uploadedImages.length === 0) return;
+
+            const rows = parseInt(getSettingValue('setting-rows')) || 2;
+            const cols = parseInt(getSettingValue('setting-cols')) || 2;
+            const img = uploadedImages[0];
+
+            const partWidth = img.width / cols;
+            const partHeight = img.height / rows;
+
+            splitImages = [];
+            
+            let index = 1;
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = partWidth;
+                    canvas.height = partHeight;
+                    const ctx = canvas.getContext('2d');
+                    
+                    const x = col * partWidth;
+                    const y = row * partHeight;
+                    ctx.drawImage(img.img, x, y, partWidth, partHeight, 0, 0, partWidth, partHeight);
+                    
+                    splitImages.push({
+                        canvas: canvas,
+                        name: `split-grid-${index++}`
+                    });
+                }
+            }
+
+            resultCanvas.width = img.width;
+            resultCanvas.height = img.height;
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, img.width, img.height);
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * partWidth;
+                    const y = row * partHeight;
+                    resultCtx.drawImage(img.img, x, y, partWidth, partHeight, x, y, partWidth, partHeight);
+                }
+            }
+
+            resultCtx.strokeStyle = '#000000';
+            resultCtx.lineWidth = 2;
+            
+            for (let i = 1; i < cols; i++) {
+                const x = i * partWidth;
+                resultCtx.beginPath();
+                resultCtx.moveTo(x, 0);
+                resultCtx.lineTo(x, img.height);
+                resultCtx.stroke();
+            }
+            
+            for (let i = 1; i < rows; i++) {
+                const y = i * partHeight;
+                resultCtx.beginPath();
+                resultCtx.moveTo(0, y);
+                resultCtx.lineTo(img.width, y);
+                resultCtx.stroke();
+            }
+        }
+
+        function processSpriteSlice() {
+            if (uploadedImages.length === 0) return;
+
+            const frameWidth = parseInt(getSettingValue('setting-frame-width')) || 64;
+            const frameHeight = parseInt(getSettingValue('setting-frame-height')) || 64;
+            const img = uploadedImages[0];
+
+            const cols = Math.floor(img.width / frameWidth);
+            const rows = Math.floor(img.height / frameHeight);
+
+            splitImages = [];
+            
+            let index = 1;
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = frameWidth;
+                    canvas.height = frameHeight;
+                    const ctx = canvas.getContext('2d');
+                    
+                    const x = col * frameWidth;
+                    const y = row * frameHeight;
+                    ctx.drawImage(img.img, x, y, frameWidth, frameHeight, 0, 0, frameWidth, frameHeight);
+                    
+                    splitImages.push({
+                        canvas: canvas,
+                        name: `sprite-frame-${index++}`
+                    });
+                }
+            }
+
+            resultCanvas.width = cols * frameWidth;
+            resultCanvas.height = rows * frameHeight;
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * frameWidth;
+                    const y = row * frameHeight;
+                    resultCtx.drawImage(img.img, x, y, frameWidth, frameHeight, x, y, frameWidth, frameHeight);
+                }
+            }
+
+            resultCtx.strokeStyle = '#000000';
+            resultCtx.lineWidth = 2;
+            
+            for (let i = 1; i < cols; i++) {
+                const x = i * frameWidth;
+                resultCtx.beginPath();
+                resultCtx.moveTo(x, 0);
+                resultCtx.lineTo(x, resultCanvas.height);
+                resultCtx.stroke();
+            }
+            
+            for (let i = 1; i < rows; i++) {
+                const y = i * frameHeight;
+                resultCtx.beginPath();
+                resultCtx.moveTo(0, y);
+                resultCtx.lineTo(resultCanvas.width, y);
+                resultCtx.stroke();
+            }
+        }
+
+        function processSocialSplit() {
+            if (uploadedImages.length === 0) return;
+
+            const platform = getSettingValue('setting-platform');
+            const img = uploadedImages[0];
+
+            let targetWidth, targetHeight;
+            switch (platform) {
+                case 'instagram':
+                    targetWidth = 1080;
+                    targetHeight = 1080;
+                    break;
+                case 'tiktok':
+                    targetWidth = 1080;
+                    targetHeight = 1920;
+                    break;
+                case 'twitter':
+                    targetWidth = 1200;
+                    targetHeight = 675;
+                    break;
+                case 'facebook':
+                    targetWidth = 1200;
+                    targetHeight = 1500;
+                    break;
+                default:
+                    targetWidth = 1080;
+                    targetHeight = 1080;
+            }
+
+            const scale = Math.min(targetWidth / img.width, targetHeight / img.height);
+            const scaledWidth = img.width * scale;
+            const scaledHeight = img.height * scale;
+
+            resultCanvas.width = targetWidth;
+            resultCanvas.height = targetHeight;
+
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, targetWidth, targetHeight);
+
+            const offsetX = (targetWidth - scaledWidth) / 2;
+            const offsetY = (targetHeight - scaledHeight) / 2;
+
+            resultCtx.drawImage(img.img, offsetX, offsetY, scaledWidth, scaledHeight);
+        }
+
+        function processPixelSplit() {
+            if (uploadedImages.length === 0) return;
+
+            const splitWidth = parseInt(getSettingValue('setting-split-width')) || 500;
+            const splitHeight = parseInt(getSettingValue('setting-split-height')) || 500;
+            const img = uploadedImages[0];
+
+            const cols = Math.ceil(img.width / splitWidth);
+            const rows = Math.ceil(img.height / splitHeight);
+
+            splitImages = [];
+            
+            let index = 1;
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = splitWidth;
+                    canvas.height = splitHeight;
+                    const ctx = canvas.getContext('2d');
+                    
+                    const x = col * splitWidth;
+                    const y = row * splitHeight;
+                    
+                    const sourceX = Math.min(x, img.width);
+                    const sourceY = Math.min(y, img.height);
+                    const sourceWidth = Math.min(splitWidth, img.width - sourceX);
+                    const sourceHeight = Math.min(splitHeight, img.height - sourceY);
+                    
+                    ctx.drawImage(img.img, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, sourceWidth, sourceHeight);
+                    
+                    splitImages.push({
+                        canvas: canvas,
+                        name: `pixel-split-${index++}`
+                    });
+                }
+            }
+
+            resultCanvas.width = cols * splitWidth;
+            resultCanvas.height = rows * splitHeight;
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    const x = col * splitWidth;
+                    const y = row * splitHeight;
+                    
+                    const sourceX = Math.min(x, img.width);
+                    const sourceY = Math.min(y, img.height);
+                    const sourceWidth = Math.min(splitWidth, img.width - sourceX);
+                    const sourceHeight = Math.min(splitHeight, img.height - sourceY);
+                    
+                    resultCtx.drawImage(img.img, sourceX, sourceY, sourceWidth, sourceHeight, x, y, sourceWidth, sourceHeight);
+                }
+            }
+
+            resultCtx.strokeStyle = '#000000';
+            resultCtx.lineWidth = 2;
+            
+            for (let i = 1; i < cols; i++) {
+                const x = i * splitWidth;
+                resultCtx.beginPath();
+                resultCtx.moveTo(x, 0);
+                resultCtx.lineTo(x, resultCanvas.height);
+                resultCtx.stroke();
+            }
+            
+            for (let i = 1; i < rows; i++) {
+                const y = i * splitHeight;
+                resultCtx.beginPath();
+                resultCtx.moveTo(0, y);
+                resultCtx.lineTo(resultCanvas.width, y);
+                resultCtx.stroke();
+            }
+        }
+
+        function processAspectSplit() {
+            if (uploadedImages.length === 0) return;
+
+            const aspectRatio = getSettingValue('setting-aspect-ratio');
+            const position = getSettingValue('setting-position') || 'center';
+            const img = uploadedImages[0];
+
+            let targetWidth, targetHeight;
+            switch (aspectRatio) {
+                case '1:1':
+                    targetWidth = Math.min(img.width, img.height);
+                    targetHeight = targetWidth;
+                    break;
+                case '4:5':
+                    targetHeight = img.height;
+                    targetWidth = targetHeight * 4 / 5;
+                    if (targetWidth > img.width) {
+                        targetWidth = img.width;
+                        targetHeight = targetWidth * 5 / 4;
+                    }
+                    break;
+                case '16:9':
+                    targetWidth = img.width;
+                    targetHeight = targetWidth * 9 / 16;
+                    if (targetHeight > img.height) {
+                        targetHeight = img.height;
+                        targetWidth = targetHeight * 16 / 9;
+                    }
+                    break;
+                case '9:16':
+                    targetHeight = img.height;
+                    targetWidth = targetHeight * 9 / 16;
+                    if (targetWidth > img.width) {
+                        targetWidth = img.width;
+                        targetHeight = targetWidth * 16 / 9;
+                    }
+                    break;
+                default:
+                    targetWidth = img.width;
+                    targetHeight = img.height;
+            }
+
+            let offsetX, offsetY;
+            switch (position) {
+                case 'top-left':
+                    offsetX = 0;
+                    offsetY = 0;
+                    break;
+                case 'top-right':
+                    offsetX = targetWidth - img.width;
+                    offsetY = 0;
+                    break;
+                case 'bottom-left':
+                    offsetX = 0;
+                    offsetY = targetHeight - img.height;
+                    break;
+                case 'bottom-right':
+                    offsetX = targetWidth - img.width;
+                    offsetY = targetHeight - img.height;
+                    break;
+                case 'center':
+                default:
+                    offsetX = (targetWidth - img.width) / 2;
+                    offsetY = (targetHeight - img.height) / 2;
+            }
+
+            resultCanvas.width = targetWidth;
+            resultCanvas.height = targetHeight;
+
+            resultCtx.fillStyle = '#ffffff';
+            resultCtx.fillRect(0, 0, targetWidth, targetHeight);
+
+            const finalOffsetX = offsetX + imageOffsetX;
+            const finalOffsetY = offsetY + imageOffsetY;
+
+            resultCtx.drawImage(img.img, finalOffsetX, finalOffsetY, img.width, img.height);
+        }
+
+        function processTileImage() {
+            if (uploadedImages.length === 0) return;
+
+            const repeatX = parseInt(getSettingValue('setting-repeat-x')) || 3;
+            const repeatY = parseInt(getSettingValue('setting-repeat-y')) || 3;
+            const img = uploadedImages[0];
+
+            resultCanvas.width = img.width * repeatX;
+            resultCanvas.height = img.height * repeatY;
+
+            for (let y = 0; y < repeatY; y++) {
+                for (let x = 0; x < repeatX; x++) {
+                    resultCtx.drawImage(img.img, x * img.width, y * img.height, img.width, img.height);
+                }
+            }
+        }
+
+
+        function processBgRemoveMerge() {
+            const tolerance = parseInt(getSettingValue('setting-tolerance')) / 100;
+            const targetColor = getSettingValue('setting-target-color');
+            const direction = getSettingValue('setting-direction');
+            const gap = parseInt(getSettingValue('setting-gap')) || 0;
+
+            const targetRGB = hexToRgb(targetColor);
+
+            const processedImages = uploadedImages.map(item => {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = item.width;
+                tempCanvas.height = item.height;
+                const tempCtx = tempCanvas.getContext('2d');
+
+                tempCtx.drawImage(item.img, 0, 0);
+
+                const imageData = tempCtx.getImageData(0, 0, item.width, item.height);
+                const data = imageData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+
+                    const diff = Math.sqrt(
+                        Math.pow(r - targetRGB.r, 2) +
+                        Math.pow(g - targetRGB.g, 2) +
+                        Math.pow(b - targetRGB.b, 2)
+                    );
+
+                    if (diff < tolerance * 255 * Math.sqrt(3)) {
+                        data[i + 3] = 0;
+                    }
+                }
+
+                tempCtx.putImageData(imageData, 0, 0);
+                return { img: tempCanvas, width: item.width, height: item.height };
+            });
+
+            if (direction === 'horizontal') {
+                const maxHeight = Math.max(...processedImages.map(img => img.height));
+                const totalWidth = processedImages.reduce((sum, img) => sum + img.width, 0) + gap * (processedImages.length - 1);
+
+                resultCanvas.width = totalWidth;
+                resultCanvas.height = maxHeight;
+
+                resultCtx.clearRect(0, 0, totalWidth, maxHeight);
+
+                let currentX = 0;
+                processedImages.forEach(item => {
+                    const y = (maxHeight - item.height) / 2;
+                    resultCtx.drawImage(item.img, currentX, y, item.width, item.height);
+                    currentX += item.width + gap;
+                });
+            } else {
+                const maxWidth = Math.max(...processedImages.map(img => img.width));
+                const totalHeight = processedImages.reduce((sum, img) => sum + img.height, 0) + gap * (processedImages.length - 1);
+
+                resultCanvas.width = maxWidth;
+                resultCanvas.height = totalHeight;
+
+                resultCtx.clearRect(0, 0, maxWidth, totalHeight);
+
+                let currentY = 0;
+                processedImages.forEach(item => {
+                    const x = (maxWidth - item.width) / 2;
+                    resultCtx.drawImage(item.img, x, currentY, item.width, item.height);
+                    currentY += item.height + gap;
+                });
+            }
+        }
+
+        function handleMouseDown(e) {
+            if (currentMode !== 'aspect-split') return;
+            if (uploadedImages.length === 0) return;
+
+            const rect = resultCanvas.getBoundingClientRect();
+            const scaleX = resultCanvas.width / rect.width;
+            const scaleY = resultCanvas.height / rect.height;
+
+            isDragging = true;
+            dragStartX = (e.clientX - rect.left) * scaleX;
+            dragStartY = (e.clientY - rect.top) * scaleY;
+        }
+
+        function handleMouseMove(e) {
+            if (!isDragging || currentMode !== 'aspect-split') return;
+
+            const rect = resultCanvas.getBoundingClientRect();
+            const scaleX = resultCanvas.width / rect.width;
+            const scaleY = resultCanvas.height / rect.height;
+
+            const currentX = (e.clientX - rect.left) * scaleX;
+            const currentY = (e.clientY - rect.top) * scaleY;
+
+            const deltaX = currentX - dragStartX;
+            const deltaY = currentY - dragStartY;
+
+            imageOffsetX += deltaX;
+            imageOffsetY += deltaY;
+
+            dragStartX = currentX;
+            dragStartY = currentY;
+
+            processAspectSplit();
+        }
+
+        function handleMouseUp() {
+            isDragging = false;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function clearAll() {
+            if (uploadedImages.length > 0) {
+                if (confirm('Clear all images?')) {
+                    uploadedImages = [];
+                    updateImageList();
+                    processImages();
+                    downloadBtn.disabled = true;
+                    zipBtn.disabled = true;
+                    uploadPrompt.style.display = 'flex';
+                    canvasWrapper.classList.remove('active');
+                    resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+                    
+                    const newUrl = new URL(window.location.href);
+                    const segments = newUrl.pathname.split('/');
+                    const imageIndex = segments.indexOf('Image');
+                    
+                    const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
+                    const langIndex = segments.findIndex(segment => langCodes.includes(segment));
+                    
+                    if (langIndex !== -1) {
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Merge.html';
+                    } else if (imageIndex !== -1) {
+                        newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Merge.html';
+                    } else {
+                        newUrl.pathname = '/Image/Image-Merge.html';
+                    }
+                    window.history.pushState({}, '', newUrl);
+                    
+                    document.title = 'Free Online Image Merge & Split Tools | CaliperTools';
+                    const metaDescription = document.querySelector('meta[name="description"]');
+                    if (metaDescription) {
+                        metaDescription.setAttribute('content', 'Merge images online free. Combine multiple images horizontally, vertically, or in grids. No upload needed. Best quality results.');
+                    }
+                    
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    currentMode = null;
+                }
+            }
+        }
+
+        function downloadResult() {
+            if (uploadedImages.length === 0) return;
+
+            const format = downloadFormat.value;
+            const mimeType = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+            const extension = format === 'jpeg' ? 'jpg' : format;
+
+            if (splitImages.length > 0) {
+                splitImages.forEach((item, index) => {
+                    setTimeout(() => {
+                        const link = document.createElement('a');
+                        link.download = `${item.name}.${extension}`;
+                        link.href = item.canvas.toDataURL(mimeType, 0.9);
+                        link.click();
+                    }, index * 200);
+                });
+            } else {
+                const link = document.createElement('a');
+                link.download = `merged-image.${extension}`;
+                link.href = resultCanvas.toDataURL(mimeType, 0.9);
+                link.click();
+            }
+        }
+
+        function downloadZip() {
+            if (uploadedImages.length === 0) return;
+
+            const format = downloadFormat.value;
+            const mimeType = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+            const extension = format === 'jpeg' ? 'jpg' : format;
+
+            if (splitImages.length > 0) {
+                const zip = new JSZip();
+                splitImages.forEach((item, index) => {
+                    const dataUrl = item.canvas.toDataURL(mimeType, 0.9);
+                    const base64Data = dataUrl.split(',')[1];
+                    zip.file(`${item.name}.${extension}`, base64Data, { base64: true });
+                });
+
+                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(content);
+                    link.download = `split-images.zip`;
+                    link.click();
+                });
+            } else {
+                const dataUrl = resultCanvas.toDataURL(mimeType, 0.9);
+                const base64Data = dataUrl.split(',')[1];
+                const zip = new JSZip();
+                zip.file(`merged-image.${extension}`, base64Data, { base64: true });
+
+                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(content);
+                    link.download = `merged-image.zip`;
+                    link.click();
+                });
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

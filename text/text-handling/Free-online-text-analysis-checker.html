@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free online text analysis tool by CaliperTools - Analyze your text for word count, readability, keywords, and writing structure. Get instant insights and suggestions for better writing." />
+<title>Free Online Text Analysis Checker | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="icon" href="../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../images/favicon32.png" type="image/x-icon">
+    
+<style>
+    /* Text analysis tool custom styles */
+    /* Fix mobile horizontal scrolling issue */
+    
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5; /* Gray background */
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full-width container ensures content is within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+        
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        }
+    }
+    
+    /* Table container ensures scrolling only happens internally */
+    .table-wrapper {
+        overflow-x: auto;
+        margin-top: 1rem;
+        border-radius: 0.375rem;
+        border: 0px solid #e5e7eb;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        min-width: auto;
+        word-wrap: break-word;
+        margin-bottom: 1rem;
+    }
+    
+    /* Ensure table doesn't cause external scrolling */
+    .table-wrapper table {
+        min-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Control area styles */
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem auto;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        box-sizing: border-box;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+        
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        #wordCloud {
+            height: 250px;
+        }
+    }
+    
+    @media (max-width: 640px) {
+        /* Mobile ensure content has appropriate spacing */
+        main {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        .tool-container {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1rem;
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        
+        .stats {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .stat {
+            padding: 0.75rem;
+            font-size: 0.75rem;
+        }
+        
+        textarea {
+            height: 150px;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        #wordCloud {
+            height: 200px;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+        }
+        
+        h2 {
+            font-size: 1.125rem;
+        }
+        
+        table {
+            font-size: 0.75rem;
+        }
+        
+        th, td {
+            padding: 0.5rem;
+        }
+        
+        .controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        button, select, input[type=checkbox] {
+            padding: 0.5rem;
+        }
+    }
+    
+    textarea {
+        width: 100%;
+        height: 200px;
+        padding: 1rem;
+        font-size: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        resize: vertical;
+    }
+    
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .stat {
+        background: #f9fafb;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+    }
+    
+    h2 {
+        margin-top: 2rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111827;
+    }
+    
+    /* Module container styles */
+    .section {
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 0;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+    
+    /* Module content area styles */
+    .module-content {
+        background: #f9fafb;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        overflow: visible;
+        word-wrap: break-word;
+        white-space: normal;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Ensure word cloud is properly constrained */
+    #wordCloud {
+        width: 100% !important;
+        max-width: calc(100% - 2rem) !important;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+    
+    /* Keyword list styles */
+    .keyword-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        overflow: auto;
+        max-height: 150px;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+    }
+    
+    .keyword-list span {
+        background: #e5e7eb;
+        padding: 0.375rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+    
+    #wordCloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        overflow: auto;
+        align-content: flex-start;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        flex-shrink: 1;
+        align-self: stretch;
+    }
+    
+    #wordCloud span {
+        white-space: nowrap;
+        flex-shrink: 1;
+        max-width: 100%;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        font-size: 0.875rem;
+    }
+    
+    th, td {
+        border: 1px solid #e5e7eb;
+        padding: 0.75rem;
+        text-align: left;
+    }
+    
+    th {
+        background: #f3f4f6;
+        font-weight: 600;
+    }
+    
+    .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem 0;
+        flex-wrap: wrap;
+    }
+    
+    button, select, input[type=checkbox] {
+        padding: 0.375rem 0.75rem;
+        cursor: pointer;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+    }
+    
+    button {
+        background: #0066cc;
+        color: white;
+        border: none;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Pagination controls styles */
+    .pagination {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem auto;
+        width: 100%;
+        max-width: calc(100% - 2rem);
+        box-sizing: border-box;
+    }
+    
+    /* Ensure main container elements don't exceed viewport width */
+    main, .tool-container {
+        max-width: 100% !important;
+    }
+    
+    /* Ensure canvas element doesn't cause horizontal scrolling */
+    canvas {
+        width: 100% !important;
+        max-width: calc(100% - 2rem) !important;
+        height: auto !important;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    
+    /* Fix background length issue */
+    .section {
+        overflow: visible !important;
+    }
+    
+    /* Ensure right panel background is long enough */
+    .right-panel {
+        overflow: visible !important;
+    }
+    
+    ul {
+        margin-top: 0.5rem;
+        padding-left: 1.25rem;
+        overflow: visible;
+        word-wrap: break-word;
+        margin-bottom: 0.5rem;
+    }
+    
+    li {
+        margin-bottom: 0.25rem;
+        word-wrap: break-word;
+        overflow: visible;
+        padding: 0.125rem 0;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+    }
+    
+    .feature-list-item i {
+        color: #34d399;
+        font-size: 1.125rem;
+    }
+    
+    /* Header Styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #111827;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+    }
+    
+    /* Ensure CTA section titles are white */
+    .cta-section h4 {
+        color: white;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .cta-section .feature-list-item {
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+</style>
+<script>
+    // 1. Disable the right-click menu.
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('The right-click menu has been disabled.');
+    });
+
+    // 2. Disable text selection
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    // 3. Disable copy shortcut keys
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('The copy function has been disabled.');
+        }
+    });
+
+    // 4. Preventing the opening of developer tools via F12.
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Developer tools have been disabled.');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1 style="display: flex; align-items: center; justify-content: space-between;">Free Online Text Analysis Checker <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">How to use?</a></h1>
+
+<textarea id="textInput" placeholder="Paste your text here..."></textarea>
+
+<div class="stats">
+  <div class="stat">Unfiltered Word Count<br><strong id="unfilteredCount">0</strong></div>
+  <div class="stat">Characters<br><strong id="charCount">0</strong></div>
+  <div class="stat">Characters (no spaces)<br><strong id="charNoSpace">0</strong></div>
+  <div class="stat">Number of sentences<br><strong id="sentenceCount">0</strong></div>
+  <div class="stat">Number of syllables<br><strong id="syllableCount">0</strong></div>
+  <div class="stat">Reading Time<br><strong id="readingTime">0 min</strong></div>
+</div>
+
+<div class="section">
+  <h2>Readability</h2>
+  <p id="readability" class="module-content"></p>
+</div>
+
+<div class="section">
+  <h2>Writing Structure</h2>
+  <ul id="structure" class="module-content"></ul>
+</div>
+
+<div class="section">
+  <h2>Content Breakdown</h2>
+  <ul id="contentStats" class="module-content"></ul>
+</div>
+
+<div class="section">
+  <h2>Writing Suggestions</h2>
+  <ul id="suggestions" class="module-content"></ul>
+</div>
+
+<div class="section">
+  <h2>Keyword Analysis (Filtered)</h2>
+  <label><input type="checkbox" id="stopWordsSwitch" checked> Filter Stop Words (the, and, of)</label>
+  <p><strong>Filtered word count:</strong> <span id="filteredWords">0</span></p>
+  <div class="keyword-list" id="keywords"></div>
+</div>
+
+<div class="section">
+  <h2>Keyword Cloud</h2>
+  <div id="wordCloud" style="height: 300px; background: #f9fafb; border-radius: 0.375rem; margin-top: 1rem; padding: 1rem;"></div>
+</div>
+
+            </div>
+            <!-- Right panel: Advanced analysis -->
+            <div class="right-panel">
+
+                <div class="section">
+                  <h2>Unfiltered Word Count</h2>
+                  <div class="controls">
+                    <label>Show: 
+                      <select id="displayMode">
+                        <option value="20" selected>Top 20</option>
+                        <option value="50">Top 50</option>
+                        <option value="100">Top 100</option>
+                        <option value="all">All</option>
+                      </select>
+                    </label>
+                    <button id="exportCSV">Export CSV</button>
+                  </div>
+                  <div class="table-wrapper">
+                    <table>
+                      <thead>
+                        <tr><th>Order</th><th>Word</th><th>Occurrences</th><th>Percentage</th></tr>
+                      </thead>
+                      <tbody id="wordTable"></tbody>
+                    </table>
+                  </div>
+                  <div class="pagination" id="pagination">
+                    <button onclick="prevPage()">Prev</button>
+                    <span id="pageInfo"></span>
+                    <button onclick="nextPage()">Next</button>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <h2>Word Length Distribution</h2>
+                  <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Free Online Text Analysis Checker -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>How to Use Free Online Text Analysis Checker</h3>
+                <p>
+                    Follow these simple steps to analyze your text and get detailed insights on word count, readability, keywords, and more.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Step 1: Input Your Text</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚡</span>
+                        <span>Step 2: View Instant Analysis</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">�</span>
+                        <span>Step 3: Explore Detailed Metrics</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Step-by-Step Tutorial</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Step 1: Input Your Text</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Enter your text into the text area on the left panel:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Type or Paste Text:</strong> Directly type or paste your text into the text area</li>
+                                <li><strong>Instant Processing:</strong> The tool analyzes your text in real-time as you type</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Step 2: View Instant Analysis</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Your text will be analyzed immediately, displaying comprehensive metrics:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Basic Statistics:</strong> Unfiltered word count, characters, sentences, syllables, and reading time</li>
+                                <li><strong>Readability Score:</strong> Flesch Reading Ease score with difficulty level assessment</li>
+                                <li><strong>Writing Structure:</strong> Breakdown of sentences, paragraphs, and average sentence length</li>
+                                <li><strong>Content Breakdown:</strong> Counts of numbers, symbols, emojis, and URLs</li>
+                                <li><strong>Writing Suggestions:</strong> Recommendations for improving your writing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Step 3: Explore Detailed Metrics</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Dive deeper into your text analysis with these advanced features:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Keyword Analysis:</strong> View top keywords with occurrence counts (toggle stop word filtering)</li>
+                                <li><strong>Keyword Cloud:</strong> Visualize keyword frequency with an interactive word cloud</li>
+                                <li><strong>Word Length Distribution:</strong> See the distribution of word lengths in a visual chart</li>
+                                <li><strong>Unfiltered Word Count:</strong> Explore detailed word frequency with pagination and export options</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">Customize your analysis:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Use the "Show" dropdown to adjust the number of words displayed in the table</li>
+                                <li>Click "Export CSV" to download detailed word frequency data</li>
+                                <li>Toggle the "Filter Stop Words" checkbox to include or exclude common words like "the" and "and"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Tips for Best Results</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>For accurate analysis, provide at least a few sentences of text</li>
+                                <li>Toggle stop word filtering to see keyword analysis with or without common words</li>
+                                <li>Use the export CSV feature to save detailed word frequency data for further analysis</li>
+                                <li>Hover over words in the word cloud to see their occurrence counts</li>
+                                <li>Adjust the table display to show more words for comprehensive analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Related Tools</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("free-online-text-analysis-checker");
+    </script>
+
+
+    <script>
+        // Wait for header and footer to load before initializing text analysis tool
+        document.addEventListener('DOMContentLoaded', function() {
+            const stopWordsDefault = ["the","and","of"];
+            let stopWords = new Set(stopWordsDefault);
+            let allWords = [];
+            let currentPage = 1;
+            const pageSize = 50;
+            let displayLimit = 50;
+            
+            const textInput = document.getElementById('textInput');
+            const displayMode = document.getElementById('displayMode');
+            const stopWordsSwitch = document.getElementById('stopWordsSwitch');
+            const wordTable = document.getElementById('wordTable');
+            const pageInfo = document.getElementById('pageInfo');
+            let chart;
+            
+            function analyze(){
+
+  const text = textInput.value.trim();
+  const wordsArr = text.match(/\b\w+\b/g)||[];
+
+  // Quick stats
+  document.getElementById('unfilteredCount').textContent = wordsArr.length;
+  document.getElementById('charCount').textContent = text.length;
+  document.getElementById('charNoSpace').textContent = text.replace(/\s+/g,'').length;
+  
+  // Calculate sentences and syllables
+  const sentences = text.split(/[.!?]+/).filter(s=>s.trim());
+  const syllables = wordsArr.reduce((a,w)=>a+countSyllables(w),0);
+  
+  // Update new stats
+  document.getElementById('sentenceCount').textContent = sentences.length;
+  document.getElementById('syllableCount').textContent = syllables;
+  document.getElementById('readingTime').textContent = Math.ceil(wordsArr.length/200)+' min';
+
+  const paragraphs = text.split(/\n+/).filter(p=>p.trim());
+
+  // Readability
+  const score = 206.835 - 1.015*(wordsArr.length/(sentences.length||1)) - 84.6*(syllables/wordsArr.length);
+  const level = score>60?'Easy to read':score>30?'Medium difficulty':'Hard to read';
+  document.getElementById('readability').textContent = `Score: ${score.toFixed(1)} – ${level}`;
+
+  // Keyword Analysis (Filtered)
+  const freqFiltered = {};
+  let filteredCount = 0;
+  wordsArr.map(w=>w.toLowerCase()).forEach(w=>{
+    if(!stopWords.has(w)){
+      freqFiltered[w]=(freqFiltered[w]||0)+1;
+      filteredCount++;
+    }
+  });
+  document.getElementById('filteredWords').textContent = filteredCount;
+  const topKeywords = Object.entries(freqFiltered).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  document.getElementById('keywords').innerHTML = topKeywords.map(k=>`<span>${k[0]} (${k[1]})</span>`).join('');
+
+  // Generate word cloud
+  generateWordCloud(topKeywords);
+
+  // Writing structure
+  document.getElementById('structure').innerHTML = `
+    <li>Sentences: ${sentences.length}</li>
+    <li>Paragraphs: ${paragraphs.length}</li>
+    <li>Average sentence length: ${(wordsArr.length/(sentences.length||1)).toFixed(1)} words</li>
+  `;
+
+  // Content breakdown
+  document.getElementById('contentStats').innerHTML = `
+    <li>Numbers: ${(text.match(/\d/g)||[]).length}</li>
+    <li>Symbols: ${(text.match(/[^\w\s]/g)||[]).length}</li>
+    <li>Emojis: ${(text.match(/[\u{1F300}-\u{1FAFF}]/gu)||[]).length}</li>
+    <li>URLs: ${(text.match(/https?:\/\/\S+/g)||[]).length}</li>
+  `;
+
+  // Writing Suggestions
+  let suggestion='';
+  if(wordsArr.length>300 && wordsArr.length/(sentences.length||1)>25) suggestion+='<li>Sentences may be too long</li>';
+  if(wordsArr.length<50) suggestion+='<li>Text is very short</li>';
+  if(!suggestion) suggestion='<li>Writing looks balanced</li>';
+  document.getElementById('suggestions').innerHTML=suggestion;
+
+  // Unfiltered Word Count
+  const freqAll = {};
+  wordsArr.map(w=>w.toLowerCase()).forEach(w=>freqAll[w]=(freqAll[w]||0)+1);
+  allWords = Object.entries(freqAll).sort((a,b)=>b[1]-a[1]).map(([word,count])=>({word,count}));
+  currentPage=1;
+  renderTable();
+
+  // Word Length Distribution - Using traditional JavaScript to implement simple text statistics
+  const lengths = {};
+  wordsArr.forEach(w=>lengths[w.length]=(lengths[w.length]||0)+1);
+  const sortedLengths = Object.entries(lengths).sort((a,b)=>a[0]-b[0]);
+  
+  // Calculate maximum word frequency, used for normalizing bar chart width
+  const counts = sortedLengths.map(([_, count]) => count);
+  const maxCount = counts.length > 0 ? Math.max(...counts) : 0;
+  
+  // Generate simple text statistics display, replacing Chart.js chart
+  const chartContainer = document.getElementById('chart');
+  
+  if (wordsArr.length === 0) {
+    // Display prompt message when no text is entered
+    chartContainer.innerHTML = `
+      <p style="color: #6b7280; font-style: italic; text-align: center; padding: 1rem 0;">No text available for analysis. Please enter some text above.</p>
+    `;
+  } else {
+    // Display statistical chart when text is entered
+    chartContainer.innerHTML = `
+      <div style="margin: 0; min-height: 250px; position: relative; display: flex; flex-direction: column; align-items: stretch;">
+        <!-- Chart container - Remove Y-axis, keep only X-axis -->
+        <div style="position: relative; flex: 1; margin-left: 20px; margin-right: 20px;">
+          <!-- Horizontal scroll container -->
+          <div style="overflow-x: auto; overflow-y: hidden;">
+            <!-- Bar chart content - Ensure background can contain all content -->
+            <div style="display: flex; align-items: flex-end; gap: 0.75rem; margin-top: 2rem; height: 200px; min-width: max-content; padding-bottom: 1rem;">
+              ${sortedLengths.map(([length, count]) => `
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem; flex: 0 0 auto; width: 35px; position: relative;">
+                  <!-- Word count - placed above the bar -->
+                  <div style="font-size: 0.75rem; font-weight: 600; color: #3498db; margin-bottom: 0.5rem;">${count}</div>
+                  <!-- Bar chart -->
+                  <div style="background: #3498db; height: ${Math.min((count / maxCount) * 150, 150)}px; width: 25px; border-radius: 0.25rem 0.25rem 0 0; transition: height 0.3s ease;"></div>
+                  <!-- Word length - placed below the bar -->
+                  <div style="font-size: 0.875rem; color: #6b7280; font-weight: 600; margin-top: 0.5rem;">${length}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <!-- Keep only X-axis line -->
+          <div style="position: absolute; left: 0; bottom: 0.5rem; right: 0; height: 1px; background: #e5e7eb;"></div>
+        </div>
+        
+        <!-- Axis labels - Keep only X-axis labels -->
+        <div style="display: flex; justify-content: center; margin-top: 0.5rem; font-size: 0.75rem; color: #9ca3af; padding: 0 1rem;">
+          <div>X-axis: Word Length (letters)</div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+            function countSyllables(word){
+                word=word.toLowerCase();
+                if(word.length<=3) return 1;
+                word=word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'');
+                word=word.replace(/^y/,'');
+                return word.match(/[aeiouy]{1,2}/g)?.length||1;
+            }
+
+            // Table Rendering
+            function renderTable(){
+                let data = displayMode.value==='all'?allWords:allWords.slice(0,parseInt(displayMode.value));
+                const total = data.reduce((s,w)=>s+w.count,0);
+                const start=(currentPage-1)*pageSize;
+                const pageData = data.slice(start,start+pageSize);
+                wordTable.innerHTML = pageData.map((w,i)=>`<tr>
+    <td>${start+i+1}</td>
+    <td>${w.word}</td>
+    <td>${w.count}</td>
+    <td>${((w.count/total)*100).toFixed(4)}%</td>
+  </tr>`).join('');
+                const totalPages = Math.ceil(data.length/pageSize)||1;
+                pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+                document.getElementById('pagination').style.display = totalPages>1?'flex':'none';
+            }
+
+            // Ensure pagination functions are available in global scope
+            window.prevPage = function(){if(currentPage>1){currentPage--;renderTable();}};
+            window.nextPage = function(){const dataLength = displayMode.value==='all'?allWords.length:Math.min(allWords.length,parseInt(displayMode.value));if(currentPage<Math.ceil(dataLength/pageSize)){currentPage++;renderTable();}};
+            
+            // Generate word cloud
+            function generateWordCloud(keywords) {
+  const wordCloud = document.getElementById('wordCloud');
+  if (!keywords || keywords.length === 0) {
+    wordCloud.innerHTML = '<p class="text-center text-gray-500">No keywords available</p>';
+    return;
+  }
+
+  // Clear existing content
+  wordCloud.innerHTML = '';
+  
+  // Generate word cloud using top 20 keywords
+  const topKeywords = keywords.slice(0, 20);
+  const maxCount = topKeywords[0][1];
+  
+  topKeywords.forEach(([word, count], index) => {
+    // Calculate font size based on frequency
+    const fontSize = Math.max(12, Math.min(36, 12 + (count / maxCount) * 24));
+    
+    // Generate random colors (multiple hues, no longer limited to blue)
+    const hue = Math.floor(Math.random() * 360); // Random color
+    const saturation = 60 + Math.random() * 30;
+    const lightness = 40 + Math.random() * 20;
+    const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    
+    // Random rotation angle (-15 to 15 degrees)
+    const rotation = (Math.random() * 30 - 15) + 'deg';
+    
+    // Create word element
+    const wordElement = document.createElement('span');
+    wordElement.textContent = word;
+    wordElement.style.fontSize = `${fontSize}px`;
+    wordElement.style.fontWeight = '600';
+    wordElement.style.color = color;
+    wordElement.style.display = 'inline-block';
+    wordElement.style.margin = '8px';
+    wordElement.style.padding = '4px 8px';
+    wordElement.style.borderRadius = '4px';
+    wordElement.style.background = `rgba(255, 255, 255, 0.9)`;
+    wordElement.style.transition = 'transform 0.2s, box-shadow 0.2s';
+    wordElement.style.cursor = 'pointer';
+    wordElement.style.transform = `rotate(${rotation})`;
+    wordElement.style.transformOrigin = 'center';
+    
+    // Add hover effect
+    wordElement.addEventListener('mouseenter', () => {
+      wordElement.style.transform = 'scale(1.1)';
+      wordElement.style.boxShadow = '0 4px 6px rgba(0, 102, 204, 0.1)';
+    });
+    
+    wordElement.addEventListener('mouseleave', () => {
+      wordElement.style.transform = 'scale(1)';
+      wordElement.style.boxShadow = 'none';
+    });
+    
+    // Add tooltip (show word frequency)
+    wordElement.title = `Count: ${count}`;
+    
+    wordCloud.appendChild(wordElement);
+  });
+}
+
+
+            function exportCSV(){
+                const rows=[['Order','Word','Occurrences','Percentage']];
+                const data = displayMode.value==='all'?allWords:allWords.slice(0,parseInt(displayMode.value));
+                const total = data.reduce((s,w)=>s+w.count,0);
+                data.forEach((w,i)=>rows.push([i+1,w.word,w.count,((w.count/total)*100).toFixed(4)+'%']));
+                const csvContent = "data:text/csv;charset=utf-8," + rows.map(e=>e.join(",")).join("\n");
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href",encodedUri);
+                link.setAttribute("download","unfiltered_word_count.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            
+            // Ensure all functions are defined before adding event listeners
+            textInput.addEventListener('input', analyze);
+            displayMode.addEventListener('change',()=>{currentPage=1;renderTable();});
+            stopWordsSwitch.addEventListener('change',()=>{stopWords=stopWordsSwitch.checked?new Set(stopWordsDefault):new Set();analyze();});
+            document.getElementById('exportCSV').addEventListener('click', exportCSV);
+            
+            // Call analyze function on page load to show initial state
+            analyze();
+        }); // end of DOMContentLoaded
+    </script>
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+</body>
+</html>

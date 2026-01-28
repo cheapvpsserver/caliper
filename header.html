@@ -1,0 +1,142 @@
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <a href="/">
+                <img src="/images/logo.png" alt="Calipertools" class="logo-img" id="header-logo">
+            </a>
+        </div>
+        
+        <!-- Mobile Language Switcher - Displayed between logo and hamburger menu -->
+        <div class="mobile-language-switcher">
+            <button class="mobile-language-btn" id="mobileLanguageBtn">
+                <i class="fas fa-globe"></i>
+                <span id="mobileCurrentLang">EN</span>
+            </button>
+            <div class="mobile-language-dropdown" id="mobileLanguageDropdown">
+                <a href="/" class="mobile-language-option" data-lang="en">EN</a>
+                <a href="/de/" class="mobile-language-option" data-lang="de">DE</a>
+                <a href="/fr/" class="mobile-language-option" data-lang="fr">FR</a>
+                <a href="/es/" class="mobile-language-option" data-lang="es">ES</a>
+                <a href="/it/" class="mobile-language-option" data-lang="it">IT</a>
+                <a href="/pt/" class="mobile-language-option" data-lang="pt">PT</a>
+                <a href="/zh/" class="mobile-language-option" data-lang="zh">中文</a>
+                <a href="/ja/" class="mobile-language-option" data-lang="ja">日本語</a>
+                <a href="/ko/" class="mobile-language-option" data-lang="ko">한국어</a>
+                <a href="/ru/" class="mobile-language-option" data-lang="ru">RU</a>
+                <a href="/id/" class="mobile-language-option" data-lang="id">ID</a>
+                <a href="/vi/" class="mobile-language-option" data-lang="vi">VI</a>
+                <a href="/th/" class="mobile-language-option" data-lang="th">TH</a>
+                <a href="/hi/" class="mobile-language-option" data-lang="hi">HI</a>
+                <a href="/bn/" class="mobile-language-option" data-lang="bn">BN</a>
+                <a href="/ur/" class="mobile-language-option" data-lang="ur">UR</a>
+            </div>
+        </div>
+        
+        <!-- Hamburger menu button - Displayed on mobile -->
+        <button class="hamburger-menu" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- Desktop navigation - Hidden on mobile -->
+        <nav class="nav">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/list.html#image-tools" class="nav-link">Image tools</a>
+            <a href="/list.html#text-tools" class="nav-link">Text Tools</a>
+            <!-- All tools Menu - Displayed on desktop -->
+            <div class="pdf-convert-menu">
+                <a href="#" class="nav-link">All tools ▼</a>
+                <div class="pdf-submenu">
+                    <div class="submenu-column">
+                        <!-- Tool category group -->
+                        <div class="submenu-group">
+                            <div class="submenu-items">
+                                <a href="/list.html#video-tools" class="submenu-item">
+                                    <span class="icon text">V</span>
+                                    Video Tools
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-column">
+                        <!-- Tool category group -->
+                        <div class="submenu-group">
+                            <div class="submenu-items">
+                                <a href="https://emoji.calipertools.com" target="_blank" class="submenu-item">
+                                    <span class="icon emoji">E</span>
+                                    Emoji
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Donate button - Displayed on desktop -->
+            <a href="https://ko-fi.com/libredepot" class="donate-btn nav-link" target="_blank" rel="nofollow">
+                <i class="fas fa-heart"></i> Donate
+            </a>
+            
+            <!-- Language Switcher - Displayed on desktop -->
+            <div class="language-switcher">
+                <button class="language-btn" id="languageBtn">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLang">EN</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="/" class="language-option" data-lang="en">English</a>
+                    <a href="/de/" class="language-option" data-lang="de">Deutsch</a>
+                    <a href="/fr/" class="language-option" data-lang="fr">Français</a>
+                    <a href="/es/" class="language-option" data-lang="es">Español</a>
+                    <a href="/it/" class="language-option" data-lang="it">Italiano</a>
+                    <a href="/pt/" class="language-option" data-lang="pt">Português</a>
+                    <a href="/zh/" class="language-option" data-lang="zh">中文</a>
+                    <a href="/ja/" class="language-option" data-lang="ja">日本語</a>
+                    <a href="/ko/" class="language-option" data-lang="ko">한국어</a>
+                    <a href="/ru/" class="language-option" data-lang="ru">Русский</a>
+                    <a href="/id/" class="language-option" data-lang="id">Bahasa Indonesia</a>
+                    <a href="/vi/" class="language-option" data-lang="vi">Tiếng Việt</a>
+                    <a href="/th/" class="language-option" data-lang="th">ไทย</a>
+                    <a href="/hi/" class="language-option" data-lang="hi">हिन्दी</a>
+                    <a href="/bn/" class="language-option" data-lang="bn">বাংলা</a>
+                    <a href="/ur/" class="language-option" data-lang="ur">اردو</a>
+                </div>
+            </div>
+        </nav>
+        
+        
+        <!-- Mobile side slide menu -->
+        <nav class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/list.html#image-tools" class="nav-link">Image tools</a>
+                <a href="/list.html#text-tools" class="nav-link">Text Tools</a>
+                <!-- Mobile all tools menu -->
+                <div class="mobile-pdf-convert-menu">
+                    <div class="mobile-nav-link" id="mobile-convert-pdf">
+                        All tools <span class="dropdown-arrow">▶</span>
+                    </div>
+                    <div class="mobile-pdf-submenu" id="mobile-convert-submenu">
+                        <div class="mobile-submenu-items">
+                            <a href="/list.html#video-tools" class="mobile-submenu-item">
+                                <span class="icon text">V</span>
+                                Video Tools
+                            </a>
+                            <a href="https://emoji.calipertools.com" class="mobile-submenu-item">
+                                <span class="icon emoji">E</span>
+                                Emoji
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="nav-link donate-btn">
+                    <i class="fas fa-heart"></i> Donate
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Overlay layer -->
+        <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+    </div>
+</header>
