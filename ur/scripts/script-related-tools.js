@@ -126,10 +126,10 @@ function initRelatedTools(currentSlug) {
                             let toolUrl = tool.url;
                             if (toolUrl === '#') {
                                 // جگہ کے لنکس ہوم پیج کی طرف اشارہ کرتے ہیں
-                                toolUrl = `${basePath}index.html`;
+                                toolUrl = `/${lang}/index.html`;
                             } else {
-                                // تمام ٹولز اب صحیح راستہ فارمیٹ استعمال کرتے ہیں، صرف basePath شامل کریں
-                                toolUrl = `${basePath}${toolUrl}`;
+                                // تمام ٹولز اب صحیح راستہ فارمیٹ استعمال کرتے ہیں، صرف زبان پریفکس شامل کریں
+                                toolUrl = `/${lang}/${toolUrl}`;
                             }
                             
                             return `
