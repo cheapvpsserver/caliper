@@ -126,10 +126,10 @@ function initRelatedTools(currentSlug) {
                             let toolUrl = tool.url;
                             if (toolUrl === '#') {
                                 // Tautan placeholder menuju ke halaman beranda
-                                toolUrl = `${basePath}index.html`;
+                                toolUrl = `/${lang}/index.html`;
                             } else {
-                                // Semua alat sekarang menggunakan format path yang benar, cukup tambahkan basePath
-                                toolUrl = `${basePath}${toolUrl}`;
+                                // Semua alat sekarang menggunakan format path yang benar, cukup tambahkan bahasa prefix
+                                toolUrl = `/${lang}/${toolUrl}`;
                             }
                             
                             return `
