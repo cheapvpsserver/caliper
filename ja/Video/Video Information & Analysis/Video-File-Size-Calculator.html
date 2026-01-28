@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<meta charset="UTF-8">
+<title>ビデオファイルサイズ計算機 | CaliperTools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="再生時間、解像度、フレームレート、ビットレートに基づいてビデオファイルサイズを推定するための無料オンラインビデオファイルサイズ計算機。高速、安全、簡単に使用できます。">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<!-- Add simple favicon.ico as default -->
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+/* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body background is consistent with website */
+body {
+    background-color: #f5f5f5; /* Gray background, consistent with other pages of the website */
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Tool specific styles */
+.tool-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+}
+
+.tool-container h1 {
+  font-size: 28px;
+  margin-bottom: 24px;
+  color: #111827;
+  text-align: center;
+}
+
+.tool-container label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.tool-container input, 
+.tool-container select {
+  padding: 12px;
+
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  color: #111827;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tool-container input:focus, 
+.tool-container select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tool-container .button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tool-container button {
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.tool-container button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.tool-container button:active {
+  transform: translateY(0);
+}
+
+.tool-container .output {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+.tool-container .duration-inputs {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tool-container .duration-inputs input {
+  width: 33%;
+}
+
+.tool-container .unit-select {
+  margin-top: 8px;
+}
+
+#targetSizeInput {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px){
+  .tool-container {
+    padding: 16px;
+  }
+  
+  .tool-container h1 {
+    font-size: 24px;
+  }
+  
+  .tool-container .duration-inputs {
+    flex-direction: column;
+  }
+  
+  .tool-container .duration-inputs input {
+    width: 100%;
+  }
+  
+  .tool-container .button-row {
+    flex-direction: column;
+  }
+  
+  .tool-container button {
+    width: 100%;
+  }
+}
+
+/* CTA Section Styles - Copied from Video-Metadata-Viewer.html */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 确保CTA功能列表的背景和文字颜色正确 */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tutorial Step Styles - 从Video-Metadata-Viewer.html复制 */
+.tutorial-step {
+    text-align: left;
+}
+
+.tutorial-step h5 {
+    font-size: 1.25rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+    text-align: center !important;
+}
+
+.tutorial-step p {
+    margin-bottom: 1rem !important;
+    text-align: left !important;
+    color: white !important;
+}
+
+.tutorial-step ul {
+    text-align: left !important;
+    margin-left: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: white !important;
+}
+
+.tutorial-step li {
+    margin-bottom: 0.5rem !important;
+    color: white !important;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右クリックメニューは無効です。');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('コピー機能は無効です。');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('開発者ツールが無効になっています');
+        }
+    });
+</script>
+</head>
+<body>
+
+<!-- Header will be dynamically loaded by JS -->
+<div id="header-container"></div>
+
+<!-- Main content -->
+<main class="main">
+  <div class="tool-container">
+    <h1 class="tool-title" style="display: flex; align-items: center; justify-content: space-between;">ビデオファイルサイズ計算機 <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; font-weight: normal;">使い方</a></h1>
+
+    <label>再生時間</label>
+    <div class="duration-inputs">
+      <input type="number" id="hours" placeholder="時間" min="0">
+      <input type="number" id="minutes" placeholder="分" min="0" max="59">
+      <input type="number" id="seconds" placeholder="秒" min="0" max="59">
+    </div>
+
+    <label>解像度</label>
+    <select id="resolutionSelect">
+      <option value="640x360">360p - 640x360 (16:9)</option>
+      <option value="640x480">480p - 640x480 (4:3)</option>
+      <option value="1280x720">720p - 1280x720 (16:9)</option>
+      <option value="1920x1080" selected>1080p - 1920x1080 (16:9)</option>
+      <option value="3840x2160">4K - 3840x2160 (16:9)</option>
+      <option value="7680x4320">8K - 7680x4320 (16:9)</option>
+      <option value="1080x1920">1080x1920 (縦型)</option>
+      <option value="720x1280">720x1280 (縦型)</option>
+    </select>
+
+    <label>フレームレート (FPS)</label>
+    <select id="fpsSelect">
+      <option>24</option>
+      <option>30</option>
+      <option>60</option>
+      <option>120</option>
+    </select>
+
+    <label>ビデオコーデック</label>
+    <select id="codecSelect">
+      <option>H.264</option>
+      <option>H.265</option>
+      <option>AV1</option>
+      <option>ProRes</option>
+      <option>DNxHD/DNxHR</option>
+    </select>
+
+    <label>ビデオビットレート</label>
+    <div style="position: relative; width: 100%; display: flex; margin-bottom: 16px;">
+      <input type="number" id="vBitrate" placeholder="ビデオビットレートを入力" style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-right: none; border-radius: 4px 0 0 4px; font-size: 16px; box-sizing: border-box; height: 46px;">
+      <select id="vBitrateUnit" class="unit-select" style="width: 90px; background: white; border: 1px solid #d1d5db; border-left: none; border-radius: 0 4px 4px 0; box-shadow: none; outline: none; padding: 12px 20px 12px 12px; margin: 0; font-size: 16px; box-sizing: border-box; height: 46px;">
+        <option value="kbps">kbps</option>
+        <option value="Mbps">Mbps</option>
+      </select>
+    </div>
+
+    <label>音声ビットレート (任意)</label>
+    <div style="position: relative; width: 100%; display: flex; margin-bottom: 16px;">
+      <input type="number" id="aBitrate" placeholder="音声ビットレートを入力" style="flex: 1; padding: 12px; border: 1px solid #d1d5db; border-right: none; border-radius: 4px 0 0 4px; font-size: 16px; box-sizing: border-box; height: 46px;">
+      <select id="aBitrateUnit" class="unit-select" style="width: 90px; background: white; border: 1px solid #d1d5db; border-left: none; border-radius: 0 4px 4px 0; box-shadow: none; outline: none; padding: 12px 20px 12px 12px; margin: 0; font-size: 16px; box-sizing: border-box; height: 46px;">
+        <option value="kbps">kbps</option>
+        <option value="Mbps">Mbps</option>
+      </select>
+    </div>
+
+    <div class="button-row">
+      <button onclick="calculateFileSize()">ファイルサイズを計算</button>
+      <button onclick="calculateTargetBitrate()">目標サイズに対するビットレートを計算</button>
+    </div>
+
+    <input type="text" id="targetSizeInput" placeholder="目標サイズ (MB)">
+    <div class="output" id="fileSizeOutput"></div>
+    <div class="output" id="bitrateOutput"></div>
+  </div>
+
+  <!-- Tutorial Section -->
+  <section class="cta-section" id="tutorial">
+    <div class="cta-content">
+      <h3>ビデオファイルサイズ計算機の使い方</h3>
+      <p>
+        再生時間、解像度、フレームレート、ビットレートに基づいてビデオファイルサイズを計算するには、これらの簡単な手順に従ってください。
+      </p>
+      
+      <div class="features-row">
+        <div class="feature-item">
+          <span class="icon">⏱️</span>
+          <span>ステップ 1: 再生時間を設定</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📏</span>
+          <span>ステップ 2: 解像度を選択</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">⚡</span>
+          <span>ステップ 3: 設定を選択</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">🔢</span>
+          <span>ステップ 4: 結果を取得</span>
+        </div>
+      </div>
+      
+      <div class="cta-features">
+        <h4>ステップバイステップのチュートリアル</h4>
+        <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+          <div class="tutorial-step">
+            <h5>ステップ 1: ビデオの再生時間を設定</h5>
+            <p>時間、分、秒のフィールドを使用して、ビデオの再生時間を入力してください。</p>
+            <ul>
+              <li>適用されないフィールドには0を入力してください（例：ビデオが30秒しかない場合は、時間を0、分を0に設定）</li>
+              <li>分と秒は0〜59の間である必要があります</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>ステップ 2: 解像度を選択</h5>
+            <p>ドロップダウンメニューからビデオの解像度を選択してください。次のようなさまざまな解像度をサポートしています：</p>
+            <ul>
+              <li>標準解像度: 360p、480p、720p、1080p、4K、8K</li>
+              <li>ソーシャルメディア用の縦型解像度: 720x1280、1080x1920</li>
+              <li>16:9と4:3のアスペクト比両方</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>ステップ 3: フレームレートとコーデックを選択</h5>
+            <p>ビデオに適した設定を選択してください：</p>
+            <ul>
+              <li><strong>フレームレート (FPS):</strong> 一般的なオプションには24、30、60、120 FPSが含まれます</li>
+              <li><strong>ビデオコーデック:</strong> H.264、H.265、AV1、ProRes、またはDNxHD/DNxHRから選択</li>
+              <li><strong>ビデオビットレート:</strong> ビデオのビットレートを入力してください（kbpsまたはMbpsで）</li>
+              <li><strong>音声ビットレート (任意):</strong> 該当する場合は音声ビットレートを入力してください</li>
+            </ul>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>ステップ 4: ファイルサイズまたは目標ビットレートを計算</h5>
+            <p>次の2つの計算オプションのいずれかを使用してください：</p>
+            <ul>
+              <li><strong>ファイルサイズを計算:</strong> このボタンをクリックして、設定に基づいたビデオファイルサイズを推定します</li>
+              <li><strong>目標サイズに対するビットレートを計算:</strong> MB単位の目標ファイルサイズを入力し、このボタンをクリックして必要なビットレートを見つけます</li>
+            </ul>
+            <p>結果はボタンの下の出力エリアに表示されます。</p>
+          </div>
+          
+          <div class="tutorial-step">
+            <h5>最良の結果を得るためのヒント</h5>
+            <ul>
+              <li>より高いビットレートを使用するとビデオ品質が向上しますが、ファイルサイズが大きくなります</li>
+              <li>H.265およびAV1コーデックは、同じ品質レベルでH.264よりも優れた圧縮を提供します</li>
+              <li>60 FPSのビデオは、同じ再生時間と解像度を持つ30 FPSのビデオよりも大きなファイルサイズになります</li>
+              <li>設定を選択する際には、ターゲットプラットフォームの要件を考慮してください（例：SNSプラットフォームにはファイルサイズ制限があることが多いです）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Tools Section -->
+  <section class="section related-tools">
+    <div class="container">
+      <h2 class="section-title">関連ツール</h2>
+      <div class="tools-grid" id="relatedTools">
+        <!-- Related tools will be dynamically generated by JS -->
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer will be dynamically loaded by JS -->
+<div id="footer-container"></div>
+
+<script>
+function getDurationSeconds() {
+  const h = Number(document.getElementById('hours').value) || 0;
+  const m = Number(document.getElementById('minutes').value) || 0;
+  const s = Number(document.getElementById('seconds').value) || 0;
+  return h*3600 + m*60 + s;
+}
+
+function convertToKbps(value, unit) {
+  if(unit === "Mbps") return value*1000;
+  return value;
+}
+
+function calculateFileSize() {
+  const durationSec = getDurationSeconds();
+  if(durationSec === 0) {
+    document.getElementById('fileSizeOutput').innerHTML = "有効な再生時間を入力してください。";
+    return;
+  }
+  let vBitrate = Number(document.getElementById('vBitrate').value) || 0;
+  let aBitrate = Number(document.getElementById('aBitrate').value) || 0;
+  vBitrate = convertToKbps(vBitrate, document.getElementById('vBitrateUnit').value);
+  aBitrate = convertToKbps(aBitrate, document.getElementById('aBitrateUnit').value);
+  const totalBps = (vBitrate + aBitrate) * 1000;
+  const sizeBytes = totalBps/8 * durationSec;
+  const sizeMB = sizeBytes/1024/1024;
+  const sizeGB = sizeMB/1024;
+  document.getElementById('fileSizeOutput').innerHTML = 
+    `推定ファイルサイズ: ${sizeMB.toFixed(2)} MB (${sizeGB.toFixed(2)} GB)`;
+}
+
+function calculateTargetBitrate() {
+  const durationSec = getDurationSeconds();
+  const targetMB = Number(document.getElementById('targetSizeInput').value);
+  if(!targetMB || durationSec === 0) {
+    document.getElementById('bitrateOutput').innerHTML = "有効な再生時間と目標サイズを入力してください。";
+    return;
+  }
+  const totalBps = targetMB*1024*1024*8 / durationSec;
+  const vBitrateKbps = totalBps/1000;
+  document.getElementById('bitrateOutput').innerHTML = 
+    `必要な合計ビットレート: ${vBitrateKbps.toFixed(2)} kbps (ビデオ+音声)`;
+}
+</script>
+
+<!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+<!-- Include the related tools script -->
+<script src="../../scripts/script-related-tools.js"></script>
+
+<!-- Initialize related tools with current tool slug -->
+<script>
+    // Call the related tools function with the current tool's slug
+    initRelatedTools("video-file-size-calculator");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テキスト短縮ツール | CaliperTools</title>
+<meta name="description" content="CaliperToolsが提供する無料オンラインテキスト短縮・要約ツール。段落形式または箇条書き形式で、長さを調整可能な形でテキストを要約します。" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Text shortener tool custom styles */
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Add proper padding to main container, ensure content doesn't stick to edges */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Add proper padding to left and right panels */
+.text-section, .result-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .text-section, .result-section {
+        padding: 1.5rem;
+    }
+}
+
+/* Textarea Styles */
+textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    resize: vertical;
+}
+
+/* Control Area Styles */
+.controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+/* Select Box and Button Styles */
+select, button {
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    border-radius: 0.375rem;
+    border: 1px solid #e5e7eb;
+    background: white;
+    cursor: pointer;
+}
+
+button.primary {
+    background: #0066cc;
+    color: white;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+button.primary:hover {
+    background: #0052a3;
+}
+
+/* Statistics Information Styles */
+.stats {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+/* Keyword Styles */
+.keyword {
+    display: inline-block;
+    margin: 0.375rem 0.625rem 0 0;
+    font-size: 0.875rem;
+    cursor: move;
+}
+
+/* Result Area Styles */
+.result {
+    margin-top: 1.25rem;
+    display: none;
+}
+
+/* Result Area Bottom Layout */
+.result-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    gap: 1rem;
+}
+
+/* Result Actions Area */
+.result-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Copy Tip Styles */
+.copy-tip {
+    font-size: 0.8125rem;
+    color: #34d399;
+    margin-top: 0.375rem;
+    text-align: left;
+}
+
+/* Title Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #111827;
+}
+
+h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #6b7280;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+}
+
+.feature-list-item i {
+    color: #34d399;
+    font-size: 1.125rem;
+}
+
+/* Ensure titles in CTA section are white */
+.cta-section h4 {
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.cta-section .feature-list-item {
+    color: white;
+    margin-bottom: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+    .cta-section .feature-list-item {
+        white-space: normal;
+        text-overflow: clip;
+    }
+}
+
+/* Adjust feature icon styles */
+.feature-item .icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右クリックメニューは無効です。');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('コピー機能は無効です。');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('開発者ツールが無効になっています');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main full-width-container">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="text-section">
+                <h1>テキスト短縮ツール</h1>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p style="margin: 0;">ここにテキストを貼り付けて、要約を作成します。</p>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        使い方
+                    </a>
+                </div>
+
+                <textarea id="inputText" placeholder="ここにテキストを貼り付けてください..."></textarea>
+                <div class="stats" id="inputStats">単語数: 0</div>
+
+                <div class="controls">
+                    <select id="format">
+                        <option value="paragraph">段落</option>
+                        <option value="bullet">箇条書き</option>
+                    </select>
+                    <select id="length">
+                        <option value="short" selected>短め</option>
+                        <option value="medium">中程度</option>
+                        <option value="long">長め</option>
+                        <option value="detailed">詳細</option>
+                    </select>
+                    <button class="primary" onclick="summarize()">短縮 & 要約</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Advanced analysis -->
+            <div class="result-section">
+                <div id="keywords">
+                    <strong>キーワードを選択</strong>
+                    <div id="keywordList"></div>
+                </div>
+
+                <div class="result" id="resultBox">
+                    <h3>結果</h3>
+                    <textarea id="outputText"></textarea>
+                    <div class="result-footer">
+                        <div class="stats" id="outputStats"></div>
+                        <div class="result-actions">
+                            <button onclick="downloadText()">TXTとしてダウンロード</button>
+                            <button onclick="copyText()">テキストをコピー</button>
+                        </div>
+                    </div>
+                    <div class="copy-tip" id="copyTip"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Text Shortener Tool -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>テキスト短縮ツールの使い方</h3>
+                <p>
+                    以下の簡単な手順に従って、効率的にテキストを短縮および要約してください。
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>ステップ1: テキストを入力</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>ステップ2: オプションを設定</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>ステップ3: 結果を取得</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>ステップバイステップのチュートリアル</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ステップ1: テキストを入力</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">長いテキストを左側のテキストエリアに貼り付けます。ツールが自動的に単語数をカウントします。</p>
+                            <p style="text-align: left;">最良の結果を得るために、意味のある要約を得るには少なくとも50語入力してください。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ステップ2: 要約オプションを設定</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">テキストの短縮方法をカスタマイズ:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>形式:</strong> 段落形式または箇条書き形式を選択</li>
+                                <li><strong>長さ:</strong> 短め、中程度、長め、または詳細な要約の長さを選択</li>
+                                <li><strong>キーワード:</strong> 重点的に扱う最も重要なキーワードを確認して選択</li>
+                            </ul>
+                            <p style="text-align: left;">また、キーワードをドラッグアンドドロップして、順序と重要度をカスタマイズすることもできます。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ステップ3: 要約を生成して使用</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">「短縮 & 要約」ボタンをクリックして要約を生成します。結果は右側の出力エリアに表示されます。</p>
+                            <p style="margin-bottom: 1rem; text-align: left;">以下が可能です:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>「テキストをコピー」ボタンを使用して、要約されたテキストをワンクリックでコピー</li>
+                                <li>要約をTXTファイルとしてダウンロード</li>
+                                <li>必要に応じてオプションを調整し、要約を再生成</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">最良の結果を得るためのヒント</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>学術的なテキストには「詳細」長さオプションを使用</li>
+                                <li>ソーシャルメディアの投稿には、箇条書きで「短め」の長さを使用</li>
+                                <li>常に要約を確認し、主要なポイントが含まれていることを確認</li>
+                                <li>異なるキーワード選択で実験し、異なる要約を得る</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">関連ツール</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- 関連ツールはJSによって動的に生成されます -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("text-shortener-tool");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    <script>
+        // Text shortener tool core logic
+        const input = document.getElementById("inputText");
+        const inputStats = document.getElementById("inputStats");
+        const keywordsBox = document.getElementById("keywords");
+        const keywordList = document.getElementById("keywordList");
+        const output = document.getElementById("outputText");
+        const outputStats = document.getElementById("outputStats");
+        const resultBox = document.getElementById("resultBox");
+        const copyTip = document.getElementById("copyTip");
+        
+        input.addEventListener("input", () => {
+            const text = input.value.trim();
+            inputStats.textContent = "単語数: " + countWords(text);
+            if(text.length > 30) extractKeywords(text);
+            else keywordsBox.style.display = "none";
+        });
+        
+        // Multi-language word count function
+        function countWords(t){
+            if (!t) return 0;
+            
+            // Check if text contains Chinese, Japanese, or Korean characters
+            if (/[\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/.test(t)) {
+                // For CJK languages, count characters (excluding punctuation and spaces)
+                return t.replace(/[^\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af\p{L}]/gu, '').length;
+            }
+            // For other languages, split by whitespace
+            return t.split(/\s+/).length;
+        }
+        
+        // Multi-language sentence splitting function
+        function splitSentences(text){
+            // Extended sentence delimiters for multiple languages
+            const delimiters = /[.!?。！？．！？]/g;
+            const sentences = [];
+            let lastIndex = 0;
+            let match;
+            
+            while ((match = delimiters.exec(text)) !== null) {
+                const sentence = text.slice(lastIndex, match.index + 1).trim();
+                if (sentence) sentences.push(sentence);
+                lastIndex = match.index + 1;
+            }
+            
+            // Add the last sentence if any
+            const lastSentence = text.slice(lastIndex).trim();
+            if (lastSentence) sentences.push(lastSentence);
+            
+            return sentences;
+        }
+        
+        // Multi-language keyword extraction function
+        function extractKeywords(text){
+            const freq = {};
+            
+            // Check if text contains Chinese, Japanese, or Korean characters
+            if (/[\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/.test(text)) {
+                // For CJK languages, use character frequency analysis
+                // Remove punctuation and spaces, then count character frequencies
+                const chars = text.replace(/[^\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/g, '');
+                for (const char of chars) {
+                    freq[char] = (freq[char] || 0) + 1;
+                }
+            } else {
+                // For other languages, use word frequency analysis with Unicode support
+                const words = text.toLowerCase().match(/\b\p{L}{2,}\b/gu) || [];
+                words.forEach(w => freq[w] = (freq[w] || 0) + 1);
+            }
+        
+            const top = Object.entries(freq)
+                .sort((a,b) => b[1] - a[1])
+                .slice(0,10)
+                .map(i => i[0]);
+        
+            keywordList.innerHTML = "";
+            top.forEach(k => {
+                const label = document.createElement("label");
+                label.className = "keyword";
+                label.innerHTML = `<input type="checkbox" value="${k}"> ${k}`;
+                keywordList.appendChild(label);
+            });
+        
+            keywordsBox.style.display = "block";
+        
+            // Enable keyword drag-and-drop functionality
+            makeKeywordsDraggable();
+        }
+        
+        // Get selected keywords
+        function getSelectedKeywords(){
+            return Array.from(
+                document.querySelectorAll("#keywordList input:checked")
+            ).map(i => i.value);
+        }
+        
+        // Keyword drag functionality
+        function makeKeywordsDraggable() {
+            const draggableItems = document.querySelectorAll('.keyword');
+            draggableItems.forEach(item => {
+                item.setAttribute('draggable', 'true');
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragover', dragOver);
+                item.addEventListener('drop', drop);
+            });
+        }
+        
+        let draggedItem = null;
+        function dragStart(event) {
+            draggedItem = event.target;
+            event.dataTransfer.setData('text/plain', draggedItem.innerHTML);
+        }
+        
+        function dragOver(event) {
+            event.preventDefault();
+            event.target.style.background = "#f0f0f0";
+        }
+        
+        function drop(event) {
+            event.preventDefault();
+            if(event.target.classList.contains('keyword')){
+                event.target.style.background = "#fff";
+                const parent = keywordList;
+                parent.insertBefore(draggedItem, event.target.nextSibling);
+            }
+        }
+        
+        // Text shortening function
+        function summarize() {
+            const text = input.value.trim();
+            if (!text) return;
+        
+            const format = document.getElementById("format").value;
+            const length = document.getElementById("length").value;
+            const keywords = getSelectedKeywords();
+        
+            const sentences = splitSentences(text);
+            const ratioMap = { short: 0.25, medium: 0.4, long: 0.6, detailed: 0.85 };
+            const ratio = ratioMap[length];
+        
+            let keep = Math.max(1, Math.round(sentences.length * ratio));
+        
+            let selected = sentences.filter(s =>
+                keywords.some(k => s.toLowerCase().includes(k))
+            );
+        
+            let result = selected.length
+                ? selected
+                : sentences.slice(0, keep);
+        
+            // Bullet point formatting
+            if (format === "bullet") {
+                const bulletLimit = { short: 3, medium: 5, long: 8 };
+                const limit = bulletLimit[length];
+                result = result.slice(0, limit).map(s => `• ${s.trim()}`).join("\n");
+            } else {
+                result = result.join(" ").trim();
+            }
+        
+            // Final output
+            output.value = result;
+            resultBox.style.display = "block";
+        
+            outputStats.textContent =
+                `元のテキスト: ${countWords(text)} 単語 | 結果: ${countWords(result)} 単語`;
+        }
+        
+        // Copy text function
+        function copyText(){
+            output.select();
+            document.execCommand("copy");
+            copyTip.textContent = "コピーしました ✓";
+            setTimeout(() => copyTip.textContent = "", 1200);
+        }
+        
+        // Download text function
+        function downloadText(){
+            const text = output.value;
+            if (!text) {
+                copyTip.textContent = "ダウンロードするコンテンツがありません";
+                setTimeout(() => copyTip.textContent = "", 1200);
+                return;
+            }
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'summary.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            copyTip.textContent = "ダウンロードしました ✓";
+            setTimeout(() => copyTip.textContent = "", 1200);
+        }
+    </script>
+</body>
+</html>

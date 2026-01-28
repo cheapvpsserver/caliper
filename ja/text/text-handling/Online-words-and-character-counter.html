@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オンライン単語・文字カウンター | CaliperTools</title>
+<meta name="description" content="CaliperToolsが提供する無料のオンライン文字カウンターおよび単語カウンターツール。文字数、単語数、文数などを詳細に分析しながらカウントできます。" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Textbox styles */
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+/* Statistics styles */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.stat-item {
+    background: #f0f0f0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    flex: 1 1 30%;
+    text-align: center;
+    font-weight: normal;
+}
+
+.stat-item span {
+    font-weight: bold;
+    color: #0066cc;
+}
+
+/* Button styles */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #0066cc;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #0052a3;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #f0f0f0;
+}
+
+/* Other styles */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 60px;
+}
+
+.file-input {
+    margin-bottom: 15px;
+}
+
+.warning {
+    margin-top: 10px;
+    color: red;
+    font-weight: bold;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #111827;
+    margin-top: 1.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Table container ensures internal scrolling only */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 1rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右クリックメニューは無効です。');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('コピー機能は無効です。');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('開発者ツールが無効になっています');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>オンライン単語・文字カウンター</h1>
+                
+                <!-- Custom file input with English text only -->
+                <div style="margin-bottom: 10px; display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        使い方
+                    </a>
+                    <label style="position: relative; display: inline-block;">
+                        <input type="file" id="fileInput" class="file-input" accept=".txt,.pdf,.docx" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;" />
+                        <span style="display: inline-block; padding: 8px 16px; border-radius: 6px; background: #10b981; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">ファイルを選択</span>
+                    </label>
+                </div>
+                <textarea id="textInput" placeholder="ここにテキストを貼り付けまたは入力してください..."></textarea>
+
+                <div class="stats">
+                    <div class="stat-item">文字数: <span id="charCount">0</span></div>
+                    <div class="stat-item">空白以外の文字数: <span id="charNoSpace">0</span></div>
+                    <div class="stat-item">単語数: <span id="wordCount">0</span></div>
+                    <div class="stat-item">空白数: <span id="spaceCount">0</span></div>
+                    <div class="stat-item">文数: <span id="sentenceCount">0</span></div>
+                    <div class="stat-item">行数: <span id="lineCount">0</span></div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">空行以外の行数: <span id="notEmptyLineCount">0</span></div>
+                    <div class="stat-item">ページ数: <span id="pages">0</span></div>
+                    <div class="stat-item">読書時間: <span id="readingTime">0 分</span></div>
+                    <div class="stat-item">発話時間: <span id="speakingTime">0 分</span></div>
+                    <div class="stat-item">読解レベル: <span id="readingLevel">0</span></div>
+                </div>
+
+                <button class="copy-btn" onclick="copyText()">テキストをコピー</button>
+                <div class="warning" id="warning"></div>
+            </div>
+
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h3 style="font-size: 1.2rem; margin-top: 0; margin-bottom: 1rem;">フィルターなし単語数</h3>
+                
+                <div class="controls-container" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; height: 40px;">
+                    <div class="show-top-container" style="display: flex; align-items: center; gap: 0.5rem; height: 40px;">
+                        <label style="margin: 0; display: flex; align-items: center; height: 100%;">トップを表示:</label>
+                        <input type="number" id="topN" value="20" min="1" style="width: 80px; height: 40px; padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc;">
+                        <label style="margin: 0; display: flex; align-items: center; height: 100%;">個の単語</label>
+                    </div>
+                    <button id="exportCSV" style="padding: 0 16px; font-size: 16px; width: 120px; height: 40px;">CSVをエクスポート</button>
+                </div>
+                
+                <style>
+                    /* Ensure control container styles are applied correctly */
+                    .controls-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        margin-bottom: 1.5rem;
+                        height: 40px !important;
+                    }
+                    
+                    .show-top-container {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        height: 40px !important;
+                    }
+                    
+                    .show-top-container label {
+                        margin: 0;
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                    }
+                    
+                    #topN {
+                        width: 80px;
+                        height: 40px !important;
+                        padding: 8px;
+                        font-size: 16px;
+                        border-radius: 4px;
+                        border: 1px solid #ccc;
+                    }
+                    
+                    #exportCSV {
+                        padding: 0 16px;
+                        font-size: 16px;
+                        width: 120px;
+                        height: 40px !important;
+                    }
+                    
+                    /* Responsive design: Show Show Top and Export CSV as two rows on mobile */
+                    @media (max-width: 767px) {
+                        .controls-container {
+                            flex-direction: column !important;
+                            height: auto !important;
+                            align-items: stretch !important;
+                            margin-bottom: 1.5rem !important;
+                        }
+                        
+                        .show-top-container {
+                            margin-bottom: 1rem !important;
+                        }
+                        
+                        #exportCSV {
+                            width: 100% !important;
+                        }
+                    }
+                </style>
+
+                <div class="table-wrapper">
+                    <table id="wordTable">
+                        <thead>
+                            <tr>
+                                <th>順序</th>
+                                <th>単語</th>
+                                <th>出現回数</th>
+                                <th>割合</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Online Words and Character Counter -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>オンライン単語・文字カウンターの使い方</h3>
+                <p>
+                    これらの簡単な手順に従って、文字数、単語数をカウントし、詳細な分析でテキストを効率的に分析しましょう。
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>ステップ 1: テキストを入力</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚡</span>
+                        <span>ステップ 2: 即時の統計情報を表示</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📊</span>
+                        <span>ステップ 3: 単語の頻度を分析</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>ステップバイステップのチュートリアル</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ステップ 1: テキストを入力</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">以下の2つの方法でテキストを入力してください：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>テキストを入力または貼り付け:</strong> 直接テキストエリアにタイプするか、テキストを貼り付けてください</li>
+                                <li><strong>ファイルをアップロード:</strong> 「ファイルを選択」ボタンをクリックして、デバイスからTXT、PDF、またはDOCXファイルをアップロードします</li>
+                            </ul>
+                            <p style="text-align: left;">このツールは、入力または変更を行うたびにリアルタイムでテキストを処理します。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ステップ 2: 即時の統計情報を表示</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">テキストはすぐに分析され、包括的な統計情報が表示されます：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>基本的なカウント:</strong> 文字数、空白以外の文字数、単語数、スペース数、文数、行数</li>
+                                <li><strong>高度な指標:</strong> 空行以外の行数、推定ページ数、読書時間、発話時間、読解レベル</li>
+                            </ul>
+                            <p style="text-align: left;">「テキストをコピー」ボタンをクリックすると、すべての統計情報を一度にクリップボードにコピーできます。</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">ステップ 3: 単語の頻度を分析</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">右ペインで詳細な単語頻度分析を表示：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>単語ランキング:</strong> テキスト内で最も頻繁に使用されている単語を確認</li>
+                                <li><strong>出現回数:</strong> 各単語が何回出現するかを確認</li>
+                                <li><strong>割合:</strong> 各単語が総単語数の何パーセントを占めているかを確認</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">表示をカスタマイズ：</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>「トップを表示」入力欄を使用して、表示する単語数を調整</li>
+                                <li>「CSVをエクスポート」をクリックして、単語頻度データをCSVファイルとしてダウンロード</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">最良の結果を得るためのヒント</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>正確な読解レベル計算のために、テキストには少なくとも10語と2文が含まれていることを確認してください</li>
+                                <li>ファイルアップロード機能を使用して、ドキュメント全体を迅速に分析</li>
+                                <li>表計算アプリケーションでさらに分析するためにCSVデータをエクスポート</li>
+                                <li>統計情報をコピーして、共有やレポートへの挿入を容易にする</li>
+                                <li>非常に長いテキスト（10,000文字以上）はパフォーマンスを低下させる可能性があることに注意してください</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">関連ツール</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- 関連ツールはJSによって動的に生成されます -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("words-and-character-counter");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.111/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+<script>
+const textInput = document.getElementById('textInput');
+const charCount = document.getElementById('charCount');
+const charNoSpace = document.getElementById('charNoSpace');
+const wordCount = document.getElementById('wordCount');
+const spaceCount = document.getElementById('spaceCount');
+const sentenceCount = document.getElementById('sentenceCount');
+const lineCount = document.getElementById('lineCount');
+const notEmptyLineCount = document.getElementById('notEmptyLineCount');
+const pages = document.getElementById('pages');
+const readingTime = document.getElementById('readingTime');
+const speakingTime = document.getElementById('speakingTime');
+const readingLevel = document.getElementById('readingLevel');
+const warning = document.getElementById('warning');
+const wordTableBody = document.querySelector('#wordTable tbody');
+const fileInput = document.getElementById('fileInput');
+const topNInput = document.getElementById('topN');
+const exportBtn = document.getElementById('exportCSV');
+
+function updateCounts() {
+    const text = textInput.value;
+
+    // Basic counts
+    charCount.textContent = text.length;
+    charNoSpace.textContent = text.replace(/\s/g,'').length;
+    spaceCount.textContent = (text.match(/\s/g)||[]).length;
+    
+    // Improved word counting that supports languages without spaces
+    const words = countWords(text);
+    wordCount.textContent = words.length;
+
+    const lines = text.split(/\r\n|\r|\n/);
+    // Handle empty text case: if text is empty, line count is 0
+    const actualLines = text.length === 0 ? 0 : lines.length;
+    lineCount.textContent = actualLines;
+    notEmptyLineCount.textContent = lines.filter(l=>l.trim().length>0).length;
+
+    const sentences = text.split(/[.!?。！？]+/).filter(s=>s.trim().length>0);
+    sentenceCount.textContent = sentences.length;
+
+    pages.textContent = Math.ceil(text.length/1800);
+    readingTime.textContent = Math.ceil(words.length/200)+' 分';
+    speakingTime.textContent = Math.ceil(words.length/130)+' 分';
+
+    // Remove English-only syllable count and reading level calculation
+    readingLevel.textContent = 'N/A';
+
+    warning.textContent = text.length>10000? '⚠️ テキストが非常に長いため、パフォーマンスが低下する可能性があります！' : '';
+
+    updateWordTable(words);
+}
+
+// Improved word counting function that supports languages without spaces
+function countWords(text) {
+    // If text is empty, return empty array
+    if (!text.trim()) return [];
+    
+    // Split by spaces for languages with spaces
+    const spaceWords = text.trim().split(/\s+/).filter(Boolean);
+    
+    // For languages with spaces, use traditional counting
+    if (spaceWords.length > 1) {
+        return spaceWords;
+    }
+    
+    // For languages without spaces (like Chinese, Japanese, Korean)
+    // Count each character as a word (simplified approach)
+    // This is a basic implementation - can be enhanced with more sophisticated algorithms
+    const charWords = [];
+    for (let char of text) {
+        if (!char.match(/\s/)) {
+            charWords.push(char);
+        }
+    }
+    
+    return charWords;
+}
+
+// Word Table
+function updateWordTable(words){
+    const freqMap = {};
+    words.forEach(w=> freqMap[w]=(freqMap[w]||0)+1);
+    let sorted = Object.entries(freqMap).sort((a,b)=>b[1]-a[1]);
+    const topN = parseInt(topNInput.value)||20;
+    sorted = sorted.slice(0, topN);
+
+    wordTableBody.innerHTML='';
+    const totalWords = words.length||1;
+    sorted.forEach((item,index)=>{
+        const tr = document.createElement('tr');
+        const percent = ((item[1]/totalWords)*100).toFixed(4)+'%';
+        tr.innerHTML=`<td>${index+1}</td><td>${item[0]}</td><td>${item[1]}</td><td>${percent}</td>`;
+        wordTableBody.appendChild(tr);
+    });
+}
+
+// Copy Text
+function copyText(){
+    // Collect all statistics
+    const statsText = `文字数: ${charCount.textContent}
+空白以外の文字数: ${charNoSpace.textContent}
+単語数: ${wordCount.textContent}
+空白数: ${spaceCount.textContent}
+文数: ${sentenceCount.textContent}
+行数: ${lineCount.textContent}
+空行以外の行数: ${notEmptyLineCount.textContent}
+ページ数: ${pages.textContent}
+読書時間: ${readingTime.textContent}
+発話時間: ${speakingTime.textContent}
+読解レベル: ${readingLevel.textContent}`;
+    
+    navigator.clipboard.writeText(statsText)
+        .then(()=>{
+            // Create temporary tip element
+            const tip = document.createElement('div');
+            tip.textContent = 'コピー完了 ✓';
+            tip.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #34d399;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-weight: bold;
+                z-index: 10000;
+                animation: fadeInOut 2s ease-in-out;
+            `;
+            document.body.appendChild(tip);
+            setTimeout(() => tip.remove(), 2000);
+        })
+        .catch(()=>alert('テキストのコピーに失敗しました。'));
+}
+
+// Export CSV
+exportBtn.addEventListener('click', ()=>{
+    const rows = [['順序','単語','出現回数','割合']];
+    document.querySelectorAll('#wordTable tbody tr').forEach(tr=>{
+        const cols = Array.from(tr.querySelectorAll('td')).map(td=>td.textContent);
+        rows.push(cols);
+    });
+    const csvContent = rows.map(r=>r.join(',')).join('\n');
+    const blob = new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download='wordcount.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+// File Upload
+fileInput.addEventListener('change', async e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const ext = file.name.split('.').pop().toLowerCase();
+    if(ext==='txt'){
+        const text = await file.text();
+        textInput.value=text;
+        updateCounts();
+    } else if(ext==='pdf'){
+        const reader = new FileReader();
+        reader.onload = async function(){
+            const typedArray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedArray).promise;
+            let text='';
+            for(let i=1;i<=pdf.numPages;i++){
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text+=content.items.map(item=>item.str).join(' ')+'\n';
+            }
+            textInput.value=text;
+            updateCounts();
+        }
+        reader.readAsArrayBuffer(file);
+    } else if(ext==='docx'){
+        const reader = new FileReader();
+        reader.onload = async function(ev){
+            const result = await mammoth.extractRawText({arrayBuffer:ev.target.result});
+            textInput.value=result.value;
+            updateCounts();
+        }
+        reader.readAsArrayBuffer(file);
+    } else {
+        alert('サポートされていないファイル形式です');
+    }
+});
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translateY(-20px); }
+        20% { opacity: 1; transform: translateY(0); }
+        80% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-20px); }
+    }
+`;
+document.head.appendChild(style);
+
+textInput.addEventListener('input', updateCounts);
+topNInput.addEventListener('input', updateCounts);
+
+// Call updateCounts function on page load to show initial state
+updateCounts();
+</script>
+</body>
+</html>

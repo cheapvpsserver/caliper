@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="ja-JP">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景・マスクツール | CaliperTools</title>
+    <meta name="description" content="13のプロフェッショナルツールで画像の背景とマスクを処理します。背景を削除し、色を追加し、マスクを適用するなど。アップロードは必要ありません。">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../images/favicon32.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../scripts/script.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .bg-mask-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fff;
+            height: 750px;
+        }
+
+        @media (max-width: 768px) {
+            .bg-mask-container {
+                flex-direction: column-reverse;
+                height: auto;
+            }
+
+            .sidebar-container {
+                width: 100%;
+                border-right: none;
+                border-top: 1px solid #ddd;
+                border-bottom: none;
+            }
+
+            .sidebar {
+                height: auto;
+                max-height: none;
+                padding: 15px;
+            }
+
+            .sidebar-content {
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .sidebar-actions {
+                position: relative;
+                border-top: 1px solid #ddd;
+            }
+
+            .canvas-area {
+                height: auto;
+                min-height: 400px;
+                max-height: 60vh;
+            }
+
+            .upload-prompt {
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+            }
+
+            .sidebar .tools-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+        }
+
+        .sidebar-container {
+            width: 380px;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar {
+            padding: 20px;
+            background-color: #ffffff;
+            height: 750px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 120px;
+        }
+
+        .sidebar-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            z-index: 10;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-upload-btn {
+            padding: 8px 16px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .file-upload-btn:hover {
+            background: #2563eb;
+        }
+
+        .file-name {
+            margin-left: 10px;
+            color: #666;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .tools-section {
+            margin-bottom: 20px;
+        }
+
+        .tools-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .sidebar .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .tool-btn {
+            padding: 10px 5px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tool-btn:hover {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .tool-btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tool-btn i {
+            font-size: 18px;
+        }
+
+        .settings-section {
+            margin-bottom: 20px;
+        }
+
+        .settings-section h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .help-icon {
+            margin-left: 8px;
+            color: #999;
+            cursor: help;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .help-icon:hover {
+            color: #3b82f6;
+        }
+
+        .setting-select {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .setting-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .size-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            outline: none;
+            border-radius: 3px;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+
+        .size-display {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .actions-section {
+            margin-top: auto;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .canvas-area {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .upload-prompt {
+            text-align: center;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            width: calc(100% - 80px);
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        .upload-prompt.drag-over {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .upload-prompt-icon {
+            font-size: 60px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .upload-prompt-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0F172A;
+        }
+
+        .upload-prompt-instruction {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: transparent;
+        }
+
+        .delete-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .delete-image-btn:hover {
+            background-color: rgba(220, 53, 69, 1);
+            transform: scale(1.1);
+        }
+
+        .canvas-wrapper.active {
+            display: block;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        #resultCanvas {
+            position: relative;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        /* Tutorial and Introduction Section Styles */
+        .tutorial-section {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 5rem 0;
+            margin-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-4xl {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .tutorial-card {
+            background: white;
+            color: #1f2937;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-icon {
+            background: #3b82f6;
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .tutorial-card p {
+            color: #6b7280;
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            cursor: help;
+            font-size: 0.875rem;
+        }
+
+        /* Feature Section Styles */
+        .feature-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .feature-section.gray {
+            background: #f9fafb;
+        }
+
+        .grid-cols-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .content-image img {
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .content-text h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-text p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* Order Classes */
+        .order-2 {
+            order: 2;
+        }
+
+        .order-1 {
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .md\:order-1 {
+                order: 1;
+            }
+            .md\:order-2 {
+                order: 2;
+            }
+        }
+
+        /* Bottom Text Area */
+        .bottom-text-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, #f9fafb, white);
+        }
+
+        .bottom-text-section h2 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .bottom-text-section p {
+            font-size: 1.125rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .mb-10 {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Related Tools Section */
+        .related-tools {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Text Alignment Classes */
+        .text-center {
+            text-align: center;
+        }
+    </style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('右クリックメニューは無効です。');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('コピー機能は無効です。');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('開発者ツールが無効になっています');
+        }
+    });
+</script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <main class="main">
+        <div style="padding: 2rem 0;">
+            <h1 class="text-3xl font-bold text-center mb-8">背景・マスクツール</h1>
+        </div>
+        <div class="bg-mask-container">
+                    <div class="sidebar-container">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div class="upload-section">
+                                    <button id="upload-btn" class="upload-btn">
+                                        <i class="fas fa-upload"></i> 画像をアップロード
+                                    </button>
+                                    <input type="file" id="file-input" class="file-input" accept="image/jpeg,image/png,image/webp">
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>背景ツール<span class="help-icon" title="注意: 単色/グラデーション/パターン背景追加ツールは透明背景画像でのみ機能します。背景色は画像の透明部分でのみ表示されます。">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span></h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-mode="remove-bg" data-title="オンラインで画像の背景を削除" data-description="オンラインで画像から単色背景を即座に削除します。調整可能な許容範囲で画像を透過にします。商品写真、ロゴ、グラフィックに最適です。透過背景PNGとしてダウンロード。">
+                                            <i class="fas fa-eraser"></i>
+                                            <span>背景削除</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="add-solid-bg" data-title="画像背景色を追加" data-description="オンラインで透明画像に単色背景を追加します。透明部分を任意の色で塗りつぶします。透過PNG画像との相性が最適です。PNG形式でエクスポート。">
+                                            <i class="fas fa-fill-drip"></i>
+                                            <span>単色背景</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="add-gradient-bg" data-title="画像グラデーション背景を追加" data-description="オンラインで透明画像にグラデーション背景を追加します。水平、垂直、または斜めのグラデーションで美しい色の移行を作成します。SNSやデザインプロジェクトに最適です。">
+                                            <i class="fas fa-palette"></i>
+                                            <span>グラデーション</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="add-pattern-bg" data-title="Add Image Pattern Background" data-description="Add pattern background to transparent images online. Choose from dots, lines, grid, or checkerboard patterns. Customize colors to match your design. Export as PNG.">
+                                            <i class="fas fa-th"></i>
+                                            <span>パターン</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="resize-bg-fit" data-title="Resize Image Online" data-description="Resize image and fit with background color. Perfect for creating thumbnails, social media posts, and product images. Set custom dimensions and background color.">
+                                            <i class="fas fa-expand-arrows-alt"></i>
+                                            <span>サイズ変更</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="tools-section">
+                                    <h2>切り取り/マスクツール</h2>
+                                    <div class="tools-grid">
+                                        <button class="tool-btn" data-mode="crop-foreground" data-title="オンラインで画像を切り取り" data-description="オンラインで画像を前景オブジェクトに切り取ります。自動的に空のスペースを削除し、メイン被写体に切り取ります。商品撮影やポートレートに最適です。PNGとしてダウンロード。">
+                                            <i class="fas fa-crop"></i>
+                                            <span>FG切り取り</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="auto-crop" data-title="画像を自動切り取り" data-description="オンラインで透明エッジを自動切り取りします。画像から空の透明領域を削除します。余分な透明度を持つPNG画像を整理するのに最適です。PNGとしてエクスポート。">
+                                            <i class="fas fa-crop-alt"></i>
+                                            <span>自動切り取り</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="center-crop" data-title="オンラインで画像を中央切り取り" data-description="切り取り領域でオブジェクトを中央に配置します。自動的にメイン被写体を検出・中央配置します。サムネイルやプロフィール画像の作成に最適です。カスタム寸法を設定可能。">
+                                            <i class="fas fa-compress-arrows-alt"></i>
+                                            <span>中央</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="mask-circle" data-title="オンラインで円形マスク画像" data-description="オンラインで画像に円形マスクを適用します。完璧な円形写真やアバターを作成します。サイズと位置を調整可能です。プロフィール画像やSNSに最適です。PNGとしてエクスポート。">
+                                            <i class="fas fa-circle"></i>
+                                            <span>円形</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="mask-square" data-title="Square Mask Image Online" data-description="Apply square mask to image online. Create square photos with rounded corners. Adjust size, position, and corner radius. Perfect for Instagram and social media. Export as PNG.">
+                                            <i class="fas fa-square"></i>
+                                            <span>四角形</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="mask-custom" data-title="Custom Mask Image Online" data-description="Apply custom mask to image online. Upload your own mask image to create unique shapes and effects. Perfect for creative projects and custom designs. Export as PNG.">
+                                            <i class="fas fa-draw-polygon"></i>
+                                            <span>カスタム</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="apply-alpha-mask" data-title="Apply Alpha Mask to Image Online" data-description="Apply alpha mask from another image online. Use a grayscale image to control transparency. Perfect for advanced image compositing and creative effects. Export as PNG.">
+                                            <i class="fas fa-mask"></i>
+                                            <span>アルファ</span>
+                                        </button>
+                                        <button class="tool-btn" data-mode="remove-alpha-mask" data-title="Remove Alpha Mask from Image Online" data-description="Remove transparency and add background color online. Flatten transparent images with a solid background. Perfect for converting PNG to JPG. Choose any background color.">
+                                            <i class="fas fa-layer-group"></i>
+                                            <span>アルファ削除</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section" id="settings-section">
+                                    <h2>ツール設定</h2>
+                                    <div id="dynamic-settings">
+                                        <p style="color: #666; font-size: 14px;">設定を確認するにはツールを選択してください</p>
+                                    </div>
+                                </div>
+
+                                <div class="privacy-statement">
+                                    <i class="fas fa-shield-alt" style="margin-right: 8px;"></i>
+                                    ファイルはローカルで処理され、処理後に自動的に削除されます。
+                                </div>
+                            </div>
+
+                            <div class="sidebar-actions">
+                                <div class="action-row">
+                                    <button id="clear-btn" class="action-btn clear-btn">
+                                        <i class="fas fa-trash"></i> すべてクリア
+                                    </button>
+                                    <button id="download-btn" class="action-btn download-btn" disabled>
+                                        <i class="fas fa-download"></i> エクスポート
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="canvas-area">
+                        <div id="upload-prompt" class="upload-prompt">
+                            <div class="upload-prompt-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="upload-prompt-title">背景・マスクツール</div>
+                            <div class="upload-prompt-instruction">ここをクリックするか、画像をドラッグ&ドロップして処理を開始してください</div>
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">対応形式: JPG, PNG, WebP</p>
+                        </div>
+
+                        <div id="canvas-wrapper" class="canvas-wrapper">
+                            <button id="delete-image-btn" class="delete-image-btn" title="画像を削除">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <canvas id="resultCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Tutorial Section -->
+    <section class="tutorial-section">
+        <div class="container">
+            <h2 class="text-4xl">背景・マスクツールの使い方</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Step 1 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                        画像をアップロード
+                    </h3>
+                    <p title="画像をアップロード領域に直接ドラッグ&ドロップするか、アップロードボタンをクリックしてデバイスから選択してください。JPG、PNG、WebP形式に対応しています。">画像をアップロード領域に直接ドラッグ&ドロップするか、アップロードボタンをクリックしてデバイスから選択してください。JPG、PNG、WebP形式に対応しています。</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-magic"></i>
+                        </span>
+                        ツールを選択
+                    </h3>
+                    <p title="背景削除、単色/グラデーション/パターン背景追加、切り取り、自動切り取り、中央切り取り、円形/四角形/カスタムマスク、アルファマスクの適用/削除、サイズ変更+背景フィットなど、13種類の背景・マスクツールから選択してください。">背景削除、単色/グラデーション/パターン背景追加、切り取り、自動切り取り、中央切り取り、円形/四角形/カスタムマスク、アルファマスクの適用/削除、サイズ変更+背景フィットなど、13種類の背景・マスクツールから選択してください。</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </span>
+                        設定を調整
+                    </h3>
+                    <p title="選択したツールに応じて、カラーピッカー、許容値、グラデーション方向、マスクサイズなどのツール設定をカスタマイズします。">選択したツールに応じて、カラーピッカー、許容値、グラデーション方向、マスクサイズなどのツール設定をカスタマイズします。</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="tutorial-card">
+                    <h3>
+                        <span class="tutorial-icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        画像をエクスポート
+                    </h3>
+                    <p title="エクスポートボタンをクリックして、処理された画像をPNGとしてダウンロードします。すべての背景・マスク操作が画像に適用されます。">エクスポートボタンをクリックして、処理された画像をPNGとしてダウンロードします。すべての背景・マスク操作が画像に適用されます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Introduction Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?w=600&h=400&fit=crop" alt="Background & Mask Tool" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>プロフェッショナルな背景・マスク処理</h2>
+                    <p>精度高く簡単に画像の背景とマスクを処理します。当社のツールは13種類のプロフェッショナルな背景・マスクツールを提供し、背景削除、色の追加、マスクの適用などを支援します。</p>
+                    <p>ECサイト、SNS、写真、および背景やマスク処理が必要なあらゆる画像に最適です。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Features Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>強力な背景ツール</h2>
+                    <p>単純な背景削除から高度なグラデーションやパターン背景まで、画像背景をプロフェッショナルに処理するために必要なものがすべて揃っています。</p>
+                    <p>単色背景を削除し、透過または色付き背景を追加し、さまざまなマスクを適用し、被写体に焦点を当てるために画像を切り取ります。</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://plus.unsplash.com/premium_photo-1674984909531-7b3ac0035e60?w=600&h=400&fit=crop" alt="Background Tools" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Privacy & Security Section -->
+    <section class="feature-section">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1553984840-b8cbc34f5215?w=600&h=400&fit=crop" alt="Privacy Protection" class="rounded-xl shadow-2xl w-full">
+                </div>
+                <div class="content-text">
+                    <h2>100% プライバシー保護</h2>
+                    <p>すべての画像処理はブラウザ内でローカルに実行されます。画像はサーバーにアップロードされることはありません。</p>
+                    <p>データはデバイス上に留まり、機密画像に対する完全なプライバシーとセキュリティを確保します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Support Section -->
+    <section class="feature-section gray">
+        <div class="container">
+            <div class="grid-cols-2">
+                <div class="content-text order-2 md:order-1">
+                    <h2>モバイルフレンドリー設計</h2>
+                    <p>モバイルフレンドリー設計で外出先でも背景とマスクを処理できます。当社のツールはスマートフォンとタブレットでシームレスに動作します。</p>
+                    <p>あらゆる画面サイズに適応するレスポンシブインターフェースにより、モバイルデバイスを使用して画像を簡単にアップロード、処理、およびダウンロードできます。</p>
+                </div>
+                <div class="content-image order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=400&fit=crop" alt="Mobile-Friendly Design" class="rounded-xl shadow-2xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Text Area -->
+    <section class="bottom-text-section">
+        <div class="container">
+            <h2>無料で簡単に背景とマスクを処理</h2>
+            <p>画像の背景とマスクを処理するために複雑なソフトウェアを使用するのはやめましょう。CaliperTools Background & Mask を使用すると、プロフェッショナルな背景とマスクを画像に簡単かつ無料で追加できます。最も良い点は、ブラウザがあればどんなデバイスからでも当社のツールを使用でき、ダウンロードやインストールは一切必要ないことです。経験は必要ありません！</p>
+            <p class="mb-10">ドラッグ＆ドロップエディタを使用して画像をアップロードすると、CaliperTools Background & Mask が残りを処理します。作業が完了したら、処理済みの画像を PNG としてダウンロードしてください。好きなだけ多くの写真を処理でき、すべて数クリックで完了します。</p>
+            
+            <h2>毎回高品質な処理</h2>
+            <p>プロフェッショナルな背景とマスクを追加しながら、画像の品質を維持します。当社の高度なツールは、背景の削除、色の追加、マスクの適用など、どのような操作を行っても、画像の明瞭さと詳細を維持することを保証します。</p>
+            <p>内蔵のカスタマイズオプションを使用すると、色、許容範囲、サイズを調整し、画像を目立たせるために13種類の異なる背景とマスクツールから選択できます。完璧に処理された画像で写真を格上げし、コミュニケーションを改善しましょう。</p>
+        </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="section related-tools py-16 bg-white">
+        <div class="container mx-auto px-6 max-w-[1400px]">
+            <h2 class="section-title text-3xl font-bold text-gray-900 mb-12 text-center">関連ツール</h2>
+            <div class="tools-grid" id="relatedTools">
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
+
+    <!-- Related Tools Script -->
+    <script src="../scripts/script-related-tools.js"></script>
+    <script>
+        // Initialize related tools
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentSlug = 'image-background-mask-tool';
+            if (typeof initRelatedTools === 'function') {
+                initRelatedTools(currentSlug);
+            }
+        });
+    </script>
+
+    <script>
+        let resultCanvas, resultCtx;
+        let originalImage = null;
+        let currentMode = null;
+        let currentSettings = {};
+        let displayWidth = 0;
+        let displayHeight = 0;
+
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const canvasWrapper = document.getElementById('canvas-wrapper');
+        const deleteImageBtn = document.getElementById('delete-image-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const toolButtons = document.querySelectorAll('.tool-btn');
+        const dynamicSettings = document.getElementById('dynamic-settings');
+
+        const settingsTemplates = {
+            'remove-bg': `
+                <div class="setting-row">
+                    <span class="setting-label">対象色:</span>
+                    <input type="color" id="setting-target-color" class="color-picker" value="#ffffff">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">許容範囲:</span>
+                    <input type="range" id="setting-tolerance" class="size-slider" min="0" max="100" value="20">
+                    <span id="tolerance-display" class="size-display">20%</span>
+                </div>
+            `,
+            'add-solid-bg': `
+                <div class="setting-row">
+                    <span class="setting-label">Background:</span>
+                    <input type="color" id="setting-bg-color" class="color-picker" value="#ffffff">
+                    <span class="help-icon" title="This tool only works with transparent background images. The background color will only be visible in transparent areas of the image.">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                </div>
+            `,
+            'add-gradient-bg': `
+                <div class="setting-row">
+                    <span class="setting-label">開始色:</span>
+                    <input type="color" id="setting-gradient-start" class="color-picker" value="#ffffff">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">終了色:</span>
+                    <input type="color" id="setting-gradient-end" class="color-picker" value="#000000">
+                    <span class="help-icon" title="This tool only works with transparent background images. The gradient background will only be visible in transparent areas of image.">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">方向:</span>
+                    <select id="setting-gradient-direction" class="setting-select">
+                        <option value="horizontal">水平</option>
+                        <option value="vertical">垂直</option>
+                        <option value="diagonal">対角</option>
+                    </select>
+                </div>
+            `,
+            'add-pattern-bg': `
+                <div class="setting-row">
+                    <span class="setting-label">パターン:</span>
+                    <select id="setting-pattern" class="setting-select">
+                        <option value="dots">ドット</option>
+                        <option value="lines">ライン</option>
+                        <option value="grid">グリッド</option>
+                        <option value="checkerboard">チェック柄</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">色1:</span>
+                    <input type="color" id="setting-pattern-color1" class="color-picker" value="#ffffff">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">色2:</span>
+                    <input type="color" id="setting-pattern-color2" class="color-picker" value="#000000">
+                </div>
+            `,
+            'resize-bg-fit': `
+                <div class="setting-row">
+                    <span class="setting-label">幅:</span>
+                    <input type="number" id="setting-width" class="setting-input" value="800" min="100" max="4000">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">高さ:</span>
+                    <input type="number" id="setting-height" class="setting-input" value="600" min="100" max="4000">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">背景:</span>
+                    <input type="color" id="setting-bg-color" class="color-picker" value="#ffffff">
+                </div>
+            `,
+            'crop-foreground': `
+                <p style="color: #666; font-size: 14px;">このツールは画像を前景オブジェクトに切り取ります。</p>
+            `,
+            'auto-crop': `
+                <p style="color: #666; font-size: 14px;">このツールは透明エッジを自動的に切り取ります。</p>
+            `,
+            'center-crop': `
+                <div class="setting-row">
+                    <span class="setting-label">幅:</span>
+                    <input type="number" id="setting-width" class="setting-input" value="800" min="100" max="4000">
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">高さ:</span>
+                    <input type="number" id="setting-height" class="setting-input" value="600" min="100" max="4000">
+                </div>
+            `,
+            'mask-circle': `
+                <div class="setting-row">
+                    <span class="setting-label">サイズ:</span>
+                    <input type="range" id="setting-mask-size" class="size-slider" min="50" max="500" value="200">
+                    <span id="mask-size-display" class="size-display">200px</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">位置:</span>
+                    <select id="setting-mask-position" class="setting-select">
+                        <option value="center">中央</option>
+                        <option value="top-left">左上</option>
+                        <option value="top-right">右上</option>
+                        <option value="bottom-left">左下</option>
+                        <option value="bottom-right">右下</option>
+                    </select>
+                </div>
+            `,
+            'mask-square': `
+                <div class="setting-row">
+                    <span class="setting-label">サイズ:</span>
+                    <input type="range" id="setting-mask-size" class="size-slider" min="50" max="500" value="200">
+                    <span id="mask-size-display" class="size-display">200px</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">位置:</span>
+                    <select id="setting-mask-position" class="setting-select">
+                        <option value="center">中央</option>
+                        <option value="top-left">左上</option>
+                        <option value="top-right">右上</option>
+                        <option value="bottom-left">左下</option>
+                        <option value="bottom-right">右下</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">角の半径:</span>
+                    <input type="range" id="setting-corner-radius" class="size-slider" min="0" max="100" value="0">
+                    <span id="corner-radius-display" class="size-display">0px</span>
+                </div>
+            `,
+            'mask-custom': `
+                <p style="color: #666; font-size: 14px;">適用するカスタムマスク画像をアップロードしてください。</p>
+                <div class="setting-row">
+                    <span class="setting-label">マスク画像:</span>
+                    <input type="file" id="mask-custom-file" class="file-input" accept="image/png,image/jpeg">
+                    <button class="file-upload-btn" onclick="document.getElementById('mask-custom-file').click()">
+                        <i class="fas fa-upload"></i> ファイルを選択
+                    </button>
+                    <span id="mask-custom-file-name" class="file-name">ファイルが選択されていません</span>
+                </div>
+            `,
+            'apply-alpha-mask': `
+                <p style="color: #666; font-size: 14px;">アルファチャンネルとして使用するマスク画像をアップロードしてください。</p>
+                <div class="setting-row">
+                    <span class="setting-label">マスク画像:</span>
+                    <input type="file" id="alpha-mask-file" class="file-input" accept="image/png,image/jpeg">
+                    <button class="file-upload-btn" onclick="document.getElementById('alpha-mask-file').click()">
+                        <i class="fas fa-upload"></i> ファイルを選択
+                    </button>
+                    <span id="alpha-mask-file-name" class="file-name">ファイルが選択されていません</span>
+                </div>
+            `,
+            'remove-alpha-mask': `
+                <div class="setting-row">
+                    <span class="setting-label">Background:</span>
+                    <input type="color" id="setting-bg-color" class="color-picker" value="#ffffff">
+                </div>
+            `
+        };
+
+        function getSettingValue(id) {
+            const element = document.getElementById(id);
+            console.log('getSettingValue - ID:', id, 'Element:', element, 'Value:', element ? element.value : 'null');
+            return element ? element.value : null;
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function updateSettingsPanel(mode) {
+            if (settingsTemplates[mode]) {
+                dynamicSettings.innerHTML = settingsTemplates[mode];
+                console.log('Settings panel updated for mode:', mode);
+                
+                if (mode === 'add-solid-bg') {
+                    canvasWrapper.style.backgroundColor = '#ffffff';
+                } else {
+                    canvasWrapper.style.backgroundColor = 'transparent';
+                }
+                
+                setTimeout(function() {
+                    processImages();
+                }, 100);
+            } else {
+                dynamicSettings.innerHTML = '<p style="color: #666; font-size: 14px;">このモードの設定はありません</p>';
+            }
+        }
+
+        function processImages() {
+            if (!currentMode) return;
+            
+            if (!originalImage) {
+                console.log('No image loaded yet');
+                return;
+            }
+
+            console.log('Processing mode:', currentMode);
+            console.log('Display dimensions:', displayWidth, 'x', displayHeight);
+            console.log('Canvas dimensions:', resultCanvas.width, 'x', resultCanvas.height);
+            
+            resultCanvas.width = displayWidth;
+            resultCanvas.height = displayHeight;
+
+            console.log('Switching to case:', currentMode);
+            switch (currentMode) {
+                case 'remove-bg':
+                    console.log('Calling processRemoveBackground');
+                    processRemoveBackground();
+                    break;
+                case 'add-solid-bg':
+                    console.log('Calling processAddSolidBackground');
+                    processAddSolidBackground();
+                    break;
+                case 'add-gradient-bg':
+                    processAddGradientBackground();
+                    break;
+                case 'add-pattern-bg':
+                    processAddPatternBackground();
+                    break;
+                case 'resize-bg-fit':
+                    processResizeBackgroundFit();
+                    break;
+                case 'crop-foreground':
+                    processCropForeground();
+                    break;
+                case 'auto-crop':
+                    processAutoCrop();
+                    break;
+                case 'center-crop':
+                    processCenterCrop();
+                    break;
+                case 'mask-circle':
+                    processMaskCircle();
+                    break;
+                case 'mask-square':
+                    processMaskSquare();
+                    break;
+                case 'mask-custom':
+                    processMaskCustom();
+                    break;
+                case 'apply-alpha-mask':
+                    processApplyAlphaMask();
+                    break;
+                case 'remove-alpha-mask':
+                    processRemoveAlphaMask();
+                    break;
+            }
+
+            downloadBtn.disabled = false;
+        }
+
+        function processRemoveBackground() {
+            console.log('Processing Remove Background');
+            const targetColor = hexToRgb(getSettingValue('setting-target-color'));
+            const tolerance = parseInt(getSettingValue('setting-tolerance')) || 20;
+            console.log('Target color:', targetColor, 'Tolerance:', tolerance);
+            console.log('Canvas size:', resultCanvas.width, 'x', resultCanvas.height);
+
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+
+                const dr = Math.abs(r - targetColor.r);
+                const dg = Math.abs(g - targetColor.g);
+                const db = Math.abs(b - targetColor.b);
+
+                if (dr + dg + db < tolerance * 3) {
+                    data[i + 3] = 0;
+                }
+            }
+
+            resultCtx.putImageData(imageData, 0, 0);
+            console.log('Remove Background completed');
+        }
+
+        function processAddSolidBackground() {
+            const bgColor = getSettingValue('setting-bg-color') || '#ffffff';
+            console.log('Add Solid Background - Background color:', bgColor);
+            console.log('Canvas size:', resultCanvas.width, 'x', resultCanvas.height);
+            console.log('Display size:', displayWidth, 'x', displayHeight);
+            console.log('Original image size:', originalImage.width, 'x', originalImage.height);
+            
+            resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+            resultCtx.fillStyle = bgColor;
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+            
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            
+            console.log('Canvas data URL:', resultCanvas.toDataURL('image/png').substring(0, 100));
+            console.log('Add Solid Background completed');
+        }
+
+        function processAddGradientBackground() {
+            const startColor = getSettingValue('setting-gradient-start') || '#ffffff';
+            const endColor = getSettingValue('setting-gradient-end') || '#000000';
+            const direction = getSettingValue('setting-gradient-direction') || 'horizontal';
+            
+            console.log('Add Gradient Background - Start color:', startColor, 'End color:', endColor, 'Direction:', direction);
+
+            let gradient;
+            if (direction === 'horizontal') {
+                gradient = resultCtx.createLinearGradient(0, 0, resultCanvas.width, 0);
+            } else if (direction === 'vertical') {
+                gradient = resultCtx.createLinearGradient(0, 0, 0, resultCanvas.height);
+            } else {
+                gradient = resultCtx.createLinearGradient(0, 0, resultCanvas.width, resultCanvas.height);
+            }
+
+            gradient.addColorStop(0, startColor);
+            gradient.addColorStop(1, endColor);
+
+            resultCtx.fillStyle = gradient;
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            
+            console.log('Add Gradient Background completed');
+        }
+
+        function processAddPatternBackground() {
+            const pattern = getSettingValue('setting-pattern') || 'dots';
+            const color1 = getSettingValue('setting-pattern-color1') || '#ffffff';
+            const color2 = getSettingValue('setting-pattern-color2') || '#000000';
+
+            resultCtx.fillStyle = color1;
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+
+            const patternCanvas = document.createElement('canvas');
+            patternCanvas.width = 20;
+            patternCanvas.height = 20;
+            const patternCtx = patternCanvas.getContext('2d');
+
+            if (pattern === 'dots') {
+                patternCtx.fillStyle = color2;
+                patternCtx.beginPath();
+                patternCtx.arc(10, 10, 3, 0, Math.PI * 2);
+                patternCtx.fill();
+            } else if (pattern === 'lines') {
+                patternCtx.strokeStyle = color2;
+                patternCtx.lineWidth = 2;
+                patternCtx.beginPath();
+                patternCtx.moveTo(0, 10);
+                patternCtx.lineTo(20, 10);
+                patternCtx.stroke();
+            } else if (pattern === 'grid') {
+                patternCtx.strokeStyle = color2;
+                patternCtx.lineWidth = 1;
+                patternCtx.strokeRect(0, 0, 20, 20);
+            } else if (pattern === 'checkerboard') {
+                patternCtx.fillStyle = color2;
+                patternCtx.fillRect(0, 0, 10, 10);
+                patternCtx.fillRect(10, 10, 10, 10);
+            }
+
+            const createdPattern = resultCtx.createPattern(patternCanvas, 'repeat');
+            resultCtx.fillStyle = createdPattern;
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+        }
+
+        function processResizeBackgroundFit() {
+            const targetWidth = parseInt(getSettingValue('setting-width')) || 800;
+            const targetHeight = parseInt(getSettingValue('setting-height')) || 600;
+            const bgColor = getSettingValue('setting-bg-color') || '#ffffff';
+
+            resultCanvas.width = targetWidth;
+            resultCanvas.height = targetHeight;
+
+            resultCtx.fillStyle = bgColor;
+            resultCtx.fillRect(0, 0, targetWidth, targetHeight);
+
+            const scale = Math.min(targetWidth / originalImage.width, targetHeight / originalImage.height);
+            const newWidth = originalImage.width * scale;
+            const newHeight = originalImage.height * scale;
+            const x = (targetWidth - newWidth) / 2;
+            const y = (targetHeight - newHeight) / 2;
+
+            resultCtx.drawImage(originalImage, x, y, newWidth, newHeight);
+        }
+
+        function processCropForeground() {
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+            const data = imageData.data;
+
+            let minX = resultCanvas.width, minY = resultCanvas.height;
+            let maxX = 0, maxY = 0;
+            let hasContent = false;
+
+            for (let y = 0; y < resultCanvas.height; y++) {
+                for (let x = 0; x < resultCanvas.width; x++) {
+                    const i = (y * resultCanvas.width + x) * 4;
+                    if (data[i + 3] > 0) {
+                        hasContent = true;
+                        minX = Math.min(minX, x);
+                        minY = Math.min(minY, y);
+                        maxX = Math.max(maxX, x);
+                        maxY = Math.max(maxY, y);
+                    }
+                }
+            }
+
+            if (hasContent) {
+                const croppedWidth = maxX - minX + 1;
+                const croppedHeight = maxY - minY + 1;
+
+                const croppedData = resultCtx.getImageData(minX, minY, croppedWidth, croppedHeight);
+                resultCanvas.width = croppedWidth;
+                resultCanvas.height = croppedHeight;
+                resultCtx.putImageData(croppedData, 0, 0);
+            }
+        }
+
+        function processAutoCrop() {
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+            const data = imageData.data;
+
+            let minX = resultCanvas.width, minY = resultCanvas.height;
+            let maxX = 0, maxY = 0;
+            let hasContent = false;
+
+            for (let y = 0; y < resultCanvas.height; y++) {
+                for (let x = 0; x < resultCanvas.width; x++) {
+                    const i = (y * resultCanvas.width + x) * 4;
+                    if (data[i + 3] > 0) {
+                        hasContent = true;
+                        minX = Math.min(minX, x);
+                        minY = Math.min(minY, y);
+                        maxX = Math.max(maxX, x);
+                        maxY = Math.max(maxY, y);
+                    }
+                }
+            }
+
+            if (hasContent) {
+                const croppedWidth = maxX - minX + 1;
+                const croppedHeight = maxY - minY + 1;
+
+                const croppedData = resultCtx.getImageData(minX, minY, croppedWidth, croppedHeight);
+                resultCanvas.width = croppedWidth;
+                resultCanvas.height = croppedHeight;
+                resultCtx.putImageData(croppedData, 0, 0);
+            }
+        }
+
+        function processCenterCrop() {
+            const targetWidth = parseInt(getSettingValue('setting-width')) || 800;
+            const targetHeight = parseInt(getSettingValue('setting-height')) || 600;
+            
+            console.log('Center Crop - Target size:', targetWidth, 'x', targetHeight);
+            console.log('Center Crop - Display size:', displayWidth, 'x', displayHeight);
+            console.log('Center Crop - Original size:', originalImage.width, 'x', originalImage.height);
+
+            resultCanvas.width = displayWidth;
+            resultCanvas.height = displayHeight;
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+
+            const imageData = resultCtx.getImageData(0, 0, resultCanvas.width, resultCanvas.height);
+            const data = imageData.data;
+
+            let minX = resultCanvas.width, minY = resultCanvas.height;
+            let maxX = 0, maxY = 0;
+            let hasContent = false;
+
+            for (let y = 0; y < resultCanvas.height; y++) {
+                for (let x = 0; x < resultCanvas.width; x++) {
+                    const i = (y * resultCanvas.width + x) * 4;
+                    if (data[i + 3] > 0) {
+                        hasContent = true;
+                        minX = Math.min(minX, x);
+                        minY = Math.min(minY, y);
+                        maxX = Math.max(maxX, x);
+                        maxY = Math.max(maxY, y);
+                    }
+                }
+            }
+
+            console.log('Center Crop - Bounding box:', minX, minY, maxX, maxY, 'Has content:', hasContent);
+
+            if (hasContent) {
+                const objectWidth = maxX - minX + 1;
+                const objectHeight = maxY - minY + 1;
+
+                resultCanvas.width = targetWidth;
+                resultCanvas.height = targetHeight;
+
+                const scale = Math.min(targetWidth / objectWidth, targetHeight / objectHeight);
+                const scaledObjectWidth = objectWidth * scale;
+                const scaledObjectHeight = objectHeight * scale;
+
+                const x = (targetWidth - scaledObjectWidth) / 2;
+                const y = (targetHeight - scaledObjectHeight) / 2;
+
+                const scaleX = originalImage.width / displayWidth;
+                const scaleY = originalImage.height / displayHeight;
+
+                console.log('Center Crop - Object size:', objectWidth, 'x', objectHeight);
+                console.log('Center Crop - Scale:', scale);
+                console.log('Center Crop - Scaled object size:', scaledObjectWidth, 'x', scaledObjectHeight);
+                console.log('Center Crop - Position:', x, y);
+
+                resultCtx.drawImage(originalImage, 
+                    minX * scaleX, 
+                    minY * scaleY, 
+                    objectWidth * scaleX, 
+                    objectHeight * scaleY,
+                    x, y, scaledObjectWidth, scaledObjectHeight
+                );
+            } else {
+                console.log('Center Crop - No content found, using full image');
+                
+                resultCanvas.width = targetWidth;
+                resultCanvas.height = targetHeight;
+                
+                const scale = Math.min(targetWidth / originalImage.width, targetHeight / originalImage.height);
+                const newWidth = originalImage.width * scale;
+                const newHeight = originalImage.height * scale;
+                const x = (targetWidth - newWidth) / 2;
+                const y = (targetHeight - newHeight) / 2;
+                
+                console.log('Center Crop - Scale:', scale);
+                console.log('Center Crop - New size:', newWidth, 'x', newHeight);
+                console.log('Center Crop - Position:', x, y);
+                
+                resultCtx.drawImage(originalImage, x, y, newWidth, newHeight);
+            }
+            
+            console.log('Center Crop - Result canvas size:', resultCanvas.width, 'x', resultCanvas.height);
+        }
+
+        function processMaskCircle() {
+            const maskSize = parseInt(getSettingValue('setting-mask-size')) || 200;
+            const position = getSettingValue('setting-mask-position') || 'center';
+
+            let x, y;
+            if (position === 'center') {
+                x = (resultCanvas.width - maskSize) / 2;
+                y = (resultCanvas.height - maskSize) / 2;
+            } else if (position === 'top-left') {
+                x = 0;
+                y = 0;
+            } else if (position === 'top-right') {
+                x = resultCanvas.width - maskSize;
+                y = 0;
+            } else if (position === 'bottom-left') {
+                x = 0;
+                y = resultCanvas.height - maskSize;
+            } else if (position === 'bottom-right') {
+                x = resultCanvas.width - maskSize;
+                y = resultCanvas.height - maskSize;
+            }
+
+            resultCtx.save();
+            resultCtx.beginPath();
+            resultCtx.arc(x + maskSize / 2, y + maskSize / 2, maskSize / 2, 0, Math.PI * 2);
+            resultCtx.clip();
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            resultCtx.restore();
+        }
+
+        function processMaskSquare() {
+            const maskSize = parseInt(getSettingValue('setting-mask-size')) || 200;
+            const position = getSettingValue('setting-mask-position') || 'center';
+            const cornerRadius = parseInt(getSettingValue('setting-corner-radius')) || 0;
+
+            let x, y;
+            if (position === 'center') {
+                x = (resultCanvas.width - maskSize) / 2;
+                y = (resultCanvas.height - maskSize) / 2;
+            } else if (position === 'top-left') {
+                x = 0;
+                y = 0;
+            } else if (position === 'top-right') {
+                x = resultCanvas.width - maskSize;
+                y = 0;
+            } else if (position === 'bottom-left') {
+                x = 0;
+                y = resultCanvas.height - maskSize;
+            } else if (position === 'bottom-right') {
+                x = resultCanvas.width - maskSize;
+                y = resultCanvas.height - maskSize;
+            }
+
+            resultCtx.save();
+            resultCtx.beginPath();
+            resultCtx.roundRect(x, y, maskSize, maskSize, cornerRadius);
+            resultCtx.clip();
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            resultCtx.restore();
+        }
+
+        function processMaskCustom() {
+            if (!maskCustomImage) {
+                console.log('Custom mask - requires uploading a mask image');
+                resultCtx.drawImage(originalImage, 0, 0);
+                return;
+            }
+            
+            resultCanvas.width = displayWidth;
+            resultCanvas.height = displayHeight;
+            
+            resultCtx.save();
+            resultCtx.drawImage(maskCustomImage, 0, 0, displayWidth, displayHeight);
+            resultCtx.globalCompositeOperation = 'destination-in';
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            resultCtx.restore();
+            
+            console.log('Custom mask applied');
+        }
+
+        function processApplyAlphaMask() {
+            if (!alphaMaskImage) {
+                console.log('Apply Alpha Mask - requires uploading a mask image');
+                resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+                return;
+            }
+            
+            resultCanvas.width = displayWidth;
+            resultCanvas.height = displayHeight;
+            
+            const maskCanvas = document.createElement('canvas');
+            maskCanvas.width = displayWidth;
+            maskCanvas.height = displayHeight;
+            const maskCtx = maskCanvas.getContext('2d');
+            
+            maskCtx.drawImage(alphaMaskImage, 0, 0, displayWidth, displayHeight);
+            const maskImageData = maskCtx.getImageData(0, 0, displayWidth, displayHeight);
+            const maskData = maskImageData.data;
+            
+            resultCtx.drawImage(originalImage, 0, 0, displayWidth, displayHeight);
+            const imageData = resultCtx.getImageData(0, 0, displayWidth, displayHeight);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const gray = (maskData[i] + maskData[i + 1] + maskData[i + 2]) / 3;
+                data[i + 3] = gray;
+            }
+            
+            resultCtx.putImageData(imageData, 0, 0);
+            console.log('Alpha mask applied');
+        }
+
+        function processRemoveAlphaMask() {
+            const bgColor = getSettingValue('setting-bg-color') || '#ffffff';
+            
+            resultCtx.fillStyle = bgColor;
+            resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
+            resultCtx.drawImage(originalImage, 0, 0);
+        }
+
+        function handleUrlParams() {
+            const pathname = window.location.pathname;
+            const segments = pathname.split('/');
+            const modeParam = segments[segments.length - 1];
+            if (modeParam && modeParam !== 'Image-Background-Mask.html') {
+                const modeBtn = document.querySelector(`.tool-btn[data-mode="${modeParam}"]`);
+                if (modeBtn) {
+                    modeBtn.click();
+                }
+            }
+        }
+
+        function init() {
+            resultCanvas = document.getElementById('resultCanvas');
+            resultCtx = resultCanvas.getContext('2d');
+            setupEventListeners();
+            handleUrlParams();
+        }
+
+        function setupEventListeners() {
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            uploadPrompt.addEventListener('click', function() {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', handleFileUpload);
+
+            const canvasArea = document.querySelector('.canvas-area');
+            canvasArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.add('drag-over');
+            });
+
+            canvasArea.addEventListener('dragleave', function() {
+                uploadPrompt.classList.remove('drag-over');
+            });
+
+            canvasArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadPrompt.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    loadImage(files[0]);
+                }
+            });
+
+            deleteImageBtn.addEventListener('click', function() {
+                originalImage = null;
+                displayWidth = 0;
+                displayHeight = 0;
+                uploadPrompt.style.display = 'flex';
+                canvasWrapper.classList.remove('active');
+                downloadBtn.disabled = true;
+                resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+                
+                document.title = 'Background & Mask Tool | CaliperTools';
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', 'Process image backgrounds and masks with 13 professional tools. Remove backgrounds, add colors, apply masks, and more. No upload required.');
+                }
+                
+                const newUrl = new URL(window.location.href);
+                const segments = newUrl.pathname.split('/');
+                const imageIndex = segments.indexOf('Image');
+                
+                const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
+                const langIndex = segments.findIndex(segment => langCodes.includes(segment));
+                
+                if (langIndex !== -1) {
+                    newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Background-Mask.html';
+                } else if (imageIndex !== -1) {
+                    newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask.html';
+                } else {
+                    newUrl.pathname = '/Image/Image-Background-Mask.html';
+                }
+                window.history.pushState({}, '', newUrl);
+                
+                toolButtons.forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                currentMode = null;
+            });
+
+            toolButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const mode = btn.dataset.mode;
+                    console.log('Button clicked:', mode);
+                    
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    btn.classList.add('active');
+                    currentMode = mode;
+                    
+                    const toolTitle = btn.dataset.title;
+                    const toolDescription = btn.dataset.description;
+                    
+                    if (toolTitle) {
+                        document.title = toolTitle + ' | CaliperTools';
+                    }
+                    
+                    const newUrl = new URL(window.location.href);
+                    const segments = newUrl.pathname.split('/');
+                    const imageIndex = segments.indexOf('Image');
+                    
+                    const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
+                    const langIndex = segments.findIndex(segment => langCodes.includes(segment));
+                    
+                    if (langIndex !== -1) {
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Background-Mask/' + mode;
+                    } else if (imageIndex !== -1) {
+                        newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask/' + mode;
+                    } else {
+                        newUrl.pathname = '/Image/Image-Background-Mask/' + mode;
+                    }
+                    window.history.pushState({}, '', newUrl);
+                    
+                    const metaDescription = document.querySelector('meta[name="description"]');
+                    if (metaDescription && toolDescription) {
+                        metaDescription.setAttribute('content', toolDescription);
+                    }
+                    
+                    updateSettingsPanel(mode);
+                    processImages();
+                });
+            });
+
+            document.addEventListener('change', function(e) {
+                if (e.target.id.startsWith('setting-')) {
+                    if (e.target.type !== 'color' && e.target.type !== 'range') {
+                        console.log('Change event triggered:', e.target.id, e.target.value);
+                        processImages();
+                    }
+                }
+                if (e.target.id === 'mask-custom-file') {
+                    handleMaskCustomUpload(e.target.files[0]);
+                }
+                if (e.target.id === 'alpha-mask-file') {
+                    handleAlphaMaskUpload(e.target.files[0]);
+                }
+            });
+
+            document.addEventListener('input', function(e) {
+                console.log('Input event triggered:', e.target.id, e.target.value, e.target.type);
+                
+                if (e.target.id === 'setting-tolerance') {
+                    document.getElementById('tolerance-display').textContent = e.target.value + '%';
+                    processImages();
+                }
+                if (e.target.id === 'setting-mask-size') {
+                    document.getElementById('mask-size-display').textContent = e.target.value + 'px';
+                    processImages();
+                }
+                if (e.target.id === 'setting-corner-radius') {
+                    document.getElementById('corner-radius-display').textContent = e.target.value + 'px';
+                    processImages();
+                }
+            });
+
+            document.addEventListener('change', function(e) {
+                const colorPickers = ['setting-bg-color', 'setting-gradient-start', 'setting-gradient-end', 'setting-pattern-color1', 'setting-pattern-color2'];
+                if (colorPickers.includes(e.target.id)) {
+                    console.log('Color picker changed (change event):', e.target.id, e.target.value);
+                    
+                    if (e.target.id === 'setting-bg-color') {
+                        canvasWrapper.style.backgroundColor = e.target.value;
+                    }
+                    
+                    processImages();
+                }
+                
+                if (e.target.id === 'setting-gradient-direction') {
+                    console.log('Gradient direction changed:', e.target.value);
+                    processImages();
+                }
+                if (e.target.id === 'setting-pattern') {
+                    console.log('Pattern changed:', e.target.value);
+                    processImages();
+                }
+            });
+
+            clearBtn.addEventListener('click', clearAll);
+            downloadBtn.addEventListener('click', downloadImage);
+        }
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        }
+
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = (maxWidth / width) * height;
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = (maxHeight / height) * width;
+                        height = maxHeight;
+                    }
+
+                    displayWidth = width;
+                    displayHeight = height;
+
+                    resultCanvas.width = width;
+                    resultCanvas.height = height;
+
+                    resultCtx.drawImage(img, 0, 0, width, height);
+                    
+                    canvasWrapper.style.width = width + 'px';
+                    canvasWrapper.style.height = height + 'px';
+
+                    uploadPrompt.style.display = 'none';
+                    canvasWrapper.classList.add('active');
+                    downloadBtn.disabled = false;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        let maskCustomImage = null;
+        let alphaMaskImage = null;
+
+        function handleMaskCustomUpload(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    maskCustomImage = img;
+                    const fileNameElement = document.getElementById('mask-custom-file-name');
+                    if (fileNameElement) {
+                        fileNameElement.textContent = file.name;
+                    }
+                    processImages();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleAlphaMaskUpload(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    alphaMaskImage = img;
+                    const fileNameElement = document.getElementById('alpha-mask-file-name');
+                    if (fileNameElement) {
+                        fileNameElement.textContent = file.name;
+                    }
+                    processImages();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearAll() {
+            if (originalImage) {
+                if (confirm('Clear all images?')) {
+                    originalImage = null;
+                    displayWidth = 0;
+                    displayHeight = 0;
+                    uploadPrompt.style.display = 'flex';
+                    canvasWrapper.classList.remove('active');
+                    downloadBtn.disabled = true;
+                    resultCtx.clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+                    
+                    document.title = '背景とマスクツール | CaliperTools';
+                    const metaDescription = document.querySelector('meta[name="description"]');
+                    if (metaDescription) {
+                        metaDescription.setAttribute('content', 'Process image backgrounds and masks with 13 professional tools. Remove backgrounds, add colors, apply masks, and more. No upload required.');
+                    }
+                    
+                    const newUrl = new URL(window.location.href);
+                    const segments = newUrl.pathname.split('/');
+                    const imageIndex = segments.indexOf('Image');
+                    
+                    const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
+                    const langIndex = segments.findIndex(segment => langCodes.includes(segment));
+                    
+                    if (langIndex !== -1) {
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Background-Mask.html';
+                    } else if (imageIndex !== -1) {
+                        newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask.html';
+                    } else {
+                        newUrl.pathname = '/Image/Image-Background-Mask.html';
+                    }
+                    window.history.pushState({}, '', newUrl);
+                    
+                    toolButtons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    currentMode = null;
+                }
+            }
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+
+            const link = document.createElement('a');
+            link.download = 'processed-image.png';
+            link.href = resultCanvas.toDataURL('image/png');
+            link.click();
+        }
+
+        init();
+    </script>
+
+
+</body>
+</html>
