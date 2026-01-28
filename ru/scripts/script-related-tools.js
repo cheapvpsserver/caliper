@@ -126,10 +126,10 @@ function initRelatedTools(currentSlug) {
                             let toolUrl = tool.url;
                             if (toolUrl === '#') {
                                 // Placeholder links point to home page
-                                toolUrl = `${basePath}index.html`;
+                                toolUrl = `/${lang}/index.html`;
                             } else {
-                                // All tools now use the correct path format, just add basePath
-                                toolUrl = `${basePath}${toolUrl}`;
+                                // All tools now use the correct path format, just add language prefix
+                                toolUrl = `/${lang}/${toolUrl}`;
                             }
                             
                             return `
