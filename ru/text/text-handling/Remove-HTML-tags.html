@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+<meta charset="UTF-8" />
+<title>CaliperTools - Удаление HTML-тегов</title>
+<meta name="description" content="Бесплатный онлайн-инструмент удаления HTML-тегов и очистки текста от CaliperTools. Легко удаляйте HTML-теги, декодируйте сущности и очищайте текст." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    color: #222;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Remove HTML Tags Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+.output {
+    width: 100%;
+    height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+.options h3 {
+    margin: 20px 0 10px;
+    font-size: 16px;
+    color: #111827;
+    font-weight: bold;
+}
+
+.options label {
+    display: block;
+    font-size: 14px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.options input[type="file"] {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export {
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.export button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.export button:hover {
+    background: #0052a3;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Автоматическое контекстное меню (по щелчку правой кнопкой мыши) отключено');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Функция копирования отключена.');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Инструменты разработчика отключены.');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>Удаление HTML-тегов</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">Undo</button>
+                    <button onclick="redo()">Redo</button>
+                    <button onclick="clearText()">Clear</button>
+                    <!-- Custom file input with English text only -->
+                    <label style="position: relative; display: inline-block; margin-left: 10px;">
+                        <input type="file" id="fileInput" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;" />
+                        <span style="display: inline-block; padding: 8px 16px; border-radius: 6px; background: #10b981; color: white; cursor: pointer; font-size: 14px; transition: background-color 0.3s ease;">Выбрать файл</span>
+                    </label>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        Как использовать?
+                    </a>
+                </div>
+                
+                <textarea id="input" placeholder="Вставьте HTML или текст сюда..."></textarea>
+
+                <div class="stats">
+                    <div class="stat" id="charCount">Символы: 0</div>
+                    <div class="stat" id="nonBlankChar">Без пробелов: 0</div>
+                    <div class="stat" id="wordCount">Слова: 0</div>
+                    <div class="stat" id="lineCount">Строки: 0</div>
+                    <div class="stat" id="paraCount">Абзацы: 0</div>
+                    <div class="stat" id="pages">Страницы: 0</div>
+                    <div class="stat" id="readingTime">Чтение: 0 мин</div>
+                    <div class="stat" id="speakingTime">Говорение: 0 мин</div>
+                </div>
+
+                <div class="options">
+                    <h3>Параметры HTML-тегов</h3>
+                    <label><input type="checkbox" id="decode"> Декодировать HTML-сущности</label>
+                    <label>
+                        Сохранить теги (через запятую):
+                        <input type="text" id="preserve" placeholder="b,strong,a">
+                    </label>
+
+                    <h3>Очистка текста</h3>
+                    <label><input type="checkbox" id="trim"> Удалить лишние пробелы</label>
+                    <label><input type="checkbox" id="removeEmpty"> Удалить пустые строки</label>
+
+
+                </div>
+            </div>
+
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>Вывод</h2>
+                <div class="export">
+                    <button onclick="copyOut()">Копировать</button>
+                    <button onclick="exportFile('txt')">Экспорт TXT</button>
+                    <button onclick="exportFile('html')">Экспорт HTML</button>
+                    <button onclick="exportFile('doc')">Экспорт Word</button>
+                </div>
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Remove HTML Tags -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Как использовать Удаление HTML-тегов</h3>
+                <p>
+                    Следуйте этим простым шагам, чтобы эффективно удалять HTML-теги и очищать ваш текст с различными параметрами обработки.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Шаг 1: Введите ваш контент</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Шаг 2: Настройте параметры очистки</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Шаг 3: Получите ваши результаты</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Пошаговое руководство</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Шаг 1: Введите ваш контент</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Введите ваш HTML-контент одним из двух способов:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Вставить HTML-текст:</strong> Прямо вставьте ваш HTML-контент в текстовую область</li>
+                                <li><strong>Загрузить файл:</strong> Нажмите кнопку "Выбрать файл", чтобы загрузить HTML-файл с вашего устройства</li>
+                            </ul>
+                            <p style="text-align: left;">Инструмент обрабатывает ваш контент в режиме реального времени по мере ввода или изменения параметров.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Шаг 2: Настройте параметры очистки</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Настройте свою HTML-очистку с помощью этих параметров:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Декодировать HTML-сущности:</strong> Преобразовать HTML-сущности, такие как &amp;lt;, в их фактические символы, такие как &lt;</li>
+                                <li><strong>Сохранить теги:</strong> Укажите, какие HTML-теги сохранить (разделенные запятыми, например, "b,strong,a")</li>
+                                <li><strong>Удалить лишние пробелы:</strong> Удалить начальные и конечные пробелы из каждой строки</li>
+                                <li><strong>Удалить пустые строки:</strong> Удалить пустые строки из окончательного вывода</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Шаг 3: Получите ваши результаты</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Ваш очищенный текст появится в правой области вывода мгновенно. Вы можете:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Скопировать очищенный текст в один клик, используя кнопку "Копировать"</li>
+                                <li>Экспортировать в различные форматы: TXT, HTML или Word</li>
+                                <li>Отменить/Повторить изменения, используя кнопки панели инструментов</li>
+                                <li>Очистить весь контент, чтобы начать заново, с помощью кнопки "Очистить"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Советы для наилучших результатов</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Используйте <strong>Декодировать HTML-сущности</strong>, когда работаете с закодированным HTML-контентом</li>
+                                <li>Укажите <strong>Сохранить теги</strong>, чтобы сохранить важное форматирование, такое как жирный шрифт или ссылки</li>
+                                <li>Сочетайте <strong>Удалить лишние пробелы</strong> с <strong>Удалить пустые строки</strong> для более чистых результатов</li>
+                                <li>Загружайте файлы для быстрой обработки целых HTML-документов</li>
+                                <li>Экспортируйте в формат Word для удобного редактирования в Microsoft Word</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Связанные инструменты</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("remove-html-tags");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script>
+let sourceText = '';
+let history = [];
+let future = [];
+
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+input.addEventListener('input', () => {
+  pushHistory();
+  sourceText = input.value;
+  process();
+});
+
+document.querySelectorAll('.options input').forEach(i=>{
+  i.addEventListener('change',process);
+});
+
+function pushHistory(){
+  history.push(input.value);
+  if(history.length>100)history.shift();
+  future=[];
+}
+
+function undo(){
+  if(!history.length)return;
+  future.push(input.value);
+  input.value = history.pop();
+  sourceText = input.value;
+  process(false);
+}
+function redo(){
+  if(!future.length)return;
+  history.push(input.value);
+  input.value = future.pop();
+  sourceText = input.value;
+  process(false);
+}
+
+function clearText(){
+  pushHistory();
+  input.value='';
+  sourceText='';
+  process();
+}
+
+function process(updateInput=true){
+  let text = sourceText;
+
+  if(document.getElementById('decode').checked){
+    const d=document.createElement('textarea');
+    d.innerHTML=text;
+    text=d.value;
+  }
+
+  const keep = document.getElementById('preserve').value
+    .split(',')
+    .map(t=>t.trim())
+    .filter(Boolean);
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      const re=new RegExp(`<${tag}\\b[^>]*>`,`gi`);
+      const re2=new RegExp(`</${tag}>`,`gi`);
+      text=text.replace(re,`§§${tag}§§`).replace(re2,`§§/${tag}§§`);
+    });
+  }
+
+  text = text.replace(/<[^>]*>/g,'');
+
+  if(keep.length){
+    keep.forEach(tag=>{
+      text=text
+        .replaceAll(`§§${tag}§§`,`<${tag}>`)
+        .replaceAll(`§§/${tag}§§`,`</${tag}>`);
+    });
+  }
+
+  if(document.getElementById('trim').checked){
+    text = text
+      .split(/\r?\n/)
+      .map(l=>l.trim())
+      .join('\n');
+  }
+
+  if(document.getElementById('removeEmpty').checked){
+    text = text
+      .split(/\r?\n/)
+      .filter(l=>l.trim()!=='')
+      .join('\n');
+  }
+
+  output.textContent = text;
+  updateStats(text);
+}
+
+function updateStats(t){
+  const chars=t.length;
+  const nonBlank=t.replace(/\s/g,'').length;
+  const words=(t.match(/\b\w+\b/g)||[]).length;
+  // Handle empty text case: if text is empty, line count is 0
+  const lines = t.length === 0 ? 0 : t.split(/\r?\n/).length;
+  const paras=t.split(/\n\s*\n/).filter(p=>p.trim()).length;
+  // Remove Math.max(1, ...), let page count calculate naturally
+  const pages=Math.ceil(words/500);
+  // Remove Math.max(1, ...), let time calculate naturally
+  const read=Math.ceil(words/200);
+  const speak=Math.ceil(words/130);
+
+  // Update each statistic
+  document.getElementById('charCount').textContent = `Characters: ${chars}`;
+  document.getElementById('nonBlankChar').textContent = `Non-blank: ${nonBlank}`;
+  document.getElementById('wordCount').textContent = `Words: ${words}`;
+  document.getElementById('lineCount').textContent = `Lines: ${lines}`;
+  document.getElementById('paraCount').textContent = `Paragraphs: ${paras}`;
+  document.getElementById('pages').textContent = `Pages: ${pages}`;
+  document.getElementById('readingTime').textContent = `Чтение: ${read} мин`;
+  document.getElementById('speakingTime').textContent = `Говорение: ${speak} мин`;
+}
+
+// Initialize statistics on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = 'Скопировано в буфер обмена!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyOut(){
+  navigator.clipboard.writeText(output.textContent)
+    .then(() => {
+      // Show copy success notification
+      const toast = document.getElementById('copyToast');
+      toast.style.opacity = '1';
+      // Hide notification after 2 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+function exportFile(type){
+  let blob,filename='output';
+  if(type==='txt'){
+    blob=new Blob([output.textContent],{type:'text/plain'});
+    filename+='.txt';
+  }
+  if(type==='html'){
+    blob=new Blob([output.innerHTML],{type:'text/html'});
+    filename+='.html';
+  }
+  if(type==='doc'){
+    blob=new Blob([output.textContent],{type:'application/msword'});
+    filename+='.doc';
+  }
+  if(type==='pdf'){
+    // For PDF, we use a simpler method: export as HTML and prompt user to print as PDF
+    const pdfContent = `
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${filename}</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+          }
+          .content {
+            max-width: 800px;
+            margin: 0 auto;
+          }
+        </style>
+      <script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Автоматическое контекстное меню (по щелчку правой кнопкой мыши) отключено');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Функция копирования отключена.');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Инструменты разработчика отключены.');
+        }
+    });
+</script>
+</head>
+      <body>
+        <div class="content">
+          ${output.innerHTML}
+        </div>
+      </body>
+      </html>
+    `;
+    // Use text/html type to ensure file opens correctly
+    blob=new Blob([pdfContent],{type:'text/html'});
+    filename+='.html';
+    // Prompt user to print as PDF
+    setTimeout(() => {
+      alert('Файл успешно скачан. Вы можете открыть этот HTML-файл и распечатать его в PDF из вашего браузера.');
+    }, 500);
+  }
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+
+document.getElementById('fileInput').addEventListener('change',e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    input.value=ev.target.result;
+    sourceText=input.value;
+    process();
+  };
+  r.readAsText(f);
+});
+</script>
+
+</body>
+</html>

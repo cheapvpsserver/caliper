@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<head>
+<meta charset="UTF-8">
+<title>Все онлайн-инструменты | CaliperTools</title>
+<meta name="description" content="Откройте для себя все наши бесплатные онлайн-инструменты на CaliperTools, включая утилиты кодирования/декодирования, инструменты преобразования форматов, вспомогательные средства разработки кода, инструменты оптимизации SEO, утилиты времени и вычислений и многое другое.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Import main stylesheet -->
+<link rel="stylesheet" href="../styles.css">
+<!-- Import FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- Website favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon32.png">
+<link rel="icon" href="../images/favicon32.png" type="image/png">
+<!-- Add simple favicon.ico as default -->
+<link rel="shortcut icon" href="../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Keep original tool grid styles */
+:root {
+  --bg: #F8FAFC;
+  --bg-color: #F8FAFC; /* Override external styles.css background color variable */
+  --card-bg: #ffffff;
+  --text-main: #111827;
+  --text-sub: #6b7280;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+}
+
+/* ===== Header ===== */
+.main-header {
+  max-width: 1200px;
+  margin: 60px auto 40px;
+  padding: 0 20px;
+}
+
+.main-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.main-header p {
+  font-size: 16px;
+  color: var(--text-sub);
+}
+
+/* Override body background color */
+body {
+  background-color: #F8FAFC !important;
+}
+
+/* Ensure header maintains original background color */
+.header {
+  background-color: #ffffff !important;
+}
+
+/* ===== Filter Bar ===== */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Left filter content container */
+.filter-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-main);
+  cursor: pointer;
+  margin-right: 0;
+}
+
+.category-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.category-count {
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.sort-options {
+  display: flex;
+  gap: 8px;
+}
+
+.sort-btn {
+  padding: 6px 12px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sort-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+/* ===== Main Content Layout ===== */
+.main-content {
+  display: flex;
+  max-width: 1450px; /* Increase main container width to accommodate left menu and 5-column tools */
+  margin: 0 auto;
+  padding: 100px 20px 0; /* Add top padding to avoid being covered by fixed header */
+  gap: 20px;
+}
+
+/* ===== Left Category Sidebar ===== */
+.category-sidebar {
+  width: 200px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 16px 0;
+  box-shadow: none;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+
+.category-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.category-item {
+  margin-bottom: 2px;
+}
+
+/* All tools link style */
+.category-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.category-link:hover {
+  background: none;
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+/* All tools selected state */
+.category-link.active {
+  background: none;
+  color: var(--accent);
+}
+
+.category-link i {
+  font-size: 12px;
+}
+
+/* Category toggle button style */
+.category-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  transform: translateX(0);
+  text-decoration: none;
+}
+
+.category-toggle:hover,
+.category-toggle.active {
+  background: none;
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+.category-toggle i {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.category-toggle.active i {
+  transform: rotate(90deg);
+}
+
+.subcategories {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  margin-left: 24px;
+  margin-top: 4px;
+}
+
+.subcategories.active {
+  max-height: 200px;
+}
+
+.subcategory-link {
+  display: block;
+  padding: 6px 16px;
+  font-size: 14px;
+  color: var(--text-sub);
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  margin-bottom: 1px;
+  transform: translateX(0);
+}
+
+.subcategory-link:hover,
+.subcategory-link.active {
+  background: none !important;
+  color: var(--accent) !important;
+  transform: translateX(4px) !important;
+}
+
+/* ===== Tools Content ===== */
+.tools-content {
+  flex: 1;
+}
+
+/* ===== Grid ===== */
+.tools-container {
+  margin-bottom: 80px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Restore 5-column layout */
+  gap: 20px;
+}
+
+/* ===== Card ===== */
+.tool-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.tool-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2ff;
+  border-radius: 12px;
+}
+
+.tool-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--accent);
+}
+
+.tool-icon i {
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.tool-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.tool-desc {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-sub);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 36px;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-main);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}
+
+.pagination-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--border);
+  color: var(--text-sub);
+}
+
+.pagination-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.pagination-dots {
+  font-size: 14px;
+  color: var(--text-sub);
+  font-weight: 500;
+  margin: 0 4px;
+}
+
+.pagination-info {
+  display: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1100px) {
+  .tools-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Show mobile menu toggle button */
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  /* Adjust main content layout */
+  .main-content {
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  /* Left menu container */
+  .category-sidebar-container {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  
+  /* Left menu container expanded state */
+  .category-sidebar-container.active {
+    left: 0;
+  }
+  
+  /* Left menu style */
+  .category-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    padding: 0;
+  }
+  
+  .category-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    white-space: normal;
+  }
+  
+  .category-item {
+    margin-bottom: 8px;
+    margin-right: 0;
+  }
+  
+  /* Category toggle button style */
+  .category-toggle {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+  
+  /* All tools link style */
+  .category-link {
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+  
+  /* Subcategory display */
+  .subcategories {
+    display: block;
+  }
+  
+  /* Right tool content */
+  .tools-content {
+    width: 100%;
+  }
+  
+  /* filter-bar horizontal alignment */
+  .filter-bar {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  /* Left filter content container */
+  .filter-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+  
+  /* Sort options container */
+  .sort-options-container {
+    flex: 1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .sort-options-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+  
+  .sort-options {
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* filter-bar still maintains horizontal alignment on small screens */
+  .filter-bar {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  
+  .sort-options-container {
+    flex: 1;
+    width: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .sort-options-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+  
+  .sort-options {
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    white-space: nowrap;
+  }
+  
+  .sort-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+</style>
+</head>
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+
+    <!-- Main Content -->
+    <main class="main-content">
+    <!-- Left category menu container -->
+    <div class="category-sidebar-container" id="categorySidebar">
+        <aside class="category-sidebar">
+            <nav class="category-nav">
+                <!-- All tools category (default selected) -->
+                <div class="category-item active">
+                    <a href="" class="category-link active">
+                        <i class="fas fa-th"></i>
+                        Все инструменты
+                    </a>
+                </div>
+                
+                <!-- Image Tools category -->
+                <div class="category-item">
+                    <a href="#image-tools" class="category-link">
+                        <i class="fas fa-image"></i>
+                        Инструменты для изображений
+                    </a>
+                </div>
+                
+                <!-- Text Tools category -->
+                <div class="category-item">
+                    <a href="#text-tools" class="category-toggle">
+                        <i class="fas fa-chevron-right"></i>
+                        Текстовые инструменты
+                    </a>
+                    <div class="subcategories">
+                        <a href="#text-analysis" class="subcategory-link">Анализ текста</a>
+                        <a href="#text-handling" class="subcategory-link">Обработка текста</a>
+                    </div>
+                </div>
+                
+                <!-- Video Tools category -->
+                <div class="category-item">
+                    <a href="#video-tools" class="category-toggle">
+                        <i class="fas fa-chevron-right"></i>
+                        Видеоинструменты
+                    </a>
+                    <div class="subcategories">
+                        <a href="#screenshots-frames" class="subcategory-link">Скриншоты и кадры</a>
+                        <a href="#video-information-analysis" class="subcategory-link">Видеоинформация и анализ</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+    </div>
+    
+    <!-- Right tool content -->
+    <div class="tools-content">
+        <!-- Category and sort options -->
+        <div class="filter-bar">
+            <div class="filter-left">
+                <div class="category-info">
+                    <span class="category-name">Все инструменты</span>
+                    <span class="category-count">(10)</span>
+                </div>
+                <div class="sort-options-container">
+                    <div class="sort-options">
+                        <button class="sort-btn active">Новейшие</button>
+                        <button class="sort-btn">Популярные</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile menu toggle button -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-th-large"></i>
+            </button>
+        </div>
+
+        <div class="tools-container">
+            <div class="tools-grid" id="toolsGrid"></div>
+        </div>
+    </div>
+</main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+
+<script>
+// Tool icon mapping - using tool slugs as keys to ensure consistency across languages
+const toolIcons = {
+    "free-online-text-analysis-checker": "fas fa-chart-pie",
+    "text-shortener-tool": "fas fa-compress-alt",
+    "words-and-character-counter": "fas fa-list-ol",
+    "text-formatter": "fas fa-align-justify",
+    "duplicate-text-removal": "fas fa-clipboard-check",
+    "remove-html-tags": "fas fa-code",
+    "text-case-converter": "fas fa-text-height",
+    "reverse-text-generator": "fas fa-sync-alt",
+    "sort-text-lines": "fas fa-sort-numeric-down",
+    "word-text-splitter": "fas fa-cut",
+    "text-merger": "fas fa-file-alt",
+    "text-character-replacement": "fas fa-search",
+    "keyword-density-analyzer": "fas fa-chart-bar",
+    "image-converter": "fas fa-exchange-alt",
+    "image-resizer": "fas fa-expand-arrows-alt",
+    "image-compressor": "fas fa-compress",
+    "image-filters-effects-tool": "fas fa-magic",
+    "image-annotation-tool": "fas fa-pen",
+    "image-pixel-color-tools": "fas fa-palette",
+    "image-merge-split-tool": "fas fa-object-group",
+    "image-background-mask-tool": "fas fa-layer-group",
+    "image-metadata-tool": "fas fa-info-circle",
+    "video-metadata-viewer": "fas fa-info-circle",
+    "video-file-size-calculator": "fas fa-calculator",
+    "video-duration-checker": "fas fa-stopwatch",
+    "video-mime-type-detector": "fas fa-magic",
+    "video-container-info-checker": "fas fa-box-open",
+    "video-frame-extractor": "fas fa-camera-retro",
+    "video-thumbnail-generator": "fas fa-images"
+};
+
+// Pagination variables
+let allTools = [];
+let filteredTools = [];
+let currentPage = 1;
+const toolsPerPage = 30;
+let currentCategory = '';
+
+// Category title and description configuration
+const categoryMetaConfig = {
+    "": {
+        title: "Все бесплатные онлайн-инструменты | CaliperTools",
+        description: "Откройте для себя все наши бесплатные онлайн-инструменты на CaliperTools, включая утилиты кодирования/декодирования, инструменты преобразования форматов, вспомогательные средства разработки кода, инструменты оптимизации SEO, утилиты времени и вычислений и многое другое."
+    },
+    "text": {
+        title: "Бесплатные онлайн-инструменты для текста | CaliperTools",
+        description: "Откройте для себя наши мощные бесплатные онлайн-инструменты для текста на CaliperTools, включая анализаторы текста, форматеры и конвертеры."
+    },
+    "video": {
+        title: "Бесплатные онлайн-инструменты для видео | CaliperTools",
+        description: "Изучите наши универсальные бесплатные онлайн-инструменты для видео на CaliperTools, включая просмотрщики метаданных видео, калькуляторы размера файлов и экстракторы кадров."
+    },
+    "image-tools": {
+        title: "Бесплатные онлайн-инструменты для изображений | CaliperTools",
+        description: "Изучите наш широкий спектр бесплатных онлайн-инструментов для изображений на CaliperTools, включая конвертеры, редакторы и анализаторы изображений."
+    },
+    "text-analysis": {
+        title: "Бесплатные онлайн-инструменты анализа текста | CaliperTools",
+        description: "Изучите наши бесплатные онлайн-инструменты анализа текста на CaliperTools, включая анализаторы плотности ключевых слов, счетчики длины текста и многое другое."
+    },
+    "text-handling": {
+        title: "Бесплатные онлайн-инструменты обработки текста | CaliperTools",
+        description: "Откройте для себя наши бесплатные онлайн-инструменты обработки текста на CaliperTools, включая конвертеры текста, объединители и утилиты замены символов."
+    },
+    "Screenshots & Frames": {
+        title: "Бесплатные онлайн-инструменты для скриншотов и кадров | CaliperTools",
+        description: "Изучите наши бесплатные онлайн-инструменты для скриншотов и кадров на CaliperTools, включая экстракторы видеокадров и генераторы миниатюр."
+    },
+    "Video Information & Analysis": {
+        title: "Бесплатные онлайн-инструменты видеоинформации и анализа | CaliperTools",
+        description: "Откройте для себя наши бесплатные онлайн-инструменты видеоинформации и анализа на CaliperTools, включая просмотрщики метаданных, проверщики продолжительности и детекторы MIME-типов."
+    }
+};
+
+// Function to update page title and description
+function updatePageMeta(categoryPath) {
+    // Map categoryPath to the correct config key if needed
+    let configKey = categoryPath;
+    if (configKey === "image") {
+        configKey = "image-tools";
+    }
+    
+    const config = categoryMetaConfig[configKey] || categoryMetaConfig[""];
+    
+    // Update page title
+    document.title = config.title;
+    
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+        metaDesc.content = config.description;
+    }
+}
+
+</script>
+
+<script src="scripts/script.js"></script>
+
+<script>
+// Load tools from tools.json
+async function loadTools() {
+    try {
+        const response = await fetch('data/tools.json');
+        allTools = await response.json();
+        
+        // Sort tools by creation date (newest first)
+        allTools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        // Initialize filteredTools with all tools
+        filteredTools = [...allTools];
+        
+        // Generate tool cards for the first page
+        generateToolCards();
+        
+        // Generate pagination if needed
+        generatePagination();
+        
+        // Update category info with actual tool count for All Tools
+        updateCategoryInfo('All Tools', filteredTools.length);
+        
+        // Update page title and description based on initial category
+        updatePageMeta(currentCategory);
+    } catch (error) {
+        console.error('Error loading tools:', error);
+    }
+}
+
+// Generate tool cards for the current page
+function generateToolCards() {
+    const grid = document.getElementById("toolsGrid");
+    grid.innerHTML = ''; // Clear existing content
+    
+    // Calculate start and end indices for the current page
+    const startIndex = (currentPage - 1) * toolsPerPage;
+    const endIndex = startIndex + toolsPerPage;
+    const pageTools = filteredTools.slice(startIndex, endIndex);
+    
+    pageTools.forEach(tool => {
+        const cardLink = document.createElement("a");
+        cardLink.className = "tool-card-link";
+        cardLink.href = tool.url;
+        cardLink.target = "_self";
+        
+        const card = document.createElement("div");
+        card.className = "tool-card";
+
+        // Get Font Awesome icon class, use default if not found
+        const iconClass = toolIcons[tool.slug] || "fas fa-tools";
+
+        card.innerHTML = `
+            <div class="tool-icon">
+                <i class="${iconClass}"></i>
+            </div>
+            <div class="tool-title">${tool.name}</div>
+            <div class="tool-desc">${tool.description}</div>
+        `;
+
+        cardLink.appendChild(card);
+        grid.appendChild(cardLink);
+    });
+}
+
+// Generate pagination controls
+function generatePagination() {
+    const totalPages = Math.ceil(filteredTools.length / toolsPerPage);
+    
+    // Only generate pagination if there are more than 1 page
+    if (totalPages <= 1) {
+        // Remove pagination if it exists
+        const existingPagination = document.getElementById("pagination");
+        if (existingPagination) {
+            existingPagination.remove();
+        }
+        return;
+    }
+    
+    // Generate page numbers HTML
+    let pageNumbersHTML = '';
+    
+    // Show previous button
+    pageNumbersHTML += `<button class="pagination-btn prev-btn" ${currentPage === 1 ? 'disabled' : ''}>
+                            Previous
+                        </button>`;
+    
+    // Generate page numbers
+    if (totalPages <= 5) {
+        // Show all page numbers if 5 or fewer
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbersHTML += `<button class="pagination-btn page-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">
+                                    ${i}
+                                </button>`;
+        }
+    } else {
+        // Show first 3 pages
+        for (let i = 1; i <= 3; i++) {
+            pageNumbersHTML += `<button class="pagination-btn page-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">
+                                    ${i}
+                                </button>`;
+        }
+        
+        // Show ellipsis if current page is not in the first 3 or last 3 pages
+        if (currentPage > 4 && currentPage < totalPages - 2) {
+            pageNumbersHTML += '<span class="pagination-dots">...</span>';
+        }
+        
+        // Show current page if it's in the middle
+        if (currentPage > 3 && currentPage < totalPages - 2) {
+            pageNumbersHTML += `<button class="pagination-btn page-btn active" data-page="${currentPage}">
+                                    ${currentPage}
+                                </button>`;
+        }
+        
+        // Show ellipsis if there are pages between current page and last page
+        if (currentPage < totalPages - 3) {
+            pageNumbersHTML += '<span class="pagination-dots">...</span>';
+        }
+        
+        // Show last page
+        pageNumbersHTML += `<button class="pagination-btn page-btn ${currentPage === totalPages ? 'active' : ''}" data-page="${totalPages}">
+                                ${totalPages}
+                            </button>`;
+    }
+    
+    // Show next button
+    pageNumbersHTML += `<button class="pagination-btn next-btn" ${currentPage === totalPages ? 'disabled' : ''}>
+                            Next
+                        </button>`;
+    
+    // Create pagination HTML
+    const paginationHTML = `<div class="pagination">${pageNumbersHTML}</div>`;
+    
+    // Check if pagination already exists
+    let paginationContainer = document.getElementById("pagination");
+    if (paginationContainer) {
+        // Update existing pagination
+        paginationContainer.innerHTML = paginationHTML;
+    } else {
+        // Add new pagination after tools grid
+        const toolsContainer = document.querySelector(".tools-container");
+        paginationContainer = document.createElement("div");
+        paginationContainer.id = "pagination";
+        paginationContainer.innerHTML = paginationHTML;
+        toolsContainer.appendChild(paginationContainer);
+    }
+    
+    // Add event listeners to pagination buttons
+    
+    // Previous button
+    const prevBtn = paginationContainer.querySelector(".prev-btn");
+    prevBtn.removeEventListener("click", handlePrevClick);
+    prevBtn.addEventListener("click", handlePrevClick);
+    
+    // Next button
+    const nextBtn = paginationContainer.querySelector(".next-btn");
+    nextBtn.removeEventListener("click", handleNextClick);
+    nextBtn.addEventListener("click", handleNextClick);
+    
+    // Page number buttons
+    const pageBtns = paginationContainer.querySelectorAll(".page-btn");
+    pageBtns.forEach(btn => {
+        btn.removeEventListener("click", handlePageClick);
+        btn.addEventListener("click", handlePageClick);
+    });
+}
+
+// Handle previous button click
+function handlePrevClick() {
+    if (currentPage > 1) {
+        currentPage--;
+        generateToolCards();
+        generatePagination();
+    }
+}
+
+// Handle next button click
+function handleNextClick() {
+    const totalPages = Math.ceil(allTools.length / toolsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        generateToolCards();
+        generatePagination();
+    }
+}
+
+// Handle page number button click
+function handlePageClick(e) {
+    const page = parseInt(e.target.dataset.page);
+    if (!isNaN(page)) {
+        currentPage = page;
+        generateToolCards();
+        generatePagination();
+    }
+}
+
+// Dynamically load HTML content
+async function loadHTML(url, element, position = 'beforeend') {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${url}`);
+        }
+        const html = await response.text();
+        
+        if (position === 'prepend') {
+            element.insertAdjacentHTML('afterbegin', html);
+        } else if (position === 'append') {
+            element.insertAdjacentHTML('beforeend', html);
+        } else if (position === 'before') {
+            element.insertAdjacentHTML('beforebegin', html);
+        } else if (position === 'after') {
+            element.insertAdjacentHTML('afterend', html);
+        }
+    } catch (error) {
+        console.error('Error loading HTML:', error);
+    }
+}
+
+// Load tools when the page loads
+loadTools();
+
+// PDF conversion dropdown menu interaction functionality
+function setupPdfDropdown() {
+    const pdfMenu = document.querySelector('.pdf-convert-menu > a');
+    const pdfSubmenu = document.querySelector('.pdf-submenu');
+    
+    if (pdfMenu && pdfSubmenu) {
+        pdfMenu.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Toggle submenu display state
+            pdfSubmenu.classList.toggle('hidden');
+        });
+        
+        // Hide submenu when clicking elsewhere in the document
+        document.addEventListener('click', function(event) {
+            if (!pdfMenu.parentElement.contains(event.target)) {
+                pdfSubmenu.classList.add('hidden');
+            }
+        });
+    }
+}
+
+// Mobile side menu functionality
+function setupMobileMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    
+    if (hamburger && mobileNav && mobileOverlay) {
+        // Hamburger menu click event
+        hamburger.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
+            
+            // Toggle hamburger menu icon state
+            hamburger.classList.toggle('active');
+            
+            // Toggle nav-open class on body to control page scrolling
+            document.body.classList.toggle('nav-open', mobileNav.classList.contains('active'));
+        });
+        
+        // Close menu by clicking overlay
+        mobileOverlay.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            
+            // Reset hamburger menu icon state
+            hamburger.classList.remove('active');
+            
+            // Remove nav-open class from body
+            document.body.classList.remove('nav-open');
+        });
+        
+        // Close menu by clicking menu items (optional)
+        const navLinks = mobileNav.querySelectorAll('.nav-link, .mobile-submenu-item, .donate-btn');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                
+                // Reset hamburger menu icon state
+                hamburger.classList.remove('active');
+                
+                // Remove nav-open class from body
+                document.body.classList.remove('nav-open');
+            });
+        });
+    }
+}
+
+// Mobile PDF conversion dropdown menu interaction functionality
+function setupMobilePdfDropdown() {
+    const pdfMenu = document.getElementById('mobile-convert-pdf');
+    const pdfSubmenu = document.getElementById('mobile-convert-submenu');
+    const dropdownArrow = pdfMenu ? pdfMenu.querySelector('.dropdown-arrow') : null;
+    
+    if (pdfMenu && pdfSubmenu) {
+        pdfMenu.addEventListener('click', function() {
+            // Toggle submenu display state
+            pdfSubmenu.classList.toggle('expanded');
+            
+            // Rotate arrow icon
+            if (dropdownArrow) {
+                dropdownArrow.classList.toggle('rotated');
+            }
+        });
+    }
+}
+
+// Language switcher functionality
+function setupLanguageSwitcher() {
+    const languageBtn = document.getElementById('languageBtn');
+    const languageDropdown = document.getElementById('languageDropdown');
+    
+    if (languageBtn && languageDropdown) {
+        languageBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!languageBtn.contains(e.target) && !languageDropdown.contains(e.target)) {
+                languageDropdown.classList.remove('show');
+            }
+        });
+    }
+    
+    // Set current language based on URL path
+    const path = window.location.pathname;
+    const langMatch = path.match(/^\/([a-z]{2})\//);
+    const currentLangEl = document.getElementById('currentLang');
+    if (langMatch && currentLangEl) {
+        currentLangEl.textContent = langMatch[1].toUpperCase();
+    }
+    
+    // Update language switcher links to maintain current page path
+    updateLanguageLinks();
+}
+
+// Update language switcher links to maintain current page path
+function updateLanguageLinks() {
+    const path = window.location.pathname;
+    let pagePath = '';
+    
+    // Extract page path (remove language code if present)
+    const langMatch = path.match(/^\/([a-z]{2})\//);
+    if (langMatch) {
+        // Remove the language code from the path, ensure it starts with /
+        pagePath = path.substring(langMatch[0].length - 1);
+    } else {
+        pagePath = path;
+    }
+    
+    // Ensure pagePath starts with /
+    if (!pagePath.startsWith('/')) {
+        pagePath = '/' + pagePath;
+    }
+    
+    // Update desktop language switcher links
+    const languageOptions = document.querySelectorAll('.language-option');
+    languageOptions.forEach(option => {
+        const lang = option.getAttribute('data-lang');
+        if (lang === 'en') {
+            option.href = pagePath === '/' || pagePath === '' ? '/' : pagePath;
+        } else {
+            option.href = '/' + lang + pagePath;
+        }
+    });
+    
+    // Update mobile language switcher links
+    const mobileLanguageOptions = document.querySelectorAll('.mobile-language-option');
+    mobileLanguageOptions.forEach(option => {
+        const lang = option.getAttribute('data-lang');
+        if (lang === 'en') {
+            option.href = pagePath === '/' || pagePath === '' ? '/' : pagePath;
+        } else {
+            option.href = '/' + lang + pagePath;
+        }
+    });
+}
+
+// Add smooth scrolling effect
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Update category info display
+function updateCategoryInfo(categoryName, toolCount) {
+    const categoryNameEl = document.querySelector('.category-name');
+    const categoryCountEl = document.querySelector('.category-count');
+    
+    if (categoryNameEl && categoryCountEl) {
+        categoryNameEl.textContent = categoryName;
+        categoryCountEl.textContent = `(${toolCount})`;
+    }
+}
+
+// Left category menu interaction functionality
+function setupCategoryMenu() {
+    // Mobile menu toggle functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const categorySidebar = document.getElementById('categorySidebar');
+    
+    if (mobileMenuToggle && categorySidebar) {
+        mobileMenuToggle.addEventListener('click', function() {
+            categorySidebar.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!categorySidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                categorySidebar.classList.remove('active');
+            }
+        });
+    }
+    
+    // Get all category items
+    const categoryItems = document.querySelectorAll('.category-item');
+    
+    // Helper function to filter tools by category
+            function filterTools(categoryName, categoryPath) {
+                // Reset to first page
+                currentPage = 1;
+                currentCategory = categoryPath;
+                
+                if (categoryPath === '') {
+                    // Show all tools
+                    filteredTools = [...allTools];
+                } else if (categoryPath === 'image' || categoryPath === 'image-tools') {
+                    // Show all image category tools
+                    filteredTools = allTools.filter(tool => tool.category === 'image');
+                } else if (categoryPath === 'text' || categoryPath === 'text-tools') {
+                    // Show all text tools (including all subcategories)
+                    filteredTools = allTools.filter(tool => tool.category === 'text');
+                } else if (categoryPath === 'video' || categoryPath === 'video-tools') {
+                    // Show all video tools (including all subcategories)
+                    filteredTools = allTools.filter(tool => tool.category === 'video');
+                } else {
+                    // Filter tools by specific subcategory logic
+                    let filteredBySubcategory = [];
+                    
+                    if (categoryPath === 'text-analysis') {
+                        // Show text analysis tools
+                        filteredBySubcategory = allTools.filter(tool => {
+                            const toolUrl = tool.url.toLowerCase();
+                            return tool.category === 'text' && toolUrl.includes('text-analysis');
+                        });
+                    } else if (categoryPath === 'text-handling') {
+                        // Show text handling tools
+                        filteredBySubcategory = allTools.filter(tool => {
+                            const toolUrl = tool.url.toLowerCase();
+                            return tool.category === 'text' && toolUrl.includes('text-handling');
+                        });
+                    } else if (categoryPath === 'Screenshots & Frames' || categoryPath === 'screenshots-frames') {
+                        // Show screenshots and frames tools
+                        filteredBySubcategory = allTools.filter(tool => {
+                            const toolUrl = tool.url.toLowerCase();
+                            return tool.category === 'video' && toolUrl.includes('screenshots & frames');
+                        });
+                    } else if (categoryPath === 'Video Information & Analysis' || categoryPath === 'video-information-analysis') {
+                        // Show video information and analysis tools
+                        filteredBySubcategory = allTools.filter(tool => {
+                            const toolUrl = tool.url.toLowerCase();
+                            return tool.category === 'video' && toolUrl.includes('video information & analysis');
+                        });
+                    } else {
+                        // Fallback: filter by URL path
+                        filteredBySubcategory = allTools.filter(tool => {
+                            const toolUrl = tool.url.toLowerCase();
+                            return toolUrl.includes(categoryPath.toLowerCase());
+                        });
+                    }
+                    
+                    filteredTools = filteredBySubcategory;
+                }
+                
+                // Update category info with actual tool count
+                updateCategoryInfo(categoryName, filteredTools.length);
+                
+                // Update page title and description based on category
+                updatePageMeta(categoryPath);
+                
+                // Generate tool cards and pagination
+                generateToolCards();
+                generatePagination();
+            }
+    
+    // Add click event listener to the document body for event delegation
+    document.body.addEventListener('click', function(e) {
+        // Check if the clicked element is a category toggle
+        const categoryToggle = e.target.closest('.category-toggle');
+        if (categoryToggle) {
+            e.preventDefault();
+            
+            const categoryItem = categoryToggle.parentElement;
+            const subcategories = categoryItem.querySelector('.subcategories');
+            const isExpanded = subcategories.classList.contains('active');
+            const categoryName = categoryToggle.textContent.trim();
+            
+            // Close all other categories
+            categoryItems.forEach(item => {
+                const otherToggle = item.querySelector('.category-toggle');
+                const otherSubcategories = item.querySelector('.subcategories');
+                if (otherToggle && otherSubcategories) {
+                    otherToggle.classList.remove('active');
+                    otherSubcategories.classList.remove('active');
+                }
+            });
+            
+            // Close all category links
+            const categoryLinks = document.querySelectorAll('.category-link');
+            categoryLinks.forEach(link => link.classList.remove('active'));
+            
+            // Close all subcategory links
+            const subcategoryLinks = document.querySelectorAll('.subcategory-link');
+            subcategoryLinks.forEach(link => link.classList.remove('active'));
+            
+            if (isExpanded) {
+                // If already expanded, keep it closed and switch to All Tools
+                const allToolsLink = document.querySelector('.category-link[href=""]');
+                if (allToolsLink) {
+                    allToolsLink.classList.add('active');
+                    filterTools('Все инструменты', '');
+                    window.history.pushState('', document.title, window.location.pathname);
+                }
+            } else {
+                // If not expanded, open it
+                categoryToggle.classList.add('active');
+                subcategories.classList.add('active');
+                
+                // Determine category path based on category name
+                let categoryPath = '';
+                if (categoryName === 'Текстовые инструменты' || categoryName === 'Text Tools' || categoryName === 'Text-Tools') {
+                    categoryPath = 'text';
+                } else if (categoryName === 'Видеоинструменты' || categoryName === 'Video Tools' || categoryName === 'Video-Tools') {
+                    categoryPath = 'video';
+                }
+                
+                filterTools(categoryName, categoryPath);
+                window.location.hash = categoryToggle.getAttribute('href');
+            }
+        }
+        
+        // Check if the clicked element is a category link (All Tools or Image tools)
+        const categoryLink = e.target.closest('.category-link');
+        if (categoryLink) {
+            e.preventDefault();
+            
+            // Close all categories
+            categoryItems.forEach(item => {
+                const toggle = item.querySelector('.category-toggle');
+                const subcategories = item.querySelector('.subcategories');
+                if (toggle && subcategories) {
+                    toggle.classList.remove('active');
+                    subcategories.classList.remove('active');
+                }
+            });
+            
+            // Close all category links except this one
+            const categoryLinks = document.querySelectorAll('.category-link');
+            categoryLinks.forEach(link => link.classList.remove('active'));
+            categoryLink.classList.add('active');
+            
+            // Close all subcategory links
+            const subcategoryLinks = document.querySelectorAll('.subcategory-link');
+            subcategoryLinks.forEach(link => link.classList.remove('active'));
+            
+            const categoryName = categoryLink.textContent.trim();
+            let categoryPath = '';
+            let hash = '';
+            
+            // Special handling for Image tools category
+            if (categoryName === 'Инструменты для изображений' || categoryName === 'Image tools' || categoryName === 'Bild-Tools') {
+                categoryPath = 'image';
+                hash = '#image-tools';
+            }
+            
+            filterTools(categoryName, categoryPath);
+            window.location.hash = hash;
+        }
+        
+        // Check if the clicked element is a subcategory link
+        const subcategoryLink = e.target.closest('.subcategory-link');
+        if (subcategoryLink) {
+            e.preventDefault();
+            
+            // Close all categories
+            categoryItems.forEach(item => {
+                const toggle = item.querySelector('.category-toggle');
+                const otherSubcategories = item.querySelector('.subcategories');
+                if (toggle && otherSubcategories) {
+                    toggle.classList.remove('active');
+                    otherSubcategories.classList.remove('active');
+                }
+            });
+            
+            // Close all category links
+            const categoryLinks = document.querySelectorAll('.category-link');
+            categoryLinks.forEach(link => link.classList.remove('active'));
+            
+            // Close all subcategory links except this one
+            const subcategoryLinks = document.querySelectorAll('.subcategory-link');
+            subcategoryLinks.forEach(link => link.classList.remove('active'));
+            subcategoryLink.classList.add('active');
+            
+            // Open the parent category
+            const subcategoriesContainer = subcategoryLink.closest('.subcategories');
+            const categoryItem = subcategoriesContainer.parentElement;
+            const categoryToggle = categoryItem.querySelector('.category-toggle');
+            
+            categoryToggle.classList.add('active');
+            subcategoriesContainer.classList.add('active');
+            
+            const subcategoryName = subcategoryLink.textContent.trim();
+            
+            // Determine category path based on subcategory name
+            let categoryPath = '';
+            if (subcategoryName === 'Анализ текста' || subcategoryName === 'Text-analysis' || subcategoryName === 'Text-Analyse') {
+                categoryPath = 'text-analysis';
+            } else if (subcategoryName === 'Обработка текста' || subcategoryName === 'Text-handling' || subcategoryName === 'Text-Verarbeitung') {
+                categoryPath = 'text-handling';
+            } else if (subcategoryName === 'Скриншоты и кадры' || subcategoryName === 'Screenshots & Frames') {
+                categoryPath = 'screenshots-frames';
+            } else if (subcategoryName === 'Видеоинформация и анализ' || subcategoryName === 'Video Information & Analysis' || subcategoryName === 'Video-Informationen & -Analyse') {
+                categoryPath = 'video-information-analysis';
+            }
+            
+            filterTools(subcategoryName, categoryPath);
+            window.location.hash = subcategoryLink.getAttribute('href');
+        }
+    });
+    
+    // Initialize the page
+    const hash = window.location.hash;
+    if (hash === '' || hash === '#') {
+        // Default to All Tools - just set active state, don't call filterTools
+        // filterTools will be called after tools are loaded in loadTools()
+        const allToolsLink = document.querySelector('.category-link[href=""]');
+        if (allToolsLink) {
+            allToolsLink.classList.add('active');
+        }
+    } else {
+        // If there's a hash, call filterTools to show the correct category
+        // This will be called after tools are loaded
+        setTimeout(() => {
+            // Find the link that matches the current hash
+            const allLinks = [...document.querySelectorAll('.category-link'), ...document.querySelectorAll('.category-toggle'), ...document.querySelectorAll('.subcategory-link')];
+            const targetLink = allLinks.find(link => link.getAttribute('href') === hash);
+            
+            if (targetLink) {
+                targetLink.click();
+            }
+        }, 100);
+    }
+}
+
+// Sorting functionality
+function setupSorting() {
+    const sortBtns = document.querySelectorAll('.sort-btn');
+    
+    sortBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active state from all sort buttons
+            sortBtns.forEach(b => b.classList.remove('active'));
+            
+            // Add active state to current sort button
+            this.classList.add('active');
+            
+            // Get button text and determine sort type
+            const sortText = this.textContent.trim();
+            
+            // Sort filteredTools based on sort text
+            if (sortText === 'Новейшие' || sortText === 'Latest') {
+                // Sort by creation date (newest first)
+                filteredTools.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            } else if (sortText === 'Популярные' || sortText === 'Popular') {
+                // Sort by hot_score (highest first)
+                filteredTools.sort((a, b) => b.hot_score - a.hot_score);
+            }
+            
+            // Reset to first page and regenerate tool cards
+            currentPage = 1;
+            generateToolCards();
+            generatePagination();
+        });
+    });
+}
+
+// Execute when page is fully loaded
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('DOMContentLoaded event fired');
+    
+    // Load header
+    await loadHTML('header.html', document.body, 'prepend');
+    
+    // Load footer
+    const mainElement = document.querySelector('main.main-content');
+    if (mainElement) {
+        await loadHTML('footer.html', mainElement, 'after');
+    }
+    
+    // Setup smooth scrolling
+    setupSmoothScroll();
+    
+    // Setup left category menu
+    console.log('Calling setupCategoryMenu()');
+    setupCategoryMenu();
+    
+    // Setup sorting functionality
+    setupSorting();
+    
+    // Setup language switcher
+    setupLanguageSwitcher();
+    
+    // Setup mobile menu
+    setupMobileMenu();
+    
+    // Setup mobile PDF dropdown
+    setupMobilePdfDropdown();
+});
+</script>
+<script src="/scripts/script.js"></script>
+</body>
+</html>

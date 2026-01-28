@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ferramenta online gratuita geradora de texto reverso da CaliperTools - Inverta texto, linhas, palavras e muito mais com múltiplas opções para manipulação de texto." />
+<title>Gerador de Texto Reverso | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+    
+<style>
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure html and body both fill the screen */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        background-color: #f5f5f5; /* Gray background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full width container ensures it stays within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Text area styles */
+    textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Option area styles */
+    .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem 1rem;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .options label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Action button styles */
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Statistics styles */
+    .stats {
+        margin-top: 1rem;
+        font-size: 12px;
+        color: #555;
+    }
+    
+    /* Title styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .cta-section {
+            padding: 1.5rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.75rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .cta-section {
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        .features-row {
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cta-section {
+            padding: 1rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('O menu de contexto (clique com o botão direito do rato) está desativado');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('A função de copiar está desativada');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('As ferramentas de programador estão desativadas');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>Gerador de Texto Reverso</h1>
+                
+                <h4>Entrada <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; margin-left: 0.5rem;">Como usar?</a></h4>
+                <textarea id="input" placeholder="Digite ou cole o texto aqui..."></textarea>
+
+                <div class="options">
+                    <label><input type="radio" name="mode" value="all" checked> Reverter Todo o Texto</label>
+                    <label><input type="radio" name="mode" value="lines"> Reverter Cada Linha</label>
+                    <label><input type="radio" name="mode" value="order"> Reverter Ordem das Linhas</label>
+                    <label><input type="radio" name="mode" value="words"> Reverter Palavras</label>
+
+                    <label><input type="checkbox" id="removeEmpty"> Remover Linhas Vazias</label>
+                    <label><input type="checkbox" id="trimSpaces"> Ajustar Espaços</label>
+                    <label><input type="checkbox" id="removePunctuation"> Remover Pontuação</label>
+                    <label><input type="checkbox" id="preservePunctuation"> Manter Pontuação</label>
+                </div>
+
+                <div class="actions">
+                    <button onclick="copyOutput()">Copiar Saída</button>
+                    <button onclick="clearAll()">Limpar Tudo</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>Saída</h4>
+                <textarea id="output" readonly placeholder="O texto revertido aparecerá aqui..."></textarea>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Reverse Text Generator -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Como Usar o Gerador de Texto Reverso</h3>
+                <p>
+                    Siga estas etapas simples para reverter seu texto com eficiência usando várias opções de reversão.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Etapa 1: Digite Seu Texto</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Etapa 2: Configure as Opções de Reversão</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Etapa 3: Obtenha Seus Resultados</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Tutorial Passo a Passo</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Etapa 1: Digite Seu Texto</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Digite ou cole seu texto na área de texto à esquerda. A ferramenta processará seu texto em tempo real conforme você digita ou faz alterações nas opções.</p>
+                            <p style="text-align: left;">A área de texto é redimensionável, permitindo ajustar à altura desejada para edição confortável.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Etapa 2: Configure as Opções de Reversão</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Selecione entre uma variedade de modos de reversão para personalizar seus resultados:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Reverter Todo o Texto:</strong> Reverte todo o conteúdo do texto como uma única sequência</li>
+                                <li><strong>Reverter Cada Linha:</strong> Reverte cada linha individualmente mantendo a ordem das linhas</li>
+                                <li><strong>Reverter Ordem das Linhas:</strong> Mantém cada linha inalterada mas reverte a ordem das linhas</li>
+                                <li><strong>Reverter Palavras:</strong> Reverte a ordem das palavras dentro de cada linha</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">Opções adicionais de processamento de texto:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Remover Linhas Vazias:</strong> Exclui automaticamente linhas em branco do resultado</li>
+                                <li><strong>Ajustar Espaços:</strong> Remove espaços em branco antes e depois de cada linha</li>
+                                <li><strong>Remover Pontuação:</strong> Elimina todas as marcas de pontuação do texto</li>
+                                <li><strong>Manter Pontuação:</strong> Mantém a pontuação em sua posição original ao reverter o texto</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Etapa 3: Obtenha Seus Resultados</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Seu texto revertido aparecerá na área de saída à direita instantaneamente. Você pode:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Copiar o texto revertido com um clique usando o botão "Copiar Saída"</li>
+                                <li>Limpar todo o texto para começar novamente com o botão "Limpar Tudo"</li>
+                                <li>Visualizar estatísticas mostrando contagens de caracteres e linhas</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Dicas para Melhores Resultados</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Use <strong>Reverter Todo o Texto</strong> para necessidades simples de reversão de texto</li>
+                                <li>Escolha <strong>Reverter Cada Linha</strong> quando precisar reverter linhas individuais mantendo sua ordem</li>
+                                <li>Use <strong>Reverter Ordem das Linhas</strong> para inverter a sequência das linhas sem alterar seu conteúdo</li>
+                                <li>Selecione <strong>Reverter Palavras</strong> para reorganizar palavras dentro das sentenças</li>
+                                <li>Combine <strong>Manter Pontuação</strong> com reversão de texto para resultados mais legíveis</li>
+                                <li>Use <strong>Remover Linhas Vazias</strong> e <strong>Ajustar Espaços</strong> para limpar seu texto</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Ferramentas Relacionadas</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const stats = document.getElementById('stats');
+
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('input', process);
+  el.addEventListener('change', process);
+});
+
+function process() {
+  let text = input.value;
+  let lines = text.split(/\r?\n/);
+
+  if (document.getElementById('trimSpaces').checked) {
+    lines = lines.map(l => l.trim());
+  }
+
+  if (document.getElementById('removeEmpty').checked) {
+    lines = lines.filter(l => l !== '');
+  }
+
+  if (document.getElementById('removePunctuation').checked) {
+    lines = lines.map(removePunctuation);
+  }
+
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const preservePunctuation = document.getElementById('preservePunctuation').checked;
+
+  let result = '';
+
+  if (mode === 'all') {
+    result = reverseString(lines.join('\n'), preservePunctuation);
+  }
+
+  if (mode === 'lines') {
+    result = lines.map(l => reverseString(l, preservePunctuation)).join('\n');
+  }
+
+  if (mode === 'order') {
+    result = lines.reverse().join('\n');
+  }
+
+  if (mode === 'words') {
+    result = lines.map(line =>
+      line.split(/\s+/).reverse().join(' ')
+    ).join('\n');
+  }
+
+  output.value = result;
+  updateStats(result);
+}
+
+function removePunctuation(str) {
+  return str.replace(/[\p{P}\p{S}]/gu, '');
+}
+
+function reverseString(str, preservePunctuation) {
+  const chars = Array.from(str);
+
+  if (!preservePunctuation) {
+    return chars.reverse().join('');
+  }
+
+  const letters = chars.filter(c => /\p{L}|\p{N}/u.test(c)).reverse();
+  let i = 0;
+
+  return chars.map(c => {
+    if (/\p{L}|\p{N}/u.test(c)) {
+      return letters[i++];
+    }
+    return c;
+  }).join('');
+}
+
+function updateStats(text) {
+  const charCount = Array.from(text).length;
+  const lineCount = text === '' ? 0 : text.split('\n').length;
+  stats.textContent = `Caracteres: ${charCount} | Linhas: ${lineCount}`;
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(output.value)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'Copiado para a área de transferência!';
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Falha ao copiar texto: ', err);
+    });
+}
+
+function clearAll() {
+  input.value = '';
+  output.value = '';
+  stats.textContent = '';
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("reverse-text-generator");
+    </script>
+
+</body>
+</html>
