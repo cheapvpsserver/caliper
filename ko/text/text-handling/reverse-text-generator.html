@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CaliperTools의 무료 온라인 텍스트 뒤집기 생성기 도구 - 텍스트, 줄, 단어 등을 다양한 옵션으로 텍스트 조작하여 뒤집으세요." />
+<title>텍스트 뒤집기 생성기 | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+    
+<style>
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure html and body both fill the screen */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        background-color: #f5f5f5; /* Gray background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full width container ensures it stays within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Text area styles */
+    textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Option area styles */
+    .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem 1rem;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .options label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Action button styles */
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Statistics styles */
+    .stats {
+        margin-top: 1rem;
+        font-size: 12px;
+        color: #555;
+    }
+    
+    /* Title styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .cta-section {
+            padding: 1.5rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.75rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .cta-section {
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        .features-row {
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cta-section {
+            padding: 1rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('마우스 오른쪽 클릭 메뉴가 비활성화되어 있습니다');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('복사 기능이 비활성화되었습니다');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('개발자 도구가 비활성화되었습니다');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>텍스트 뒤집기 생성기</h1>
+                
+                <h4>입력 <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; margin-left: 0.5rem;">사용 방법?</a></h4>
+                <textarea id="input" placeholder="여기에 텍스트를 입력하거나 붙여넣어 주세요..."></textarea>
+
+                <div class="options">
+                    <label><input type="radio" name="mode" value="all" checked> 전체 텍스트 뒤집기</label>
+                    <label><input type="radio" name="mode" value="lines"> 각 줄 뒤집기</label>
+                    <label><input type="radio" name="mode" value="order"> 줄 순서 뒤집기</label>
+                    <label><input type="radio" name="mode" value="words"> 단어 순서 뒤집기</label>
+
+                    <label><input type="checkbox" id="removeEmpty"> 빈 줄 제거</label>
+                    <label><input type="checkbox" id="trimSpaces"> 공백 제거</label>
+                    <label><input type="checkbox" id="removePunctuation"> 구두점 제거</label>
+                    <label><input type="checkbox" id="preservePunctuation"> 구두점 유지</label>
+                </div>
+
+                <div class="actions">
+                    <button onclick="copyOutput()">출력 복사</button>
+                    <button onclick="clearAll()">전체 지우기</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>출력</h4>
+                <textarea id="output" readonly placeholder="뒤집힌 텍스트가 여기에 표시됩니다..."></textarea>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Reverse Text Generator -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>텍스트 뒤집기 생성기 사용 방법</h3>
+                <p>
+                    다양한 뒤집기 옵션으로 텍스트를 효율적으로 뒤집으려면 다음 간단한 단계를 따르세요.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>1단계: 텍스트 입력</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>2단계: 뒤집기 옵션 설정</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>3단계: 결과 확인</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>단계별 튜토리얼</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">1단계: 텍스트 입력</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">왼쪽 텍스트 영역에 텍스트를 입력하거나 붙여넣어 주세요. 도구는 입력하거나 옵션을 변경할 때마다 텍스트를 실시간으로 처리합니다.</p>
+                            <p style="text-align: left;">텍스트 영역은 크기를 조절할 수 있어 편안한 편집을 위해 원하는 높이로 조절할 수 있습니다.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">2단계: 뒤집기 옵션 설정</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">결과를 맞춤화하기 위해 다양한 뒤집기 모드 중에서 선택하세요:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>전체 텍스트 뒤집기:</strong> 전체 텍스트 내용을 단일 문자열로 뒤집습니다</li>
+                                <li><strong>각 줄 뒤집기:</strong> 줄 순서는 유지하면서 각 줄을 개별적으로 뒤집습니다</li>
+                                <li><strong>줄 순서 뒤집기:</strong> 각 줄은 그대로 두고 줄의 순서를 뒤집습니다</li>
+                                <li><strong>단어 순서 뒤집기:</strong> 각 줄 내의 단어 순서를 뒤집습니다</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">추가 텍스트 처리 옵션:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>빈 줄 제거:</strong> 결과에서 빈 줄을 자동으로 삭제합니다</li>
+                                <li><strong>공백 제거:</strong> 각 줄의 앞뒤 공백을 제거합니다</li>
+                                <li><strong>구두점 제거:</strong> 텍스트에서 모든 구두점을 제거합니다</li>
+                                <li><strong>구두점 유지:</strong> 텍스트를 뒤집을 때 구두점을 원래 위치에 유지합니다</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">3단계: 결과 확인</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">뒤집힌 텍스트가 오른쪽 출력 영역에 즉시 나타납니다. 다음 작업을 수행할 수 있습니다:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"출력 복사" 버튼을 클릭하여 뒤집힌 텍스트를 한 번에 복사하세요</li>
+                                <li>"전체 지우기" 버튼으로 모든 텍스트를 지우고 처음부터 시작하세요</li>
+                                <li>문자 수와 줄 수를 보여주는 통계를 확인하세요</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">최상의 결과를 위한 팁</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>단순한 텍스트 뒤집기에는 <strong>전체 텍스트 뒤집기</strong>를 사용하세요</li>
+                                <li>줄 순서는 유지하면서 각 줄을 개별적으로 뒤집어야 할 때 <strong>각 줄 뒤집기</strong>를 선택하세요</li>
+                                <li>줄의 내용을 변경하지 않고 줄의 순서를 반전하려면 <strong>줄 순서 뒤집기</strong>를 사용하세요</li>
+                                <li>문장 내의 단어를 재정렬하려면 <strong>단어 순서 뒤집기</strong>를 선택하세요</li>
+                                <li>더 읽기 쉬운 결과를 위해 <strong>구두점 유지</strong>와 텍스트 뒤집기를 함께 사용하세요</li>
+                                <li>텍스트를 정리하려면 <strong>빈 줄 제거</strong>와 <strong>공백 제거</strong>를 사용하세요</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">관련 도구</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const stats = document.getElementById('stats');
+
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('input', process);
+  el.addEventListener('change', process);
+});
+
+function process() {
+  let text = input.value;
+  let lines = text.split(/\r?\n/);
+
+  if (document.getElementById('trimSpaces').checked) {
+    lines = lines.map(l => l.trim());
+  }
+
+  if (document.getElementById('removeEmpty').checked) {
+    lines = lines.filter(l => l !== '');
+  }
+
+  if (document.getElementById('removePunctuation').checked) {
+    lines = lines.map(removePunctuation);
+  }
+
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const preservePunctuation = document.getElementById('preservePunctuation').checked;
+
+  let result = '';
+
+  if (mode === 'all') {
+    result = reverseString(lines.join('\n'), preservePunctuation);
+  }
+
+  if (mode === 'lines') {
+    result = lines.map(l => reverseString(l, preservePunctuation)).join('\n');
+  }
+
+  if (mode === 'order') {
+    result = lines.reverse().join('\n');
+  }
+
+  if (mode === 'words') {
+    result = lines.map(line =>
+      line.split(/\s+/).reverse().join(' ')
+    ).join('\n');
+  }
+
+  output.value = result;
+  updateStats(result);
+}
+
+function removePunctuation(str) {
+  return str.replace(/[\p{P}\p{S}]/gu, '');
+}
+
+function reverseString(str, preservePunctuation) {
+  const chars = Array.from(str);
+
+  if (!preservePunctuation) {
+    return chars.reverse().join('');
+  }
+
+  const letters = chars.filter(c => /\p{L}|\p{N}/u.test(c)).reverse();
+  let i = 0;
+
+  return chars.map(c => {
+    if (/\p{L}|\p{N}/u.test(c)) {
+      return letters[i++];
+    }
+    return c;
+  }).join('');
+}
+
+function updateStats(text) {
+  const charCount = Array.from(text).length;
+  const lineCount = text === '' ? 0 : text.split('\n').length;
+  stats.textContent = `Characters: ${charCount} | Lines: ${lineCount}`;
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(output.value)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = '클립보드에 복사되었습니다!';
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+function clearAll() {
+  input.value = '';
+  output.value = '';
+  stats.textContent = '';
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("reverse-text-generator");
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중복 텍스트 제거 | CaliperTools</title>
+<meta name="description" content="CaliperTools의 무료 온라인 중복 텍스트 제거 도구. 쉽게 중복 행, 단어, 문장, 단락을 제거하세요." />
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+<link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+<link rel="icon" href="../../../images/favicon32.png" type="image/png">
+<link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+
+<style>
+/* Global box model setting */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure body has no horizontal scroll, but allow vertical scroll */
+body {
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Add proper padding to main container */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 0;
+}
+
+/* Set tool container to 1440px width, left-right layout */
+.tool-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: visible;
+}
+
+/* Left and right panel styles */
+.left-panel, .right-panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+    min-width: 0;
+}
+
+/* Duplicate Text Removal Specific Styles */
+textarea {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.preview {
+    width: 100%;
+    min-height: 400px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f3f4f6;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #0052a3;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.export-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #0066cc;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.export-buttons button:hover {
+    background: #0052a3;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.options strong {
+    margin-top: 8px;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+    cursor: pointer;
+    color: #374151;
+}
+
+.options input[type="text"] {
+    width: 60%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.stat {
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-width: 110px;
+    text-align: center;
+}
+
+/* Title styles */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #111827;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* CTA Section Styles */
+.cta-section {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    background-color: #0066cc;
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.cta-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-content p {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.features-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .features-row {
+        flex-direction: row;
+    }
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+.feature-item .icon {
+    font-size: 1.5rem;
+}
+
+.feature-list-item .checkmark {
+    color: #34d399;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.cta-features {
+    margin-top: 3rem;
+}
+
+.cta-features h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    text-align: left;
+    color: white;
+    margin-bottom: 0.75rem;
+}
+
+/* Ensure CTA feature list background and text colors are correct */
+.cta-section .features-grid {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('마우스 오른쪽 클릭 메뉴가 비활성화되어 있습니다');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('복사 기능이 비활성화되었습니다');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('개발자 도구가 비활성화되었습니다');
+        }
+    });
+</script>
+</head>
+<body>
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and basic statistics -->
+            <div class="left-panel">
+                <h1>중복 텍스트 제거</h1>
+                
+                <div class="toolbar" style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="undo()">되돌리기</button>
+                    <button onclick="redo()">다시 실행</button>
+                    <button onclick="clearText()">지우기</button>
+                    <a href="#tutorial" style="font-size: 12px; color: #0066cc; text-decoration: none; cursor: pointer;">
+                        사용 방법?
+                    </a>
+                </div>
+                <textarea id="input" oninput="processText()" placeholder="여기에 텍스트를 붙여넣어 주세요..."></textarea>
+                
+                <div class="stats">
+                    <div class="stat" id="charCount">문자 수: 0</div>
+                    <div class="stat" id="nonBlankChar">공백 제외: 0</div>
+                    <div class="stat" id="wordCount">단어 수: 0</div>
+                    <div class="stat" id="lineCount">행 수: 0</div>
+                    <div class="stat" id="paraCount">단락 수: 0</div>
+                    <div class="stat" id="pages">페이지: 0</div>
+                    <div class="stat" id="readingTime">읽기 시간: 0 분</div>
+                    <div class="stat" id="speakingTime">말하기 시간: 0 분</div>
+                </div>
+
+                <div class="options">
+                    <strong>작동 모드:</strong>
+                    <label><input type="radio" name="mode" value="all">모든 중복 행 제거</label>
+                    <label><input type="radio" name="mode" value="consecutive">연속 중복 행 제거</label>
+                    <label><input type="radio" name="mode" value="unique">완전히 고유한 텍스트 행 유지</label>
+                    <label><input type="radio" name="mode" value="word">중복 단어 제거</label>
+                    <label><input type="radio" name="mode" value="paragraph">중복 단락 제거</label>
+                    <label><input type="radio" name="mode" value="sentence">중복 문장 제거</label>
+
+                    <strong>개행 문자, 탭 및 공백:</strong>
+                    <label><input type="radio" name="newline" value="preserve">모든 개행 문자 유지</label>
+                    <label><input type="radio" name="newline" value="filter">모든 개행 문자 필터링</label>
+                    <label><input type="radio" name="newline" value="delete">모든 개행 문자 삭제</label>
+                    <label><input type="checkbox" id="trim">텍스트 행 자르기</label>
+                    <label><input type="checkbox" id="caseSensitive">대소문자 구분</label>
+
+                    <strong>행 정렬:</strong>
+                    <label><input type="checkbox" id="sortLines">출력 행을 알파벳순으로 정렬</label>
+
+                    <strong>사용자 정의 문자 제거:</strong>
+                    <label>제거할 문자:<input type="text" id="removeChars" placeholder=",.;!?"></label>
+                </div>
+            </div>
+            
+            <!-- Right panel: Detailed analysis -->
+            <div class="right-panel">
+                <h2>출력</h2>
+                <div class="export-buttons" style="margin-bottom: 15px; display: flex; justify-content: flex-start;">
+                    <button onclick="copyText()">복사</button>
+                    <button onclick="exportTXT()">TXT로 내보내기</button>
+                    <button onclick="exportWord()">Word로 내보내기</button>
+                    <button onclick="exportPDF()">PDF로 내보내기</button>
+                </div>
+                <div class="preview" id="preview"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Duplicate Text Removal -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>중복 텍스트 제거 사용 방법</h3>
+                <p>
+                    다양한 맞춤화 옵션으로 텍스트에서 중복 내용을 제거하려면 다음 간단한 단계를 따르세요.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>1단계: 텍스트 입력</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>2단계: 옵션 설정</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>3단계: 결과 확인</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>단계별 튜토리얼</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">1단계: 텍스트 입력</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">두 가지 방법 중 하나로 텍스트를 입력하세요:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>텍스트 입력 또는 붙여넣기:</strong> 텍스트 영역에 직접 텍스트를 입력하거나 붙여넣어 주세요</li>
+                            </ul>
+                            <p style="text-align: left;">이 도구는 입력하거나 옵션을 변경할 때 실시간으로 텍스트를 처리합니다.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">2단계: 옵션 설정</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">다음 옵션으로 중복 제거를 맞춤화하세요:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>작동 모드:</strong> 중복 제거 방식 선택 (모두, 연속, 고유, 단어, 단락, 문장)</li>
+                                <li><strong>개행 문자 처리:</strong> 개행 문자를 유지, 필터링 또는 삭제</li>
+                                <li><strong>텍스트 처리:</strong> 텍스트 행을 자르거나 작업을 대소문자 구분으로 설정</li>
+                                <li><strong>정렬:</strong> 출력 행을 알파벳순으로 정렬</li>
+                                <li><strong>사용자 정의 문자 제거:</strong> 텍스트에서 제거할 문자를 지정</li>
+                            </ul>
+                            <p style="text-align: left;">사용 가능한 옵션은 선택한 작동 모드에 따라 변경됩니다.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">3단계: 결과 확인</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">중복이 제거된 텍스트가 즉시 오른쪽 출력 영역에 표시됩니다. 다음 작업을 할 수 있습니다:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>"복사" 버튼을 클릭하여 처리된 텍스트를 한 번에 복사</li>
+                                <li>결과를 TXT, Word 또는 PDF 파일로 내보내기</li>
+                                <li>되돌리기/다시 실행 버튼을 사용하여 변경 사항을 되돌리거나 복원</li>
+                                <li>"지우기" 버튼으로 모든 내용을 지우고 새로 시작</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">최상의 결과를 위한 팁</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>종합적인 중복 제거를 위해 "모든 중복 행 제거"를 사용하세요</li>
+                                <li>반복되는 연속 행을 하나만 유지하려면 "연속 중복 행 제거"를 사용하세요</li>
+                                <li>한 번만 나타나는 행만 유지하려면 "완전히 고유한 텍스트 행 유지"를 사용하세요</li>
+                                <li>정확한 대소문자 일치가 중요할 때 "대소문자 구분" 옵션을 사용하세요</li>
+                                <li>더 깨끗한 결과를 위해 "텍스트 행 자르기"를 중복 제거와 결합하세요</li>
+                                <li>특정 구두점이나 문자를 제거하려면 사용자 정의 문자 제거 기능을 사용하세요</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">관련 도구</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("duplicate-text-removal");
+    </script>
+    
+    
+    <!-- Load common scripts for header and footer -->
+    <script src="../../scripts/script.js"></script>
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const input=document.getElementById('input');
+const preview=document.getElementById('preview');
+let undoStack=[],redoStack=[];
+
+function saveState(){ undoStack.push(input.value); if(undoStack.length>50) undoStack.shift(); }
+function undo(){ if(undoStack.length){ redoStack.push(input.value); input.value=undoStack.pop(); processText(); } }
+function redo(){ if(redoStack.length){ undoStack.push(input.value); input.value=redoStack.pop(); processText(); } }
+function clearText(){ saveState(); input.value=''; processText(); }
+// Create copy success notification element
+const copyToast = document.createElement('div');
+copyToast.id = 'copyToast';
+copyToast.innerText = '클립보드에 복사되었습니다!';
+copyToast.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+`;
+document.body.appendChild(copyToast);
+
+function copyText(){
+    navigator.clipboard.writeText(preview.textContent)
+        .then(() => {
+            // Show copy success notification
+            const toast = document.getElementById('copyToast');
+            toast.style.opacity = '1';
+            // Hide notification after 2 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+}
+
+function updateStats(text){
+  document.getElementById('charCount').innerText='Characters: '+text.length;
+  document.getElementById('nonBlankChar').innerText='Non-blank: '+text.replace(/\s/g,'').length;
+  const words=text.match(/\S+/g); 
+  document.getElementById('wordCount').innerText='Words: '+(words?words.length:0);
+  // Fix line count display issue when text is empty
+  let lineCount = 0;
+  if (text.length > 0) {
+    const lines=text.split(/\r?\n/); 
+    lineCount = lines.length;
+  }
+  document.getElementById('lineCount').innerText='Lines: '+lineCount;
+  const paras=text.split(/\n\s*\n/).filter(p=>p.trim()!==''); 
+  document.getElementById('paraCount').innerText='Paragraphs: '+paras.length;
+  const pages=Math.ceil((words?words.length:0)/500); 
+  document.getElementById('pages').innerText='Pages: '+pages;
+  const reading=Math.ceil((words?words.length:0)/200); 
+  document.getElementById('readingTime').innerText='Reading: '+reading+' min';
+  const speaking=Math.ceil((words?words.length:0)/130); 
+  document.getElementById('speakingTime').innerText='Speaking: '+speaking+' min';
+}
+
+function processText(){
+  saveState();
+  let text=input.value;
+
+  const caseSensitive = document.getElementById('caseSensitive').checked;
+  const removeChars = document.getElementById('removeChars').value || '';
+  if(removeChars){
+    const pattern = new RegExp("["+removeChars+"]","g");
+    text = text.replace(pattern,'');
+  }
+
+  const newlineMode=document.querySelector('input[name="newline"]:checked')?.value;
+  if(newlineMode==='delete'){ text=text.replace(/\r?\n/g,''); }
+  else if(newlineMode==='filter'){ text=text.replace(/\r?\n/g,'\n'); }
+  if(document.getElementById('trim').checked){ text=text.split(/\r?\n/).map(l=>l.trim()).join('\n'); }
+
+  const mode=document.querySelector('input[name="mode"]:checked')?.value;
+  if(mode){
+    if(mode==='all' || mode==='consecutive' || mode==='unique'){
+      let lines=text.split(/\r?\n/);
+      if(!caseSensitive){ lines = lines.map(l=>l.toLowerCase()); }
+      if(mode==='all'){
+        let seen=new Set();
+        lines=lines.filter(l=>{ if(seen.has(l)) return false; seen.add(l); return true; });
+      } else if(mode==='consecutive'){
+        lines=lines.filter((l,i,a)=>i===0||l!==a[i-1]);
+      } else if(mode==='unique'){
+        let counts={}; lines.forEach(l=>counts[l]=(counts[l]||0)+1);
+        lines=lines.filter(l=>counts[l]===1);
+      }
+      text=lines.join('\n');
+    } else if(mode==='word'){ // remove duplicate words
+      text = text.split(/\s+/).filter((v,i,a)=>{ 
+        if(!caseSensitive)v=v.toLowerCase(); 
+        return a.indexOf(v)===i; 
+      }).join(' ');
+    } else if(mode==='paragraph'){
+      let paras=text.split(/\n\s*\n/);
+      let seen=new Set();
+      paras = paras.filter(p=>{ 
+        let t = caseSensitive?p:p.toLowerCase(); 
+        if(seen.has(t)) return false; 
+        seen.add(t); 
+        return true; 
+      });
+      text=paras.join('\n\n');
+    } else if(mode==='sentence'){
+      let sentences=text.match(/[^\.!\?]+[\.!\?]*/g)||[text];
+      let seen=new Set();
+      sentences = sentences.filter(s=>{
+        let t = caseSensitive?s:s.toLowerCase();
+        if(seen.has(t)) return false;
+        seen.add(t);
+        return true;
+      });
+      text=sentences.join(' ');
+    }
+  }
+
+  if(document.getElementById('sortLines').checked){
+    text=text.split(/\r?\n/).sort().join('\n');
+  }
+
+  preview.textContent=text;
+  updateStats(text);
+}
+
+function exportTXT(){
+  const blob=new Blob([preview.textContent],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='output.txt'; a.click();
+}
+function exportWord(){
+  const blob=new Blob([preview.textContent],{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='output.docx'; a.click();
+}
+function exportPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const lines=preview.textContent.split('\n');
+  let y=10;
+  lines.forEach(line=>{
+    if(y>280){ doc.addPage(); y=10; }
+    doc.text(line,10,y); y+=7;
+  });
+  doc.save('output.pdf');
+}
+
+// Add event listeners to automatically call processText function when options change
+const allOptions = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+allOptions.forEach(option => {
+    option.addEventListener('change', processText);
+});
+
+processText();
+</script>
+</body>
+</html>
