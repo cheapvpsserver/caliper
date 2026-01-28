@@ -67,7 +67,13 @@ function initRelatedTools(currentSlug) {
     }
     // Calculate number of levels to go back based on directory depth
     const basePath = directoryDepth > 0 ? '../'.repeat(directoryDepth) : '';
-    const toolsJsonPath = `${basePath}data/tools.json`;
+    // Detect language from URL (/bn/xxx or /zh/xxx or /en/xxx)
+const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+const lang = langMatch ? langMatch[1] : 'en';
+
+// Load language-specific tools.json
+const toolsJsonPath = `/${lang}/data/tools.json`;
+
     
     fetch(toolsJsonPath)
         .then(res => res.json())
