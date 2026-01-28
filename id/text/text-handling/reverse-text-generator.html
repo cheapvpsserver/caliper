@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id-ID">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Alat pembuat teks terbalik daring gratis dari CaliperTools - Balikkan teks, baris, kata, dan lainnya dengan berbagai opsi untuk manipulasi teks." />
+<title>Pembuat Teks Terbalik | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+    
+<style>
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure html and body both fill the screen */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        background-color: #f5f5f5; /* Gray background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full width container ensures it stays within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Text area styles */
+    textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Option area styles */
+    .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem 1rem;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .options label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Action button styles */
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Statistics styles */
+    .stats {
+        margin-top: 1rem;
+        font-size: 12px;
+        color: #555;
+    }
+    
+    /* Title styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .cta-section {
+            padding: 1.5rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.75rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .cta-section {
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        .features-row {
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cta-section {
+            padding: 1rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+</style>
+<script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Menu klik kanan dinonaktifkan');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('Fungsi salin dinonaktifkan');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Alat pengembang dinonaktifkan');
+        }
+    });
+</script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>Pembuat Teks Terbalik</h1>
+                
+                <h4>Masukan <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; margin-left: 0.5rem;">Cara menggunakan?</a></h4>
+                <textarea id="input" placeholder="Masukkan atau tempel teks di sini..."></textarea>
+
+                <div class="options">
+                    <label><input type="radio" name="mode" value="all" checked> Balikkan Semua Teks</label>
+                    <label><input type="radio" name="mode" value="lines"> Balikkan Setiap Baris</label>
+                    <label><input type="radio" name="mode" value="order"> Balikkan Urutan Baris</label>
+                    <label><input type="radio" name="mode" value="words"> Balikkan Kata-kata</label>
+
+                    <label><input type="checkbox" id="removeEmpty"> Hapus Baris Kosong</label>
+                    <label><input type="checkbox" id="trimSpaces"> Pangkas Spasi</label>
+                    <label><input type="checkbox" id="removePunctuation"> Hapus Tanda Baca</label>
+                    <label><input type="checkbox" id="preservePunctuation"> Pertahankan Tanda Baca</label>
+                </div>
+
+                <div class="actions">
+                    <button onclick="copyOutput()">Salin Keluaran</button>
+                    <button onclick="clearAll()">Bersihkan Semua</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>Keluaran</h4>
+                <textarea id="output" readonly placeholder="Teks terbalik akan muncul di sini..."></textarea>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - How to Use Reverse Text Generator -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Cara Menggunakan Pembuat Teks Terbalik</h3>
+                <p>
+                    Ikuti langkah-langkah sederhana ini untuk membalikkan teks Anda secara efisien dengan berbagai opsi pembalikan.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Langkah 1: Masukkan Teks Anda</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Langkah 2: Konfigurasikan Opsi Pembalikan</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Langkah 3: Dapatkan Hasil Anda</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Tutorial Langkah Demi Langkah</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Langkah 1: Masukkan Teks Anda</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Masukkan atau tempel teks Anda ke dalam area teks sebelah kiri. Alat ini akan memproses teks Anda secara real-time saat Anda mengetik atau membuat perubahan pada opsi.</p>
+                            <p style="text-align: left;">Area teks dapat diubah ukurannya, memungkinkan Anda menyesuaikan tinggi yang Anda inginkan untuk pengeditan yang nyaman.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Langkah 2: Konfigurasikan Opsi Pembalikan</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Pilih dari berbagai mode pembalikan untuk menyesuaikan hasil Anda:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Balikkan Semua Teks:</strong> Membalikkan seluruh konten teks sebagai satu string</li>
+                                <li><strong>Balikkan Setiap Baris:</strong> Membalikkan setiap baris secara individual sambil mempertahankan urutan baris</li>
+                                <li><strong>Balikkan Urutan Baris:</strong> Mempertahankan setiap baris tidak berubah tetapi membalikkan urutan baris</li>
+                                <li><strong>Balikkan Kata-kata:</strong> Membalikkan urutan kata-kata dalam setiap baris</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">Opsi pemrosesan teks tambahan:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Hapus Baris Kosong:</strong> Secara otomatis menghapus baris kosong dari hasil</li>
+                                <li><strong>Pangkas Spasi:</strong> Hapus spasi awal dan akhir dari setiap baris</li>
+                                <li><strong>Hapus Tanda Baca:</strong> Hilangkan semua tanda baca dari teks</li>
+                                <li><strong>Pertahankan Tanda Baca:</strong> Menjaga tanda baca di posisi aslinya saat membalikkan teks</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Langkah 3: Dapatkan Hasil Anda</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Teks terbalik Anda akan muncul di area keluaran sebelah kanan secara instan. Anda dapat:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Salin teks terbalik dengan satu klik menggunakan tombol "Salin Keluaran"</li>
+                                <li>Bersihkan semua teks untuk memulai ulang dengan tombol "Bersihkan Semua"</li>
+                                <li>Lihat statistik yang menunjukkan jumlah karakter dan baris</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Tips untuk Hasil Terbaik</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Gunakan <strong>Balikkan Semua Teks</strong> untuk kebutuhan pembalikan teks sederhana</li>
+                                <li>Pilih <strong>Balikkan Setiap Baris</strong> ketika Anda perlu membalikkan baris-baris individu sambil menjaga urutannya</li>
+                                <li>Gunakan <strong>Balikkan Urutan Baris</strong> untuk membalikkan urutan baris tanpa mengubah isi mereka</li>
+                                <li>Pilih <strong>Balikkan Kata-kata</strong> untuk menyusun ulang kata-kata dalam kalimat</li>
+                                <li>Gabungkan <strong>Pertahankan Tanda Baca</strong> dengan pembalikan teks untuk hasil yang lebih mudah dibaca</li>
+                                <li>Gunakan <strong>Hapus Baris Kosong</strong> dan <strong>Pangkas Spasi</strong> untuk membersihkan teks Anda</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Related Tools Section -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Alat Terkait</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Related tools will be dynamically generated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const stats = document.getElementById('stats');
+
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('input', process);
+  el.addEventListener('change', process);
+});
+
+function process() {
+  let text = input.value;
+  let lines = text.split(/\r?\n/);
+
+  if (document.getElementById('trimSpaces').checked) {
+    lines = lines.map(l => l.trim());
+  }
+
+  if (document.getElementById('removeEmpty').checked) {
+    lines = lines.filter(l => l !== '');
+  }
+
+  if (document.getElementById('removePunctuation').checked) {
+    lines = lines.map(removePunctuation);
+  }
+
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const preservePunctuation = document.getElementById('preservePunctuation').checked;
+
+  let result = '';
+
+  if (mode === 'all') {
+    result = reverseString(lines.join('\n'), preservePunctuation);
+  }
+
+  if (mode === 'lines') {
+    result = lines.map(l => reverseString(l, preservePunctuation)).join('\n');
+  }
+
+  if (mode === 'order') {
+    result = lines.reverse().join('\n');
+  }
+
+  if (mode === 'words') {
+    result = lines.map(line =>
+      line.split(/\s+/).reverse().join(' ')
+    ).join('\n');
+  }
+
+  output.value = result;
+  updateStats(result);
+}
+
+function removePunctuation(str) {
+  return str.replace(/[\p{P}\p{S}]/gu, '');
+}
+
+function reverseString(str, preservePunctuation) {
+  const chars = Array.from(str);
+
+  if (!preservePunctuation) {
+    return chars.reverse().join('');
+  }
+
+  const letters = chars.filter(c => /\p{L}|\p{N}/u.test(c)).reverse();
+  let i = 0;
+
+  return chars.map(c => {
+    if (/\p{L}|\p{N}/u.test(c)) {
+      return letters[i++];
+    }
+    return c;
+  }).join('');
+}
+
+function updateStats(text) {
+  const charCount = Array.from(text).length;
+  const lineCount = text === '' ? 0 : text.split('\n').length;
+  stats.textContent = `Karakter: ${charCount} | Baris: ${lineCount}`;
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(output.value)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'Disalin ke papan klip!';
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+function clearAll() {
+  input.value = '';
+  output.value = '';
+  stats.textContent = '';
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("reverse-text-generator");
+    </script>
+
+</body>
+</html>

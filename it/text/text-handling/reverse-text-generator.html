@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Strumento gratuito online per generare testo invertito di CaliperTools - Inverti testo, righe, parole e altro con molteplici opzioni per la manipolazione del testo." />
+<title>Generatore di Testo Invertito | CaliperTools</title>
+<!-- Include external CSS file -->
+<link rel="stylesheet" href="../../../styles.css">
+<!-- Include FontAwesome icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Website Icon (Favicon) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../images/favicon32.png">
+    <link rel="icon" href="../../../images/favicon32.png" type="image/png">
+    <!-- Add simple favicon.ico as default -->
+    <link rel="shortcut icon" href="../../../images/favicon32.png" type="image/x-icon">
+    
+<style>
+    /* Global box model setting, ensure all elements include padding and border when calculating dimensions */
+    * {
+        box-sizing: border-box;
+    }
+    
+    /* Ensure html and body both fill the screen */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Ensure body has no horizontal scroll, but allow vertical scroll */
+    body {
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        background-color: #f5f5f5; /* Gray background */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Add proper padding to main container, ensure content doesn't stick to edges */
+    main {
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 30px 0;
+    }
+    
+    /* Full width container ensures it stays within viewport */
+    .full-width-container {
+        width: 100%;
+        overflow: visible;
+    }
+    
+    /* Tool container ensures it stays within viewport, add appropriate padding */
+    .tool-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0 1rem;
+        overflow: visible;
+    }
+    
+    /* Add proper padding to left and right panels */
+    .left-panel, .right-panel {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        min-width: 0;
+    }
+    
+    /* Optimize mobile responsive design */
+    @media (max-width: 768px) {
+        .tool-container {
+            padding: 0 0.5rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .left-panel, .right-panel {
+            padding: 1rem 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.25rem;
+        }
+        
+        h2 {
+            font-size: 1rem;
+        }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1024px) {
+        .tool-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .left-panel, .right-panel {
+            padding: 1.5rem;
+        }
+    }
+    
+    /* Text area styles */
+    textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.375rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Option area styles */
+    .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem 1rem;
+        font-size: 13px;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .options label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Action button styles */
+    .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+    
+    button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s;
+    }
+    
+    button:hover {
+        background: #0052a3;
+    }
+    
+    /* Statistics styles */
+    .stats {
+        margin-top: 1rem;
+        font-size: 12px;
+        color: #555;
+    }
+    
+    /* Title styles */
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: #111827;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #111827;
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+    
+    /* CTA Section Styles */
+    .cta-section {
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        background-color: #0066cc;
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+    }
+    
+    .cta-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .cta-content h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: white;
+    }
+    
+    .cta-content p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    
+    .features-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+        .features-row {
+            flex-direction: row;
+        }
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .feature-item .icon {
+        font-size: 1.5rem;
+    }
+    
+    .cta-features {
+        margin-top: 3rem;
+    }
+    
+    .cta-features h4 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: white;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    .feature-list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        text-align: left;
+        color: white;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-list-item .checkmark {
+        color: #34d399;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+    
+    /* Ensure CTA feature list background and text colors are correct */
+    .cta-section .features-grid {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+        .cta-section {
+            padding: 1.5rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.75rem;
+        }
+        
+        .cta-content p {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .cta-section {
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+        }
+        
+        .features-row {
+            gap: 0.5rem;
+        }
+        
+        .feature-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .cta-section {
+            padding: 1rem;
+        }
+        
+        .cta-content h3 {
+            font-size: 1.5rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+    }
+</style>
+ <script>  
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('Il menu contestuale è disabilitato');
+    });
+
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('La funzione di copia è disabilitata');
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+            alert('Gli strumenti per sviluppatori sono disabilitati');
+        }
+    });
+ </script>
+</head>
+
+<body>
+    <!-- Header will be dynamically loaded by JS -->
+    <div id="header-container"></div>
+
+    <!-- Main content area -->
+    <main class="main">
+        <div class="tool-container">
+            <!-- Left panel: Input and options -->
+            <div class="left-panel">
+                <h1>Generatore di Testo Invertito</h1>
+                
+                <h4>Input <a href="#tutorial" style="font-size: 0.8rem; color: #0066cc; text-decoration: none; margin-left: 0.5rem;">Come usare?</a></h4>
+                <textarea id="input" placeholder="Inserisci o incolla il testo qui..."></textarea>
+
+                <div class="options">
+                    <label><input type="radio" name="mode" value="all" checked> Inverti Tutto il Testo</label>
+                    <label><input type="radio" name="mode" value="lines"> Inverti Ogni Riga</label>
+                    <label><input type="radio" name="mode" value="order"> Inverti Ordine Righe</label>
+                    <label><input type="radio" name="mode" value="words"> Inverti Parole</label>
+
+                    <label><input type="checkbox" id="removeEmpty"> Rimuovi Righe Vuote</label>
+                    <label><input type="checkbox" id="trimSpaces"> Rimuovi Spazi Extra</label>
+                    <label><input type="checkbox" id="removePunctuation"> Rimuovi Punteggiatura</label>
+                    <label><input type="checkbox" id="preservePunctuation"> Conserva Punteggiatura</label>
+                </div>
+
+                <div class="actions">
+                    <button onclick="copyOutput()">Copia Output</button>
+                    <button onclick="clearAll()">Pulisci Tutto</button>
+                </div>
+            </div>
+
+            <!-- Right panel: Output -->
+            <div class="right-panel">
+                <h4>Output</h4>
+                <textarea id="output" readonly placeholder="Il testo invertito apparirà qui..."></textarea>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+
+        <!-- Tutorial Section - Come Usare il Generatore di Testo Invertito -->
+        <section class="cta-section" id="tutorial">
+            <div class="cta-content">
+                <h3>Come Usare il Generatore di Testo Invertito</h3>
+                <p>
+                    Segui questi semplici passaggi per invertire il tuo testo in modo efficiente con varie opzioni di inversione.
+                </p>
+                
+                <div class="features-row">
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <span>Passo 1: Inserisci il Tuo Testo</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚙️</span>
+                        <span>Passo 2: Configura le Opzioni di Inversione</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">✨</span>
+                        <span>Passo 3: Ottieni i Tuoi Risultati</span>
+                    </div>
+                </div>
+                
+                <div class="cta-features">
+                    <h4>Tutorial Passo Passo</h4>
+                    <div class="features-grid" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Passo 1: Inserisci il Tuo Testo</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Inserisci o incolla il tuo testo nell'area di testo a sinistra. Lo strumento elaborerà il tuo testo in tempo reale mentre scrivi o modifichi le opzioni.</p>
+                            <p style="text-align: left;">L'area di testo è ridimensionabile, consentendoti di adattarla all'altezza preferita per una modifica confortevole.</p>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Passo 2: Configura le Opzioni di Inversione</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Scegli tra varie modalità di inversione per personalizzare i tuoi risultati:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Inverti Tutto il Testo:</strong> Inverte l'intero contenuto del testo come una singola stringa</li>
+                                <li><strong>Inverti Ogni Riga:</strong> Inverte ogni riga individualmente mantenendo l'ordine delle righe</li>
+                                <li><strong>Inverti Ordine Righe:</strong> Mantiene ogni riga invariata ma inverte l'ordine delle righe</li>
+                                <li><strong>Inverti Parole:</strong> Inverte l'ordine delle parole all'interno di ciascuna riga</li>
+                            </ul>
+                            <p style="margin-bottom: 1rem; text-align: left;">Opzioni aggiuntive per l'elaborazione del testo:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li><strong>Rimuovi Righe Vuote:</strong> Elimina automaticamente le righe vuote dal risultato</li>
+                                <li><strong>Rimuovi Spazi Extra:</strong> Rimuove gli spazi iniziali e finali da ciascuna riga</li>
+                                <li><strong>Rimuovi Punteggiatura:</strong> Elimina tutti i segni di punteggiatura dal testo</li>
+                                <li><strong>Conserva Punteggiatura:</strong> Mantiene la punteggiatura nella sua posizione originale durante l'inversione del testo</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Passo 3: Ottieni i Tuoi Risultati</h5>
+                            <p style="margin-bottom: 1rem; text-align: left;">Il tuo testo invertito apparirà immediatamente nell'area di output a destra. Puoi:</p>
+                            <ul style="text-align: left; margin-left: 2rem; margin-bottom: 1rem;">
+                                <li>Copiare il testo invertito con un clic utilizzando il pulsante "Copia Output"</li>
+                                <li>Pulire tutto il testo per iniziare da capo con il pulsante "Pulisci Tutto"</li>
+                                <li>Visualizzare statistiche che mostrano il numero di caratteri e righe</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tutorial-step">
+                            <h5 style="font-size: 1.25rem; margin-bottom: 1rem; color: white;">Suggerimenti per Ottimi Risultati</h5>
+                            <ul style="text-align: left; margin-left: 2rem;">
+                                <li>Usa <strong>Inverti Tutto il Testo</strong> per semplici necessità di inversione del testo</li>
+                                <li>Scegli <strong>Inverti Ogni Riga</strong> quando devi invertire righe individuali mantenendo il loro ordine</li>
+                                <li>Usa <strong>Inverti Ordine Righe</strong> per invertire la sequenza delle righe senza modificare il loro contenuto</li>
+                                <li>Scegli <strong>Inverti Parole</strong> per riorganizzare le parole all'interno delle frasi</li>
+                                <li>Combina <strong>Conserva Punteggiatura</strong> con l'inversione del testo per risultati più leggibili</li>
+                                <li>Usa <strong>Rimuovi Righe Vuote</strong> e <strong>Rimuovi Spazi Extra</strong> per pulire il tuo testo</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Strumenti Correlati -->
+        <section class="section related-tools">
+            <div class="container">
+                <h2 class="section-title">Strumenti Correlati</h2>
+                <div class="tools-grid" id="relatedTools">
+                    <!-- Strumenti correlati saranno generati dinamicamente da JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer will be dynamically loaded by JS -->
+    <div id="footer-container"></div>
+
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+const stats = document.getElementById('stats');
+
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('input', process);
+  el.addEventListener('change', process);
+});
+
+function process() {
+  let text = input.value;
+  let lines = text.split(/\r?\n/);
+
+  if (document.getElementById('trimSpaces').checked) {
+    lines = lines.map(l => l.trim());
+  }
+
+  if (document.getElementById('removeEmpty').checked) {
+    lines = lines.filter(l => l !== '');
+  }
+
+  if (document.getElementById('removePunctuation').checked) {
+    lines = lines.map(removePunctuation);
+  }
+
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const preservePunctuation = document.getElementById('preservePunctuation').checked;
+
+  let result = '';
+
+  if (mode === 'all') {
+    result = reverseString(lines.join('\n'), preservePunctuation);
+  }
+
+  if (mode === 'lines') {
+    result = lines.map(l => reverseString(l, preservePunctuation)).join('\n');
+  }
+
+  if (mode === 'order') {
+    result = lines.reverse().join('\n');
+  }
+
+  if (mode === 'words') {
+    result = lines.map(line =>
+      line.split(/\s+/).reverse().join(' ')
+    ).join('\n');
+  }
+
+  output.value = result;
+  updateStats(result);
+}
+
+function removePunctuation(str) {
+  return str.replace(/[\p{P}\p{S}]/gu, '');
+}
+
+function reverseString(str, preservePunctuation) {
+  const chars = Array.from(str);
+
+  if (!preservePunctuation) {
+    return chars.reverse().join('');
+  }
+
+  const letters = chars.filter(c => /\p{L}|\p{N}/u.test(c)).reverse();
+  let i = 0;
+
+  return chars.map(c => {
+    if (/\p{L}|\p{N}/u.test(c)) {
+      return letters[i++];
+    }
+    return c;
+  }).join('');
+}
+
+function updateStats(text) {
+  const charCount = Array.from(text).length;
+  const lineCount = text === '' ? 0 : text.split('\n').length;
+  stats.textContent = `Caratteri: ${charCount} | Righe: ${lineCount}`;
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(output.value)
+    .then(() => {
+      // Create temporary tip element
+      const tip = document.createElement('div');
+      tip.textContent = 'Copiato negli appunti!';
+      tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(tip);
+      
+      // Show tip
+      setTimeout(() => {
+        tip.style.opacity = '1';
+      }, 10);
+      
+      // Remove tip after 2 seconds
+      setTimeout(() => {
+        tip.style.opacity = '0';
+        setTimeout(() => {
+          document.body.removeChild(tip);
+        }, 300);
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('Failed to copy text: ', err);
+    });
+}
+
+function clearAll() {
+  input.value = '';
+  output.value = '';
+  stats.textContent = '';
+}
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', function() {
+  process();
+});
+</script>
+    <!-- Include the main script file for language switcher and other functionality -->
+    <script src="../../scripts/script.js"></script>
+
+    <!-- Include the related tools script -->
+    <script src="../../scripts/script-related-tools.js"></script>
+    
+    <!-- Initialize related tools with current tool slug -->
+    <script>
+        // Call the related tools function with the current tool's slug
+        initRelatedTools("reverse-text-generator");
+    </script>
+
+</body>
+</html>
