@@ -160,8 +160,9 @@ async function displayLatestTools() {
             directoryDepth = lastSegment.includes('.') ? relativeSegments.length - 1 : relativeSegments.length;
         }
         
-        // Calculate path to tools.json
-        const toolsJsonPath = 'data/tools.json';
+        // Calculate base path according to directory depth
+        const basePath = directoryDepth > 0 ? '../'.repeat(directoryDepth) : '';
+        const toolsJsonPath = `${basePath}data/tools.json`;
         
         // Load tools.json using the calculated path
         const response = await fetch(toolsJsonPath);
@@ -432,17 +433,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Save current scroll position
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
     
-    // Detect language from URL
-    const path = window.location.pathname;
-    const langMatch = path.match(/^\/([a-z]{2})\//);
-    const lang = langMatch ? langMatch[1] : 'fr';
-    
-    // Determine the directory depth of the current page relative to the fr/ directory
+    // Determine the directory depth of the current page relative to the de/ directory
     const pathSegments = window.location.pathname.split('/');
     const nonEmptySegments = pathSegments.filter(segment => segment !== '');
     
-    // Remove language code from the path for relative path calculation
-    const languageIndex = nonEmptySegments.indexOf(lang);
+    // Remove language code (de) from the path for relative path calculation
+    const languageCode = 'fr';
+    const languageIndex = nonEmptySegments.indexOf(languageCode);
     let relativeSegments = nonEmptySegments;
     
     if (languageIndex !== -1) {
@@ -455,15 +452,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         directoryDepth = lastSegment.includes('.') ? relativeSegments.length - 1 : relativeSegments.length;
     }
     
-    // Calculate base path according to directory depth
-    const basePath = directoryDepth > 0 ? '../'.repeat(directoryDepth) : '';
+    // Detect language from URL (/zh/xxx or /en/xxx)
+    const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+    const lang = langMatch ? langMatch[1] : 'en';
     
-    // Load header
+    // Load header (language-specific)
     await loadHTML(`/${lang}/header.html`, document.body, 'prepend');
     
-    // Load footer - only if it doesn't already exist
-    if (!document.querySelector('footer.footer')) {
-        await loadHTML(`/${lang}/footer.html`, document.body, 'append');
+    // Load footer (language-specific)
+    const mainElement = document.querySelector('main.main');
+    if (mainElement) {
+        await loadHTML(`/${lang}/footer.html`, mainElement, 'after');
     }
     
     // Only load tool list on homepage or pages containing the corresponding container
@@ -519,10 +518,10 @@ function fixLinkPaths() {
                 return;
             }
             
-            // Check if we're on a Chinese language page
-            const isChinesePage = window.location.pathname.includes('/fr/');
+            // Check if we're on a French language page
+            const isFrenchPage = window.location.pathname.includes('/fr/');
             
-            if (isChinesePage) {
+            if (isFrenchPage) {
                 // Skip main site link
                 if (href === '/') {
                     return;
