@@ -542,5 +542,70 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Function to fix link paths in multilingual site
+function fixLinkPaths() {
+    // Handle anchor links that should go to the main list page
+    // Using delegation to handle dynamically added elements
+    document.addEventListener('click', function(event) {
+        // Find the closest anchor element regardless of when it was added to DOM
+        const target = event.target.closest('a[href]');
+        if (target) {
+            const href = target.getAttribute('href');
+            
+            // Skip language switcher links (those with data-lang attribute)
+            if (target.hasAttribute('data-lang')) {
+                return;
+            }
+            
+            // Check if we're on a French language page
+            const isFrenchPage = window.location.pathname.includes('/fr/');
+            
+            if (isFrenchPage) {
+                // Skip main site link
+                if (href === '/') {
+                    return;
+                }
+                // Handle absolute root links that should be prefixed with /fr/
+                if (href.startsWith('/') && !href.startsWith('/fr/')) {
+                    event.preventDefault();
+                    const newPath = window.location.origin + '/fr' + href;
+                    window.location.href = newPath;
+                }
+                // Handle links like /list.html#text-tools that should become /fr/list.html#text-tools
+                else if (href.startsWith('/list.html#') && !href.startsWith('/fr/list.html#')) {
+                    event.preventDefault();
+                    const newPath = window.location.origin + '/fr' + href;
+                    window.location.href = newPath;
+                }
+                // Skip processing for internal anchors (those that start with # but are not actual URLs)
+                // We don't want to redirect internal page anchors like #tutorial
+                else if (href.startsWith('#') && !href.startsWith('#/')) {
+                    // Allow default behavior for internal anchors
+                    return;
+                }
+            }
+        }
+    });
+}
+
+// Add smooth scrolling effect
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
 // Call the link path fix function
 fixLinkPaths();
+</script>
