@@ -52,12 +52,12 @@ function generateToolCard(tool) {
 // Display popular tools
 async function displayPopularTools() {
     try {
-        // Determine directory depth of current page relative to fr/ directory
+        // Determine directory depth of current page relative to zh/ directory
         const pathSegments = window.location.pathname.split('/');
         const nonEmptySegments = pathSegments.filter(segment => segment !== '');
         
-        // Remove language code (fr) from path for relative path calculation
-        const languageCode = 'fr';
+        // Remove language code (zh) from path for relative path calculation
+        const languageCode = 'zh';
         const languageIndex = nonEmptySegments.indexOf(languageCode);
         let relativeSegments = nonEmptySegments;
         
@@ -141,12 +141,12 @@ function updateToolHotScore(toolSlug) {
 // Display latest tools
 async function displayLatestTools() {
     try {
-        // Determine directory depth of current page relative to fr/ directory
+        // Determine directory depth of current page relative to zh/ directory
         const pathSegments = window.location.pathname.split('/');
         const nonEmptySegments = pathSegments.filter(segment => segment !== '');
         
-        // Remove language code (fr) from path for relative path calculation
-        const languageCode = 'fr';
+        // Remove language code (zh) from path for relative path calculation
+        const languageCode = 'zh';
         const languageIndex = nonEmptySegments.indexOf(languageCode);
         let relativeSegments = nonEmptySegments;
         
@@ -435,9 +435,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Detect language from URL
     const path = window.location.pathname;
     const langMatch = path.match(/^\/([a-z]{2})\//);
-    const lang = langMatch ? langMatch[1] : 'fr';
+    const lang = langMatch ? langMatch[1] : 'zh';
     
-    // Determine the directory depth of the current page relative to the fr/ directory
+    // Determine the directory depth of the current page relative to the zh/ directory
     const pathSegments = window.location.pathname.split('/');
     const nonEmptySegments = pathSegments.filter(segment => segment !== '');
     
@@ -519,24 +519,24 @@ function fixLinkPaths() {
                 return;
             }
             
-            // Check if we're on a French language page
-            const isFrenchPage = window.location.pathname.includes('/fr/');
+            // Check if we're on a Chinese language page
+            const isChinesePage = window.location.pathname.includes('/zh/');
             
-            if (isFrenchPage) {
+            if (isChinesePage) {
                 // Skip main site link
                 if (href === '/') {
                     return;
                 }
-                // Handle absolute root links that should be prefixed with /fr/
-                if (href.startsWith('/') && !href.startsWith('/fr/')) {
+                // Handle absolute root links that should be prefixed with /zh/
+                if (href.startsWith('/') && !href.startsWith('/zh/')) {
                     event.preventDefault();
-                    const newPath = window.location.origin + '/fr' + href;
+                    const newPath = window.location.origin + '/zh' + href;
                     window.location.href = newPath;
                 }
-                // Handle links like /list.html#text-tools that should become /fr/list.html#text-tools
-                else if (href.startsWith('/list.html#') && !href.startsWith('/fr/list.html#')) {
+                // Handle links like /list.html#text-tools that should become /zh/list.html#text-tools
+                else if (href.startsWith('/list.html#') && !href.startsWith('/zh/list.html#')) {
                     event.preventDefault();
-                    const newPath = window.location.origin + '/fr' + href;
+                    const newPath = window.location.origin + '/zh' + href;
                     window.location.href = newPath;
                 }
                 // Skip processing for internal anchors (those that start with # but are not actual URLs)
@@ -570,4 +570,3 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Call the link path fix function
 fixLinkPaths();
-</script>
