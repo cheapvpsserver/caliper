@@ -36,15 +36,8 @@ function generateToolCard(tool) {
     // Get Font Awesome icon class, use default if not found
     const iconClass = toolIcons[tool.slug] || "fas fa-tools";
     
-    // Detect language from URL (/fr/xxx or /en/xxx)
-    const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
-    const lang = langMatch ? langMatch[1] : 'en';
-    
-    // Generate language-specific tool URL
-    const toolUrl = `/${lang}/${tool.url}`;
-    
     return `
-        <a href="${toolUrl}" class="tool-card-link">
+        <a href="${tool.url}" class="tool-card-link">
             <div class="tool-card">
                 <div class="tool-icon">
                     <i class="${iconClass}"></i>
@@ -59,12 +52,28 @@ function generateToolCard(tool) {
 // Display popular tools
 async function displayPopularTools() {
     try {
-        // Detect language from URL (/fr/xxx or /en/xxx)
-        const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
-        const lang = langMatch ? langMatch[1] : 'en';
+        // Determine directory depth of current page relative to fr/ directory
+        const pathSegments = window.location.pathname.split('/');
+        const nonEmptySegments = pathSegments.filter(segment => segment !== '');
         
-        // Load language-specific tools.json
-        const toolsJsonPath = `/${lang}/data/tools.json`;
+        // Remove language code (fr) from path for relative path calculation
+        const languageCode = 'fr';
+        const languageIndex = nonEmptySegments.indexOf(languageCode);
+        let relativeSegments = nonEmptySegments;
+        
+        if (languageIndex !== -1) {
+            relativeSegments = nonEmptySegments.slice(languageIndex + 1);
+        }
+        
+        let directoryDepth = 0;
+        if (relativeSegments.length > 0) {
+            const lastSegment = relativeSegments[relativeSegments.length - 1];
+            directoryDepth = lastSegment.includes('.') ? relativeSegments.length - 1 : relativeSegments.length;
+        }
+        
+        // Calculate base path according to directory depth
+        const basePath = directoryDepth > 0 ? '../'.repeat(directoryDepth) : '';
+        const toolsJsonPath = `${basePath}data/tools.json`;
         
         // Load tools.json using the calculated path
         const response = await fetch(toolsJsonPath);
@@ -132,12 +141,27 @@ function updateToolHotScore(toolSlug) {
 // Display latest tools
 async function displayLatestTools() {
     try {
-        // Detect language from URL (/fr/xxx or /en/xxx)
-        const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
-        const lang = langMatch ? langMatch[1] : 'en';
+        // Determine directory depth of current page relative to fr/ directory
+        const pathSegments = window.location.pathname.split('/');
+        const nonEmptySegments = pathSegments.filter(segment => segment !== '');
         
-        // Load language-specific tools.json
-        const toolsJsonPath = `/${lang}/data/tools.json`;
+        // Remove language code (fr) from path for relative path calculation
+        const languageCode = 'fr';
+        const languageIndex = nonEmptySegments.indexOf(languageCode);
+        let relativeSegments = nonEmptySegments;
+        
+        if (languageIndex !== -1) {
+            relativeSegments = nonEmptySegments.slice(languageIndex + 1);
+        }
+        
+        let directoryDepth = 0;
+        if (relativeSegments.length > 0) {
+            const lastSegment = relativeSegments[relativeSegments.length - 1];
+            directoryDepth = lastSegment.includes('.') ? relativeSegments.length - 1 : relativeSegments.length;
+        }
+        
+        // Calculate path to tools.json
+        const toolsJsonPath = 'data/tools.json';
         
         // Load tools.json using the calculated path
         const response = await fetch(toolsJsonPath);
@@ -408,13 +432,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Save current scroll position
     const savedScrollPosition = sessionStorage.getItem('scrollPosition');
     
-    // Determine the directory depth of the current page relative to the de/ directory
+    // Detect language from URL
+    const path = window.location.pathname;
+    const langMatch = path.match(/^\/([a-z]{2})\//);
+    const lang = langMatch ? langMatch[1] : 'fr';
+    
+    // Determine the directory depth of the current page relative to the fr/ directory
     const pathSegments = window.location.pathname.split('/');
     const nonEmptySegments = pathSegments.filter(segment => segment !== '');
     
-    // Remove language code (de) from the path for relative path calculation
-    const languageCode = 'fr';
-    const languageIndex = nonEmptySegments.indexOf(languageCode);
+    // Remove language code from the path for relative path calculation
+    const languageIndex = nonEmptySegments.indexOf(lang);
     let relativeSegments = nonEmptySegments;
     
     if (languageIndex !== -1) {
@@ -427,17 +455,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         directoryDepth = lastSegment.includes('.') ? relativeSegments.length - 1 : relativeSegments.length;
     }
     
-    // Detect language from URL (/zh/xxx or /en/xxx)
-    const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
-    const lang = langMatch ? langMatch[1] : 'en';
+    // Calculate base path according to directory depth
+    const basePath = directoryDepth > 0 ? '../'.repeat(directoryDepth) : '';
     
-    // Load header (language-specific)
+    // Load header
     await loadHTML(`/${lang}/header.html`, document.body, 'prepend');
     
-    // Load footer (language-specific)
-    const mainElement = document.querySelector('main.main');
-    if (mainElement) {
-        await loadHTML(`/${lang}/footer.html`, mainElement, 'after');
+    // Load footer - only if it doesn't already exist
+    if (!document.querySelector('footer.footer')) {
+        await loadHTML(`/${lang}/footer.html`, document.body, 'append');
     }
     
     // Only load tool list on homepage or pages containing the corresponding container
@@ -476,70 +502,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 // Listen for page scroll, save scroll position
 window.addEventListener('beforeunload', function() {
     sessionStorage.setItem('scrollPosition', window.scrollY);
-});
-
-// Function to fix link paths in multilingual site
-function fixLinkPaths() {
-    // Handle anchor links that should go to the main list page
-    // Using delegation to handle dynamically added elements
-    document.addEventListener('click', function(event) {
-        // Find the closest anchor element regardless of when it was added to DOM
-        const target = event.target.closest('a[href]');
-        if (target) {
-            const href = target.getAttribute('href');
-            
-            // Skip language switcher links (those with data-lang attribute)
-            if (target.hasAttribute('data-lang')) {
-                return;
-            }
-            
-            // Check if we're on a French language page
-            const isFrenchPage = window.location.pathname.includes('/fr/');
-            
-            if (isFrenchPage) {
-                // Skip main site link
-                if (href === '/') {
-                    return;
-                }
-                // Handle absolute root links that should be prefixed with /fr/
-                if (href.startsWith('/') && !href.startsWith('/fr/')) {
-                    event.preventDefault();
-                    const newPath = window.location.origin + '/fr' + href;
-                    window.location.href = newPath;
-                }
-                // Handle links like /list.html#text-tools that should become /fr/list.html#text-tools
-                else if (href.startsWith('/list.html#') && !href.startsWith('/fr/list.html#')) {
-                    event.preventDefault();
-                    const newPath = window.location.origin + '/fr' + href;
-                    window.location.href = newPath;
-                }
-                // Skip processing for internal anchors (those that start with # but are not actual URLs)
-                // We don't want to redirect internal page anchors like #tutorial
-                else if (href.startsWith('#') && !href.startsWith('#/')) {
-                    // Allow default behavior for internal anchors
-                    return;
-                }
-            }
-        }
-    });
-}
-
-// Add smooth scrolling effect
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
 });
 
 // Function to fix link paths in multilingual site
