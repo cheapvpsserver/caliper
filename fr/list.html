@@ -751,7 +751,14 @@ function updatePageMeta(categoryPath) {
 // Load tools from tools.json
 async function loadTools() {
     try {
-        const response = await fetch('data/tools.json');
+        // Detect language from URL (/fr/xxx or /en/xxx)
+        const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+        const lang = langMatch ? langMatch[1] : 'en';
+        
+        // Load language-specific tools.json
+        const toolsJsonPath = `/${lang}/data/tools.json`;
+        
+        const response = await fetch(toolsJsonPath);
         allTools = await response.json();
         
         // Sort tools by creation date (newest first)
@@ -786,10 +793,17 @@ function generateToolCards() {
     const endIndex = startIndex + toolsPerPage;
     const pageTools = filteredTools.slice(startIndex, endIndex);
     
+    // Detect language from URL (/fr/xxx or /en/xxx)
+    const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+    const lang = langMatch ? langMatch[1] : 'en';
+    
     pageTools.forEach(tool => {
         const cardLink = document.createElement("a");
         cardLink.className = "tool-card-link";
-        cardLink.href = tool.url;
+        
+        // Generate language-specific tool URL
+        const toolUrl = `/${lang}/${tool.url}`;
+        cardLink.href = toolUrl;
         cardLink.target = "_self";
         
         const card = document.createElement("div");
@@ -1421,13 +1435,17 @@ function setupSorting() {
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Événement DOMContentLoaded déclenché');
     
-    // Load header
-    await loadHTML('header.html', document.body, 'prepend');
+    // Detect language from URL (/fr/xxx or /en/xxx)
+    const langMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+    const lang = langMatch ? langMatch[1] : 'en';
     
-    // Load footer
+    // Load header (language-specific)
+    await loadHTML(`/${lang}/header.html`, document.body, 'prepend');
+    
+    // Load footer (language-specific)
     const mainElement = document.querySelector('main.main-content');
     if (mainElement) {
-        await loadHTML('footer.html', mainElement, 'after');
+        await loadHTML(`/${lang}/footer.html`, mainElement, 'after');
     }
     
     // Setup smooth scrolling
