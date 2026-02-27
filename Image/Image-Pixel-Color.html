@@ -1116,12 +1116,11 @@
         const loadingOverlay = document.getElementById('loading-overlay');
 
         function handleUrlParams() {
-            const pathname = window.location.pathname;
-            const segments = pathname.split('/');
-            const toolParam = segments[segments.length - 1];
+            // 从哈希值中获取工具名称
+            const hash = window.location.hash.substring(1); // 移除#符号
             
-            if (toolParam && toolParam !== 'Image-Pixel-Color.html') {
-                const toolBtn = document.querySelector(`.tool-btn[data-tool="${toolParam}"]`);
+            if (hash) {
+                const toolBtn = document.querySelector(`.tool-btn[data-tool="${hash}"]`);
                 if (toolBtn) {
                     setTimeout(() => toolBtn.click(), 100);
                 }
@@ -1190,6 +1189,7 @@
                     //  fallback：如果找不到Image目录，直接使用根目录
                     newUrl.pathname = '/Image/Image-Pixel-Color.html';
                 }
+                newUrl.hash = ''; // 移除哈希值
                 window.history.pushState({}, '', newUrl);
                 
                 document.title = 'Free Online Image Color Tools | CaliperTools';
@@ -1324,12 +1324,14 @@
             // 找到Image目录的位置
             const imageIndex = segments.indexOf('Image');
             if (imageIndex !== -1) {
-                // 构建正确的路径：/Image/Image-Pixel-Color/tool
-                newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Pixel-Color/' + currentTool;
+                // 构建正确的路径：/Image/Image-Pixel-Color.html
+                newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Pixel-Color.html';
             } else {
                 //  fallback：如果找不到Image目录，直接使用根目录
-                newUrl.pathname = '/Image/Image-Pixel-Color/' + currentTool;
+                newUrl.pathname = '/Image/Image-Pixel-Color.html';
             }
+            // 使用哈希值而不是路径来表示工具
+            newUrl.hash = currentTool;
             window.history.pushState({}, '', newUrl);
             
             updateDynamicSettings(currentTool);

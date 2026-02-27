@@ -1636,11 +1636,11 @@
         }
 
         function handleUrlParams() {
-            const pathname = window.location.pathname;
-            const segments = pathname.split('/');
-            const modeParam = segments[segments.length - 1];
-            if (modeParam && modeParam !== 'Image-Background-Mask.html') {
-                const modeBtn = document.querySelector(`.tool-btn[data-mode="${modeParam}"]`);
+            // 从哈希值中获取工具名称
+            const hash = window.location.hash.substring(1); // 移除#符号
+            
+            if (hash) {
+                const modeBtn = document.querySelector(`.tool-btn[data-mode="${hash}"]`);
                 if (modeBtn) {
                     modeBtn.click();
                 }
@@ -1698,19 +1698,18 @@
                 }
                 
                 const newUrl = new URL(window.location.href);
+                // 确保无论当前URL是什么，都返回正确的基础URL
                 const segments = newUrl.pathname.split('/');
+                //找到Image目录的位置
                 const imageIndex = segments.indexOf('Image');
-                
-                const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
-                const langIndex = segments.findIndex(segment => langCodes.includes(segment));
-                
-                if (langIndex !== -1) {
-                    newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Background-Mask.html';
-                } else if (imageIndex !== -1) {
+                if (imageIndex !== -1) {
+                    //构建正确的路径：/Image/Image-Background-Mask.html
                     newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask.html';
                 } else {
+                    //  fallback：如果找不到Image目录，直接使用根目录
                     newUrl.pathname = '/Image/Image-Background-Mask.html';
                 }
+                newUrl.hash = ''; //移除哈希值
                 window.history.pushState({}, '', newUrl);
                 
                 toolButtons.forEach(function(b) {
@@ -1738,19 +1737,19 @@
                     }
                     
                     const newUrl = new URL(window.location.href);
+                    //直构建正确的路径，不依赖当前URL结构
                     const segments = newUrl.pathname.split('/');
+                    //找到Image目录的位置
                     const imageIndex = segments.indexOf('Image');
-                    
-                    const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
-                    const langIndex = segments.findIndex(segment => langCodes.includes(segment));
-                    
-                    if (langIndex !== -1) {
-                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Background-Mask/' + mode;
-                    } else if (imageIndex !== -1) {
-                        newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask/' + mode;
+                    if (imageIndex !== -1) {
+                        //构建正确的路径：/Image/Image-Background-Mask.html
+                        newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask.html';
                     } else {
-                        newUrl.pathname = '/Image/Image-Background-Mask/' + mode;
+                        //  fallback：如果找不到Image目录，直接使用根目录
+                        newUrl.pathname = '/Image/Image-Background-Mask.html';
                     }
+                    // 使用哈希值而不是路径来表示工具
+                    newUrl.hash = mode;
                     window.history.pushState({}, '', newUrl);
                     
                     const metaDescription = document.querySelector('meta[name="description"]');
@@ -1929,16 +1928,12 @@
                     const segments = newUrl.pathname.split('/');
                     const imageIndex = segments.indexOf('Image');
                     
-                    const langCodes = ['bn', 'de', 'es', 'fr', 'hi', 'id', 'it', 'ja', 'ko', 'pt', 'ru', 'th', 'ur', 'vi', 'zh'];
-                    const langIndex = segments.findIndex(segment => langCodes.includes(segment));
-                    
-                    if (langIndex !== -1) {
-                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Background-Mask.html';
-                    } else if (imageIndex !== -1) {
+                    if (imageIndex !== -1) {
                         newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Background-Mask.html';
                     } else {
                         newUrl.pathname = '/Image/Image-Background-Mask.html';
                     }
+                    newUrl.hash = ''; //移除哈希值
                     window.history.pushState({}, '', newUrl);
                     
                     toolButtons.forEach(function(b) {

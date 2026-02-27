@@ -2370,6 +2370,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initially hide image container
         elements.imageContainer.style.display = 'none';
+        
+        // After all initialization, parse URL params to restore state from hash
+        setTimeout(parseUrlParams, 0);
     }
 
     // Validate if necessary DOM elements exist
@@ -4774,21 +4777,11 @@ function updateUrlForTab(tabId) {
     if (slug) {
         const newUrl = new URL(window.location.href);
         
-        // Remove any existing query parameters and set path format
+        // Remove any existing query parameters
         newUrl.search = '';
         
-        // Build the new path without .html suffix
-        const pathParts = newUrl.pathname.split('/');
-        // Find the index of Image-resizer or Image-resizer.html
-        const resizerIndex = pathParts.findIndex(part => 
-            part === 'Image-resizer' || part === 'Image-resizer.html'
-        );
-        
-        if (resizerIndex !== -1) {
-            // Remove .html suffix from the filename
-            const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-            newUrl.pathname = basePath + '/' + slug;
-        }
+        // Use hash instead of path for the slug
+        newUrl.hash = slug;
         
         history.replaceState(null, '', newUrl);
         updatePageConfig(slug);
@@ -4800,11 +4793,6 @@ function updateUrlForPlatform(platform) {
     const newUrl = new URL(window.location.href);
     newUrl.search = '';
     
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
-    
     let slug;
     if (!platform) {
         slug = 'resize-for-social-media';
@@ -4812,11 +4800,8 @@ function updateUrlForPlatform(platform) {
         slug = `resize-image-${platform}`;
     }
     
-    if (resizerIndex !== -1) {
-        // Remove .html suffix from the filename
-        const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-        newUrl.pathname = basePath + '/' + slug;
-    }
+    // Use hash instead of path for the slug
+    newUrl.hash = slug;
     
     history.replaceState(null, '', newUrl);
     updatePageConfig(slug);
@@ -4827,11 +4812,6 @@ function updateUrlForFormat(format) {
     const newUrl = new URL(window.location.href);
     newUrl.search = '';
     
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
-    
     let slug;
     if (!format || format === 'original') {
         slug = 'resize-image';
@@ -4839,43 +4819,20 @@ function updateUrlForFormat(format) {
         slug = `resize-image-${format}`;
     }
     
-    if (resizerIndex !== -1) {
-        // Remove .html suffix from the filename
-        const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-        newUrl.pathname = basePath + '/' + slug;
-    }
+    // Use hash instead of path for the slug
+    newUrl.hash = slug;
     
     history.replaceState(null, '', newUrl);
     updatePageConfig(slug);
 }
 
-// Helper function to update URL with path-based mode
+// Helper function to update URL with hash-based mode
 function updateUrlWithMode(slug) {
     const newUrl = new URL(window.location.href);
     newUrl.search = '';
     
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
-    
-    if (resizerIndex !== -1) {
-        // Remove .html suffix from the filename
-        const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-        newUrl.pathname = basePath + '/' + slug;
-    } else {
-        // If Image-resizer not found in path, check if we're on a language-specific page
-        // Handle cases like /bn/Image/Image-resizer or /Image/Image-resizer
-        const imageIndex = pathParts.findIndex(part => part === 'Image');
-        if (imageIndex !== -1) {
-            // Construct the proper path with Image-resizer
-            const basePath = pathParts.slice(0, imageIndex + 1).join('/') + '/Image-resizer';
-            newUrl.pathname = basePath + '/' + slug;
-        } else {
-            // Fallback for root or unexpected paths
-            newUrl.pathname = '/Image/Image-resizer/' + slug;
-        }
-    }
+    // Use hash instead of path for the slug
+    newUrl.hash = slug;
     
     history.replaceState(null, '', newUrl);
     updatePageConfig(slug);
@@ -4928,10 +4885,8 @@ function updateUrlForBackgroundColor() {
 
 // Parse URL parameters and update page accordingly
 function parseUrlParams() {
-    // Check both path and query params, with query params taking precedence for complex cases
+    // Check both hash and query params, with query params taking precedence for complex cases
     let mode = null;
-    const pathname = window.location.pathname;
-    const pathParts = pathname.split('/');
     
     // First check query params for mode (higher priority for complex cases)
     const urlParams = new URLSearchParams(window.location.search);
@@ -4939,10 +4894,10 @@ function parseUrlParams() {
     if (queryMode) {
         mode = queryMode;
     } else {
-        // Fallback to extracting mode from path (e.g., /Image/Image-resizer/flip-horizontal -> flip-horizontal)
-        const lastPart = pathParts[pathParts.length - 1];
-        if (lastPart && lastPart !== 'Image-resizer' && lastPart !== 'Image-resizer.html') {
-            mode = lastPart;
+        // Fallback to extracting mode from hash (e.g., #resize-by-percentage -> resize-by-percentage)
+        const hash = window.location.hash.substring(1); // Remove the '#' character
+        if (hash) {
+            mode = hash;
         }
     }
     
@@ -5004,16 +4959,8 @@ function resetToOriginalState() {
     const newUrl = new URL(window.location.href);
     newUrl.search = '';
     
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
-    
-    if (resizerIndex !== -1) {
-        // Use Image-resizer.html with .html suffix explicitly
-        const basePath = pathParts.slice(0, resizerIndex).join('/');
-        newUrl.pathname = basePath + '/Image-resizer.html';
-    }
+    // Reset hash to empty
+    newUrl.hash = '';
     
     history.replaceState(null, '', newUrl);
     
