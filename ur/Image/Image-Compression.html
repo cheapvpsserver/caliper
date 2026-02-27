@@ -23,20 +23,18 @@
             let compression = null;
             let quality = null;
             
-            // Parse from path first (new format)
-            const pathname = window.location.pathname;
-            const pathParts = pathname.split('/');
-            const lastPart = pathParts[pathParts.length - 1];
+            // Parse from hash first (new format)
+            const hash = window.location.hash.substring(1); // Remove # symbol
             
-            // Check if last part is a compression mode or format
-            if (['lossy', 'lossless', 'compress-jpg', 'compress-png', 'compress-webp'].includes(lastPart)) {
-                if (['lossy', 'lossless'].includes(lastPart)) {
-                    compression = lastPart;
+            // Check if hash contains a compression mode or format
+            if (['lossy', 'lossless', 'compress-jpg', 'compress-png', 'compress-webp'].includes(hash)) {
+                if (['lossy', 'lossless'].includes(hash)) {
+                    compression = hash;
                 } else {
-                    mode = lastPart;
+                    mode = hash;
                 }
-            } else if (['jpg', 'png', 'webp'].includes(lastPart)) {
-                format = lastPart;
+            } else if (['jpg', 'png', 'webp'].includes(hash)) {
+                format = hash;
             }
             
             // Fallback to query parameters for backward compatibility
@@ -166,14 +164,8 @@
                     const newUrl = new URL(window.location.href);
                     newUrl.search = '';
                     
-                    const pathParts = newUrl.pathname.split('/');
-                    const compressorIndex = pathParts.findIndex(part => part === 'Image-Compression' || part === 'Image-Compression.html');
-                    
-                    if (compressorIndex !== -1) {
-                        // Remove .html suffix from the filename
-                        const basePath = pathParts.slice(0, compressorIndex).join('/') + '/Image-Compression';
-                        newUrl.pathname = basePath + '/' + this.value;
-                    }
+                    // Use hash instead of path for compression mode
+                    newUrl.hash = this.value;
                     
                     window.history.pushState({}, '', newUrl);
                     handleUrlParams();
@@ -187,17 +179,11 @@
                     const newUrl = new URL(window.location.href);
                     newUrl.search = '';
                     
-                    const pathParts = newUrl.pathname.split('/');
-                    const compressorIndex = pathParts.findIndex(part => part === 'Image-Compression' || part === 'Image-Compression.html');
-                    
-                    if (compressorIndex !== -1) {
-                        // Remove .html suffix from the filename
-                        const basePath = pathParts.slice(0, compressorIndex).join('/') + '/Image-Compression';
-                        if (this.value === 'original') {
-                            newUrl.pathname = basePath;
-                        } else {
-                            newUrl.pathname = basePath + '/' + this.value;
-                        }
+                    // Use hash instead of path for output format
+                    if (this.value === 'original') {
+                        newUrl.hash = '';
+                    } else {
+                        newUrl.hash = this.value;
                     }
                     
                     window.history.pushState({}, '', newUrl);
@@ -2291,15 +2277,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // When no images remain, completely restore to clean URL with .html suffix
                 const newUrl = new URL(window.location.href);
                 newUrl.search = '';
-                
-                const pathParts = newUrl.pathname.split('/');
-                const compressorIndex = pathParts.findIndex(part => part === 'Image-Compression' || part === 'Image-Compression.html');
-                
-                if (compressorIndex !== -1) {
-                    // Use Image-Compression.html with .html suffix explicitly
-                    const basePath = pathParts.slice(0, compressorIndex).join('/');
-                    newUrl.pathname = basePath + '/Image-Compression.html';
-                }
+                            
+                // Use hash instead of path for clean URL
+                newUrl.hash = '';
                 window.history.pushState({}, '', newUrl);
                 
                 // Manually reset output format to 'keep'

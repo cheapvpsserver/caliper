@@ -2324,8 +2324,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Parse URL parameters first
-        parseUrlParams();
+        // After all initialization, parse URL params to restore state from hash
+        setTimeout(parseUrlParams, 0);
         
         // Set event listeners
         setupEventListeners();
@@ -4847,39 +4847,37 @@ function updateUrlForBackgroundColor() {
 }
 
 // Parse URL parameters and update page accordingly
-// Helper function to update URL with mode using path format
+// Helper function to update URL with mode using hash format
 function updateUrlWithMode(slug) {
     const newUrl = new URL(window.location.href);
     newUrl.search = '';
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
-    if (resizerIndex !== -1) {
-        // Remove .html suffix from the filename
-        const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-        newUrl.pathname = basePath + '/' + slug;
-    }
+    // Use hash instead of path for the slug
+    newUrl.hash = slug;
     history.replaceState(null, '', newUrl);
     updatePageConfig(slug);
 }
 
 function parseUrlParams() {
-    // Check both path and query params, with query params taking precedence for complex cases
+    // Check both hash, query params, and path, with hash taking precedence
     let mode = null;
-    const pathname = window.location.pathname;
-    const pathParts = pathname.split('/');
     
-    // First check query params for mode (higher priority for complex cases)
-    const urlParams = new URLSearchParams(window.location.search);
-    const queryMode = urlParams.get('mode');
-    if (queryMode) {
-        mode = queryMode;
+    // First check hash for mode (highest priority)
+    if (window.location.hash) {
+        mode = window.location.hash.substring(1); // Remove # prefix
     } else {
-        // Fallback to extracting mode from path
-        const lastPart = pathParts[pathParts.length - 1];
-        if (lastPart && lastPart !== 'Image-resizer' && lastPart !== 'Image-resizer.html') {
-            mode = lastPart;
+        // Then check query params for mode (higher priority for complex cases)
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryMode = urlParams.get('mode');
+        if (queryMode) {
+            mode = queryMode;
+        } else {
+            // Fallback to extracting mode from path
+            const pathname = window.location.pathname;
+            const pathParts = pathname.split('/');
+            const lastPart = pathParts[pathParts.length - 1];
+            if (lastPart && lastPart !== 'Image-resizer' && lastPart !== 'Image-resizer.html') {
+                mode = lastPart;
+            }
         }
     }
     
@@ -4940,6 +4938,9 @@ function resetToOriginalState() {
     // Reset URL to original with .html suffix and no mode
     const newUrl = new URL(window.location.href);
     newUrl.search = '';
+    
+    // Reset hash to empty
+    newUrl.hash = '';
     
     const pathParts = newUrl.pathname.split('/');
     const resizerIndex = pathParts.findIndex(part => 
