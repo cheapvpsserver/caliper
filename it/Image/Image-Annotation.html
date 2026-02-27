@@ -1227,12 +1227,11 @@
         const cancelTextBtn = document.getElementById('cancel-text');
 
         function handleUrlParams() {
-            const pathname = window.location.pathname;
-            const segments = pathname.split('/');
-            const toolParam = segments[segments.length - 1];
+            // 从哈希值中获取工具名称
+            const hash = window.location.hash.substring(1); // 移除#符号
             
-            if (toolParam && toolParam !== 'Image-Annotation.html') {
-                const toolBtn = document.querySelector(`.tool-btn[data-tool="${toolParam}"]`);
+            if (hash) {
+                const toolBtn = document.querySelector(`.tool-btn[data-tool="${hash}"]`);
                 if (toolBtn) {
                     toolBtn.click();
                 }
@@ -1308,6 +1307,7 @@
                     //  fallback：如果找不到it目录，直接使用根目录
                     newUrl.pathname = '/it/Image/Image-Annotation.html';
                 }
+                newUrl.hash = ''; // 移除哈希值
                 window.history.pushState({}, '', newUrl);
                 
                 toolButtons.forEach(function(b) {
@@ -1344,12 +1344,14 @@
                     // 找到it目录的位置
                     const langIndex = segments.indexOf('it');
                     if (langIndex !== -1) {
-                        // 构建正确的路径：/it/Image/Image-Annotation/tool
-                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Annotation/' + tool;
+                        // 构建正确的路径：/it/Image/Image-Annotation.html
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Annotation.html';
                     } else {
                         //  fallback：如果找不到it目录，直接使用根目录
-                        newUrl.pathname = '/it/Image/Image-Annotation/' + tool;
+                        newUrl.pathname = '/it/Image/Image-Annotation.html';
                     }
+                    // 使用哈希值而不是路径来表示工具
+                    newUrl.hash = tool;
                     window.history.pushState({}, '', newUrl);
                     
                     const metaDescription = document.querySelector('meta[name="description"]');

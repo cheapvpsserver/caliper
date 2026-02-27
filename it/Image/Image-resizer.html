@@ -2323,8 +2323,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Parse URL parameters first
-        parseUrlParams();
+        // After all initialization, parse URL params to restore state from hash
+        setTimeout(parseUrlParams, 0);
         
         // Set event listeners
         setupEventListeners();
@@ -4774,24 +4774,9 @@ function updateUrlForTab(tabId) {
     
     const slug = slugMap[tabId];
     if (slug) {
+        // Use hash-based URL instead of path-based
         const newUrl = new URL(window.location.href);
-        
-        // Remove any existing query parameters and set path format
-        newUrl.search = '';
-        
-        // Build the new path without .html suffix
-        const pathParts = newUrl.pathname.split('/');
-        // Find the index of Image-resizer or Image-resizer.html
-        const resizerIndex = pathParts.findIndex(part => 
-            part === 'Image-resizer' || part === 'Image-resizer.html'
-        );
-        
-        if (resizerIndex !== -1) {
-            // Remove .html suffix from the filename
-            const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-            newUrl.pathname = basePath + '/' + slug;
-        }
-        
+        newUrl.hash = slug;
         history.replaceState(null, '', newUrl);
         updatePageConfig(slug);
     }
@@ -4800,12 +4785,6 @@ function updateUrlForTab(tabId) {
 // Update URL based on selected platform
 function updateUrlForPlatform(platform) {
     const newUrl = new URL(window.location.href);
-    newUrl.search = '';
-    
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
     
     let slug;
     if (!platform) {
@@ -4814,12 +4793,8 @@ function updateUrlForPlatform(platform) {
         slug = `resize-image-${platform}`;
     }
     
-    if (resizerIndex !== -1) {
-        // Remove .html suffix from the filename
-        const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-        newUrl.pathname = basePath + '/' + slug;
-    }
-    
+    // Use hash-based URL instead of path-based
+    newUrl.hash = slug;
     history.replaceState(null, '', newUrl);
     updatePageConfig(slug);
 }
@@ -4827,12 +4802,6 @@ function updateUrlForPlatform(platform) {
 // Update URL based on selected format
 function updateUrlForFormat(format) {
     const newUrl = new URL(window.location.href);
-    newUrl.search = '';
-    
-    const pathParts = newUrl.pathname.split('/');
-    const resizerIndex = pathParts.findIndex(part => 
-        part === 'Image-resizer' || part === 'Image-resizer.html'
-    );
     
     let slug;
     if (!format || format === 'original') {
@@ -4841,12 +4810,8 @@ function updateUrlForFormat(format) {
         slug = `resize-image-${format}`;
     }
     
-    if (resizerIndex !== -1) {
-        // Remove .html suffix from the filename
-        const basePath = pathParts.slice(0, resizerIndex).join('/') + '/Image-resizer';
-        newUrl.pathname = basePath + '/' + slug;
-    }
-    
+    // Use hash-based URL instead of path-based
+    newUrl.hash = slug;
     history.replaceState(null, '', newUrl);
     updatePageConfig(slug);
 }
@@ -4854,7 +4819,7 @@ function updateUrlForFormat(format) {
 // Update URL for crop functionality
 function updateUrlForCrop() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'crop-image');
+    newUrl.hash = 'crop-image';
     history.replaceState(null, '', newUrl);
     updatePageConfig('crop-image');
 }
@@ -4862,7 +4827,7 @@ function updateUrlForCrop() {
 // Update URL for rotate clockwise
 function updateUrlForRotateClockwise() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'rotate-clockwise');
+    newUrl.hash = 'rotate-clockwise';
     history.replaceState(null, '', newUrl);
     updatePageConfig('rotate-clockwise');
 }
@@ -4870,7 +4835,7 @@ function updateUrlForRotateClockwise() {
 // Update URL for rotate counter clockwise
 function updateUrlForRotateCounterClockwise() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'rotate-counterclockwise');
+    newUrl.hash = 'rotate-counterclockwise';
     history.replaceState(null, '', newUrl);
     updatePageConfig('rotate-counterclockwise');
 }
@@ -4878,7 +4843,7 @@ function updateUrlForRotateCounterClockwise() {
 // Update URL for rotate functionality (general)
 function updateUrlForRotate() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'rotate-image');
+    newUrl.hash = 'rotate-image';
     history.replaceState(null, '', newUrl);
     updatePageConfig('rotate-image');
 }
@@ -4886,7 +4851,7 @@ function updateUrlForRotate() {
 // Update URL for flip horizontal
 function updateUrlForFlipHorizontal() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'flip-horizontal');
+    newUrl.hash = 'flip-horizontal';
     history.replaceState(null, '', newUrl);
     updatePageConfig('flip-horizontal');
 }
@@ -4894,7 +4859,7 @@ function updateUrlForFlipHorizontal() {
 // Update URL for flip vertical
 function updateUrlForFlipVertical() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'flip-vertical');
+    newUrl.hash = 'flip-vertical';
     history.replaceState(null, '', newUrl);
     updatePageConfig('flip-vertical');
 }
@@ -4902,7 +4867,7 @@ function updateUrlForFlipVertical() {
 // Update URL for flip functionality (general)
 function updateUrlForFlip() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'flip-image');
+    newUrl.hash = 'flip-image';
     history.replaceState(null, '', newUrl);
     updatePageConfig('flip-image');
 }
@@ -4910,7 +4875,7 @@ function updateUrlForFlip() {
 // Update URL for transparent background
 function updateUrlForTransparent() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'transparent-background');
+    newUrl.hash = 'transparent-background';
     history.replaceState(null, '', newUrl);
     updatePageConfig('transparent-background');
 }
@@ -4918,7 +4883,7 @@ function updateUrlForTransparent() {
 // Update URL for background color
 function updateUrlForBackgroundColor() {
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('mode', 'change-background-color');
+    newUrl.hash = 'change-background-color';
     history.replaceState(null, '', newUrl);
     updatePageConfig('change-background-color');
 }
