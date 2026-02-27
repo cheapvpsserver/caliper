@@ -1052,12 +1052,11 @@
         const toolButtons = document.querySelectorAll('.tool-btn');
 
         function handleUrlParams() {
-            const pathname = window.location.pathname;
-            const segments = pathname.split('/');
-            const toolParam = segments[segments.length - 1];
+            // 从哈希值中获取工具名称
+            const hash = window.location.hash.substring(1); // 移除#符号
             
-            if (toolParam && toolParam !== 'Image-Metadata.html') {
-                const toolBtn = document.querySelector('.tool-btn[data-tool="' + toolParam + '"]');
+            if (hash) {
+                const toolBtn = document.querySelector('.tool-btn[data-tool="' + hash + '"]');
                 if (toolBtn) {
                     toolBtn.click();
                 }
@@ -1125,6 +1124,7 @@
                     //  fallback：如果找不到fr目录，直接使用根目录
                     newUrl.pathname = '/fr/Image/Image-Metadata.html';
                 }
+                newUrl.hash = ''; // 移除哈希值
                 window.history.pushState({}, '', newUrl);
                 
                 toolButtons.forEach(function(b) {
@@ -1170,13 +1170,15 @@
                     // 找到fr目录的位置
                     const langIndex = segments.indexOf('fr');
                     if (langIndex !== -1) {
-                        // 构建正确的路径：/fr/Image/Image-Metadata/tool
-                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Metadata/' + tool;
+                        // 构建正确的路径：/fr/Image/Image-Metadata.html
+                        newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Metadata.html';
                     } else {
                         //  fallback：如果找不到fr目录，直接使用根目录
-                        newUrl.pathname = '/fr/Image/Image-Metadata/' + tool;
+                        newUrl.pathname = '/fr/Image/Image-Metadata.html';
                     }
-                window.history.pushState({}, '', newUrl);
+                    // 使用哈希值而不是路径来表示工具
+                    newUrl.hash = tool;
+                    window.history.pushState({}, '', newUrl);
 
                     executeTool(tool, module);
                 });

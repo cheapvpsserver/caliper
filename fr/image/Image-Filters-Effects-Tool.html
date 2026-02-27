@@ -1235,30 +1235,19 @@
         function updateUrlForFormat() {
             const newUrl = new URL(window.location.href);
             
-            // Remove any existing path segments after Image-Filters-Effects-Tool
-            const pathParts = newUrl.pathname.split('/');
-            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
-            if (toolIndex !== -1) {
-                const basePath = pathParts.slice(0, toolIndex + 1).join('/');
-                newUrl.pathname = basePath;
-            } else {
-                const toolHtmlIndex = pathParts.indexOf('Image-Filters-Effects-Tool.html');
-                if (toolHtmlIndex !== -1) {
-                    const basePath = pathParts.slice(0, toolHtmlIndex).join('/');
-                    newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool`;
-                }
-            }
+            // Remove any existing hash segments
+            newUrl.hash = '';
             
             if (exportFormat === 'png') {
-                newUrl.pathname += '/image-effects-png';
+                newUrl.hash = '#image-effects-png';
                 history.replaceState(null, '', newUrl);
                 updatePageConfig('image-effects-png');
             } else if (exportFormat === 'jpg') {
-                newUrl.pathname += '/image-effects-jpg';
+                newUrl.hash = '#image-effects-jpg';
                 history.replaceState(null, '', newUrl);
                 updatePageConfig('image-effects-jpg');
             } else if (exportFormat === 'webp') {
-                newUrl.pathname += '/image-effects-webp';
+                newUrl.hash = '#image-effects-webp';
                 history.replaceState(null, '', newUrl);
                 updatePageConfig('image-effects-webp');
             }
@@ -1267,29 +1256,18 @@
         function updateUrlForFilter(filterName, enabled) {
             const newUrl = new URL(window.location.href);
             
-            // Remove any existing path segments after Image-Filters-Effects-Tool
-            const pathParts = newUrl.pathname.split('/');
-            const toolIndex = pathParts.indexOf('Image-Filters-Effects-Tool');
-            if (toolIndex !== -1) {
-                const basePath = pathParts.slice(0, toolIndex + 1).join('/');
-                newUrl.pathname = basePath;
-            } else {
-                const toolHtmlIndex = pathParts.indexOf('Image-Filters-Effects-Tool.html');
-                if (toolHtmlIndex !== -1) {
-                    const basePath = pathParts.slice(0, toolHtmlIndex).join('/');
-                    newUrl.pathname = `${basePath}/Image-Filters-Effects-Tool`;
-                }
-            }
+            // Remove any existing hash segments
+            newUrl.hash = '';
             
             if (enabled) {
                 const slug = `${filterName}-image`;
-                newUrl.pathname += `/${slug}`;
+                newUrl.hash = `#${slug}`;
                 history.replaceState(null, '', newUrl);
                 updatePageConfig(slug);
             } else {
                 // Check if current URL has a filter slug
-                const currentSlug = newUrl.pathname.split('/').pop();
-                const isFormatSlug = currentSlug === 'image-effects-png' || currentSlug === 'image-effects-jpg' || currentSlug === 'image-effects-webp';
+                const currentHash = newUrl.hash.substring(1); // Remove '#' prefix
+                const isFormatSlug = currentHash === 'image-effects-png' || currentHash === 'image-effects-jpg' || currentHash === 'image-effects-webp';
                 if (!isFormatSlug) {
                     // Keep the base tool path without any slug
                     history.replaceState(null, '', newUrl);
@@ -1854,8 +1832,9 @@
         };
 
         function parseUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const mode = urlParams.get('mode');
+            // Get mode from hash instead of search params
+            const hash = window.location.hash.substring(1); // Remove '#' prefix
+            const mode = hash;
             
             updatePageConfig(mode);
             
@@ -1881,6 +1860,15 @@
                 document.querySelector('.format-btn[data-format="webp"]').classList.add('active');
             }
         }
+
+        // Listen for hash change events to handle browser back/forward buttons
+        window.addEventListener('hashchange', function() {
+            parseUrlParams();
+            // Reapply filters if image is loaded
+            if (originalImageData) {
+                applyFilters();
+            }
+        });
 
         parseUrlParams();
     </script>
