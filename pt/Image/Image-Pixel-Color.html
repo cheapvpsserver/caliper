@@ -1112,12 +1112,11 @@
         const loadingOverlay = document.getElementById('loading-overlay');
 
         function handleUrlParams() {
-            const pathname = window.location.pathname;
-            const segments = pathname.split('/');
-            const toolParam = segments[segments.length - 1];
+            // 从哈希值中获取工具名称
+            const hash = window.location.hash.substring(1); // 移除#符号
             
-            if (toolParam && toolParam !== 'Image-Pixel-Color.html') {
-                const toolBtn = document.querySelector(`.tool-btn[data-tool="${toolParam}"]`);
+            if (hash) {
+                const toolBtn = document.querySelector(`.tool-btn[data-tool="${hash}"]`);
                 if (toolBtn) {
                     setTimeout(() => toolBtn.click(), 100);
                 }
@@ -1185,6 +1184,7 @@
                 } else {
                     newUrl.pathname = '/Image/Image-Pixel-Color.html';
                 }
+                newUrl.hash = ''; // 移除哈希值
                 window.history.pushState({}, '', newUrl);
                 
                 document.title = 'Ferramentas Online Grátis de Efeitos de Cor e Pixel de Imagem | CaliperTools';
@@ -1318,12 +1318,14 @@
             const imageIndex = segments.indexOf('Image');
             const langIndex = segments.indexOf('pt');
             if (imageIndex !== -1) {
-                newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Pixel-Color/' + currentTool;
+                newUrl.pathname = segments.slice(0, imageIndex + 1).join('/') + '/Image-Pixel-Color.html';
             } else if (langIndex !== -1) {
-                newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Pixel-Color/' + currentTool;
+                newUrl.pathname = segments.slice(0, langIndex + 1).join('/') + '/Image/Image-Pixel-Color.html';
             } else {
-                newUrl.pathname = '/Image/Image-Pixel-Color/' + currentTool;
+                newUrl.pathname = '/Image/Image-Pixel-Color.html';
             }
+            // 使用哈希值而不是路径来表示工具
+            newUrl.hash = currentTool;
             window.history.pushState({}, '', newUrl);
             
             updateDynamicSettings(currentTool);
